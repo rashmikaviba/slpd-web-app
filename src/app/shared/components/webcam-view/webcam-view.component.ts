@@ -21,7 +21,7 @@ export class WebcamViewComponent {
 
   selectedImage: File = null;
   imageUrl: string | ArrayBuffer | null = null;
-  constructor(private ref: DynamicDialogRef) {}
+  constructor(private ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
     WebcamUtil.getAvailableVideoInputs().then(
