@@ -1,0 +1,17 @@
+<!-- <form [formGroup]="FV.formGroup" autocomplete="off"> -->
+<!-- <div class="card"> -->
+<!-- <hr /> -->
+<p-toast />
+<p-steps
+  [model]="items"
+  [(ngModel)]="value"
+  [readonly]="false"
+  [activeIndex]="showingIndex"
+  (activeIndexChange)="handleClick($event)"
+>
+</p-steps>
+
+<hr />
+<app-personal-details *ngIf="showingIndex == 0"></app-personal-details>
+<app-bank-details *ngIf="showingIndex == 1"></app-bank-details>
+<app-upload-verifications *ngIf="showingIndex == 2"></app-upload-verifications>

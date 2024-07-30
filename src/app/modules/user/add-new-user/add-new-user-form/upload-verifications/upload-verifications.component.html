@@ -1,0 +1,244 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <!-- <div class="card"> -->
+  <div class="grid mt-3 p-4">
+    <div class="col-12">
+      <div class="p-fluid grid formgrid align-items-end">
+        <div class="field mb-3 col-12 md:col-6">
+          <label for="postalCode" class="font-medium text-900">NIC Image</label>
+          <div class="flex gap-4">
+            <div
+              class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+              [ngClass]="
+                profileImageUrl
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              "
+            >
+              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
+              <img
+                [src]="profileImageUrl"
+                *ngIf="profileImageUrl"
+                class="w-full h-full border-round"
+                style="object-fit: cover"
+              />
+            </div>
+
+            <div
+              class="flex flex-column gap-2 align-items-center justify-content-center"
+            >
+              <button
+                pButton
+                [disabled]="!profileImageUrl"
+                type="button"
+                label="Remove Image"
+                icon="pi pi-times"
+                class="p-button-danger p-button-outlined"
+                (click)="removeImage()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Upload Image"
+                icon="pi pi-camera"
+                class="p-button-primary p-button-outlined"
+                (click)="openUploadDialog()"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="field mb-3 col-12 md:col-6">
+          <label for="postalCode" class="font-medium text-900"
+            >Driving License</label
+          >
+          <div class="flex gap-4">
+            <div
+              class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+              [ngClass]="
+                profileImageUrl
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              "
+            >
+              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
+              <img
+                [src]="profileImageUrl"
+                *ngIf="profileImageUrl"
+                class="w-full h-full border-round"
+                style="object-fit: cover"
+              />
+            </div>
+
+            <div
+              class="flex flex-column gap-2 align-items-center justify-content-center"
+            >
+              <button
+                pButton
+                [disabled]="!profileImageUrl"
+                type="button"
+                label="Remove Image"
+                icon="pi pi-times"
+                class="p-button-danger p-button-outlined"
+                (click)="removeImage()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Upload Image"
+                icon="pi pi-camera"
+                class="p-button-primary p-button-outlined"
+                (click)="openUploadDialog()"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="field mb-3 col-12 md:col-6">
+          <label for="postalCode" class="font-medium text-900"
+            >GS Certificate</label
+          >
+          <div class="flex gap-4">
+            <div
+              class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+              [ngClass]="
+                profileImageUrl
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              "
+            >
+              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
+              <img
+                [src]="profileImageUrl"
+                *ngIf="profileImageUrl"
+                class="w-full h-full border-round"
+                style="object-fit: cover"
+              />
+            </div>
+
+            <div
+              class="flex flex-column gap-2 align-items-center justify-content-center"
+            >
+              <button
+                pButton
+                [disabled]="!profileImageUrl"
+                type="button"
+                label="Remove Image"
+                icon="pi pi-times"
+                class="p-button-danger p-button-outlined"
+                (click)="removeImage()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Upload Image"
+                icon="pi pi-camera"
+                class="p-button-primary p-button-outlined"
+                (click)="openUploadDialog()"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="field mb-3 col-12 md:col-6">
+          <label for="postalCode" class="font-medium text-900"
+            >SLTDA Certificate</label
+          >
+          <div class="flex gap-4">
+            <div
+              class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+              [ngClass]="
+                profileImageUrl
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              "
+            >
+              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
+              <img
+                [src]="profileImageUrl"
+                *ngIf="profileImageUrl"
+                class="w-full h-full border-round"
+                style="object-fit: cover"
+              />
+            </div>
+
+            <div
+              class="flex flex-column gap-2 align-items-center justify-content-center"
+            >
+              <button
+                pButton
+                [disabled]="!profileImageUrl"
+                type="button"
+                label="Remove Image"
+                icon="pi pi-times"
+                class="p-button-danger p-button-outlined"
+                (click)="removeImage()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Upload Image"
+                icon="pi pi-camera"
+                class="p-button-primary p-button-outlined"
+                (click)="openUploadDialog()"
+              ></button>
+            </div>
+          </div>
+        </div>
+        <div class="field mb-3 col-12 md:col-6">
+          <label for="postalCode" class="font-medium text-900"
+            >Police Report</label
+          >
+          <div class="flex gap-4">
+            <div
+              class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+              [ngClass]="
+                profileImageUrl
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              "
+            >
+              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
+              <img
+                [src]="profileImageUrl"
+                *ngIf="profileImageUrl"
+                class="w-full h-full border-round"
+                style="object-fit: cover"
+              />
+            </div>
+
+            <div
+              class="flex flex-column gap-2 align-items-center justify-content-center"
+            >
+              <button
+                pButton
+                [disabled]="!profileImageUrl"
+                type="button"
+                label="Remove Image"
+                icon="pi pi-times"
+                class="p-button-danger p-button-outlined"
+                (click)="removeImage()"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Upload Image"
+                icon="pi pi-camera"
+                class="p-button-primary p-button-outlined"
+                (click)="openUploadDialog()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12">
+      <div class="ButtonFooterCustom" style="float: right">
+        <p-button
+          label="Save"
+          (onClick)="submit()"
+          icon="pi pi-save"
+          iconPos="left"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

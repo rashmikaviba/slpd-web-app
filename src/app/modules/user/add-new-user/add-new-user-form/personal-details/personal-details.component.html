@@ -1,0 +1,175 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <!-- <div class="card"> -->
+  <div class="grid mt-3 p-4">
+    <div class="col-12">
+      <div class="p-fluid grid formgrid align-items-end">
+        <div class="field col-12 md:col-6">
+          <label for="fullName">Full Name</label>
+          <input
+            id="fullName"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="fullName"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="userName">User Name</label>
+          <input
+            id="userName"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="userName"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="gender">Gender</label>
+          <p-dropdown
+            id="gender"
+            styleClass="w-full "
+            class="w-full"
+            [options]="genders"
+            optionLabel="name"
+            placeholder="Select gender"
+            formControlName="gender"
+            appendTo="body"
+          ></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="address">Address</label>
+          <input
+            id="address"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="address"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input
+            id="dateOfBirth"
+            pInputText
+            type="date"
+            class="w-full"
+            formControlName="dateOfBirth"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="nic">NIC</label>
+          <input
+            id="nic"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="nicNo"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="number1">Phone Number 01</label>
+          <input
+            id="number1"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="number1"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="number2">Phone Number 02</label>
+          <input
+            id="number2"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="number2"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="email">E-mail</label>
+          <input
+            id="email"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="email"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="basicSalary">Basic Salary</label>
+          <input
+            id="basicSalary"
+            pInputText
+            type="text"
+            class="w-full p-inputtext-sm"
+            formControlName="basicSalary"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="leaveCount">Leave Count</label>
+          <input
+            id="leaveCount"
+            pInputText
+            type="number"
+            class="w-full p-inputtext-sm"
+            formControlName="leaveCount"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="languages">Languages</label>
+          <p-chips
+            id="languages"
+            formControlName="languages"
+            class="w-full"
+            styleClass="w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="role">Role</label>
+          <p-dropdown
+            id="role"
+            styleClass="w-full p-inputtext-sm"
+            class="w-full"
+            [options]="role"
+            optionLabel="name"
+            placeholder="Select role"
+            formControlName="role"
+            appendTo="body"
+          ></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="role">Is Blocked</label>
+          <p-toggleButton
+            [(ngModel)]="checked"
+            [ngModelOptions]="{ standalone: true }"
+            onLabel="Blocked"
+            offLabel="Unblocked"
+            [onIcon]="'pi pi-check'"
+            offIcon="pi pi-times"
+            [onIcon]="'pi pi-lock'"
+            offIcon="pi pi-lock-open"
+            styleClass="w-9rem"
+            ariaLabel="Do you confirm"
+            [ngClass]="{
+              'toggle-checked': checked,
+              'toggle-unchecked': !checked
+            }"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="col-12">
+      <div class="ButtonFooterCustom" style="float: right">
+        <p-button
+          label="Save"
+          (onClick)="submit()"
+          icon="pi pi-save"
+          iconPos="left"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

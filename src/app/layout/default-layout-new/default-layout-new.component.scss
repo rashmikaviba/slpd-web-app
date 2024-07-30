@@ -1,0 +1,14 @@
+.card {
+  overflow: hidden;
+  overflow-y: scroll;
+  height: calc(100vh - 100px);
+  //   width: calc(100hw - 500px);
+}
+
+.demo {
+  color: #3b82f6 !important;
+}
+
+.bg-demo {
+  border-left: 2px solid #3b82f6 !important;
+}
