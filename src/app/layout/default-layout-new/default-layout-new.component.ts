@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { NotificationsComponent } from '../notifications/notifications.component';
 
 @Component({
   selector: 'app-default-layout-new',
@@ -12,6 +14,7 @@ export class DefaultLayoutNewComponent {
 
   constructor(
     private router: Router,
+    private sidebarService: SidebarService,
   ) { }
 
   ngOnInit(): void {
@@ -21,6 +24,7 @@ export class DefaultLayoutNewComponent {
     this.DynamicItems = [
       { menuId: 1, label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
       { menuId: 2, label: 'User', icon: 'pi pi-user', routerLink: '/user' },
+      { menuId: 3, label: 'Leave Management', icon: 'pi pi-user', routerLink: '/leave-management' },
     ]
 
     this.ModuleActivate(module);
@@ -32,5 +36,21 @@ export class DefaultLayoutNewComponent {
         this.activeTab = element.menuId;
       }
     })
+  }
+
+  onClickNotification() {
+    let data = {};
+
+    let properties = {
+      width: "20vw",
+      position: "left",
+    };
+
+    this.sidebarService.addComponent(
+      "Notifications",
+      NotificationsComponent,
+      properties,
+      data
+    );
   }
 }

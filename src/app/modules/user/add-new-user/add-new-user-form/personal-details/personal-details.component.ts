@@ -14,16 +14,16 @@ export class PersonalDetailsComponent {
     { name: 'Female' },
     { name: 'Other' },
   ]
-  banks: any[] = [
-    { name: 'BOC Bank' },
-    { name: 'Commercial Bank' },
-    { name: 'HNB Bank' },
-  ]
-  branch: any[] = [
-    { name: 'Kadawatha' },
-    { name: 'Kaduwela' },
-    { name: 'Kiribathgoda' },
-  ]
+  // banks: any[] = [
+  //   { name: 'BOC Bank' },
+  //   { name: 'Commercial Bank' },
+  //   { name: 'HNB Bank' },
+  // ]
+  // branch: any[] = [
+  //   { name: 'Kadawatha' },
+  //   { name: 'Kaduwela' },
+  //   { name: 'Kiribathgoda' },
+  // ]
   role: any[] = [
     { name: 'Admin' },
     { name: 'Cashier' },
