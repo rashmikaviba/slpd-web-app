@@ -2,7 +2,9 @@
 
 <p-sidebar
   [(visible)]="sidebarVisible"
-  [style]="{ width: sidebarProperties.width }"
+  [style]="{
+    width: isSidebarFullSize ? '100vw' : sidebarProperties.width
+  }"
   position="{{ sidebarProperties.position }}"
   (onHide)="sideDrawer()"
   [dismissible]="false"

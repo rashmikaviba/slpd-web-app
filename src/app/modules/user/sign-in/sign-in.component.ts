@@ -31,10 +31,9 @@ export class SignInComponent {
 
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
-    private popupService: PopupService,
+    private popupService: PopupService
   ) {
     this.createForm();
-    this.GetSystemInformation();
   }
 
   ngOnInit(): void {
@@ -59,44 +58,7 @@ export class SignInComponent {
     }
   }
 
-  GetSystemInformation() {
-    this.transactionService.GetVersionNo().subscribe((result) => {
-      if (result.IsSuccessful) {
-        this.systemInformation = result.Result;
-      }
-    });
-  }
-
   onLogin() {
-    this.router.navigate(['/dashboard']);
-    // this.GetSystemInformation();
-    // if (this.FV.formGroup.invalid) {
-    //   this.FV.showErrors();
-    //   return;
-    // }
-
-    // let username = this.FV.getValue("username");
-    // let password = this.FV.getValue("password");
-    // let hotelId = this.FV.getValue("hotelId");
-
-    // let request = {
-    //   username: username,
-    //   password: password,
-    //   HotelId: hotelId,
-    //   grant_type: "password",
-    // };
-
-    // this.transactionService.SignIn(request).subscribe((result: any) => {
-    //   if (result.access_token) {
-    //     this.masterDataService.setUserData(result);
-    //     this.masterDataService.HotelId = hotelId;
-    //     this.messageService.showSuccessAlert("Login Successful!");
-    //     this.initializeApp();
-    //   } else {
-    //     this.messageService.showErrorAlert(
-    //       "The username, password or hotel code is incorrect!"
-    //     );
-    //   }
-    // });
+    this.router.navigate(["/dashboard"]);
   }
 }

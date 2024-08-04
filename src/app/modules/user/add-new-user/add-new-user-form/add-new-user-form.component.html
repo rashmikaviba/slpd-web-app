@@ -1,7 +1,5 @@
-<!-- <form [formGroup]="FV.formGroup" autocomplete="off"> -->
-<!-- <div class="card"> -->
-<!-- <hr /> -->
-<p-toast />
+<!-- <form [formGroup]="FV.formGroup" autocomplete="off"></form> -->
+
 <p-steps
   [model]="items"
   [(ngModel)]="value"
@@ -22,6 +20,7 @@
       label="Cancel"
       icon="pi pi-times"
       styleClass="p-button-secondary"
+      (click)="handleCancel()"
     ></p-button>
 
     <p-button
@@ -29,6 +28,7 @@
       icon="pi pi-angle-double-right"
       iconPos="left"
       *ngIf="showingIndex != 2"
+      (click)="handleSave(showingIndex)"
     ></p-button>
 
     <p-button

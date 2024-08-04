@@ -46,6 +46,14 @@ export class AddNewUserComponent {
         address: "Kaduwela",
       },
     ];
+
+    this.sidebarService.sidebarEvent.subscribe((response) => {
+      if (response) {
+      }
+
+      this.sidebarService.removeComponent();
+      this.appComponent.sidebarVisible = false;
+    });
   }
 
   onClickAddNew() {

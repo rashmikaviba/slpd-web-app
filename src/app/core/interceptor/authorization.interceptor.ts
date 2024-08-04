@@ -41,19 +41,18 @@ export class AuthorizationInterceptor implements HttpInterceptor {
       HotelId: this.masterData.HotelId,
       grant_type: "refresh_token",
     };
-    return this.transactionHandler.RefreshToken(body).pipe(
-      switchMap((data: any) => {
-        // this.masterData.SessionKey = data.dataSet.accessToken;
-        // this.masterData.RefreshToken = data.dataSet.refreshToken;
-        return next.handle(req);
-      }),
-      catchError((err) => {
-        return throwError(() => {
-          this.router.navigate(["/login"]);
-          this.masterData.clearLoginData();
-          return;
-        });
-      })
-    );
+    return next.handle(req);
+    // return this.transactionHandler.RefreshToken(body).pipe(
+    //   switchMap((data: any) => {
+    //     return next.handle(req);
+    //   }),
+    //   catchError((err) => {
+    //     return throwError(() => {
+    //       this.router.navigate(["/login"]);
+    //       this.masterData.clearLoginData();
+    //       return;
+    //     });
+    //   })
+    // );
   }
 }

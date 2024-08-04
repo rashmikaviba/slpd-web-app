@@ -55,19 +55,6 @@ export class InactiveLoginComponent implements OnInit {
       HotelId: this.masterDataService.HotelId,
       grant_type: "password",
     };
-
-    this.transactionService.SignIn(request).subscribe((result: any) => {
-      if (result.access_token) {
-        this.masterDataService.setUserData(result);
-        this.masterDataService.HotelId = this.masterDataService.HotelId;
-        this.messageService.showSuccessAlert("Session restored successfully!");
-        this.ref.close(true);
-      } else {
-        this.messageService.showErrorAlert(
-          "Invalid password! Please try again!"
-        );
-      }
-    });
   }
 
   cancel() {
