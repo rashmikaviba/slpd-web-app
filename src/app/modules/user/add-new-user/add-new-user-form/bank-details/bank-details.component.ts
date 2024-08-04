@@ -41,24 +41,24 @@ export class BankDetailsComponent {
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      fullName: [""],
-      userName: [""],
-      gender: [""],
-      dateOfBirth: [''],
-      address: [''],
-      nicNo: [''],
-      number1: [''],
-      number2: [''],
-      email: [''],
+      // fullName: [""],
+      // userName: [""],
+      // gender: [""],
+      // dateOfBirth: [''],
+      // address: [''],
+      // nicNo: [''],
+      // number1: [''],
+      // number2: [''],
+      // email: [''],
       bankName: [''],
       branchName: [''],
       accNumber: [''],
       accHolderName: [''],
       accHolderAddress: [''],
-      basicSalary: [''],
-      leaveCount: [''],
-      languages: [''],
-      role: ['']
+      // basicSalary: [''],
+      // leaveCount: [''],
+      // languages: [''],
+      // role: ['']
     });
   }
 
