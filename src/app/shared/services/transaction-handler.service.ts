@@ -38,7 +38,7 @@ export class TransactionHandlerService {
 
     formBody = formBody.join("&");
     return this.dataAccess
-      .AUTH_POST(this.resource.auth.signIn, formBody)
+      .POST(this.resource.auth.signIn, formBody)
       .pipe((result) => {
         return result;
       });
@@ -61,7 +61,7 @@ export class TransactionHandlerService {
       formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    return this.dataAccess.AUTH_POST(this.resource.auth.refreshToken, body);
+    return this.dataAccess.POST(this.resource.auth.refreshToken, body);
   }
 
   UploadImage(imageStream: any, type: number) {

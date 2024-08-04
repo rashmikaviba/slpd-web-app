@@ -1,40 +1,52 @@
-import { Component } from '@angular/core';
-import { AddNewUserFormComponent } from './add-new-user-form/add-new-user-form.component';
-import { SidebarService } from 'src/app/shared/services/sidebar.service';
-import { AppComponent } from 'src/app/app.component';
-import { PopupService } from 'src/app/shared/services/popup.service';
+import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { AddNewUserFormComponent } from "./add-new-user-form/add-new-user-form.component";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
+import { AppComponent } from "src/app/app.component";
+import { PopupService } from "src/app/shared/services/popup.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-add-new-user',
-  templateUrl: './add-new-user.component.html',
-  styleUrls: ['./add-new-user.component.scss']
+  selector: "app-add-new-user",
+  templateUrl: "./add-new-user.component.html",
+  styleUrls: ["./add-new-user.component.scss"],
 })
 export class AddNewUserComponent {
-  cols: any
-  recodes: any
-  loading: any
+  cols: any;
+  recodes: any;
+  loading: any;
   sidebarVisible2: boolean = false;
+  template: TemplateRef<any>;
 
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
-    private popupService: PopupService
-  ) { }
+    private popupService: PopupService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
-      { field: 'userId', header: 'ID' },
-      { field: 'userName', header: 'User Name' },
-      { field: 'fullName', header: 'Full Name' },
-      { field: 'address', header: 'Address' },
-    ]
+      { field: "userId", header: "ID" },
+      { field: "userName", header: "User Name" },
+      { field: "fullName", header: "Full Name" },
+      { field: "address", header: "Address" },
+    ];
 
     this.recodes = [
-      { userId: 1, userName: 'Nimna', fullName: 'Nimna Thiranjaya', address: 'Kadawatha' },
-      { userId: 2, userName: 'Lahiru', fullName: 'Lahiru Sandaruwan', address: 'Kaduwela' },
-    ]
+      {
+        userId: 1,
+        userName: "Nimna",
+        fullName: "Nimna Thiranjaya",
+        address: "Kadawatha",
+      },
+      {
+        userId: 2,
+        userName: "Lahiru",
+        fullName: "Lahiru Sandaruwan",
+        address: "Kaduwela",
+      },
+    ];
   }
-
 
   onClickAddNew() {
     let data = {};
@@ -67,4 +79,9 @@ export class AddNewUserComponent {
       data
     );
   }
+
+  // sendTemplate() {
+  //   this.templateTestService.setTemplate(this.templateRef);
+  //   this.router.navigate(["/user-test"]);
+  // }
 }

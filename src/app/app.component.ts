@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, TemplateRef } from "@angular/core";
 import { PrimeNGConfig } from "primeng/api";
 import { SidebarService } from "./shared/services/sidebar.service";
 import { DataAccessService } from "./shared/services/data-access.service";
@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
 })
 export class AppComponent {
   componentList: any[] = [];
+  footer: TemplateRef<any>;
   layoutMode = "static";
   sidebarVisible = false;
   sidebarProperties: any;
@@ -65,6 +66,9 @@ export class AppComponent {
     this.componentList = this.sidebarService.getComponentList();
     this.sidebarProperties = this.sidebarService.getProperties();
     this.sidebarHeader = this.sidebarService.getHeader();
+    this.footer = this.sidebarService.getFooterTemplate();
+
+    console.log(this.footer);
 
     if (this.componentList.length > 0) {
       this.sidebarVisible = true;

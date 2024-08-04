@@ -17,9 +17,11 @@
       <ng-container [ngComponentOutlet]="component"></ng-container>
     </ng-container>
   </ng-template>
-  <!-- <ng-template pTemplate="footer"
-    ><p-button label="Save" icon="pi pi-save" iconPos="left"></p-button
-  ></ng-template> -->
+  <ng-template pTemplate="footer">
+    <div *ngIf="footer">
+      <ng-container *ngTemplateOutlet="footer"></ng-container>
+    </div>
+  </ng-template>
 </p-sidebar>
 
 <p-toast></p-toast>
