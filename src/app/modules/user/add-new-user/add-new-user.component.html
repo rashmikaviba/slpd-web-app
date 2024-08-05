@@ -13,13 +13,6 @@
 >
   <ng-template pTemplate="caption">
     <div class="grid align-items-center">
-      <!-- <div>
-              <p-button
-                styleClass="mr-2"
-                label="Back"
-                routerLink="./"
-              ></p-button>
-            </div> -->
       <div>
         <p-button
           styleClass=" mr-2"
@@ -58,7 +51,7 @@
           styleClass="p-button-primary mr-2"
           size="small"
           icon="pi pi-pencil"
-          (onClick)="onClickEdit()"
+          (onClick)="onClickEdit(rowData)"
         ></p-button>
         <p-button
           styleClass="p-button-danger mr-2"

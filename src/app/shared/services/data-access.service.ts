@@ -36,7 +36,7 @@ export class DataAccessService {
 
     let headers = new HttpHeaders().set(
       "Authorization",
-      "Bearer " + this.masterData.SessionKey
+      this.masterData.SessionKey
     );
     return this.http.get<AppResponse>(url, { headers }).pipe(
       map((response) => {
@@ -73,7 +73,7 @@ export class DataAccessService {
 
     let headers = new HttpHeaders().set(
       "Authorization",
-      "Bearer " + this.masterData.SessionKey
+      this.masterData.SessionKey
     );
 
     return this.http.post<AppResponse>(url, body, { headers }).pipe(
@@ -112,7 +112,7 @@ export class DataAccessService {
 
     let headers = new HttpHeaders().set(
       "Authorization",
-      "Bearer " + this.masterData.SessionKey
+      this.masterData.SessionKey
     );
     return this.http.patch<AppResponse>(url, body, { headers }).pipe(
       map((response) => {
@@ -149,7 +149,7 @@ export class DataAccessService {
 
     let headers = new HttpHeaders().set(
       "Authorization",
-      "Bearer " + this.masterData.SessionKey
+      this.masterData.SessionKey
     );
     return this.http.put<AppResponse>(url, body, { headers }).pipe(
       map((response) => {
@@ -186,7 +186,7 @@ export class DataAccessService {
 
     let headers = new HttpHeaders().set(
       "Authorization",
-      "Bearer " + this.masterData.SessionKey
+      this.masterData.SessionKey
     );
     return this.http.delete<AppResponse>(url, { headers }).pipe(
       map((response) => {
@@ -287,7 +287,7 @@ export class DataAccessService {
 
     let headers = new HttpHeaders().set(
       "Authorization",
-      "Bearer " + this.masterData.SessionKey
+      this.masterData.SessionKey
     );
 
     return this.http.post<AppResponse>(url, params, { headers }).pipe(

@@ -40,4 +40,12 @@ export class TransactionHandlerService {
   //       return result;
   //     });
   // }
+
+  userLogin(body: any) {
+    return this.dataAccess
+      ._POST(this.resource.auth.login, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

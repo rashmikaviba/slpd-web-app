@@ -56,6 +56,33 @@ export class UploadVerificationsComponent {
 
   ngOnInit(): void {
     this.userDetail = this.addUserControlFlowService.getUserDetail();
+    this.setValues();
+  }
+
+  setValues() {
+    if (this.userDetail?.profileImageUrl) {
+      this.profileImageUrl = this.userDetail.profileImageUrl;
+    }
+
+    if (this.userDetail?.nicImageUrl) {
+      this.nicImageUrl = this.userDetail.nicImageUrl;
+    }
+
+    if (this.userDetail?.gsCertificateUrl) {
+      this.gsCertificateUrl = this.userDetail.gsCertificateUrl;
+    }
+
+    if (this.userDetail?.drivingLicenseUrl) {
+      this.drivingLicenseUrl = this.userDetail.drivingLicenseUrl;
+    }
+
+    if (this.userDetail?.sltdaCertificateUrl) {
+      this.sltdaCertificateUrl = this.userDetail.sltdaCertificateUrl;
+    }
+
+    if (this.userDetail?.policeReportUrl) {
+      this.policeReportUrl = this.userDetail.policeReportUrl;
+    }
   }
 
   openUploadDialog(uploadType: number) {
@@ -122,7 +149,11 @@ export class UploadVerificationsComponent {
               break;
           }
 
-          this.addUserControlFlowService.setUploadImage(uploadType, res.file);
+          this.addUserControlFlowService.setUploadImage(
+            uploadType,
+            res.file,
+            res.imageUrl
+          );
         }
       });
   }
@@ -192,6 +223,6 @@ export class UploadVerificationsComponent {
         break;
     }
 
-    this.addUserControlFlowService.setUploadImage(uploadType, null);
+    this.addUserControlFlowService.setUploadImage(uploadType, null, "");
   }
 }

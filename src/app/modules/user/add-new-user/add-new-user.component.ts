@@ -4,6 +4,9 @@ import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { AppComponent } from "src/app/app.component";
 import { PopupService } from "src/app/shared/services/popup.service";
 import { Router } from "@angular/router";
+import { AddUserControlFlowService } from "./add-new-user-form/add-user-control-flow.service";
+import { UserService } from "src/app/shared/services/api-services/user.service";
+import { firstValueFrom } from "rxjs";
 
 @Component({
   selector: "app-add-new-user",
@@ -21,43 +24,50 @@ export class AddNewUserComponent {
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
     private popupService: PopupService,
-    private router: Router
+    private router: Router,
+    private addUserControlFlowService: AddUserControlFlowService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.cols = [
-      { field: "userId", header: "ID" },
-      { field: "userName", header: "User Name" },
       { field: "fullName", header: "Full Name" },
+      { field: "userName", header: "User Name" },
       { field: "address", header: "Address" },
+      { field: "email", header: "Email" },
+      { field: "phoneNumber1", header: "Phone" },
+      { field: "phoneNumber2", header: "Phone 2" },
+      { field: "roleName", header: "Role" },
     ];
 
-    this.recodes = [
-      {
-        userId: 1,
-        userName: "Nimna",
-        fullName: "Nimna Thiranjaya",
-        address: "Kadawatha",
-      },
-      {
-        userId: 2,
-        userName: "Lahiru",
-        fullName: "Lahiru Sandaruwan",
-        address: "Kaduwela",
-      },
-    ];
+    this.getAllUsers();
 
     this.sidebarService.sidebarEvent.subscribe((response) => {
       if (response) {
+        this.getAllUsers();
       }
 
       this.sidebarService.removeComponent();
       this.appComponent.sidebarVisible = false;
+      this.addUserControlFlowService.resetData();
+    });
+  }
+
+  getAllUsers() {
+    this.userService.getAllUsers().subscribe((response) => {
+      if (response.IsSuccessful) {
+        this.recodes = response.Result;
+      }
     });
   }
 
   onClickAddNew() {
-    let data = {};
+    let data = {
+      userData: null,
+      isEdit: false,
+    };
+
+    this.addUserControlFlowService.resetData();
 
     let properties = {
       width: "50vw",
@@ -72,8 +82,20 @@ export class AddNewUserComponent {
     );
   }
 
-  onClickEdit() {
-    let data = {};
+  async onClickEdit(rowData: any) {
+    let data = {
+      userData: null,
+      isEdit: true,
+    };
+
+    const userResult = await firstValueFrom(
+      this.userService.getUserById(rowData._id)
+    );
+
+    if (userResult.IsSuccessful) {
+      data.userData = userResult.Result;
+      this.addUserControlFlowService.setUserDetail(data.userData);
+    }
 
     let properties = {
       width: "50vw",

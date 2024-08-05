@@ -52,7 +52,6 @@ export class InactiveLoginComponent implements OnInit {
     let request = {
       username: this.masterDataService.CurrentUserName,
       password: password,
-      HotelId: this.masterDataService.HotelId,
       grant_type: "password",
     };
   }

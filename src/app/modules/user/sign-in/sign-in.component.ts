@@ -47,7 +47,6 @@ export class SignInComponent {
     this.FV.formGroup = this.formBuilder.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
-      hotelId: ["", Validators.required],
     });
   }
 
@@ -59,6 +58,27 @@ export class SignInComponent {
   }
 
   onLogin() {
-    this.router.navigate(["/dashboard"]);
+    if (this.FV.formGroup.invalid) {
+      this.FV.showErrors();
+      return;
+    }
+
+    let userName = this.FV.getValue("username");
+    let password = this.FV.getValue("password");
+
+    let request = {
+      userName: userName,
+      password: password,
+    };
+
+    this.transactionService.userLogin(request).subscribe((response) => {
+      if (response.IsSuccessful) {
+        this.messageService.showSuccessAlert(response.Message);
+        this.masterDataService.setUserData(response.Result);
+        this.router.navigate(["/dashboard"]);
+      } else {
+        this.messageService.showErrorAlert(response.Message);
+      }
+    });
   }
 }

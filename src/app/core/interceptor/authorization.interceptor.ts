@@ -10,13 +10,15 @@ import { Observable, catchError, switchMap, throwError } from "rxjs";
 import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { Router } from "@angular/router";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
 
 @Injectable()
 export class AuthorizationInterceptor implements HttpInterceptor {
   constructor(
     private transactionHandler: TransactionHandlerService,
     private masterData: MasterDataService,
-    private router: Router
+    private router: Router,
+    private messageService: AppMessageService
   ) {}
 
   intercept(
@@ -37,8 +39,6 @@ export class AuthorizationInterceptor implements HttpInterceptor {
 
   handleUnAuthorizedError(req: HttpRequest<any>, next: HttpHandler) {
     let body = {
-      refresh_token: this.masterData.RefreshToken,
-      HotelId: this.masterData.HotelId,
       grant_type: "refresh_token",
     };
     return next.handle(req);

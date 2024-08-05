@@ -34,10 +34,10 @@ export class BankDetailsComponent {
   }
 
   setValues() {
-    this.FV.setValue("bankName", this.userDetail.bankName);
-    this.FV.setValue("branchName", this.userDetail.branch);
-    this.FV.setValue("accNumber", this.userDetail.accountNumber);
-    this.FV.setValue("accHolderName", this.userDetail.accountHolderName);
-    this.FV.setValue("accHolderAddress", this.userDetail.accountHolderAddress);
+    this.FV.setValue("bankName", this.userDetail?.bankName);
+    this.FV.setValue("branchName", this.userDetail?.branch);
+    this.FV.setValue("accNumber", this.userDetail?.accountNumber);
+    this.FV.setValue("accHolderName", this.userDetail?.accountHolderName);
+    this.FV.setValue("accHolderAddress", this.userDetail?.accountHolderAddress);
   }
 }

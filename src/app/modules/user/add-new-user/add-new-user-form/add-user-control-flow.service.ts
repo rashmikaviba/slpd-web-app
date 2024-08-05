@@ -6,7 +6,8 @@ import { WellKnownUploadType } from "src/app/shared/enums/well-known-upload-type
 })
 export class AddUserControlFlowService {
   userDetail: any = {
-    userId: 0,
+    _id: "",
+    userId: "",
     fullName: "",
     userName: "",
     gender: 0,
@@ -78,30 +79,76 @@ export class AddUserControlFlowService {
     }
   }
 
-  setUploadImage(uploadType: number, file: any) {
+  setUploadImage(uploadType: number, file: any, imageUrl: string) {
     switch (uploadType) {
       case WellKnownUploadType.ProfileImage:
         this.uploadedImages.selectedProfileImage = file;
+        this.userDetail.profileImageUrl = imageUrl;
         break;
       case WellKnownUploadType.NICImage:
         this.uploadedImages.selectedNicImage = file;
+        this.userDetail.nicImageUrl = imageUrl;
         break;
       case WellKnownUploadType.GSCertificate:
         this.uploadedImages.selectedGsCertificate = file;
+        this.userDetail.gsCertificateUrl = imageUrl;
         break;
       case WellKnownUploadType.DrivingLicense:
         this.uploadedImages.selectedDrivingLicense = file;
+        this.userDetail.drivingLicenseUrl = imageUrl;
         break;
       case WellKnownUploadType.SLTDACertificate:
         this.uploadedImages.selectedSltdaCertificate = file;
+        this.userDetail.sltdaCertificateUrl = imageUrl;
         break;
       case WellKnownUploadType.PoliceReport:
         this.uploadedImages.selectedPoliceReport = file;
+        this.userDetail.policeReportUrl = imageUrl;
         break;
     }
   }
 
   getUploadImage() {
     return this.uploadedImages;
+  }
+
+  resetData() {
+    this.userDetail = {
+      _id: "",
+      userId: "",
+      fullName: "",
+      userName: "",
+      gender: 0,
+      dateOfBirth: "",
+      address: "",
+      phoneNumber1: "",
+      phoneNumber2: "",
+      email: "",
+      profileImageUrl: "",
+      nic: "",
+      nicImageUrl: "",
+      gsCertificateUrl: "",
+      drivingLicenseUrl: "",
+      sltdaCertificateUrl: "",
+      policeReportUrl: "",
+      bankName: "",
+      branch: "",
+      accountNumber: "",
+      accountHolderName: "",
+      accountHolderAddress: "",
+      basicSalary: "",
+      leaveCount: 0,
+      languages: [],
+      role: 0,
+    };
+
+    this.uploadedImages = {
+      selectedProfileImage: null,
+      selectedNicImage: null,
+      selectedGsCertificate: null,
+      selectedDrivingLicense: null,
+      selectedSltdaCertificate: null,
+      selectedPoliceReport: null,
+    };
   }
 }

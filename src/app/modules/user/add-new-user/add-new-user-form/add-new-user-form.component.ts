@@ -7,6 +7,10 @@ import { BankDetailsComponent } from "./bank-details/bank-details.component";
 import { UploadVerificationsComponent } from "./upload-verifications/upload-verifications.component";
 import { AddUserControlFlowService } from "./add-user-control-flow.service";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { StoreService } from "../../../../shared/services/api-services/store.service";
+import { firstValueFrom } from "rxjs";
+import { WellKnownUploadType } from "src/app/shared/enums/well-known-upload-type.enum";
+import { UserService } from "src/app/shared/services/api-services/user.service";
 
 @Component({
   selector: "app-add-new-user-form",
@@ -28,14 +32,21 @@ export class AddNewUserFormComponent {
   showingIndex: number = 0;
   userDetail: any;
   uploadedImages: any;
+  isEdit: boolean = false;
   constructor(
     private sidebarService: SidebarService,
     private addUserControlFlowService: AddUserControlFlowService,
-    private messageService: AppMessageService
+    private messageService: AppMessageService,
+    private storeService: StoreService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+    let sideBarData = this.sidebarService.getData();
     this.sidebarService.setFooterTemplate(this.templateRef);
+    if (sideBarData) {
+      this.isEdit = sideBarData.isEdit;
+    }
 
     this.items = [
       {
@@ -78,56 +89,79 @@ export class AddNewUserFormComponent {
         this.saveBankDetails();
         break;
       case 2:
-        this.showingIndex = 2 + 1;
+        this.saveUpload();
         break;
       default:
         this.showingIndex = 0 + 1;
     }
   }
 
-  savePersonalDetails() {
-    let role = this.pdc.FV.getValue("role");
-    if (
-      this.pdc.FV.validateControllers(
-        "fullName,userName,gender,dateOfBirth,address,nicNo,number1,email,role"
-      )
-    ) {
-      return;
-    }
-
-    if (role === 2) {
-      if (this.pdc.FV.validateControllers("basicSalary,leaveCount")) {
+  async savePersonalDetails() {
+    try {
+      let role = this.pdc.FV.getValue("role");
+      if (
+        this.pdc.FV.validateControllers(
+          "fullName,userName,gender,dateOfBirth,address,nicNo,number1,email,role"
+        )
+      ) {
         return;
       }
-    } else if (role === 3) {
-      if (this.pdc.FV.validateControllers("languages")) {
+
+      if (role === 2) {
+        if (this.pdc.FV.validateControllers("basicSalary,leaveCount")) {
+          return;
+        }
+      } else if (role === 3) {
+        if (this.pdc.FV.validateControllers("languages")) {
+          return;
+        }
+      }
+
+      let formData = this.pdc.FV.formGroup.value;
+
+      const userNameCheckResult = await firstValueFrom(
+        this.userService.checkUserNameExist(
+          formData.userName,
+          this.userDetail?._id ?? "",
+          formData?.email ?? "",
+          formData.nic ?? ""
+        )
+      );
+
+      if (userNameCheckResult.IsSuccessful) {
+        if (!userNameCheckResult.Result) {
+          this.messageService.showErrorAlert(userNameCheckResult.Message);
+          return;
+        }
+      } else {
+        this.messageService.showErrorAlert(userNameCheckResult.Message);
         return;
       }
+
+      this.userDetail = {
+        ...this.userDetail,
+        fullName: formData.fullName,
+        userName: formData.userName,
+        gender: formData.gender,
+        dateOfBirth: formData.dateOfBirth,
+        address: formData.address,
+        nic: formData.nicNo,
+        phoneNumber1: formData.number1,
+        phoneNumber2: formData.number2,
+        email: formData.email,
+        basicSalary: formData.basicSalary,
+        leaveCount: formData.leaveCount,
+        languages: formData.languages,
+        role: formData.role,
+      };
+
+      this.addUserControlFlowService.setUserDetail(this.userDetail);
+      this.addUserControlFlowService.setStepValue(0, true);
+
+      this.showingIndex = 0 + 1;
+    } catch (error) {
+      this.messageService.showErrorAlert(error);
     }
-
-    let formData = this.pdc.FV.formGroup.value;
-
-    this.userDetail = {
-      ...this.userDetail,
-      fullName: formData.fullName,
-      userName: formData.userName,
-      gender: formData.gender,
-      dateOfBirth: formData.dateOfBirth,
-      address: formData.address,
-      nic: formData.nicNo,
-      phoneNumber1: formData.number1,
-      phoneNumber2: formData.number2,
-      email: formData.email,
-      basicSalary: formData.basicSalary,
-      leaveCount: formData.leaveCount,
-      languages: formData.languages,
-      role: formData.role,
-    };
-
-    this.addUserControlFlowService.setUserDetail(this.userDetail);
-    this.addUserControlFlowService.setStepValue(0, true);
-
-    this.showingIndex = 0 + 1;
   }
 
   saveBankDetails() {
@@ -158,27 +192,95 @@ export class AddNewUserFormComponent {
   async saveUpload() {
     try {
       this.uploadedImages = this.addUserControlFlowService.getUploadImage();
-      // profileImageUrl: "",
-      // nicImageUrl: "",
-      // gsCertificateUrl: "",
-      // drivingLicenseUrl: "",
-      // sltdaCertificateUrl: "",
-      // policeReportUrl: "",
+      this.userDetail = this.addUserControlFlowService.getUserDetail();
+      let profileImageResult = null;
+      let nicImageResult = null;
+      let gsCertificateResult = null;
+      let drivingLicenseResult = null;
+      let sltdaCertificateResult = null;
+      let policeReportResult = null;
+
+      if (this.uploadedImages.selectedProfileImage) {
+        profileImageResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.uploadedImages.selectedProfileImage,
+            WellKnownUploadType.ProfileImage
+          )
+        );
+      }
+
+      if (this.uploadedImages.selectedNicImage) {
+        nicImageResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.uploadedImages.selectedNicImage,
+            WellKnownUploadType.NICImage
+          )
+        );
+      }
+
+      if (this.uploadedImages.selectedGsCertificate) {
+        gsCertificateResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.uploadedImages.selectedGsCertificate,
+            WellKnownUploadType.GSCertificate
+          )
+        );
+      }
+
+      if (this.uploadedImages.selectedDrivingLicense) {
+        drivingLicenseResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.uploadedImages.selectedDrivingLicense,
+            WellKnownUploadType.DrivingLicense
+          )
+        );
+      }
+
+      if (this.uploadedImages.selectedSltdaCertificate) {
+        sltdaCertificateResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.uploadedImages.selectedSltdaCertificate,
+            WellKnownUploadType.SLTDACertificate
+          )
+        );
+      }
+
+      if (this.uploadedImages.selectedPoliceReport) {
+        policeReportResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.uploadedImages.selectedPoliceReport,
+            WellKnownUploadType.PoliceReport
+          )
+        );
+      }
+
+      this.userDetail = {
+        ...this.userDetail,
+        profileImageUrl:
+          profileImageResult?.Result ?? this.userDetail.profileImageUrl,
+        nicImageUrl: nicImageResult?.Result ?? this.userDetail.nicImageUrl,
+        gsCertificateUrl:
+          gsCertificateResult?.Result ?? this.userDetail.gsCertificateUrl,
+        drivingLicenseUrl:
+          drivingLicenseResult?.Result ?? this.userDetail.drivingLicenseUrl,
+        sltdaCertificateUrl:
+          sltdaCertificateResult?.Result ?? this.userDetail.sltdaCertificateUrl,
+        policeReportUrl:
+          policeReportResult?.Result ?? this.userDetail.policeReportUrl,
+      };
+
+      this.userService.saveUser(this.userDetail).subscribe((result) => {
+        if (result.IsSuccessful) {
+          this.messageService.showSuccessAlert(result.Message);
+          this.addUserControlFlowService.resetData();
+          this.sidebarService.sidebarEvent.emit(true);
+        } else {
+          this.messageService.showErrorAlert(result.Message);
+        }
+      });
     } catch (error) {
       this.messageService.showErrorAlert(error);
     }
-  }
-
-  async uploadImages() {
-    // this.uploadImages
-    // uploadedImages: any = {
-    //   selectedProfileImage: null,
-    //   selectedNicImage: null,
-    //   selectedGsCertificate: null,
-    //   selectedDrivingLicense: null,
-    //   selectedSltdaCertificate: null,
-    //   selectedPoliceReport: null,
-    // };
   }
 
   handleCancel() {
