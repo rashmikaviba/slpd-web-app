@@ -118,7 +118,7 @@ export class AddUserControlFlowService {
       userId: "",
       fullName: "",
       userName: "",
-      gender: 0,
+      gender: null,
       dateOfBirth: "",
       address: "",
       phoneNumber1: "",
@@ -136,10 +136,10 @@ export class AddUserControlFlowService {
       accountNumber: "",
       accountHolderName: "",
       accountHolderAddress: "",
-      basicSalary: "",
-      leaveCount: 0,
+      basicSalary: null,
+      leaveCount: null,
       languages: [],
-      role: 0,
+      role: null,
     };
 
     this.uploadedImages = {
@@ -150,5 +150,8 @@ export class AddUserControlFlowService {
       selectedSltdaCertificate: null,
       selectedPoliceReport: null,
     };
+    this.isFirstStep = false;
+    this.isSecondStep = false;
+    this.isThirdStep = false;
   }
 }

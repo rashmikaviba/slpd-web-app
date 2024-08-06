@@ -50,4 +50,36 @@ export class UserService {
         return response;
       });
   }
+
+  blockUserById(userId: string) {
+    return this.dataAccess
+      .PUT(this.resource.user.blockUser + `/${userId}`, null)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  unblockUserById(userId: string) {
+    return this.dataAccess
+      .PUT(this.resource.user.unblockUser + `/${userId}`, null)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  updateUserDetails(userId: string, body: any) {
+    return this.dataAccess
+      .PUT(this.resource.user.updateUser + `/${userId}`, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  deleteUserByUserId(userId: string) {
+    return this.dataAccess
+      .DELETE(this.resource.user.deleteUser + `/${userId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

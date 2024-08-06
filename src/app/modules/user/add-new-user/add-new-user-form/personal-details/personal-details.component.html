@@ -56,6 +56,10 @@
             type="date"
             class="w-full"
             formControlName="dateOfBirth"
+            [min]="minDate"
+            [max]="maxDate"
+            onclick="this.showPicker()"
+            onkeydown="return false"
           />
         </div>
         <div class="field col-12 md:col-3">
@@ -124,12 +128,12 @@
             }"
             >Basic Salary</label
           >
-          <input
-            id="basicSalary"
-            pInputText
-            type="text"
-            class="w-full p-inputtext-sm"
+
+          <p-inputNumber
             formControlName="basicSalary"
+            mode="decimal"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
           />
         </div>
         <div class="field col-12 md:col-3" *ngIf="showAdmin">
@@ -143,9 +147,10 @@
           <input
             id="leaveCount"
             pInputText
-            type="number"
+            type="text"
             class="w-full p-inputtext-sm"
             formControlName="leaveCount"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
           />
         </div>
         <div class="field col-12 md:col-6" *ngIf="showDriver">

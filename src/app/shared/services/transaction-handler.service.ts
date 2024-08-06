@@ -48,4 +48,12 @@ export class TransactionHandlerService {
         return response;
       });
   }
+
+  userResetPassword(userId: string) {
+    return this.dataAccess
+      .PUT(this.resource.auth.resetPassword + `/${userId}`, null)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

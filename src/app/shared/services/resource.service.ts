@@ -30,5 +30,9 @@ export class ResourceService {
     saveUser: this.User,
     getAllUsers: this.User,
     getUserById: this.User,
+    blockUser: this.User + "/block",
+    unblockUser: this.User + "/unblock",
+    updateUser: this.User,
+    deleteUser: this.User,
   };
 }

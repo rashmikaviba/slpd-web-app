@@ -46,6 +46,11 @@ export class AddNewUserFormComponent {
     this.sidebarService.setFooterTemplate(this.templateRef);
     if (sideBarData) {
       this.isEdit = sideBarData.isEdit;
+      if (this.isEdit) {
+        this.addUserControlFlowService.setStepValue(0, true);
+        this.addUserControlFlowService.setStepValue(1, true);
+        this.addUserControlFlowService.setStepValue(2, true);
+      }
     }
 
     this.items = [
@@ -70,7 +75,7 @@ export class AddNewUserFormComponent {
       index
     ) as boolean;
 
-    isStepCompleted = true;
+    // isStepCompleted = true;
 
     if (isStepCompleted) {
       this.showingIndex = index;
@@ -98,6 +103,9 @@ export class AddNewUserFormComponent {
 
   async savePersonalDetails() {
     try {
+      debugger;
+      let data = this.pdc.FV.formGroup.value;
+      this.userDetail = this.addUserControlFlowService.getUserDetail();
       let role = this.pdc.FV.getValue("role");
       if (
         this.pdc.FV.validateControllers(
@@ -124,7 +132,7 @@ export class AddNewUserFormComponent {
           formData.userName,
           this.userDetail?._id ?? "",
           formData?.email ?? "",
-          formData.nic ?? ""
+          formData?.nicNo ?? ""
         )
       );
 
@@ -269,17 +277,140 @@ export class AddNewUserFormComponent {
           policeReportResult?.Result ?? this.userDetail.policeReportUrl,
       };
 
-      this.userService.saveUser(this.userDetail).subscribe((result) => {
-        if (result.IsSuccessful) {
-          this.messageService.showSuccessAlert(result.Message);
-          this.addUserControlFlowService.resetData();
-          this.sidebarService.sidebarEvent.emit(true);
-        } else {
-          this.messageService.showErrorAlert(result.Message);
-        }
-      });
+      if (!this.isEdit) {
+        this.userService.saveUser(this.userDetail).subscribe((result) => {
+          if (result.IsSuccessful) {
+            this.messageService.showSuccessAlert(result.Message);
+            this.addUserControlFlowService.resetData();
+            this.sidebarService.sidebarEvent.emit(true);
+          } else {
+            this.messageService.showErrorAlert(result.Message);
+          }
+        });
+      } else {
+        this.userService
+          .updateUserDetails(this.userDetail._id, this.userDetail)
+          .subscribe((result) => {
+            if (result.IsSuccessful) {
+              this.messageService.showSuccessAlert(result.Message);
+              this.addUserControlFlowService.resetData();
+              this.sidebarService.sidebarEvent.emit(true);
+            } else {
+              this.messageService.showErrorAlert(result.Message);
+            }
+          });
+      }
     } catch (error) {
       this.messageService.showErrorAlert(error);
+    }
+  }
+
+  async handleUpdate(index: number) {
+    if (index == 0) {
+      let data = this.pdc.FV.formGroup.value;
+      this.userDetail = this.addUserControlFlowService.getUserDetail();
+      let role = this.pdc.FV.getValue("role");
+      if (
+        this.pdc.FV.validateControllers(
+          "fullName,userName,gender,dateOfBirth,address,nicNo,number1,email,role"
+        )
+      ) {
+        return;
+      }
+
+      if (role === 2) {
+        if (this.pdc.FV.validateControllers("basicSalary,leaveCount")) {
+          return;
+        }
+      } else if (role === 3) {
+        if (this.pdc.FV.validateControllers("languages")) {
+          return;
+        }
+      }
+
+      let formData = this.pdc.FV.formGroup.value;
+
+      const userNameCheckResult = await firstValueFrom(
+        this.userService.checkUserNameExist(
+          formData.userName,
+          this.userDetail?._id ?? "",
+          formData?.email ?? "",
+          formData?.nicNo ?? ""
+        )
+      );
+
+      if (userNameCheckResult.IsSuccessful) {
+        if (!userNameCheckResult.Result) {
+          this.messageService.showErrorAlert(userNameCheckResult.Message);
+          return;
+        }
+      } else {
+        this.messageService.showErrorAlert(userNameCheckResult.Message);
+        return;
+      }
+
+      this.userDetail = {
+        ...this.userDetail,
+        fullName: formData.fullName,
+        userName: formData.userName,
+        gender: formData.gender,
+        dateOfBirth: formData.dateOfBirth,
+        address: formData.address,
+        nic: formData.nicNo,
+        phoneNumber1: formData.number1,
+        phoneNumber2: formData.number2,
+        email: formData.email,
+        basicSalary: formData.basicSalary,
+        leaveCount: formData.leaveCount,
+        languages: formData.languages,
+        role: formData.role,
+      };
+
+      this.addUserControlFlowService.setUserDetail(this.userDetail);
+
+      this.userService
+        .updateUserDetails(this.userDetail._id, this.userDetail)
+        .subscribe((result) => {
+          if (result.IsSuccessful) {
+            this.messageService.showSuccessAlert(result.Message);
+            this.addUserControlFlowService.resetData();
+            this.sidebarService.sidebarEvent.emit(true);
+          } else {
+            this.messageService.showErrorAlert(result.Message);
+          }
+        });
+    } else if (index == 1) {
+      if (
+        this.bdc.FV.validateControllers(
+          "bankName,branchName,accNumber,accHolderName,accHolderAddress"
+        )
+      ) {
+        return;
+      }
+
+      let formData = this.bdc.FV.formGroup.value;
+      this.userDetail = {
+        ...this.userDetail,
+        bankName: formData.bankName,
+        branch: formData.branchName,
+        accountNumber: formData.accNumber,
+        accountHolderName: formData.accHolderName,
+        accountHolderAddress: formData.accHolderAddress,
+      };
+
+      this.addUserControlFlowService.setUserDetail(this.userDetail);
+
+      this.userService
+        .updateUserDetails(this.userDetail._id, this.userDetail)
+        .subscribe((result) => {
+          if (result.IsSuccessful) {
+            this.messageService.showSuccessAlert(result.Message);
+            this.addUserControlFlowService.resetData();
+            this.sidebarService.sidebarEvent.emit(true);
+          } else {
+            this.messageService.showErrorAlert(result.Message);
+          }
+        });
     }
   }
 

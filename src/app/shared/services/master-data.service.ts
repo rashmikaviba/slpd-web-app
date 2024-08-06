@@ -11,7 +11,7 @@ export class MasterDataService {
     this.SessionKey = loginData.token;
     this.ClientId = loginData.user._id;
     this.CurrentUserName = loginData.user.userName;
-    this.Role = loginData.user.role;
+    this.Role = loginData.role;
     this.TimedOut = "false";
   }
 

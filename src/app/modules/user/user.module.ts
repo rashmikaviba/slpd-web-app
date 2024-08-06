@@ -30,6 +30,10 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { OverlayPanelModule } from "primeng/overlaypanel";
 import { OrderListModule } from "primeng/orderlist";
 import { ToggleButtonModule } from "primeng/togglebutton";
+import { InputNumberModule } from "primeng/inputnumber";
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
+
 import { AddNewUserComponent } from "./add-new-user/add-new-user.component";
 import { AddNewUserFormComponent } from "./add-new-user/add-new-user-form/add-new-user-form.component";
 import { StepsModule } from "primeng/steps";
@@ -79,6 +83,9 @@ import { UploadVerificationsComponent } from "./add-new-user/add-new-user-form/u
     ToastModule,
     CardModule,
     ToggleButtonModule,
+    InputNumberModule,
+    IconFieldModule,
+    InputIconModule,
   ],
 })
 export class UserModule {}

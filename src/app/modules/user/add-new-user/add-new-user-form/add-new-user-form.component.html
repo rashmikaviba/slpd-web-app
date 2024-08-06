@@ -24,6 +24,14 @@
     ></p-button>
 
     <p-button
+      label="Update"
+      icon="pi pi-save"
+      iconPos="left"
+      *ngIf="isEdit && showingIndex != 2"
+      (click)="handleUpdate(showingIndex)"
+    ></p-button>
+
+    <p-button
       label="Next"
       icon="pi pi-angle-double-right"
       iconPos="left"
@@ -32,7 +40,7 @@
     ></p-button>
 
     <p-button
-      label="Save"
+      label="{{ isEdit ? 'Update' : 'Save' }}"
       icon="pi pi-save"
       iconPos="left"
       *ngIf="showingIndex == 2"

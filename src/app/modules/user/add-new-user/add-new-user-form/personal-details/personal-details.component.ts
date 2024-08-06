@@ -5,6 +5,7 @@ import { languages } from "../../../../../shared/data/languages";
 import { userRoles } from "src/app/shared/data/useRoles";
 import { genders } from "src/app/shared/data/commonData";
 import { AddUserControlFlowService } from "../add-user-control-flow.service";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-personal-details",
@@ -19,9 +20,12 @@ export class PersonalDetailsComponent {
   showAdmin = false;
   showDriver = false;
   userDetail: any;
+  minDate: string = "";
+  maxDate: string = "";
   constructor(
     private formBuilder: FormBuilder,
-    private addUserControlFlowService: AddUserControlFlowService
+    private addUserControlFlowService: AddUserControlFlowService,
+    private datePipe: DatePipe
   ) {
     this.createForm();
   }
@@ -66,6 +70,16 @@ export class PersonalDetailsComponent {
   ngOnInit(): void {
     this.userDetail = this.addUserControlFlowService.getUserDetail();
     this.setValues();
+
+    // set min and max date for date of birth to more than 18 years old - 60 years old
+    this.minDate = this.datePipe.transform(
+      new Date(new Date().setFullYear(new Date().getFullYear() - 60)),
+      "yyyy-MM-dd"
+    );
+    this.maxDate = this.datePipe.transform(
+      new Date().setFullYear(new Date().getFullYear() - 18),
+      "yyyy-MM-dd"
+    );
   }
 
   setValues() {
@@ -73,7 +87,10 @@ export class PersonalDetailsComponent {
     this.FV.setValue("fullName", this.userDetail?.fullName);
     this.FV.setValue("userName", this.userDetail?.userName);
     this.FV.setValue("gender", this.userDetail?.gender);
-    this.FV.setValue("dateOfBirth", this.userDetail?.dateOfBirth);
+    this.FV.setValue(
+      "dateOfBirth",
+      this.datePipe.transform(this.userDetail?.dateOfBirth, "yyyy-MM-dd")
+    );
     this.FV.setValue("address", this.userDetail?.address);
     this.FV.setValue("nicNo", this.userDetail?.nic);
     this.FV.setValue("number1", this.userDetail?.phoneNumber1);
@@ -81,6 +98,14 @@ export class PersonalDetailsComponent {
     this.FV.setValue("email", this.userDetail?.email);
     this.FV.setValue("basicSalary", this.userDetail?.basicSalary);
     this.FV.setValue("leaveCount", this.userDetail?.leaveCount);
+
+    // cover langualges array to integer array
+    let languages: any[] = this.userDetail?.languages;
+    if (languages.length > 0) {
+      this.userDetail.languages = languages.map((language: any) => {
+        return parseInt(language);
+      });
+    }
     this.FV.setValue("languages", this.userDetail?.languages);
     this.FV.setValue("role", this.userDetail?.role);
     this.onRoleChange();
