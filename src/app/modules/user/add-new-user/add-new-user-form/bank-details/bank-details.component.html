@@ -4,73 +4,68 @@
     <div class="col-12">
       <div class="p-fluid grid formgrid align-items-end">
         <div class="field col-12 md:col-4">
-          <label for="bankName">Bank Name</label>
-          <p-dropdown
+          <label for="bankName" class="required">Bank Name</label>
+          <input
             id="bankName"
-            styleClass="w-full"
+            pInputText
+            type="text"
             class="w-full"
-            [options]="banks"
-            optionLabel="name"
-            placeholder="Select Bank"
             formControlName="bankName"
-            appendTo="body"
-          ></p-dropdown>
+            maxlength="50"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+          />
         </div>
         <div class="field col-12 md:col-4">
-          <label for="branchName">Branch Name</label>
-          <p-dropdown
+          <label for="branchName" class="required">Branch Name</label>
+          <input
             id="branchName"
-            styleClass="w-full"
+            pInputText
+            type="text"
             class="w-full"
-            [options]="branch"
-            optionLabel="name"
-            placeholder="Select Branch"
             formControlName="branchName"
-            appendTo="body"
-          ></p-dropdown>
+            maxlength="40"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+          />
         </div>
         <div class="field col-12 md:col-4">
-          <label for="accNumber">Account Number</label>
+          <label for="accNumber" class="required">Account Number</label>
           <input
             id="accNumber"
             pInputText
             type="text"
             class="w-full"
             formControlName="accNumber"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 20)"
           />
         </div>
         <div class="field col-12 md:col-4">
-          <label for="accHolderName">Account Holder Name</label>
+          <label for="accHolderName" class="required"
+            >Account Holder Name</label
+          >
           <input
             id="accHolderName"
             pInputText
             type="text"
             class="w-full"
             formControlName="accHolderName"
+            maxlength="60"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           />
         </div>
         <div class="field col-12 md:col-8">
-          <label for="accHolderAddress">Account Holder Address</label>
+          <label for="accHolderAddress" class="required"
+            >Account Holder Address</label
+          >
           <input
             id="accHolderAddress"
             pInputText
             type="text"
             class="w-full"
             formControlName="accHolderAddress"
+            maxlength="100"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
           />
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="grid">
-    <div class="col-12">
-      <div class="ButtonFooterCustom" style="float: right">
-        <p-button
-          label="Save"
-          (onClick)="submit()"
-          icon="pi pi-save"
-          iconPos="left"
-        ></p-button>
       </div>
     </div>
   </div>

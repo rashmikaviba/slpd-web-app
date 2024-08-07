@@ -18,88 +18,42 @@ export class TransactionHandlerService {
     private resource: ResourceService
   ) {}
 
-  GetVersionNo() {
+  // UploadImage(imageStream: any, type: number) {
+  //   return this.dataAccess
+  //     .UPLOAD_IMAGE(
+  //       this.resource.uploadFile.uploadFile + `?type=${type}`,
+  //       imageStream
+  //     )
+  //     .pipe((result) => {
+  //       return result;
+  //     });
+  // }
+
+  // UploadFileToBookingRoom(imageStream: any, bookingRoomId: number) {
+  //   return this.dataAccess
+  //     .UPLOAD_IMAGE(
+  //       this.resource.uploadFile.uploadFileBR +
+  //         `?bookingRoomId=${bookingRoomId}`,
+  //       imageStream
+  //     )
+  //     .pipe((result) => {
+  //       return result;
+  //     });
+  // }
+
+  userLogin(body: any) {
     return this.dataAccess
-      .GET(this.resource.common.getVersionNo)
-      .pipe((result) => {
-        return result;
+      ._POST(this.resource.auth.login, body)
+      .pipe((response) => {
+        return response;
       });
   }
 
-  SignIn(body: any) {
-    body.ClientId = "099153c2625149bc8ecb3e85e03f0022";
-
-    var formBody: any = [];
-    for (var property in body) {
-      var encodedKey = property;
-      var encodedValue = body[property];
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-
-    formBody = formBody.join("&");
+  userResetPassword(userId: string) {
     return this.dataAccess
-      .AUTH_POST(this.resource.auth.signIn, formBody)
-      .pipe((result) => {
-        return result;
-      });
-  }
-
-  ReadSystemDate() {
-    return this.dataAccess
-      .GET(this.resource.system.getSystemWorkingDate)
-      .pipe((result) => {
-        return result;
-      });
-  }
-
-  RefreshToken(body: any) {
-    var formBody: any = [];
-
-    for (var property in body) {
-      var encodedKey = property;
-      var encodedValue = body[property];
-      formBody.push(encodedKey + "=" + encodedValue);
-    }
-    formBody = formBody.join("&");
-    return this.dataAccess.AUTH_POST(this.resource.auth.refreshToken, body);
-  }
-
-  UploadImage(imageStream: any, type: number) {
-    return this.dataAccess
-      .UPLOAD_IMAGE(
-        this.resource.uploadFile.uploadFile + `?type=${type}`,
-        imageStream
-      )
-      .pipe((result) => {
-        return result;
-      });
-  }
-
-  UploadFileToBookingRoom(imageStream: any, bookingRoomId: number) {
-    return this.dataAccess
-      .UPLOAD_IMAGE(
-        this.resource.uploadFile.uploadFileBR +
-          `?bookingRoomId=${bookingRoomId}`,
-        imageStream
-      )
-      .pipe((result) => {
-        return result;
-      });
-  }
-
-  GetFIlesByParams(type: number, id: number) {
-    return this.dataAccess
-      .GET(this.resource.uploadFile.GetFilesByParam + `?type=${type}&id=${id}`)
-      .pipe((result) => {
-        return result;
-      });
-  }
-
-  DeleteFile(id: number) {
-    return this.dataAccess
-      .DELETE(this.resource.uploadFile.deleteFile + `/${id}`)
-      .pipe((result) => {
-        return result;
+      .PUT(this.resource.auth.resetPassword + `/${userId}`, null)
+      .pipe((response) => {
+        return response;
       });
   }
 }

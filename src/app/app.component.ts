@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostListener, TemplateRef } from "@angular/core";
 import { PrimeNGConfig } from "primeng/api";
 import { SidebarService } from "./shared/services/sidebar.service";
 import { DataAccessService } from "./shared/services/data-access.service";
@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
 })
 export class AppComponent {
   componentList: any[] = [];
+  footer: TemplateRef<any>;
   layoutMode = "static";
   sidebarVisible = false;
   sidebarProperties: any;
@@ -24,6 +25,7 @@ export class AppComponent {
   idleState = "Not started.";
   timedOut = false;
   lastPing?: Date = null;
+  isSidebarFullSize: boolean = false;
 
   inputStyle = "outlined";
 
@@ -55,6 +57,22 @@ export class AppComponent {
         this.msgService.DismissLoading();
       }
     });
+
+    this.checkScreenWidth();
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event) {
+    this.checkScreenWidth();
+  }
+
+  checkScreenWidth() {
+    const width = window.innerWidth;
+    if (width < 1024) {
+      this.isSidebarFullSize = true;
+    } else {
+      this.isSidebarFullSize = false;
+    }
   }
 
   ngAfterContentChecked() {
@@ -65,6 +83,7 @@ export class AppComponent {
     this.componentList = this.sidebarService.getComponentList();
     this.sidebarProperties = this.sidebarService.getProperties();
     this.sidebarHeader = this.sidebarService.getHeader();
+    this.footer = this.sidebarService.getFooterTemplate();
 
     if (this.componentList.length > 0) {
       this.sidebarVisible = true;
