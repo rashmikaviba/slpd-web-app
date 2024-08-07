@@ -31,10 +31,9 @@ export class SignInComponent {
 
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
-    private popupService: PopupService,
+    private popupService: PopupService
   ) {
     this.createForm();
-    this.GetSystemInformation();
   }
 
   ngOnInit(): void {
@@ -48,7 +47,6 @@ export class SignInComponent {
     this.FV.formGroup = this.formBuilder.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
-      hotelId: ["", Validators.required],
     });
   }
 
@@ -59,44 +57,28 @@ export class SignInComponent {
     }
   }
 
-  GetSystemInformation() {
-    this.transactionService.GetVersionNo().subscribe((result) => {
-      if (result.IsSuccessful) {
-        this.systemInformation = result.Result;
+  onLogin() {
+    if (this.FV.formGroup.invalid) {
+      this.FV.showErrors();
+      return;
+    }
+
+    let userName = this.FV.getValue("username");
+    let password = this.FV.getValue("password");
+
+    let request = {
+      userName: userName,
+      password: password,
+    };
+
+    this.transactionService.userLogin(request).subscribe((response) => {
+      if (response.IsSuccessful) {
+        this.messageService.showSuccessAlert(response.Message);
+        this.masterDataService.setUserData(response.Result);
+        this.router.navigate(["/dashboard"]);
+      } else {
+        this.messageService.showErrorAlert(response.Message);
       }
     });
-  }
-
-  onLogin() {
-    this.router.navigate(['/dashboard']);
-    // this.GetSystemInformation();
-    // if (this.FV.formGroup.invalid) {
-    //   this.FV.showErrors();
-    //   return;
-    // }
-
-    // let username = this.FV.getValue("username");
-    // let password = this.FV.getValue("password");
-    // let hotelId = this.FV.getValue("hotelId");
-
-    // let request = {
-    //   username: username,
-    //   password: password,
-    //   HotelId: hotelId,
-    //   grant_type: "password",
-    // };
-
-    // this.transactionService.SignIn(request).subscribe((result: any) => {
-    //   if (result.access_token) {
-    //     this.masterDataService.setUserData(result);
-    //     this.masterDataService.HotelId = hotelId;
-    //     this.messageService.showSuccessAlert("Login Successful!");
-    //     this.initializeApp();
-    //   } else {
-    //     this.messageService.showErrorAlert(
-    //       "The username, password or hotel code is incorrect!"
-    //     );
-    //   }
-    // });
   }
 }
