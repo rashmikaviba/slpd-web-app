@@ -24,7 +24,7 @@ export class DefaultLayoutNewComponent {
     this.DynamicItems = [
       { menuId: 1, label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
       { menuId: 2, label: 'User', icon: 'pi pi-user', routerLink: '/user' },
-      { menuId: 3, label: 'Leave Management', icon: 'pi pi-user', routerLink: '/leave-management' },
+      { menuId: 3, label: 'Leave Management', icon: 'pi pi-user', routerLink: '/leave-management/super-admin-leave' },
     ]
 
     this.ModuleActivate(module);
