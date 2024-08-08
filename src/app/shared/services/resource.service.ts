@@ -18,6 +18,7 @@ export class ResourceService {
     login: this.Auth + "/login",
     resetPassword: this.Auth + "/resetPassword",
     changePassword: this.Auth + "/changePassword",
+    refreshAuth: this.Auth + "/refreshAuth",
   };
 
   store = {

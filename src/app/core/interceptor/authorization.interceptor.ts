@@ -38,9 +38,12 @@ export class AuthorizationInterceptor implements HttpInterceptor {
   }
 
   handleUnAuthorizedError(req: HttpRequest<any>, next: HttpHandler) {
-    let body = {
-      grant_type: "refresh_token",
-    };
+    this.messageService.showErrorAlert(
+      "Your session has expired. Please login again."
+    );
+
+    this.masterData.clearLoginData();
+    this.router.navigate(["/login"]);
     return next.handle(req);
     // return this.transactionHandler.RefreshToken(body).pipe(
     //   switchMap((data: any) => {

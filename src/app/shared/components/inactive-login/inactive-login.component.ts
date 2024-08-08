@@ -50,10 +50,20 @@ export class InactiveLoginComponent implements OnInit {
     let password = this.FV.getValue("password");
 
     let request = {
-      username: this.masterDataService.CurrentUserName,
       password: password,
-      grant_type: "password",
     };
+
+    this.transactionService
+      .refreshAuthentication(request)
+      .subscribe((response) => {
+        if (response.IsSuccessful) {
+          this.messageService.showSuccessAlert(response.Message);
+          this.masterDataService.SessionKey = response.Result;
+          this.ref.close(true);
+        } else {
+          this.messageService.showErrorAlert(response.Message);
+        }
+      });
   }
 
   cancel() {

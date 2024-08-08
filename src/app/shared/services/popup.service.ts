@@ -13,6 +13,7 @@ import { map } from "rxjs/operators";
 export class PopupService {
   openDynamicDialogRefs: DynamicDialogRef[] = [];
   private openedModals: Array<string>;
+
   constructor(private dialogService: DialogService) {
     this.openedModals = [];
   }

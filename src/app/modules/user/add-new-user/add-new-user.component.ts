@@ -11,6 +11,7 @@ import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
 import { languages } from "../../../shared/data/languages";
 import { ExcelService } from "../../../shared/services/excel.service";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-add-new-user",
@@ -34,7 +35,8 @@ export class AddNewUserComponent {
     private userService: UserService,
     private messageService: AppMessageService,
     private transactionService: TransactionHandlerService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -294,6 +296,10 @@ export class AddNewUserComponent {
       { field: "isBlackListed", header: "Is Black Listed" },
       { field: "languageNames", header: "Languages" },
       { field: "roleName", header: "Role" },
+      { field: "createdUser", header: "Created User" },
+      { field: "updatedUser", header: "Last Updated User" },
+      { field: "createdAt", header: "Created Date" },
+      { field: "updatedAt", header: "Last Updated Date" },
     ];
 
     let excelData: any[] = [];
@@ -327,6 +333,16 @@ export class AddNewUserComponent {
         isBlackListed: item.isBlackListed ? "Yes" : "No",
         languageNames: languageNames.slice(0, -2),
         roleName: item.roleName,
+        createdUser: item.createdUser,
+        updatedUser: item.updatedUser,
+        createdAt: this.datePipe.transform(
+          item.createdAt,
+          "dd/MM/yyyy HH:mm:ss"
+        ),
+        updatedAt: this.datePipe.transform(
+          item.updatedAt,
+          "dd/MM/yyyy HH:mm:ss"
+        ),
       };
 
       excelData.push(obj);

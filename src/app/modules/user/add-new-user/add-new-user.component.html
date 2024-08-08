@@ -62,7 +62,12 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr>
-      <td *ngFor="let col of columns">
+      <td
+        *ngFor="let col of columns"
+        [ngClass]="{
+          'line-through	': rowData.isBlackListed
+        }"
+      >
         {{ rowData[col.field] }}
       </td>
       <td class="text-center">
