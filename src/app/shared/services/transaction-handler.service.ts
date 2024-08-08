@@ -56,4 +56,12 @@ export class TransactionHandlerService {
         return response;
       });
   }
+
+  refreshAuthentication(body: any) {
+    return this.dataAccess
+      .POST(this.resource.auth.refreshAuth, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }
