@@ -8,9 +8,9 @@ describe('SuperAdminLeaveFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SuperAdminLeaveFormComponent ]
+      declarations: [SuperAdminLeaveFormComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SuperAdminLeaveFormComponent);
     component = fixture.componentInstance;

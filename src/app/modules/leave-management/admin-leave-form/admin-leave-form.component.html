@@ -1,1 +1,172 @@
-<p>admin-leave-form works!</p>
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="">
+    <div class="flex justify-content-between align-items-center mb-4">
+      <div class="text-2xl font-semibold">Admin Leave Management</div>
+      <p-button
+        styleClass=" mr-2"
+        icon="pi pi-plus"
+        label="Request Leave"
+        (onClick)="onClickAddNew()"
+      ></p-button>
+    </div>
+    <p-table
+      #dt
+      styleClass=""
+      [columns]="cols"
+      [value]="recodes"
+      dataKey="_id"
+      [rows]="10"
+      styleClass="p-datatable-gridlines"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [loading]="loading"
+      [paginator]="true"
+      [rowHover]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['fullName', 'userName']"
+    >
+      <ng-template pTemplate="caption">
+        <!-- <div class="flex justify-content-between"> -->
+        <!--**********************First Style********************-->
+        <!-- <div class="p-fluid grid formgrid">
+            <div class="field col-12 md:col-2">
+              <label for="rejectedLeaves">Rejected Leaves</label>
+              <input
+                id="rejectedLeaves"
+                pInputText
+                type="text"
+                class="w-full"
+                formControlName="rejectedLeaves"
+              />
+            </div>
+            <div class="field col-12 md:col-2">
+              <label for="rejectedLeaves">Leaves Taken</label>
+              <input
+                id="leavesTaken"
+                pInputText
+                type="text"
+                class="w-full"
+                formControlName="leavesTaken"
+              />
+            </div>
+            <div class="field col-12 md:col-2">
+              <label for="rejectedLeaves">Pending Leaves</label>
+              <input
+                id="pendingLeaves"
+                pInputText
+                type="text"
+                class="w-full"
+                formControlName="pendingLeaves"
+              />
+            </div>
+          </div> -->
+        <!--**********************Second Style********************-->
+        <div class="p-fluid grid formgrid">
+          <div class="field col-12 md:col-4">
+            <div class="card shadow-1">
+              <label for="pendingLeaves">Pending Leaves</label>
+              <div class="text-center mt-3">
+                <label class="text-xl text-green-500">20</label>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <div class="card shadow-1">
+              <label for="leavesTaken">Leaves Taken</label>
+              <div class="text-center mt-3">
+                <label class="text-xl text-blue-500">20</label>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <div class="card shadow-1">
+              <label for="rejectedLeaves">Rejected Leaves</label>
+              <div class="text-center mt-3">
+                <label class="text-xl text-red-500">12</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-content-between">
+          <p-iconField iconPosition="left" class="ml-auto">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search Leave"
+            />
+          </p-iconField>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            <ng-container *ngIf="col.field == 'status'">
+              <div class="text-center">{{ col.header }}</div>
+            </ng-container>
+            <ng-container *ngIf="col.field != 'status'">
+              {{ col.header }}
+            </ng-container>
+          </th>
+          <th class="text-center">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <ng-container *ngIf="col.field == 'status'">
+              <div class="text-center">
+                <button
+                  [pTooltip]="
+                    rowData.status == 'Rejected' ? rowData.rejectedReason : ''
+                  "
+                  pButton
+                  [class]="
+                    rowData.status == 'Rejected'
+                      ? 'text-center p-button-outlined p-button-danger'
+                      : 'text-center p-button-outlined p-button-success'
+                  "
+                  label="{{ rowData[col.field] }}"
+                ></button>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="col.field != 'status'">
+              {{ rowData[col.field] }}
+            </ng-container>
+          </td>
+          <td class="text-center">
+            <button
+              #btn
+              type="button"
+              pButton
+              icon="pi pi-ellipsis-v"
+              (click)="toggleMenu(menu, $event, rowData)"
+            ></button>
+            <p-tieredMenu
+              #menu
+              [model]="filteredItems"
+              [popup]="true"
+              appendTo="body"
+            ></p-tieredMenu>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length + 2">
+            <div
+              class="flex flex-column justify-content-center align-items-center gap-2"
+              style="height: 300px"
+            >
+              <i class="pi pi-inbox text-5xl text-gray-400"></i>
+              <small class="">No Leaves Found</small>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</form>
