@@ -34,13 +34,19 @@ import { LeaveManagementRoutingModule } from './leave-management-routing.module'
 import { SuperAdminLeaveFormComponent } from './super-admin-leave-form/super-admin-leave-form.component';
 import { AdminLeaveFormComponent } from './admin-leave-form/admin-leave-form.component';
 import { DriverLeaveFormComponent } from './driver-leave-form/driver-leave-form.component';
+import { LeaveConfirmationComponent } from './super-admin-leave-form/leave-confirmation/leave-confirmation.component';
+import { RequestLeaveByAdminComponent } from './admin-leave-form/request-leave-by-admin/request-leave-by-admin.component';
+import { RequestLeaveByDriverComponent } from './driver-leave-form/request-leave-by-driver/request-leave-by-driver.component';
 
 
 @NgModule({
   declarations: [
     SuperAdminLeaveFormComponent,
     AdminLeaveFormComponent,
-    DriverLeaveFormComponent
+    DriverLeaveFormComponent,
+    LeaveConfirmationComponent,
+    RequestLeaveByAdminComponent,
+    RequestLeaveByDriverComponent
   ],
   imports: [
     CommonModule,
