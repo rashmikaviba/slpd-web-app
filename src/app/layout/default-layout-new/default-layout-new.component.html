@@ -125,7 +125,7 @@
             <!-- <li> -->
             <ul class="p-0 m-0 overflow-hidden">
               <ng-container *ngFor="let item of DynamicItems">
-                <li routerLink="/user">
+                <li *ngIf="item.isVisible">
                   <a
                     id="{{ item.label }}"
                     pRipple

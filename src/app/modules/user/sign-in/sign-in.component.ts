@@ -71,16 +71,16 @@ export class SignInComponent {
       password: password,
     };
 
-    this.router.navigate(["/dashboard"]);
+    // this.router.navigate(["/dashboard"]);
 
-    // this.transactionService.userLogin(request).subscribe((response) => {
-    //   if (response.IsSuccessful) {
-    //     this.messageService.showSuccessAlert(response.Message);
-    //     this.masterDataService.setUserData(response.Result);
-    //     this.router.navigate(["/dashboard"]);
-    //   } else {
-    //     this.messageService.showErrorAlert(response.Message);
-    //   }
-    // });
+    this.transactionService.userLogin(request).subscribe((response) => {
+      if (response.IsSuccessful) {
+        this.messageService.showSuccessAlert(response.Message);
+        this.masterDataService.setUserData(response.Result);
+        this.router.navigate(["/dashboard"]);
+      } else {
+        this.messageService.showErrorAlert(response.Message);
+      }
+    });
   }
 }

@@ -1,0 +1,40 @@
+<p-table
+  #dt
+  styleClass=""
+  [columns]="cols"
+  [value]="recodes"
+  dataKey="_id"
+  [rows]="10"
+  styleClass="p-datatable-gridlines"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [paginator]="true"
+  [rowHover]="true"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [globalFilterFields]="['fullName', 'userName']"
+  [scrollable]="true"
+  [scrollHeight]="'calc(100vh - 300px)'"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
+      <th class="text-center">Action</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length + 2">
+        <div
+          class="flex flex-column justify-content-center align-items-center gap-2"
+          style="height: calc(100vh - 410px)"
+        >
+          <i class="pi pi-inbox text-5xl text-gray-400"></i>
+          <small class="">No Users Found</small>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

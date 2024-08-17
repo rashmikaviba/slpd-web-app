@@ -1,7 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
 import { InputTextModule } from "primeng/inputtext";
 import { ButtonModule } from "primeng/button";
 import { PasswordModule } from "primeng/password";
@@ -29,31 +27,26 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 import { InputNumberModule } from "primeng/inputnumber";
 import { IconFieldModule } from "primeng/iconfield";
 import { InputIconModule } from "primeng/inputicon";
+import { StepperModule } from "primeng/stepper";
 
-import { LeaveManagementRoutingModule } from "./leave-management-routing.module";
-import { SuperAdminLeaveFormComponent } from "./super-admin-leave-form/super-admin-leave-form.component";
-import { AdminLeaveFormComponent } from "./admin-leave-form/admin-leave-form.component";
-import { DriverLeaveFormComponent } from "./driver-leave-form/driver-leave-form.component";
-import { LeaveConfirmationComponent } from "./super-admin-leave-form/leave-confirmation/leave-confirmation.component";
-import { RequestLeaveByAdminComponent } from "./admin-leave-form/request-leave-by-admin/request-leave-by-admin.component";
-import { RequestLeaveByDriverComponent } from "./driver-leave-form/request-leave-by-driver/request-leave-by-driver.component";
-import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
+import { MonthAuditRoutingModule } from "./month-audit-routing.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MonthAuditComponent } from "./month-audit/month-audit.component";
+import { PendingLeaveComponent } from "./month-audit/pending-leave/pending-leave.component";
+import { CreateNewMonthComponent } from "./month-audit/create-new-month/create-new-month.component";
 
 @NgModule({
   declarations: [
-    SuperAdminLeaveFormComponent,
-    AdminLeaveFormComponent,
-    DriverLeaveFormComponent,
-    LeaveConfirmationComponent,
-    RequestLeaveByAdminComponent,
-    RequestLeaveByDriverComponent,
-    DynamicComponentLoaderComponent,
+    MonthAuditComponent,
+    PendingLeaveComponent,
+    CreateNewMonthComponent,
   ],
   imports: [
     CommonModule,
+    MonthAuditRoutingModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    LeaveManagementRoutingModule,
     ButtonModule,
     InputTextModule,
     CheckboxModule,
@@ -82,6 +75,7 @@ import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dyna
     InputNumberModule,
     IconFieldModule,
     InputIconModule,
+    StepperModule,
   ],
 })
-export class LeaveManagementModule {}
+export class MonthAuditModule {}

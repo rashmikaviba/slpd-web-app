@@ -7,12 +7,15 @@ export class MasterDataService {
   constructor(private helper: HelperService) {}
 
   setUserData(loginData: any) {
-    this.MenuList = loginData?.Menus ?? [];
+    this.MenuList = loginData?.moduleIds ?? [];
     this.SessionKey = loginData.token;
     this.ClientId = loginData.user._id;
     this.CurrentUserName = loginData.user.userName;
     this.Role = loginData.role;
     this.TimedOut = "false";
+    this.WorkingMonth = loginData.workingMonth;
+    this.WorkingYear = loginData.workingYear;
+    this.WorkingDate = loginData.workingDate;
   }
 
   get TimedOut(): any {
@@ -64,6 +67,30 @@ export class MasterDataService {
     return localStorage.getItem(AppKeys.Role) ?? "";
   }
 
+  set WorkingMonth(month: any) {
+    localStorage.setItem(AppKeys.WorkingMonth, month);
+  }
+
+  get WorkingMonth(): any {
+    return localStorage.getItem(AppKeys.WorkingMonth) ?? "";
+  }
+
+  set WorkingYear(year: any) {
+    localStorage.setItem(AppKeys.WorkingYear, year);
+  }
+
+  get WorkingYear(): any {
+    return localStorage.getItem(AppKeys.WorkingYear) ?? "";
+  }
+
+  set WorkingDate(date: any) {
+    localStorage.setItem(AppKeys.WorkingDate, date);
+  }
+
+  get WorkingDate(): any {
+    return localStorage.getItem(AppKeys.WorkingDate) ?? "";
+  }
+
   clearLoginData() {
     localStorage.removeItem(AppKeys.SessionKey);
     localStorage.removeItem(AppKeys.MenuList);
@@ -71,6 +98,9 @@ export class MasterDataService {
     localStorage.removeItem(AppKeys.ClientId);
     localStorage.removeItem(AppKeys.TimedOut);
     localStorage.removeItem(AppKeys.Role);
+    localStorage.removeItem(AppKeys.WorkingMonth);
+    localStorage.removeItem(AppKeys.WorkingYear);
+    localStorage.removeItem(AppKeys.WorkingDate);
   }
 }
 
@@ -81,4 +111,7 @@ export class AppKeys {
   static readonly ClientId = "ClientId";
   static readonly TimedOut = "TimedOut";
   static readonly Role = "Role";
+  static readonly WorkingMonth = "WorkingMonth";
+  static readonly WorkingYear = "WorkingYear";
+  static readonly WorkingDate = "WorkingDate";
 }

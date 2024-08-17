@@ -6,29 +6,37 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
 // import { LeaveManagementComponent } from "./modules/leave-management/leave-management.component";
 
 const routes: Routes = [
-
-  { path: '', component: SignInComponent, pathMatch: 'full' },
-  { path: 'login', component: SignInComponent },
+  { path: "", component: SignInComponent, pathMatch: "full" },
+  { path: "login", component: SignInComponent },
   {
-    path: 'dashboard', component: DefaultLayoutNewComponent,
+    path: "dashboard",
+    component: DefaultLayoutNewComponent,
     children: [
       {
-        path: '',
-        component: DefaultDashboardComponent
-      }
-    ]
+        path: "",
+        component: DefaultDashboardComponent,
+      },
+    ],
   },
-  { path: 'user', loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule) },
-  { path: 'leave-management', loadChildren: () => import('./modules/leave-management/leave-management.module').then(m => m.LeaveManagementModule) },
-  // {
-  //   path: 'leave-management', component: DefaultLayoutNewComponent,
-  //   children: [
-  //     {
-  //       path: '',
-  //       component: LeaveManagementComponent
-  //     }
-  //   ]
-  // },
+  {
+    path: "user",
+    loadChildren: () =>
+      import("./modules/user/user.module").then((m) => m.UserModule),
+  },
+  {
+    path: "leave-management",
+    loadChildren: () =>
+      import("./modules/leave-management/leave-management.module").then(
+        (m) => m.LeaveManagementModule
+      ),
+  },
+  {
+    path: "month-audit",
+    loadChildren: () =>
+      import("./modules/month-audit/month-audit.module").then(
+        (m) => m.MonthAuditModule
+      ),
+  },
 ];
 
 @NgModule({
@@ -47,4 +55,4 @@ const routes: Routes = [
   // ],
   // exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
