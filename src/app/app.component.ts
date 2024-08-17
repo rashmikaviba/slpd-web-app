@@ -91,16 +91,11 @@ export class AppComponent {
   }
 
   sideDrawer() {
-    // let packData = [
-    //     {name:"shifan"},
-    //     {age:"26"}
-    // ]
-    // this.sidebarService.sidebarEvent.emit(packData);
     this.sidebarService.removeComponent();
     this.sidebarVisible = false;
   }
   configureIdle() {
-    this.idle.setIdle(15 * 60); // 5 minutes of inactivity
+    this.idle.setIdle(15 * 60); // 15 minutes of inactivity
     this.idle.setTimeout(1); // after 1 second of inactivity, prompt the login
     this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 

@@ -1,6 +1,6 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
   <div class="">
-    <div class="text-2xl font-semibold mb-4">Super Admin Leave Management</div>
+    <div class="text-2xl font-semibold mb-4">Leave Management</div>
     <p-table
       #dt
       styleClass=""
@@ -10,25 +10,14 @@
       [rows]="10"
       styleClass="p-datatable-gridlines"
       [rowsPerPageOptions]="[10, 25, 50]"
-      [loading]="loading"
       [paginator]="true"
       [rowHover]="true"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="['fullName', 'userName']"
+      [globalFilterFields]="['appliedUserName']"
     >
       <ng-template pTemplate="caption">
         <div class="flex justify-content-between">
-          <!-- <button
-              type="button"
-              pButton
-              pRipple
-              icon="pi pi-file-excel"
-              class="p-button-success"
-              pTooltip="Export to XLS"
-              tooltipPosition="right"
-              (click)="exportToExcel()"
-            ></button> -->
           <p-dropdown
             id="leaveType"
             [options]="leaveTypes"
@@ -37,6 +26,11 @@
             [style]="{ width: '200px' }"
             appendTo="body"
             placeholder="Select Leave Type"
+            [showClear]="true"
+            optionValue="id"
+            [autoOptionFocus]="false"
+            (onChange)="onLeaveTypeChange($event)"
+            (onClear)="onLeaveTypeChange($event)"
           ></p-dropdown>
 
           <p-iconField iconPosition="left" class="ml-auto">
@@ -50,31 +44,175 @@
               placeholder="Search User"
             />
           </p-iconField>
-
-          <!-- </div> -->
         </div>
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th *ngFor="let col of columns">
+          <th
+            *ngFor="let col of columns"
+            [ngClass]="{
+              'text-center':
+                col.field == 'status' ||
+                col.field == 'availableLeaveCount' ||
+                col.field == 'dateCount'
+            }"
+          >
             {{ col.header }}
           </th>
           <th class="text-center">Action</th>
         </tr>
       </ng-template>
+
       <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
-          <td *ngFor="let col of columns">
-            {{ rowData[col.field] }}
+          <td
+            *ngFor="let col of columns"
+            [ngClass]="{
+              'text-center':
+                col.field == 'status' ||
+                col.field == 'availableLeaveCount' ||
+                col.field == 'dateCount'
+            }"
+          >
+            <ng-container *ngIf="col.field == 'status'">
+              <div class="text-center">
+                <p-button
+                  [severity]="
+                    rowData.status == 1
+                      ? 'secondary'
+                      : rowData.status == 2
+                      ? 'success'
+                      : 'danger'
+                  "
+                  outlined="true"
+                  label="{{ rowData.statusName }}"
+                ></p-button>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="col.field == 'createdAt'">
+              <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
+            </ng-container>
+
+            <ng-container *ngIf="col.field == 'startDate'">
+              <span *ngIf="rowData.dateCount == 1">{{
+                rowData.startDate | date : "dd/MM/yyyy"
+              }}</span>
+              <span *ngIf="rowData.dateCount > 1"
+                >{{ rowData.startDate | date : "dd-MM-yyyy" }} -
+                {{ rowData.endDate | date : "dd-MM-yyyy" }}</span
+              >
+            </ng-container>
+            <ng-container
+              *ngIf="
+                col.field != 'status' &&
+                col.field != 'startDate' &&
+                col.field != 'createdAt'
+              "
+            >
+              {{ rowData[col.field] || "-" }}
+            </ng-container>
           </td>
           <td class="text-center">
-            <button
-              #btn
-              type="button"
-              pButton
-              icon="pi pi-ellipsis-v"
-              (click)="toggleMenu(menu, $event, rowData)"
-            ></button>
+            <div
+              class="flex flex-wrap justify-content-center align-content-center gap-1"
+            >
+              <button
+                #btn
+                type="button"
+                pButton
+                icon="pi pi-ellipsis-v"
+                (click)="toggleMenu(menu, $event, rowData)"
+                [disabled]="rowData.isMonthEndDone"
+              ></button>
+
+              <!-- Info Button -->
+              <button
+                type="button"
+                pButton
+                icon="pi pi-info-circle"
+                class="p-button-info"
+                (click)="op.toggle($event)"
+                [disabled]="rowData.status == 1"
+                pTooltip="View Info"
+                tooltipPosition="bottom"
+              ></button>
+
+              <p-overlayPanel #op>
+                <div class="flex flex-column gap-3 w-24rem">
+                  <div>
+                    <span class="font-medium text-900 block mb-2">{{
+                      rowData.status == 2
+                        ? "Approved User/Date"
+                        : rowData.status == 3
+                        ? "Rejected User/Date"
+                        : ""
+                    }}</span>
+
+                    <p-inputGroup>
+                      <input
+                        pInputText
+                        value="{{
+                          rowData.status == 2
+                            ? rowData.approvedUser
+                            : rowData.status == 3
+                            ? rowData.rejectedUser
+                            : ''
+                        }}"
+                        readonly
+                        class="w-12rem"
+                        [disabled]="true"
+                      />
+                      <input
+                        pInputText
+                        value="{{
+                          rowData.status == 2
+                            ? (rowData.approveDate | date : 'dd-MM-yyyy h:mm a')
+                            : rowData.status == 3
+                            ? (rowData.rejectDate | date : 'dd-MM-yyyy h:mm a')
+                            : ''
+                        }}"
+                        readonly
+                        class="w-12rem"
+                        [disabled]="true"
+                      />
+                    </p-inputGroup>
+                  </div>
+
+                  <div *ngIf="rowData.rejectReason || rowData.approveRemark">
+                    <span class="font-medium text-900 block mb-2">{{
+                      rowData.status == 2
+                        ? "Approved Remark"
+                        : rowData.status == 3
+                        ? "Rejected Remark"
+                        : ""
+                    }}</span>
+                    <textarea
+                      pInputTextarea
+                      [(ngModel)]="rowData.approveRemark"
+                      readonly
+                      class="w-24rem"
+                      style="resize: none"
+                      rows="3"
+                      [ngModelOptions]="{ standalone: true }"
+                      [disabled]="true"
+                      *ngIf="rowData.status == 2"
+                    ></textarea>
+                    <textarea
+                      pInputTextarea
+                      [(ngModel)]="rowData.rejectReason"
+                      readonly
+                      class="w-24rem"
+                      style="resize: none"
+                      rows="3"
+                      [ngModelOptions]="{ standalone: true }"
+                      [disabled]="true"
+                      *ngIf="rowData.status == 3"
+                    ></textarea>
+                  </div>
+                </div>
+              </p-overlayPanel>
+            </div>
             <p-tieredMenu
               #menu
               [model]="filteredItems"

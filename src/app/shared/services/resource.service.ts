@@ -13,6 +13,7 @@ export class ResourceService {
   private Auth = "/auth";
   private Store = "/store";
   private User = "/user";
+  private Leave = "/leave";
 
   auth = {
     login: this.Auth + "/login",
@@ -35,5 +36,15 @@ export class ResourceService {
     unblockUser: this.User + "/unblock",
     updateUser: this.User,
     deleteUser: this.User,
+  };
+
+  leave = {
+    saveLeave: this.Leave + "/apply",
+    getAllLeaves: this.Leave,
+    getLeaveById: this.Leave,
+    approveLeave: this.Leave + "/approve",
+    rejectLeave: this.Leave + "/reject",
+    cancel: this.Leave + "/cancel",
+    getLeaveCount: this.Leave + "/leaveCount",
   };
 }

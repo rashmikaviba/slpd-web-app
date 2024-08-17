@@ -29,6 +29,8 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 import { InputNumberModule } from "primeng/inputnumber";
 import { IconFieldModule } from "primeng/iconfield";
 import { InputIconModule } from "primeng/inputicon";
+import { InputGroupModule } from "primeng/inputgroup";
+import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 
 import { LeaveManagementRoutingModule } from "./leave-management-routing.module";
 import { SuperAdminLeaveFormComponent } from "./super-admin-leave-form/super-admin-leave-form.component";
@@ -82,6 +84,8 @@ import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dyna
     InputNumberModule,
     IconFieldModule,
     InputIconModule,
+    InputGroupModule,
+    InputGroupAddonModule,
   ],
 })
 export class LeaveManagementModule {}

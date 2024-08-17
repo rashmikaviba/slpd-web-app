@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { SignInComponent } from "./modules/user/sign-in/sign-in.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
+import { RouteGuardService } from "./shared/services/route-guard.service";
 // import { LeaveManagementComponent } from "./modules/leave-management/leave-management.component";
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
     path: "user",
     loadChildren: () =>
       import("./modules/user/user.module").then((m) => m.UserModule),
+    canActivate: [RouteGuardService],
   },
   {
     path: "leave-management",
@@ -29,6 +31,7 @@ const routes: Routes = [
       import("./modules/leave-management/leave-management.module").then(
         (m) => m.LeaveManagementModule
       ),
+    canActivate: [RouteGuardService],
   },
   {
     path: "month-audit",
@@ -36,6 +39,7 @@ const routes: Routes = [
       import("./modules/month-audit/month-audit.module").then(
         (m) => m.MonthAuditModule
       ),
+    canActivate: [RouteGuardService],
   },
 ];
 
