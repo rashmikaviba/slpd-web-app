@@ -46,5 +46,6 @@ export class ResourceService {
     rejectLeave: this.Leave + "/reject",
     cancel: this.Leave + "/cancel",
     getLeaveCount: this.Leave + "/leaveCount",
+    updateLeave: this.Leave + "/update",
   };
 }

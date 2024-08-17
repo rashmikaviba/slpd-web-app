@@ -1,23 +1,29 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
-  <div class="p-fluid grid formgrid p-4">
+  <div class="p-fluid grid formgrid">
     <div class="field col-12 md:col-6">
-      <label for="startDate">Start Date</label>
+      <label for="startDate" class="required">Start Date</label>
       <input
         id="startDate"
         pInputText
         type="date"
         class="w-full"
         formControlName="startDate"
+        [max]="maxValidateDate"
+        [min]="minValidateDate"
+        (change)="onChangeStartDate()"
       />
     </div>
     <div class="field col-12 md:col-6">
-      <label for="endDate">End Date</label>
+      <label for="endDate" class="required">End Date</label>
       <input
         id="endDate"
         pInputText
         type="date"
         class="w-full"
         formControlName="endDate"
+        [min]="endDateMinValidateDate"
+        [max]="endDateMaxValidateDate"
+        (change)="onChangeEndDate()"
       />
     </div>
     <div class="field col-12 md:col-6">
@@ -27,11 +33,25 @@
         pInputText
         type="number"
         class="w-full"
-        formControlName="dateCount"
+        [(ngModel)]="dateCount"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="true"
       />
     </div>
+    <!-- <div class="field col-12 md:col-6" *ngIf="showAvailableLeave">
+      <label for="dateCount">Available Leave</label>
+      <input
+        id="dateCount"
+        pInputText
+        type="number"
+        class="w-full"
+        [(ngModel)]="availableLeave"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="true"
+      />
+    </div> -->
     <div class="field col-12 md:col-12">
-      <label for="reason">Reason</label>
+      <label for="reason" class="required">Reason</label>
       <textarea
         id="reason"
         name="reason"
@@ -40,11 +60,22 @@
         class="w-full"
         formControlName="reason"
         style="resize: none"
+        maxlength="500"
+        pattern="^(?!\s*$).+"
       ></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isView">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("reason")?.length || 0 }} / 500</small
+        >
+      </div>
     </div>
   </div>
   <ng-template #templateRef>
-    <div class="flex justify-content-end align-items-center gap-2">
+    <div
+      class="flex justify-content-end align-items-center gap-2"
+      *ngIf="!isView"
+    >
       <p-button
         label="Cancel"
         icon="pi pi-times"
@@ -53,7 +84,7 @@
       ></p-button>
 
       <p-button
-        label="Save"
+        label="{{ isEdit ? 'Update' : 'Save' }}"
         icon="pi pi-save"
         iconPos="left"
         (click)="handleSave()"

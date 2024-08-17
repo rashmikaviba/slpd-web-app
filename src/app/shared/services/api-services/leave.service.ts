@@ -51,9 +51,9 @@ export class LeaveService {
       });
   }
 
-  CancelLeave(leaveId: string, body: any) {
+  CancelLeave(leaveId: string) {
     return this.dataAccess
-      .GET(this.resource.leave.cancel + `/${leaveId}`, body)
+      .PUT(this.resource.leave.cancel + `/${leaveId}`, null)
       .pipe((response) => {
         return response;
       });
@@ -61,7 +61,15 @@ export class LeaveService {
 
   GetLeaveCount() {
     return this.dataAccess
-      .GET(this.resource.leave.getLeaveCount)
+      .POST(this.resource.leave.getLeaveCount, null)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  UpdateLeave(leaveId: string, body: any) {
+    return this.dataAccess
+      .PUT(this.resource.leave.updateLeave + `/${leaveId}`, body)
       .pipe((response) => {
         return response;
       });
