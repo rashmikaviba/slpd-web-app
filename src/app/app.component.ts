@@ -100,7 +100,7 @@ export class AppComponent {
     this.sidebarVisible = false;
   }
   configureIdle() {
-    this.idle.setIdle(5 * 60); // 5 minutes of inactivity
+    this.idle.setIdle(15 * 60); // 5 minutes of inactivity
     this.idle.setTimeout(1); // after 1 second of inactivity, prompt the login
     this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
