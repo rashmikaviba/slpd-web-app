@@ -14,6 +14,7 @@ export class ResourceService {
   private Store = "/store";
   private User = "/user";
   private Leave = "/leave";
+  private MonthAudit = "/monthAudit";
 
   auth = {
     login: this.Auth + "/login",
@@ -47,5 +48,10 @@ export class ResourceService {
     cancel: this.Leave + "/cancel",
     getLeaveCount: this.Leave + "/leaveCount",
     updateLeave: this.Leave + "/update",
+    getEligibleLeaveForAdmin: this.Leave + "/eligibleLeaves",
+  };
+
+  monthAudit = {
+    getPendingLeaves: this.MonthAudit + "/pendingLeaves",
   };
 }

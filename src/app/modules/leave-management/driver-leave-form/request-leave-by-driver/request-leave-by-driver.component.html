@@ -70,6 +70,96 @@
         >
       </div>
     </div>
+
+    <ng-container
+      *ngIf="isView && (leaveData.status == 2 || leaveData.status == 3)"
+    >
+      <div class="field col-12 md:col-12">
+        <span class="font-medium text-900 block mt-2">{{
+          leaveData.status == 2
+            ? "APPROVED REMARK INFORMATION"
+            : leaveData.status == 3
+            ? "REJECTED REMARK INFORMATION"
+            : ""
+        }}</span>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label>{{
+          leaveData.status == 2
+            ? "Approved User"
+            : leaveData.status == 3
+            ? "Rejected User"
+            : ""
+        }}</label>
+        <input
+          pInputText
+          value="{{
+            leaveData.status == 2
+              ? leaveData.approvedUser
+              : leaveData.status == 3
+              ? leaveData.rejectedUser
+              : ''
+          }}"
+          readonly
+          [disabled]="true"
+        />
+      </div>
+      <div class="field col-12 md:col-6">
+        <label>{{
+          leaveData.status == 2
+            ? "Approved Date"
+            : leaveData.status == 3
+            ? "Rejected Date"
+            : ""
+        }}</label>
+        <input
+          pInputText
+          value="{{
+            leaveData.status == 2
+              ? (leaveData.approveDate | date : 'dd-MM-yyyy h:mm a')
+              : leaveData.status == 3
+              ? (leaveData.rejectDate | date : 'dd-MM-yyyy h:mm a')
+              : ''
+          }}"
+          readonly
+          [disabled]="true"
+        />
+      </div>
+
+      <div
+        class="field col-12 md:col-12"
+        *ngIf="leaveData.rejectReason || leaveData.approveRemark"
+      >
+        <label>{{
+          leaveData.status == 2
+            ? "Approved Remark"
+            : leaveData.status == 3
+            ? "Rejected Remark"
+            : ""
+        }}</label>
+        <textarea
+          pInputTextarea
+          [(ngModel)]="leaveData.approveRemark"
+          readonly
+          style="resize: none"
+          rows="3"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="true"
+          *ngIf="leaveData.status == 2"
+        ></textarea>
+        <textarea
+          pInputTextarea
+          [(ngModel)]="leaveData.rejectReason"
+          readonly
+          style="resize: none"
+          rows="3"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="true"
+          *ngIf="leaveData.status == 3"
+        ></textarea>
+      </div>
+    </ng-container>
   </div>
   <ng-template #templateRef>
     <div

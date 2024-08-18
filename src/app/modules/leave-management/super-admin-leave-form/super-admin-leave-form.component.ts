@@ -45,7 +45,8 @@ export class SuperAdminLeaveFormComponent {
     this.cols = [
       { field: "createdAt", header: "Applied Date" },
       { field: "appliedUserName", header: "Applied By" },
-      { field: "availableLeaveCount", header: "Pending Leave Count" },
+      { field: "appliedUserRole", header: "User Type" },
+      { field: "availableLeaveCount", header: "Available Leave Count" },
       { field: "dateCount", header: "Requested Leave Count" },
       { field: "startDate", header: "Requested Dates" },
       { field: "reason", header: "Reason" },

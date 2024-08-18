@@ -4,7 +4,7 @@
       <div class="field mb-3 mt-3 col-12 md:col-6">
         <div class="flex flex-column gap-2">
           <label class="text-lg font-bold" style="color: red"
-            >You are closing Month - {{ systemDate }}
+            >You are closing Month - {{ showWorkingDate }}
           </label>
 
           <label class="text-lg font-bold" style="color: red"
@@ -14,12 +14,12 @@
         <div class="flex gap-2 mt-3">
           <input
             id="selectDate"
-            formControlName="selectDate"
+            formControlName="selectMonth"
             style="width: 170px"
             pInputText
-            type="date"
-            min="{{ preventMinDate }}"
-            max="{{ preventMaxDate }}"
+            type="month"
+            min="{{ preventMinMonth }}"
+            max="{{ preventMaxMonth }}"
           />
           <p-button
             label="Finish"

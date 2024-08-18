@@ -17,10 +17,91 @@
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let col of columns">
+      <th
+        *ngFor="let col of columns"
+        [ngClass]="{
+          'text-center':
+            col.field == 'status' ||
+            col.field == 'availableLeaveCount' ||
+            col.field == 'dateCount'
+        }"
+      >
         {{ col.header }}
       </th>
       <th class="text-center">Action</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td
+        *ngFor="let col of columns"
+        [ngClass]="{
+          'text-center':
+            col.field == 'status' ||
+            col.field == 'availableLeaveCount' ||
+            col.field == 'dateCount'
+        }"
+      >
+        <ng-container *ngIf="col.field == 'status'">
+          <div class="text-center">
+            <p-button
+              [severity]="
+                rowData.status == 1
+                  ? 'secondary'
+                  : rowData.status == 2
+                  ? 'success'
+                  : 'danger'
+              "
+              outlined="true"
+              label="{{ rowData.statusName }}"
+            ></p-button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="col.field == 'createdAt'">
+          <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
+        </ng-container>
+
+        <ng-container *ngIf="col.field == 'startDate'">
+          <span *ngIf="rowData.dateCount == 1">{{
+            rowData.startDate | date : "dd/MM/yyyy"
+          }}</span>
+          <span *ngIf="rowData.dateCount > 1"
+            >{{ rowData.startDate | date : "dd-MM-yyyy" }} -
+            {{ rowData.endDate | date : "dd-MM-yyyy" }}</span
+          >
+        </ng-container>
+        <ng-container
+          *ngIf="
+            col.field != 'status' &&
+            col.field != 'startDate' &&
+            col.field != 'createdAt'
+          "
+        >
+          {{ rowData[col.field] || "-" }}
+        </ng-container>
+      </td>
+      <td class="text-center">
+        <div
+          class="flex flex-wrap justify-content-center align-content-center gap-1"
+        >
+          <button
+            #btn
+            type="button"
+            pButton
+            icon="pi pi-ellipsis-v"
+            (click)="toggleMenu(menu, $event, rowData)"
+            [disabled]="rowData.isMonthEndDone"
+          ></button>
+        </div>
+        <p-tieredMenu
+          #menu
+          [model]="filteredItems"
+          [popup]="true"
+          appendTo="body"
+        ></p-tieredMenu>
+      </td>
     </tr>
   </ng-template>
 

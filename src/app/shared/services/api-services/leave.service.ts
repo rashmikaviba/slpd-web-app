@@ -74,4 +74,12 @@ export class LeaveService {
         return response;
       });
   }
+
+  GetEligibleLeaveForAdmin() {
+    return this.dataAccess
+      .POST(this.resource.leave.getEligibleLeaveForAdmin, null)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }
