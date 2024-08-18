@@ -11,6 +11,7 @@ import { StoreService } from "../../../../shared/services/api-services/store.ser
 import { firstValueFrom } from "rxjs";
 import { WellKnownUploadType } from "src/app/shared/enums/well-known-upload-type.enum";
 import { UserService } from "src/app/shared/services/api-services/user.service";
+import { banks } from "src/app/shared/data/bankData";
 
 @Component({
   selector: "app-add-new-user-form",
@@ -184,7 +185,8 @@ export class AddNewUserFormComponent {
     let formData = this.bdc.FV.formGroup.value;
     this.userDetail = {
       ...this.userDetail,
-      bankName: formData.bankName,
+      bankName: banks.find((x) => x.id == formData.bankName)?.name,
+      bankId: formData.bankName,
       branch: formData.branchName,
       accountNumber: formData.accNumber,
       accountHolderName: formData.accHolderName,
@@ -380,6 +382,7 @@ export class AddNewUserFormComponent {
           }
         });
     } else if (index == 1) {
+      this.userDetail = this.addUserControlFlowService.getUserDetail();
       if (
         this.bdc.FV.validateControllers(
           "bankName,branchName,accNumber,accHolderName,accHolderAddress"
@@ -391,7 +394,8 @@ export class AddNewUserFormComponent {
       let formData = this.bdc.FV.formGroup.value;
       this.userDetail = {
         ...this.userDetail,
-        bankName: formData.bankName,
+        bankName: banks.find((x) => x.id == formData.bankName)?.name,
+        bankId: formData.bankName,
         branch: formData.branchName,
         accountNumber: formData.accNumber,
         accountHolderName: formData.accHolderName,
