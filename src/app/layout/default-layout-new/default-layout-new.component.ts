@@ -19,7 +19,7 @@ export class DefaultLayoutNewComponent {
     private router: Router,
     private sidebarService: SidebarService,
     private masterDataService: MasterDataService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.moduleIds = this.masterDataService.MenuList;
@@ -57,7 +57,7 @@ export class DefaultLayoutNewComponent {
       },
       {
         menuId: 4,
-        label: "Moth Audit",
+        label: "Month Audit",
         icon: "pi pi-briefcase",
         routerLink: "/month-audit",
         isVisible: this.checkUserAuthorizedToAccess([
