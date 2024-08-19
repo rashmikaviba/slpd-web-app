@@ -1,9 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, TemplateRef, ViewChild } from "@angular/core";
 import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { CommonForm } from "src/app/shared/services/app-common-form";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
+import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
 
 @Component({
   selector: "app-change-password",
@@ -13,12 +14,14 @@ import { MasterDataService } from "src/app/shared/services/master-data.service";
 export class ChangePasswordComponent {
   userId: number = 0;
   FV = new CommonForm();
+
   constructor(
     private messageService: AppMessageService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private formBuilder: UntypedFormBuilder,
     private masterDataService: MasterDataService,
+    private transactionService: TransactionHandlerService
   ) {
     this.createForm();
   }
@@ -51,10 +54,18 @@ export class ChangePasswordComponent {
     }
 
     let request = {
-      userId: this.userId,
-      CurrentPassword: oldPassword,
-      NewPassword: newPassword,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
     };
+
+    this.transactionService.changePassword(request).subscribe((response) => {
+      if (response.IsSuccessful) {
+        this.messageService.showSuccessAlert(response.Message);
+        this.ref.close();
+      } else {
+        this.messageService.showErrorAlert(response.Message);
+      }
+    });
   }
 
   onCancel() {

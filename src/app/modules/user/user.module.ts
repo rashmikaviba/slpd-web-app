@@ -33,6 +33,7 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 import { InputNumberModule } from "primeng/inputnumber";
 import { IconFieldModule } from "primeng/iconfield";
 import { InputIconModule } from "primeng/inputicon";
+import { ImageModule } from "primeng/image";
 
 import { AddNewUserComponent } from "./add-new-user/add-new-user.component";
 import { AddNewUserFormComponent } from "./add-new-user/add-new-user-form/add-new-user-form.component";
@@ -86,6 +87,7 @@ import { UploadVerificationsComponent } from "./add-new-user/add-new-user-form/u
     InputNumberModule,
     IconFieldModule,
     InputIconModule,
+    ImageModule,
   ],
 })
 export class UserModule {}

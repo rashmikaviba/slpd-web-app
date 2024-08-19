@@ -19,7 +19,7 @@
       [globalFilterFields]="['appliedUserName']"
     >
       <ng-template pTemplate="caption">
-        <div class="grid">
+        <div class="grid flex justify-content-between">
           <div class="col-12 md:col-3">
             <p-dropdown
               id="leaveType"
@@ -36,7 +36,7 @@
               (onClear)="onLeaveTypeChange($event)"
             ></p-dropdown>
           </div>
-          <div class="col-12 md:col-6"></div>
+
           <div class="col-12 md:col-3">
             <p-iconField iconPosition="left" class="ml-auto">
               <p-inputIcon>

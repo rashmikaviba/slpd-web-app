@@ -64,4 +64,12 @@ export class TransactionHandlerService {
         return response;
       });
   }
+
+  changePassword(body: any) {
+    return this.dataAccess
+      .PUT(this.resource.auth.changePassword, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }
