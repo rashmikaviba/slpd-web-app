@@ -1,7 +1,7 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
   <div class="">
     <div class="flex justify-content-between align-items-center mb-4">
-      <div class="text-2xl font-semibold">Admin Leave Management</div>
+      <div class="text-2xl font-semibold">Leave Management</div>
       <p-button
         styleClass=" mr-2"
         icon="pi pi-plus"
@@ -16,6 +16,8 @@
       [value]="recodes"
       dataKey="_id"
       [rows]="10"
+      responsiveLayout="stack"
+      [breakpoint]="'960px'"
       styleClass="p-datatable-gridlines"
       [rowsPerPageOptions]="[10, 25, 50]"
       [paginator]="true"
@@ -136,11 +138,17 @@
           <th class="text-center">Action</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+      >
         <tr>
           <td
             *ngFor="let col of columns"
             [ngClass]="{
+              'bg-blue': rowIndex % 2 !== 0,
               'text-center':
                 col.field == 'status' ||
                 col.field == 'availableLeaveCount' ||
@@ -148,6 +156,7 @@
             }"
           >
             <ng-container *ngIf="col.field == 'status'">
+              <span class="p-column-title font-bold">Status</span>
               <div class="text-center">
                 <p-button
                   [severity]="
@@ -164,19 +173,33 @@
             </ng-container>
 
             <ng-container *ngIf="col.field == 'createdAt'">
+              <span class="p-column-title font-bold">Applied Date</span>
               <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
             </ng-container>
 
+            <ng-container *ngIf="col.field == 'dateCount'">
+              <span class="p-column-title font-bold"
+                >Requested Leave Count</span
+              >
+              <span> {{ rowData[col.field] || "-" }}</span>
+            </ng-container>
+
             <ng-container *ngIf="col.field == 'startDate'">
+              <span class="p-column-title font-bold">Requested Dates</span>
               <span *ngIf="rowData.dateCount == 1">{{
                 rowData.startDate | date : "dd/MM/yyyy"
               }}</span>
-              <span *ngIf="rowData.dateCount > 1"
-                >{{ rowData.startDate | date : "dd-MM-yyyy" }} -
+              <span *ngIf="rowData.dateCount > 1">
+                {{ rowData.startDate | date : "dd-MM-yyyy" }} -
                 {{ rowData.endDate | date : "dd-MM-yyyy" }}</span
               >
             </ng-container>
-            <ng-container
+            <ng-container *ngIf="col.field == 'reason'">
+              <span class="p-column-title font-bold">reason</span>
+              <span> {{ rowData[col.field] || "-" }}</span>
+            </ng-container>
+
+            <!-- <ng-container
               *ngIf="
                 col.field != 'status' &&
                 col.field != 'startDate' &&
@@ -184,9 +207,9 @@
               "
             >
               {{ rowData[col.field] || "-" }}
-            </ng-container>
+            </ng-container> -->
           </td>
-          <td class="text-center">
+          <td class="text-center" [ngClass]="{ 'bg-blue': rowIndex % 2 !== 0 }">
             <div
               class="flex flex-wrap justify-content-center align-content-center gap-1"
             >
@@ -211,77 +234,86 @@
                 tooltipPosition="bottom"
               ></button>
 
-              <p-overlayPanel #op>
-                <div class="flex flex-column gap-3 w-24rem">
+              <p-overlayPanel #op styleClass="over ml-5 mr-5">
+                <div class="w-24rem">
                   <div>
-                    <span class="font-medium text-900 block mb-2">{{
-                      rowData.status == 2
-                        ? "Approved User/Date"
-                        : rowData.status == 3
-                        ? "Rejected User/Date"
-                        : ""
-                    }}</span>
-
-                    <p-inputGroup>
-                      <input
-                        pInputText
-                        value="{{
+                    <div class="grid">
+                      <div class="col-12">
+                        <span class="font-medium text-900 block mb-2">{{
                           rowData.status == 2
-                            ? rowData.approvedUser
+                            ? "Approved User/Date"
                             : rowData.status == 3
-                            ? rowData.rejectedUser
-                            : ''
-                        }}"
-                        readonly
-                        class="w-12rem"
-                        [disabled]="true"
-                      />
-                      <input
-                        pInputText
-                        value="{{
-                          rowData.status == 2
-                            ? (rowData.approveDate | date : 'dd-MM-yyyy h:mm a')
-                            : rowData.status == 3
-                            ? (rowData.rejectDate | date : 'dd-MM-yyyy h:mm a')
-                            : ''
-                        }}"
-                        readonly
-                        class="w-12rem"
-                        [disabled]="true"
-                      />
-                    </p-inputGroup>
-                  </div>
+                            ? "Rejected User/Date"
+                            : ""
+                        }}</span>
 
-                  <div *ngIf="rowData.rejectReason || rowData.approveRemark">
-                    <span class="font-medium text-900 block mb-2">{{
-                      rowData.status == 2
-                        ? "Approved Remark"
-                        : rowData.status == 3
-                        ? "Rejected Remark"
-                        : ""
-                    }}</span>
-                    <textarea
-                      pInputTextarea
-                      [(ngModel)]="rowData.approveRemark"
-                      readonly
-                      class="w-24rem"
-                      style="resize: none"
-                      rows="3"
-                      [ngModelOptions]="{ standalone: true }"
-                      [disabled]="true"
-                      *ngIf="rowData.status == 2"
-                    ></textarea>
-                    <textarea
-                      pInputTextarea
-                      [(ngModel)]="rowData.rejectReason"
-                      readonly
-                      class="w-24rem"
-                      style="resize: none"
-                      rows="3"
-                      [ngModelOptions]="{ standalone: true }"
-                      [disabled]="true"
-                      *ngIf="rowData.status == 3"
-                    ></textarea>
+                        <p-inputGroup>
+                          <input
+                            pInputText
+                            value="{{
+                              rowData.status == 2
+                                ? rowData.approvedUser
+                                : rowData.status == 3
+                                ? rowData.rejectedUser
+                                : ''
+                            }}"
+                            readonly
+                            class="w-6"
+                            [disabled]="true"
+                          />
+                          <input
+                            pInputText
+                            value="{{
+                              rowData.status == 2
+                                ? (rowData.approveDate
+                                  | date : 'dd-MM-yyyy h:mm a')
+                                : rowData.status == 3
+                                ? (rowData.rejectDate
+                                  | date : 'dd-MM-yyyy h:mm a')
+                                : ''
+                            }}"
+                            readonly
+                            class="w-6"
+                            [disabled]="true"
+                          />
+                        </p-inputGroup>
+                      </div>
+                      <div class="col-12">
+                        <div
+                          *ngIf="rowData.rejectReason || rowData.approveRemark"
+                        >
+                          <span class="font-medium text-900 block mb-2">{{
+                            rowData.status == 2
+                              ? "Approved Remark"
+                              : rowData.status == 3
+                              ? "Rejected Remark"
+                              : ""
+                          }}</span>
+                          <textarea
+                            pInputTextarea
+                            [(ngModel)]="rowData.approveRemark"
+                            readonly
+                            class="w-full"
+                            style="resize: none"
+                            rows="3"
+                            [ngModelOptions]="{ standalone: true }"
+                            [disabled]="true"
+                            *ngIf="rowData.status == 2"
+                          ></textarea>
+                          <textarea
+                            pInputTextarea
+                            [(ngModel)]="rowData.rejectReason"
+                            readonly
+                            class="w-full"
+                            style="resize: none"
+                            rows="3"
+                            [ngModelOptions]="{ standalone: true }"
+                            [disabled]="true"
+                            *ngIf="rowData.status == 3"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </p-overlayPanel>

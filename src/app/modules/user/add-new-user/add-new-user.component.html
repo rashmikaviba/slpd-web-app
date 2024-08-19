@@ -13,6 +13,8 @@
   styleClass=""
   [columns]="cols"
   [value]="recodes"
+  responsiveLayout="stack"
+  [breakpoint]="'960px'"
   dataKey="_id"
   [rows]="10"
   styleClass="p-datatable-gridlines"
@@ -60,17 +62,60 @@
       <th class="text-center">Action</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns">
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
     <tr>
       <td
         *ngFor="let col of columns"
         [ngClass]="{
+          'bg-blue': rowIndex % 2 !== 0,
           'line-through	': rowData.isBlackListed
         }"
       >
-        {{ rowData[col.field] }}
+        <ng-container *ngIf="col.field == 'fullName'">
+          <span class="p-column-title font-bold">Full Name</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'userName'">
+          <span class="p-column-title font-bold">User Name</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'address'">
+          <span class="p-column-title font-bold">Address</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'nic'">
+          <span class="p-column-title font-bold">NIC</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'email'">
+          <span class="p-column-title font-bold">E-mail</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'phoneNumber1'">
+          <span class="p-column-title font-bold">Phone Number 1</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'phoneNumber2'">
+          <span class="p-column-title font-bold">Phone Number 2</span
+          >{{ rowData[col.field] }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'roleName'">
+          <span class="p-column-title font-bold">Role Name</span
+          >{{ rowData[col.field] }}
+        </ng-container>
       </td>
-      <td class="text-center">
+      <td
+        class="text-center"
+        [ngClass]="{
+        'bg-blue': rowIndex % 2 !== 0,
+      }"
+      >
+        <!-- <span class="p-column-title font-bold">Action</span> -->
         <button
           #btn
           type="button"
@@ -92,7 +137,7 @@
       <td [attr.colspan]="columns.length + 2">
         <div
           class="flex flex-column justify-content-center align-items-center gap-2"
-          style="height: 300px"
+          style="height: 300px; width: 100%"
         >
           <i class="pi pi-inbox text-5xl text-gray-400"></i>
           <small class="">No Users Found</small>

@@ -5,6 +5,8 @@
   [value]="recodes"
   dataKey="_id"
   [rows]="10"
+  responsiveLayout="stack"
+  [breakpoint]="'960px'"
   styleClass="p-datatable-gridlines"
   [rowsPerPageOptions]="[10, 25, 50]"
   [paginator]="true"
@@ -32,11 +34,17 @@
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-rowData let-columns="columns">
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
     <tr>
       <td
         *ngFor="let col of columns"
         [ngClass]="{
+          'bg-blue': rowIndex % 2 !== 0,
           'text-center':
             col.field == 'status' ||
             col.field == 'availableLeaveCount' ||
@@ -44,6 +52,7 @@
         }"
       >
         <ng-container *ngIf="col.field == 'status'">
+          <span class="p-column-title font-bold">Status</span>
           <div class="text-center">
             <p-button
               [severity]="
@@ -60,10 +69,12 @@
         </ng-container>
 
         <ng-container *ngIf="col.field == 'createdAt'">
+          <span class="p-column-title font-bold">Applied Date</span>
           <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
         </ng-container>
 
         <ng-container *ngIf="col.field == 'startDate'">
+          <span class="p-column-title font-bold">Requested Dates</span>
           <span *ngIf="rowData.dateCount == 1">{{
             rowData.startDate | date : "dd/MM/yyyy"
           }}</span>
@@ -72,17 +83,42 @@
             {{ rowData.endDate | date : "dd-MM-yyyy" }}</span
           >
         </ng-container>
-        <ng-container
-          *ngIf="
-            col.field != 'status' &&
-            col.field != 'startDate' &&
-            col.field != 'createdAt'
-          "
-        >
-          {{ rowData[col.field] || "-" }}
+        <ng-container *ngIf="col.field == 'appliedUserName'">
+          <span class="p-column-title font-bold">Applied By</span
+          >{{ rowData[col.field] || "-" }}
         </ng-container>
+        <ng-container *ngIf="col.field == 'appliedUserRole'">
+          <span class="p-column-title font-bold">User Type</span
+          >{{ rowData[col.field] || "-" }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'availableLeaveCount'">
+          <span class="p-column-title font-bold">Available Leave Count</span
+          >{{ rowData[col.field] || "-" }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'dateCount'">
+          <span class="p-column-title font-bold">Requested Leave Count</span
+          >{{ rowData[col.field] || "-" }}
+        </ng-container>
+        <ng-container *ngIf="col.field == 'reason'">
+          <span class="p-column-title font-bold">Reason</span
+          >{{ rowData[col.field] || "-" }}
+        </ng-container>
+        <!-- <ng-container
+        *ngIf="
+          col.field != 'status' &&
+          col.field != 'startDate' &&
+          col.field != 'createdAt'
+        "
+      >
+        {{ rowData[col.field] || "-" }}
+      </ng-container> -->
       </td>
-      <td class="text-center">
+      <td
+        class="text-center"
+        [ngClass]="{
+        'bg-blue': rowIndex % 2 !== 0,
+      }"
+      >
         <div
           class="flex flex-wrap justify-content-center align-content-center gap-1"
         >
