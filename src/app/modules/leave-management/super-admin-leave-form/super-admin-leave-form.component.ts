@@ -6,6 +6,8 @@ import { PopupService } from "src/app/shared/services/popup.service";
 import { LeaveConfirmationComponent } from "./leave-confirmation/leave-confirmation.component";
 import { LeaveService } from "src/app/shared/services/api-services/leave.service";
 import { firstValueFrom } from "rxjs";
+import { DatePipe } from "@angular/common";
+import { ExcelService } from "src/app/shared/services/excel.service";
 
 @Component({
   selector: "app-super-admin-leave-form",
@@ -30,7 +32,9 @@ export class SuperAdminLeaveFormComponent {
     private formBuilder: FormBuilder,
     private messageService: AppMessageService,
     private popupService: PopupService,
-    private leaveService: LeaveService
+    private leaveService: LeaveService,
+    private datePipe: DatePipe,
+    private excelService: ExcelService
   ) {
     this.createForm();
   }
@@ -136,5 +140,66 @@ export class SuperAdminLeaveFormComponent {
     } else {
       this.recodes = this._recodes;
     }
+  }
+
+  exportToExcel() {
+    let reportCols = [
+      { field: "appliedUserName", header: "Applied User" },
+      { field: "appliedUserRole", header: "User Type" },
+      { field: "reason", header: "Reason" },
+      { field: "startDate", header: "Start Date" },
+      { field: "endDate", header: "End Date" },
+      { field: "dateCount", header: "Date Count" },
+      { field: "availableLeaveCount", header: "Available Leave Count" },
+      { field: "statusName", header: "Status" },
+      { field: "createdAt", header: "Applied Date" },
+      { field: "approvedUser", header: "Approved User" },
+      { field: "approveDate", header: "Approved Date" },
+      { field: "approveRemark", header: "Approved Remark" },
+      { field: "rejectedUser", header: "Rejected User" },
+      { field: "rejectDate", header: "Rejected Date" },
+      { field: "rejectReason", header: "Rejected Reason" },
+      { field: "isMonthEndDone", header: "Is Month End Done" },
+      { field: "createdUser", header: "Created User" },
+      { field: "updatedUser", header: "Updated User" },
+    ];
+
+    let excelData: any[] = [];
+    debugger;
+    this.recodes.forEach((item: any) => {
+      let obj = {
+        appliedUserName: item.appliedUserName,
+        appliedUserRole: item.appliedUserRole,
+        reason: item.reason,
+        startDate: this.datePipe.transform(item.startDate, "dd/MM/yyyy"),
+        endDate: this.datePipe.transform(item.endDate, "dd/MM/yyyy"),
+        dateCount: item.dateCount,
+        availableLeaveCount: item.availableLeaveCount,
+        statusName: item.statusName,
+        approvedUser: item.approvedUser,
+        approveDate: this.datePipe.transform(
+          item.approveDate,
+          "dd/MM/yyyy HH:mm:ss"
+        ),
+        approveRemark: item.approveRemark,
+        rejectedUser: item.rejectedUser,
+        rejectDate: this.datePipe.transform(
+          item.rejectDate,
+          "dd/MM/yyyy HH:mm:ss"
+        ),
+        rejectReason: item.rejectReason,
+        isMonthEndDone: item.isMonthEndDone,
+        createdUser: item.createdUser,
+        updatedUser: item.updatedUser,
+      };
+
+      excelData.push(obj);
+    });
+
+    this.excelService.GenerateExcelFileWithCustomHeader(
+      reportCols,
+      excelData,
+      "Leaves "
+    );
   }
 }
