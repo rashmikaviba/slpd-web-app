@@ -126,6 +126,7 @@ export class SuperAdminLeaveFormComponent {
         .OpenModel(LeaveConfirmationComponent, { header, width, data })
         .subscribe((result) => {
           if (result) {
+            this.FV.clearValue("leaveType");
             this.loadAllLeaves();
           }
         });
