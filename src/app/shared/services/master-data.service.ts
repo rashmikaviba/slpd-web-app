@@ -18,6 +18,12 @@ export class MasterDataService {
     this.WorkingDate = loginData.workingDate;
   }
 
+  setWorkingInfo(workingInfo: any) {
+    this.WorkingMonth = workingInfo.workingMonth;
+    this.WorkingYear = workingInfo.workingYear;
+    this.WorkingDate = workingInfo.workingDate;
+  }
+
   get TimedOut(): any {
     return localStorage.getItem(AppKeys.TimedOut) ?? "false";
   }

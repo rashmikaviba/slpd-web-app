@@ -53,5 +53,7 @@ export class ResourceService {
 
   monthAudit = {
     getPendingLeaves: this.MonthAudit + "/pendingLeaves",
+    createNewMonth: this.MonthAudit + "/createNewMonth",
+    getWorkingInfo : this.MonthAudit + "/workingInfo"
   };
 }

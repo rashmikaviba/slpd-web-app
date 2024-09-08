@@ -74,10 +74,13 @@ export class DefaultLayoutNewComponent {
         menuId: 4,
         label: "Month Audit",
         icon: "pi pi-briefcase",
-        routerLink: "/month-audit",
+        // routerLink: "/month-audit",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminMonthAudit,
         ]),
+        command : (event: any) => {
+          this.openMonthAudit();
+        }
       },
     ];
 
@@ -150,5 +153,32 @@ export class DefaultLayoutNewComponent {
         width: "30vw",
       })
       .subscribe((res) => {});
+  }
+
+  openMonthAudit() {
+    debugger
+    let systemMonth = this.masterDataService.WorkingMonth;
+    let systemYear = this.masterDataService.WorkingYear;
+
+    let today = new Date();
+
+    let lastDayOfSystemDate = new Date(
+      systemYear,
+      systemMonth,
+      0
+    ).getDate();
+    let systemDate = new Date(systemYear, systemMonth - 1, lastDayOfSystemDate);
+
+    
+
+    if (today >= systemDate) {
+      this.router.navigate(["/month-audit"]);
+    } else {
+      this.messageService.showInfoAlert(`Month Audit is closed. You can do monthly audit for this month on or after the last day of this month (${systemYear}-${systemMonth}-${lastDayOfSystemDate})!`);
+    }
+  }
+
+  moveToRouter(routerLink: string) { 
+    this.router.navigate([routerLink]);
   }
 }

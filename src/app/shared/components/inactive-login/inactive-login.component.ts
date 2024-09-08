@@ -5,6 +5,7 @@ import { DynamicDialogRef } from "primeng/dynamicdialog";
 import { AppMessageService } from "../../services/app-message.service";
 import { MasterDataService } from "../../services/master-data.service";
 import { TransactionHandlerService } from "../../services/transaction-handler.service";
+import { MonthAditService } from "../../services/api-services/month-adit.service";
 
 @Component({
   selector: "app-inactive-login",
@@ -19,7 +20,8 @@ export class InactiveLoginComponent implements OnInit {
     private ref: DynamicDialogRef,
     private messageService: AppMessageService,
     private masterDataService: MasterDataService,
-    private transactionService: TransactionHandlerService
+    private transactionService: TransactionHandlerService,
+    private monthAuditService: MonthAditService
   ) {
     this.createForm();
   }
@@ -59,7 +61,12 @@ export class InactiveLoginComponent implements OnInit {
         if (response.IsSuccessful) {
           this.messageService.showSuccessAlert(response.Message);
           this.masterDataService.SessionKey = response.Result;
-          this.ref.close(true);
+          this.monthAuditService.GetWorkingInformation().subscribe((response) => {
+            if (response.IsSuccessful) {
+              this.masterDataService.setWorkingInfo(response.Result);
+              this.ref.close(true);
+            }
+          })
         } else {
           this.messageService.showErrorAlert(response.Message);
         }

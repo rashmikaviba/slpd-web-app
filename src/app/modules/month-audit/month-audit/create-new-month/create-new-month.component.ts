@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { CommonForm } from "src/app/shared/services/app-common-form";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { DatePipe } from "@angular/common";
+import { MonthAditService } from "src/app/shared/services/api-services/month-adit.service";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-create-new-month",
@@ -20,7 +23,10 @@ export class CreateNewMonthComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private masterDataService: MasterDataService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private mothAuditService: MonthAditService,
+    private messageService: AppMessageService,
+    private router : Router
   ) {
     this.createForm();
   }
@@ -39,9 +45,38 @@ export class CreateNewMonthComponent implements OnInit {
   }
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      selectMonth: [""],
+      selectMonth: ["", [Validators.required]],
     });
   }
 
-  finish() {}
+  finish() {
+    if (this.FV.formGroup.invalid) {
+      this.FV.showErrors();
+      return;
+    }
+    
+    let month = this.FV.getValue("selectMonth");
+    let monthConToDate = new Date(month);
+
+    let request = {
+      month: monthConToDate.getMonth() + 1,
+      year : monthConToDate.getFullYear()
+    }
+
+    this.mothAuditService.CreateNewMonth(request).subscribe((response) => {
+      if (response.IsSuccessful) { 
+        this.messageService.showSuccessAlert(response.Message);
+
+        this.mothAuditService.GetWorkingInformation().subscribe((response) => {
+          if (response.IsSuccessful) {
+            this.masterDataService.setWorkingInfo(response.Result);
+
+            this.router.navigate(['/dashboard'], {skipLocationChange: true});
+          }
+        })
+      } else {
+        this.messageService.showErrorAlert(response.Message);
+      }
+    })
+  }
 }
