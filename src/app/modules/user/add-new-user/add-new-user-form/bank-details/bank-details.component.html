@@ -5,7 +5,7 @@
       <div class="p-fluid grid formgrid align-items-end">
         <div class="field col-12 md:col-4">
           <label for="bankName" class="required">Bank Name</label>
-          <input
+          <!-- <input
             id="bankName"
             pInputText
             type="text"
@@ -13,7 +13,18 @@
             formControlName="bankName"
             maxlength="50"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-          />
+          /> -->
+          <p-dropdown
+            id="bankName"
+            [options]="bankArr"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select bank"
+            formControlName="bankName"
+            appendTo="body"
+            [autoOptionFocus]="false"
+            [filter]="true"
+          ></p-dropdown>
         </div>
         <div class="field col-12 md:col-4">
           <label for="branchName" class="required">Branch Name</label>

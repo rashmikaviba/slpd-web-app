@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CommonForm } from "src/app/shared/services/app-common-form";
 import { AddUserControlFlowService } from "../add-user-control-flow.service";
+import { banks } from "../../../../../shared/data/bankData";
 
 @Component({
   selector: "app-bank-details",
@@ -11,6 +12,8 @@ import { AddUserControlFlowService } from "../add-user-control-flow.service";
 export class BankDetailsComponent {
   FV = new CommonForm();
   userDetail: any;
+  bankArr = banks;
+
   constructor(
     private formBuilder: FormBuilder,
     private addUserControlFlowService: AddUserControlFlowService
@@ -34,7 +37,7 @@ export class BankDetailsComponent {
   }
 
   setValues() {
-    this.FV.setValue("bankName", this.userDetail?.bankName);
+    this.FV.setValue("bankName", this.userDetail?.bankId);
     this.FV.setValue("branchName", this.userDetail?.branch);
     this.FV.setValue("accNumber", this.userDetail?.accountNumber);
     this.FV.setValue("accHolderName", this.userDetail?.accountHolderName);
