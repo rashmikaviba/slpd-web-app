@@ -113,6 +113,8 @@ import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
+import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
+import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
 
 @NgModule({
   imports: [
@@ -222,7 +224,9 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
     WebcamViewComponent,
     InactiveLoginComponent,
     DefaultLayoutNewComponent,
-    DefaultDashboardComponent
+    DefaultDashboardComponent,
+    VehicleManagementComponent,
+    AddNewVehicleComponent
   ],
   providers: [
     DataAccessService,

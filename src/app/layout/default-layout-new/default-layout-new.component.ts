@@ -56,6 +56,13 @@ export class DefaultLayoutNewComponent {
         ]),
       },
       {
+        menuId: 5,
+        label: "Vehicle Management",
+        icon: "pi pi-car",
+        routerLink: "/vehicle-management",
+        isVisible: true
+      },
+      {
         menuId: 4,
         label: "Month Audit",
         icon: "pi pi-briefcase",

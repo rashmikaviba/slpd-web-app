@@ -1,10 +1,10 @@
 <!-- <div class="card"> -->
 <div class="flex justify-content-between align-items-center mb-4">
-  <div class="text-2xl font-semibold">User Management</div>
+  <div class="text-2xl font-semibold">Vehicle Management</div>
   <p-button
     styleClass=" mr-2"
     icon="pi pi-plus"
-    label="Add New User"
+    label="Add New Vehicle"
     (onClick)="onClickAddNew()"
   ></p-button>
 </div>
@@ -48,7 +48,7 @@
           pInputText
           type="text"
           (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-          placeholder="Search User"
+          placeholder="Search Vehicle"
         />
       </p-iconField>
 
@@ -77,36 +77,28 @@
           'line-through	': rowData.isBlackListed
         }"
       >
-        <ng-container *ngIf="col.field == 'fullName'">
-          <span class="p-column-title font-bold">Full Name</span
+        <ng-container *ngIf="col.field == 'vehicleNo'">
+          <span class="p-column-title font-bold">Vehicle Number</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'userName'">
-          <span class="p-column-title font-bold">User Name</span
+        <ng-container *ngIf="col.field == 'ownerName'">
+          <span class="p-column-title font-bold">Owner Name</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'address'">
-          <span class="p-column-title font-bold">Address</span
+        <ng-container *ngIf="col.field == 'type'">
+          <span class="p-column-title font-bold">Vehicle Type</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'nic'">
-          <span class="p-column-title font-bold">NIC</span
+        <ng-container *ngIf="col.field == 'regNo'">
+          <span class="p-column-title font-bold">Registration Number</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'email'">
-          <span class="p-column-title font-bold">E-mail</span
+        <ng-container *ngIf="col.field == 'regDate'">
+          <span class="p-column-title font-bold">Registration Date</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'phoneNumber1'">
-          <span class="p-column-title font-bold">Phone Number 1</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'phoneNumber2'">
-          <span class="p-column-title font-bold">Phone Number 2</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'roleName'">
-          <span class="p-column-title font-bold">Role Name</span
+        <ng-container *ngIf="col.field == 'capacity'">
+          <span class="p-column-title font-bold">Capacity</span
           >{{ rowData[col.field] }}
         </ng-container>
       </td>
@@ -141,7 +133,7 @@
           style="height: 300px; width: 100%"
         >
           <i class="pi pi-inbox text-5xl text-gray-400"></i>
-          <small class="">No Users Found</small>
+          <small class="">No Vehicle Found</small>
         </div>
       </td>
     </tr>
