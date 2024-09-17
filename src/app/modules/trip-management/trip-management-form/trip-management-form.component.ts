@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CommonForm } from 'src/app/shared/services/app-common-form';
+import { AppMessageService } from 'src/app/shared/services/app-message.service';
 import { SidebarService } from 'src/app/shared/services/sidebar.service';
 
 @Component({
@@ -14,11 +15,13 @@ export class TripManagementFormComponent {
   FV = new CommonForm();
   products: any
   isEdit: any
+  isAddNewDesigation: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private messageService: AppMessageService
   ) {
     this.createForm();
   }
@@ -27,7 +30,9 @@ export class TripManagementFormComponent {
     this.FV.formGroup = this.formBuilder.group({
       startDate: ["", [Validators.required]],
       endDate: ["", [Validators.required]],
-      passengersCount: ["", [Validators.required]]
+      passengersCount: ["", [Validators.required]],
+      placeName: [''],
+      distance: ['']
     });
   }
 
@@ -45,7 +50,14 @@ export class TripManagementFormComponent {
     ]
   }
 
-  onClickAddNew() { }
+  onClickAddNew() {
+    try {
+      this.isAddNewDesigation = !this.isAddNewDesigation
+    } catch (error: any) {
+      this.messageService.showErrorAlert(error)
+    }
+  }
   onClickSave() { }
   onClickCancel() { }
+  onClickSubmit() { }
 }

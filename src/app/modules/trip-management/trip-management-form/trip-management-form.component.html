@@ -50,6 +50,38 @@
               (onClick)="onClickAddNew()"
             ></p-button>
           </div>
+          <ng-container *ngIf="isAddNewDesigation">
+            <hr />
+            <div class="p-fluid grid formgrid align-items-end">
+              <div class="field col-12 md:col-12">
+                <label for="placeName">Place Name</label>
+                <input
+                  pInputText
+                  type="text"
+                  class="w-full"
+                  formControlName="placeName"
+                />
+              </div>
+              <div class="field col-12 md:col-6">
+                <label for="distance">Distance</label>
+                <input
+                  pInputText
+                  type="number"
+                  class="w-full"
+                  formControlName="distance"
+                />
+              </div>
+              <div class="field col-12 md:col-6">
+                <p-button
+                  styleClass="p-button-success"
+                  icon="pi pi-save"
+                  label="Submit"
+                  (onClick)="onClickSubmit()"
+                ></p-button>
+              </div>
+            </div>
+            <hr />
+          </ng-container>
         </ng-template>
         <ng-template let-product pTemplate="item">
           <div class="flex flex-wrap p-2 align-items-center gap-3">
