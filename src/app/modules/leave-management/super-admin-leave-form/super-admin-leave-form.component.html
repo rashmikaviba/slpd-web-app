@@ -19,24 +19,36 @@
       [globalFilterFields]="['appliedUserName']"
     >
       <ng-template pTemplate="caption">
-        <div class="grid">
+        <div class="grid flex justify-content-between">
           <div class="col-12 md:col-3">
-            <p-dropdown
-              id="leaveType"
-              [options]="leaveTypes"
-              optionLabel="name"
-              formControlName="leaveType"
-              [style]="{ width: '100%' }"
-              appendTo="body"
-              placeholder="Select Leave Type"
-              [showClear]="true"
-              optionValue="id"
-              [autoOptionFocus]="false"
-              (onChange)="onLeaveTypeChange($event)"
-              (onClear)="onLeaveTypeChange($event)"
-            ></p-dropdown>
+            <p-inputGroup>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-excel"
+                class="p-button-success"
+                pTooltip="Export to XLS"
+                tooltipPosition="right"
+                (click)="exportToExcel()"
+              ></button>
+              <p-dropdown
+                id="leaveType"
+                [options]="leaveTypes"
+                optionLabel="name"
+                formControlName="leaveType"
+                appendTo="body"
+                placeholder="Select Leave Type"
+                [showClear]="true"
+                optionValue="id"
+                styleClass="w-full"
+                [autoOptionFocus]="false"
+                (onChange)="onLeaveTypeChange($event)"
+                (onClear)="onLeaveTypeChange($event)"
+              ></p-dropdown>
+            </p-inputGroup>
           </div>
-          <div class="col-12 md:col-6"></div>
+
           <div class="col-12 md:col-3">
             <p-iconField iconPosition="left" class="ml-auto">
               <p-inputIcon>
@@ -47,7 +59,7 @@
                 type="text"
                 [style]="{ width: '100%' }"
                 (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                placeholder="Search User"
+                placeholder="Search Leave"
               />
             </p-iconField>
           </div>
@@ -76,7 +88,7 @@
               pInputText
               type="text"
               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-              placeholder="Search User"
+              placeholder="Search Leave"
             />
           </p-iconField>
         </div> -->

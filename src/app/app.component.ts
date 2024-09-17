@@ -145,6 +145,8 @@ export class AppComponent {
       .subscribe((res) => {
         if (res) {
           this.reset(); // reset idle if login successful
+          let currentUrl = this.router.url;
+          this.router.navigate([currentUrl], { skipLocationChange: true });
         } else {
           this.masterDataService.clearLoginData();
           this.router.navigate(["/"]);

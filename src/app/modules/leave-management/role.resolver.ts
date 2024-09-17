@@ -30,7 +30,11 @@ export class RoleResolver implements Resolve<any> {
 
     if (Number(roleId) === WellKnownUserRole.SUPERADMIN) {
       return of(SuperAdminLeaveFormComponent);
-    } else if (Number(roleId) === WellKnownUserRole.ADMIN) {
+    } else if (
+      Number(roleId) === WellKnownUserRole.ADMIN ||
+      Number(roleId) === WellKnownUserRole.FINANCEOFFICER ||
+      Number(roleId) === WellKnownUserRole.TRIPMANAGER
+    ) {
       return of(AdminLeaveFormComponent);
     } else if (Number(roleId) === WellKnownUserRole.DRIVER) {
       return of(DriverLeaveFormComponent);

@@ -114,7 +114,7 @@ export class PersonalDetailsComponent {
   onRoleChange() {
     let role = this.FV.getValue("role");
 
-    if (role === 2) {
+    if (role === 2 || role === 4 || role === 5) {
       this.showAdmin = true;
       this.showDriver = false;
     } else if (role === 3) {

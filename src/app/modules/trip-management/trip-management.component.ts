@@ -9,14 +9,15 @@ import { AppMessageService } from 'src/app/shared/services/app-message.service';
 import { TransactionHandlerService } from 'src/app/shared/services/transaction-handler.service';
 import { ExcelService } from 'src/app/shared/services/excel.service';
 import { DatePipe } from '@angular/common';
-import { AddNewVehicleComponent } from './add-new-vehicle/add-new-vehicle.component';
+import { TripManagementFormComponent } from './trip-management-form/trip-management-form.component';
+import { AddDriverAndVehicleFormComponent } from './add-driver-and-vehicle-form/add-driver-and-vehicle-form.component';
 
 @Component({
-  selector: 'app-vehicle-management',
-  templateUrl: './vehicle-management.component.html',
-  styleUrls: ['./vehicle-management.component.scss']
+  selector: 'app-trip-management',
+  templateUrl: './trip-management.component.html',
+  styleUrls: ['./trip-management.component.scss']
 })
-export class VehicleManagementComponent {
+export class TripManagementComponent {
   cols: any;
   recodes: any;
   loading: any;
@@ -34,21 +35,22 @@ export class VehicleManagementComponent {
     private messageService: AppMessageService,
     private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit(): void {
     this.cols = [
-      { field: "vehicleNo", header: "Vehicle Number" },
-      { field: "ownerName", header: "Owner Name" },
-      { field: "type", header: "Vehicle Type" },
-      { field: "regNo", header: "Registration Number" },
-      { field: "regDate", header: "Registration Date" },
-      { field: "capacity", header: "Capacity" },
+      { field: "tripNo", header: "Trip Number" },
+      { field: "startDate", header: "Start Date" },
+      { field: "endDate", header: "End Date" },
+      { field: "passengersCount", header: "Passengers Count" },
+      { field: "destinations", header: "Destinations" },
     ];
 
     this.recodes = [
-      { vehicleNo: 'BHK-8725', ownerName: 'Lahiru Sandaruwan', type: 'Car', regNo: 'Reg Number 01', regDate: '2024-09-14', capacity: '1500CC' }
+      { tripNo: '#1', startDate: '2024-09-16', endDate: '2024-09-18', passengersCount: '5', destinations: 'Colombo, Galle, Matara' },
+      { tripNo: '#2', startDate: '2024-09-16', endDate: '2024-09-18', passengersCount: '5', destinations: 'Colombo, Galle, Matara' },
+      { tripNo: '#3', startDate: '2024-09-16', endDate: '2024-09-18', passengersCount: '5', destinations: 'Colombo, Galle, Matara' },
     ]
 
     this.sidebarService.sidebarEvent.subscribe((response) => {
@@ -63,7 +65,7 @@ export class VehicleManagementComponent {
     this.items = [
       {
         id: 1,
-        label: "Edit Vehicle",
+        label: "Edit Trip",
         icon: "pi pi-pencil",
         command: (event: any) => {
           this.onClickEdit(event.item.data);
@@ -79,7 +81,7 @@ export class VehicleManagementComponent {
       // },
       {
         id: 2,
-        label: "Delete Vehicle",
+        label: "Delete Trip",
         icon: "pi pi-trash",
         command: (event: any) => {
           this.deleteUserById(event.item.data);
@@ -138,8 +140,8 @@ export class VehicleManagementComponent {
     };
 
     this.sidebarService.addComponent(
-      "Add New Vehicle",
-      AddNewVehicleComponent,
+      "Add New Trip",
+      TripManagementFormComponent,
       properties,
       data
     );
@@ -159,8 +161,8 @@ export class VehicleManagementComponent {
     };
 
     this.sidebarService.addComponent(
-      "Edit Vehicle",
-      AddNewVehicleComponent,
+      "Edit Trip",
+      TripManagementFormComponent,
       properties,
       data
     );
@@ -173,4 +175,14 @@ export class VehicleManagementComponent {
   deleteUserById(rowData: any) { }
 
   exportToExcel() { }
+
+  onClickAssignDriverAndVehicle() {
+
+    let header = "Additional Information";
+    let width = "30vw";
+    let data = ""
+    this.popupService.OpenModel(AddDriverAndVehicleFormComponent, { header, width, data }).subscribe((result) => {
+
+    })
+  }
 }

@@ -18,4 +18,20 @@ export class MonthAditService {
         return response;
       });
   }
+
+  CreateNewMonth(body: any) {
+    return this.dataAccess
+      .POST(this.resource.monthAudit.createNewMonth, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  GetWorkingInformation() {
+    return this.dataAccess
+      .GET(this.resource.monthAudit.getWorkingInfo)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

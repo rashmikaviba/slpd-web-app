@@ -11,4 +11,12 @@ export const userRoles = [
     name: "Driver",
     id: 3,
   },
+  {
+    name: "Finance Officer",
+    id: 4,
+  },
+  {
+    name: "Trip Manager",
+    id: 5,
+  },
 ];

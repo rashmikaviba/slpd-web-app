@@ -71,6 +71,8 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { SidebarModule } from "primeng/sidebar";
 import { SkeletonModule } from "primeng/skeleton";
 import { SlideMenuModule } from "primeng/slidemenu";
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
 import { SliderModule } from "primeng/slider";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { SplitterModule } from "primeng/splitter";
@@ -115,6 +117,9 @@ import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-l
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
+import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
+import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
+import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
 
 @NgModule({
   imports: [
@@ -212,6 +217,8 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
     WebcamModule,
     NgxSpinnerModule,
     SharedModule,
+    IconFieldModule,
+    InputIconModule,
     NgIdleKeepaliveModule.forRoot(),
   ],
   declarations: [
@@ -226,7 +233,10 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
     DefaultLayoutNewComponent,
     DefaultDashboardComponent,
     VehicleManagementComponent,
-    AddNewVehicleComponent
+    AddNewVehicleComponent,
+    TripManagementComponent,
+    TripManagementFormComponent,
+    AddDriverAndVehicleFormComponent
   ],
   providers: [
     DataAccessService,

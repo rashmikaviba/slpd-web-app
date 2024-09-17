@@ -29,10 +29,16 @@
 <p-toast></p-toast>
 
 <p-confirmDialog
-  [style]="{ width: '30vw' }"
   [baseZIndex]="99999"
   rejectButtonStyleClass="p-button-text"
+  [breakpoints]="{
+    '1000px': '50vw',
+    '800px': '50vw',
+    '700px': '95vw'
+  }"
+  [style]="{ width: '30vw' }"
 >
+  >
 </p-confirmDialog>
 
 <ngx-spinner

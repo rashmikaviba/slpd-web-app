@@ -4,6 +4,10 @@ import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { NotificationsComponent } from "../notifications/notifications.component";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { AppModule } from "src/app/shared/enums/app-module.enum";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { DatePipe } from "@angular/common";
+import { PopupService } from "src/app/shared/services/popup.service";
+import { ChangePasswordComponent } from "src/app/modules/user/change-password/change-password.component";
 
 @Component({
   selector: "app-default-layout-new",
@@ -14,14 +18,25 @@ export class DefaultLayoutNewComponent {
   DynamicItems: any[] = [];
   activeTab: number = -1;
   moduleIds: number[] = [];
-
+  workingDate: string = "";
+  showWorkingDate: string = "";
+  items: any[];
   constructor(
     private router: Router,
     private sidebarService: SidebarService,
-    private masterDataService: MasterDataService
+    private masterDataService: MasterDataService,
+    private messageService: AppMessageService,
+    private datePipe: DatePipe,
+    private popupService: PopupService
   ) { }
 
   ngOnInit(): void {
+    this.workingDate = this.masterDataService.WorkingDate;
+
+    this.showWorkingDate = this.datePipe.transform(
+      this.workingDate,
+      "y - MMMM"
+    );
     this.moduleIds = this.masterDataService.MenuList;
     let module = this.router.url.split("/")[1];
 
@@ -56,6 +71,13 @@ export class DefaultLayoutNewComponent {
         ]),
       },
       {
+        menuId: 4,
+        label: "Trip Management",
+        icon: "pi pi-map",
+        routerLink: "/trip-management",
+        isVisible: true
+      },
+      {
         menuId: 5,
         label: "Vehicle Management",
         icon: "pi pi-car",
@@ -63,16 +85,25 @@ export class DefaultLayoutNewComponent {
         isVisible: true
       },
       {
-        menuId: 4,
+        menuId: 6,
         label: "Month Audit",
         icon: "pi pi-briefcase",
-        routerLink: "/month-audit",
+        // routerLink: "/month-audit",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminMonthAudit,
         ]),
+        command: (event: any) => {
+          this.openMonthAudit();
+        }
       },
     ];
 
+    this.items = [
+      {
+        label: "Change Password",
+        icon: "pi pi-file",
+      },
+    ];
     this.ModuleActivate(module);
   }
 
@@ -110,5 +141,58 @@ export class DefaultLayoutNewComponent {
       }
     });
     return flag;
+  }
+
+  onClickLogout() {
+    let confirmationConfig = {
+      message: "Are you sure you want to cancel this leave?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+    };
+
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.router.navigate(["/login"]);
+        }
+      }
+    );
+  }
+
+  onClickSettings() {
+    this.popupService
+      .OpenModel(ChangePasswordComponent, {
+        header: "CHANGE PASSWORD",
+        width: "30vw",
+      })
+      .subscribe((res) => { });
+  }
+
+  openMonthAudit() {
+    debugger
+    let systemMonth = this.masterDataService.WorkingMonth;
+    let systemYear = this.masterDataService.WorkingYear;
+
+    let today = new Date();
+
+    let lastDayOfSystemDate = new Date(
+      systemYear,
+      systemMonth,
+      0
+    ).getDate();
+    let systemDate = new Date(systemYear, systemMonth - 1, lastDayOfSystemDate);
+
+
+
+    if (today >= systemDate) {
+      this.router.navigate(["/month-audit"]);
+    } else {
+      this.messageService.showInfoAlert(`Month Audit is closed. You can do monthly audit for this month on or after the last day of this month (${systemYear}-${systemMonth}-${lastDayOfSystemDate})!`);
+    }
+  }
+
+  moveToRouter(routerLink: string) {
+    this.router.navigate([routerLink]);
   }
 }

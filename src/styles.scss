@@ -110,3 +110,26 @@ img {
   padding: 10px;
   position: fixed;
 }
+
+.p-inputgroup > p-dropdown {
+  display: grid;
+  flex: 1 1 auto;
+  width: 1%;
+
+  .p-dropdown {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.p-inputgroup p-dropdown:not(:last-child) .p-dropdown {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.p-inputgroup p-dropdown:not(:first-child) .p-dropdown {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
