@@ -120,6 +120,9 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
 import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
+import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
+import { DriverTaskFormComponent } from "./modules/driver-management/driver-task-form/driver-task-form.component";
+import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
 
 @NgModule({
   imports: [
@@ -236,7 +239,10 @@ import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-
     AddNewVehicleComponent,
     TripManagementComponent,
     TripManagementFormComponent,
-    AddDriverAndVehicleFormComponent
+    AddDriverAndVehicleFormComponent,
+    DriverManagementComponent,
+    DriverTaskFormComponent,
+    TripManagementByDriverComponent
   ],
   providers: [
     DataAccessService,

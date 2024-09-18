@@ -86,6 +86,13 @@ export class DefaultLayoutNewComponent {
       },
       {
         menuId: 6,
+        label: "Driver Management",
+        icon: "pi pi-user",
+        routerLink: "/driver-management",
+        isVisible: true
+      },
+      {
+        menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",
         // routerLink: "/month-audit",

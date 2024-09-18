@@ -1,50 +1,47 @@
 import { DatePipe } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ApiConfigService } from 'src/app/shared/services/api-config.service';
 import { CommonForm } from 'src/app/shared/services/app-common-form';
 import { AppMessageService } from 'src/app/shared/services/app-message.service';
 import { SidebarService } from 'src/app/shared/services/sidebar.service';
 
 @Component({
-  selector: 'app-trip-management-form',
-  templateUrl: './trip-management-form.component.html',
-  styleUrls: ['./trip-management-form.component.scss']
+  selector: 'app-trip-management-by-driver',
+  templateUrl: './trip-management-by-driver.component.html',
+  styleUrls: ['./trip-management-by-driver.component.scss']
 })
-export class TripManagementFormComponent {
+export class TripManagementByDriverComponent {
   @ViewChild("templateRef", { static: true }) templateRef: TemplateRef<any>;
   FV = new CommonForm();
+  tasks: any
+  isResponded: any = false
   products: any
-  isEdit: any
-  isAddNewDesigation: boolean = false
 
   constructor(
+    private apiConfigService: ApiConfigService,
+    private messageService: AppMessageService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private sidebarService: SidebarService,
-    private messageService: AppMessageService
+    private sidebarService: SidebarService
   ) {
-    this.createForm();
+    this.createForm()
   }
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      startDate: ["", [Validators.required]],
+      guestName: ["", [Validators.required]],
       endDate: ["", [Validators.required]],
       passengersCount: ["", [Validators.required]],
       placeName: [''],
       distance: [''],
-      guestName: [''],
-      email: [''],
-      mobileNumber: [''],
-      totalINcome: [''],
-      estimatedCost: ['']
+      date: [''],
+      time: ['']
     });
   }
 
   ngOnInit(): void {
     let sideBarData = this.sidebarService.getData();
-    this.isEdit = sideBarData.isEdit
-    console.log("isEdit", this.isEdit)
     this.sidebarService.setFooterTemplate(this.templateRef);
 
     this.products = [
@@ -55,15 +52,28 @@ export class TripManagementFormComponent {
     ]
   }
 
-  onClickAddNew() {
+  loadAllDriverTasks() {
     try {
-      this.isAddNewDesigation = !this.isAddNewDesigation
+      this.apiConfigService.getDriverTasksJSON().subscribe((result) => {
+        if (result) {
+          let data = result
+          this.tasks = result
+          console.log("Data", data)
+        }
+      })
     } catch (error: any) {
       this.messageService.showErrorAlert(error)
     }
   }
-  onClickSave() { }
+
+  onClickYes(e: any) {
+    e.status = true
+    this.isResponded = true
+  }
+  onClickNo(e: any) {
+    e.status = true
+    this.isResponded = true
+  }
   onClickCancel() { }
-  onClickSubmit() { }
-  onClickDelete() { }
+  onClickSave() { }
 }
