@@ -3,6 +3,7 @@ export enum AppModule {
   SuperAdminLeaveManagement = 2,
   SuperAdminMonthAudit = 3,
   SuperAdminDashboard = 4,
+  SuperAdminVehicleTracking = 5,
 
   AdminLeaveManagement = 30,
 

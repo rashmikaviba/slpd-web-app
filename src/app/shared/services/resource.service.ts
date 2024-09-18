@@ -9,12 +9,14 @@ export class ResourceService {
   constructor() {}
 
   public appHostURL: string = environment.appURL;
+  private host: string = environment.apiURL;
+  private wegaShineUrl: string = environment.wegaShineURL;
 
-  private Auth = "/auth";
-  private Store = "/store";
-  private User = "/user";
-  private Leave = "/leave";
-  private MonthAudit = "/monthAudit";
+  private Auth = this.host + "/auth";
+  private Store = this.host + "/store";
+  private User = this.host + "/user";
+  private Leave = this.host + "/leave";
+  private MonthAudit = this.host + "/monthAudit";
 
   auth = {
     login: this.Auth + "/login",
@@ -54,6 +56,11 @@ export class ResourceService {
   monthAudit = {
     getPendingLeaves: this.MonthAudit + "/pendingLeaves",
     createNewMonth: this.MonthAudit + "/createNewMonth",
-    getWorkingInfo : this.MonthAudit + "/workingInfo"
+    getWorkingInfo: this.MonthAudit + "/workingInfo",
+  };
+
+  wegaShine = {
+    session: "/session",
+    devices: "/devices",
   };
 }

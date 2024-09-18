@@ -41,6 +41,14 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   },
+  {
+    path: "vehicle-tracking",
+    loadChildren: () =>
+      import("./modules/vehicle-tracking/vehicle-tracking.module").then(
+        (m) => m.VehicleTrackingModule
+      ),
+    canActivate: [RouteGuardService],
+  },
 ];
 
 @NgModule({

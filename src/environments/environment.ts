@@ -6,6 +6,6 @@
 export const environment = {
   production: false,
   apiURL: "http://localhost:5902/api",
-  rptURL: "http://108.181.185.156:2028",
   appURL: "http://localhost:4200",
+  wegaShineURL: "https://portal.wegashine.lk/api",
 };

@@ -222,7 +222,7 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
     WebcamViewComponent,
     InactiveLoginComponent,
     DefaultLayoutNewComponent,
-    DefaultDashboardComponent
+    DefaultDashboardComponent,
   ],
   providers: [
     DataAccessService,
@@ -249,4 +249,4 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

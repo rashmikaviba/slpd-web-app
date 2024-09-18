@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { MasterDataService } from "./master-data.service";
-import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +10,6 @@ import { environment } from "src/environments/environment";
 export class DataAccessService {
   public Request: BehaviorSubject<number> = new BehaviorSubject(0);
   private RequestCount = 0;
-  baseURL: string = environment.apiURL;
 
   constructor(
     private http: HttpClient,
@@ -20,16 +18,6 @@ export class DataAccessService {
 
   GET(url: string, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -57,16 +45,6 @@ export class DataAccessService {
 
   POST(url: string, body: any, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -96,16 +74,6 @@ export class DataAccessService {
 
   PATCH(url: string, body: any, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -133,16 +101,7 @@ export class DataAccessService {
 
   PUT(url: string, body: any, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
+
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -170,16 +129,6 @@ export class DataAccessService {
 
   DELETE(url: string, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -207,16 +156,6 @@ export class DataAccessService {
 
   _POST(url: string, body: any, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -239,16 +178,6 @@ export class DataAccessService {
 
   _GET(url: string, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
@@ -271,16 +200,7 @@ export class DataAccessService {
 
   UPLOAD_IMAGE(url: string, params: any, spinner = true) {
     let responseModel = new AppResponse();
-    let serviceURL = this.baseURL;
-    if (serviceURL == null) {
-      responseModel.Message = "Please Configure Application Settings!";
-      responseModel.IsSuccessful = false;
-      responseModel.StatusCode = 500;
-      responseModel.TimeStamp = new Date();
-      return of(responseModel);
-    } else {
-      url = serviceURL + url;
-    }
+
     if (spinner) {
       this.Request.next(++this.RequestCount);
     }
