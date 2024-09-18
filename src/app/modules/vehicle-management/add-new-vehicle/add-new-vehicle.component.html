@@ -1,0 +1,150 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <!-- <div class="card"> -->
+  <div class="grid mt-3 p-4">
+    <div class="col-12">
+      <div class="p-fluid grid formgrid align-items-end">
+        <div class="field col-12 md:col-3">
+          <label for="vehicleNumber" class="required">Vehicle Number</label>
+          <input
+            id="vehicleNumber"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="vehicleNumber"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="ownerName" class="required">Owner Name</label>
+          <input
+            id="ownerName"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="ownerName"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="vehicleType" class="required">Vehicle Type</label>
+          <p-dropdown
+            id="vehicleType"
+            styleClass="w-full "
+            class="w-full"
+            [options]="type"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select type"
+            formControlName="vehicleType"
+            appendTo="body"
+            [autoOptionFocus]="false"
+          ></p-dropdown>
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="regNumber" class="required">Registration Number</label>
+          <input
+            id="regNumber"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="regNumber"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="regDate" class="required">Registration Date</label>
+          <input
+            id="regDate"
+            pInputText
+            type="date"
+            class="w-full"
+            formControlName="regDate"
+            [min]="minDate"
+            [max]="maxDate"
+            onclick="this.showPicker()"
+            onkeydown="return false"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="capacity" class="required">Capacity</label>
+          <input
+            id="capacity"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="capacity"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="noOFSeats" class="required">Number of Seats</label>
+          <input
+            id="noOFSeats"
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="noOFSeats"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 15)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-fluid grid formgrid p-4">
+    <div class="field mb-3 col-12 md:col-6">
+      <label for="postalCode" class="font-medium text-900"
+        >Vehicle Documents</label
+      >
+      <div class="flex gap-4">
+        <div
+          class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+          [ngClass]="
+            nicImageUrl
+              ? 'border-2'
+              : 'border-dashed justify-content-center align-items-center'
+          "
+        >
+          <i class="pi pi-image text-2xl" *ngIf="!nicImageUrl"></i>
+          <img
+            [src]="nicImageUrl"
+            *ngIf="nicImageUrl"
+            class="w-full h-full border-round"
+            style="object-fit: cover"
+          />
+        </div>
+
+        <div
+          class="flex flex-column gap-2 align-items-center justify-content-center"
+        >
+          <button
+            pButton
+            type="button"
+            label="Remove Image"
+            icon="pi pi-times"
+            class="p-button-danger p-button-outlined"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="Upload Image"
+            icon="pi pi-camera"
+            class="p-button-primary p-button-outlined"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-2">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        styleClass="p-button-secondary"
+        (onClick)="onClickCancel()"
+      ></p-button>
+      <p-button
+        label="Save"
+        icon="pi pi-save"
+        iconPos="left"
+        (onClick)="onClickSave()"
+      ></p-button>
+    </div>
+  </ng-template>
+</form>

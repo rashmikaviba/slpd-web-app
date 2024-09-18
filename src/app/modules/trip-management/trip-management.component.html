@@ -1,10 +1,10 @@
 <!-- <div class="card"> -->
 <div class="flex justify-content-between align-items-center mb-4">
-  <div class="text-2xl font-semibold">User Management</div>
+  <div class="text-2xl font-semibold">Trip Management</div>
   <p-button
     styleClass=" mr-2"
     icon="pi pi-plus"
-    label="Add New User"
+    label="Add New Trip"
     (onClick)="onClickAddNew()"
   ></p-button>
 </div>
@@ -48,7 +48,7 @@
           pInputText
           type="text"
           (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-          placeholder="Search User"
+          placeholder="Search Trip"
         />
       </p-iconField>
 
@@ -74,62 +74,63 @@
         *ngFor="let col of columns"
         [ngClass]="{
           'bg-blue': rowIndex % 2 !== 0,
-          'line-through	': rowData.isBlackListed
         }"
       >
-        <ng-container *ngIf="col.field == 'fullName'">
-          <span class="p-column-title font-bold">Full Name</span
+        <ng-container *ngIf="col.field == 'tripNo'">
+          <span class="p-column-title font-bold">Trip Number</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'userName'">
-          <span class="p-column-title font-bold">User Name</span
+        <ng-container *ngIf="col.field == 'startDate'">
+          <span class="p-column-title font-bold">Start Date</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'address'">
-          <span class="p-column-title font-bold">Address</span
+        <ng-container *ngIf="col.field == 'endDate'">
+          <span class="p-column-title font-bold">End Date</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'nic'">
-          <span class="p-column-title font-bold">NIC</span
+        <ng-container *ngIf="col.field == 'passengersCount'">
+          <span class="p-column-title font-bold">Passengers Count</span
           >{{ rowData[col.field] }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'email'">
-          <span class="p-column-title font-bold">E-mail</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'phoneNumber1'">
-          <span class="p-column-title font-bold">Phone Number 1</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'phoneNumber2'">
-          <span class="p-column-title font-bold">Phone Number 2</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'roleName'">
-          <span class="p-column-title font-bold">Role Name</span
+        <ng-container *ngIf="col.field == 'destinations'">
+          <span class="p-column-title font-bold">Destinations</span
           >{{ rowData[col.field] }}
         </ng-container>
       </td>
       <td
         class="text-center"
         [ngClass]="{
-        'bg-blue': rowIndex % 2 !== 0,
-      }"
+              'bg-blue': rowIndex % 2 !== 0,
+            }"
       >
-        <!-- <span class="p-column-title font-bold">Action</span> -->
-        <button
-          #btn
-          type="button"
-          pButton
-          icon="pi pi-ellipsis-v"
-          (click)="toggleMenu(menu, $event, rowData)"
-        ></button>
-        <p-tieredMenu
-          #menu
-          [model]="filteredItems"
-          [popup]="true"
-          appendTo="body"
-        ></p-tieredMenu>
+        <div
+          class="flex flex-wrap justify-content-center align-content-center gap-1"
+        >
+          <!-- <span class="p-column-title font-bold">Action</span> -->
+          <button
+            type="button"
+            pButton
+            pTooltip="Assign Driver and Vehicle"
+            tooltipPosition="bottom"
+            class="p-button-outlined p-button-warning"
+            icon="pi pi-check-circle"
+            (click)="onClickAssignDriverAndVehicle()"
+          ></button>
+          <button
+            #btn
+            type="button"
+            pButton
+            class="ml-2"
+            icon="pi pi-ellipsis-v"
+            (click)="toggleMenu(menu, $event, rowData)"
+          ></button>
+          <p-tieredMenu
+            #menu
+            [model]="filteredItems"
+            [popup]="true"
+            appendTo="body"
+          ></p-tieredMenu>
+        </div>
       </td>
     </tr>
   </ng-template>
@@ -141,7 +142,7 @@
           style="height: 300px; width: 100%"
         >
           <i class="pi pi-inbox text-5xl text-gray-400"></i>
-          <small class="">No Users Found</small>
+          <small class="">No Trip Found</small>
         </div>
       </td>
     </tr>

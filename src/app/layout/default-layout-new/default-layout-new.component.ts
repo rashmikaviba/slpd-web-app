@@ -72,6 +72,20 @@ export class DefaultLayoutNewComponent {
       },
       {
         menuId: 4,
+        label: "Trip Management",
+        icon: "pi pi-map",
+        routerLink: "/trip-management",
+        isVisible: true,
+      },
+      {
+        menuId: 5,
+        label: "Vehicle Management",
+        icon: "pi pi-car",
+        routerLink: "/vehicle-management",
+        isVisible: true,
+      },
+      {
+        menuId: 6,
         label: "Month Audit",
         icon: "pi pi-briefcase",
         // routerLink: "/month-audit",

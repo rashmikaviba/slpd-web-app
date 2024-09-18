@@ -1,0 +1,47 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-12">
+      <label for="driverName">Driver Name</label>
+      <p-dropdown
+        id="driverName"
+        class="w-full"
+        [options]="driver"
+        optionLabel="name"
+        optionValue="driverId"
+        formControlName="driverName"
+        [filter]="true"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-12">
+      <label for="vehicle">Vehicle</label>
+      <p-dropdown
+        id="vehicle"
+        class="w-full"
+        [options]="vehicle"
+        optionLabel="name"
+        optionValue="vehicleId"
+        formControlName="vehicle"
+        [filter]="true"
+        appendTo="body"
+      ></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-12">
+      <div class="flex gap-1" style="float: right">
+        <p-button
+          styleClass="p-button-secondary mr-2"
+          label="Cancel"
+          icon="pi pi-times"
+          (click)="onClickCancel()"
+        ></p-button>
+
+        <p-button
+          styleClass="p-button-success"
+          label="Save"
+          icon="pi pi-save"
+          (click)="onClickSave()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

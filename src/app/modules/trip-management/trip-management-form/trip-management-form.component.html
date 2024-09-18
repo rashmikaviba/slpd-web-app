@@ -1,0 +1,122 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid align-items-start p-4">
+    <div class="field col-12 md:col-6">
+      <div class="p-fluid grid formgrid">
+        <div class="field col-12 md:col-6">
+          <label class="required" for="startDate">Start Date</label>
+          <input
+            pInputText
+            type="date"
+            formControlName="startDate"
+            class="w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label class="required" for="endDate">End Date</label>
+          <input
+            pInputText
+            type="date"
+            formControlName="endDate"
+            class="w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label class="required" for="passengersCount">Passengers Count</label>
+          <input
+            pInputText
+            type="number"
+            formControlName="passengersCount"
+            class="w-full"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <p-orderList
+        [value]="products"
+        [listStyle]="{ 'max-height': '30rem' }"
+        [dragdrop]="true"
+        filterBy="name"
+        filterPlaceholder="Filter by Places"
+      >
+        <!-- Custom header with button -->
+        <ng-template pTemplate="header">
+          <div class="flex justify-content-between align-items-center">
+            <span>List of Places</span>
+            <p-button
+              styleClass="p-button-sm p-button-success"
+              icon="pi pi-plus"
+              label="Add Place"
+              (onClick)="onClickAddNew()"
+            ></p-button>
+          </div>
+          <ng-container *ngIf="isAddNewDesigation">
+            <hr />
+            <div class="p-fluid grid formgrid align-items-end">
+              <div class="field col-12 md:col-12">
+                <label for="placeName">Place Name</label>
+                <input
+                  pInputText
+                  type="text"
+                  class="w-full"
+                  formControlName="placeName"
+                />
+              </div>
+              <div class="field col-12 md:col-6">
+                <label for="distance">Distance</label>
+                <input
+                  pInputText
+                  type="number"
+                  class="w-full"
+                  formControlName="distance"
+                />
+              </div>
+              <div class="field col-12 md:col-6">
+                <p-button
+                  styleClass="p-button-success"
+                  icon="pi pi-save"
+                  label="Submit"
+                  (onClick)="onClickSubmit()"
+                ></p-button>
+              </div>
+            </div>
+            <hr />
+          </ng-container>
+        </ng-template>
+        <ng-template let-product pTemplate="item">
+          <div class="flex flex-wrap p-2 align-items-center gap-3">
+            <div class="flex-1 flex flex-column gap-2">
+              <span class="font-bold">{{ product.name }}</span>
+              <div class="flex align-items-center gap-2">
+                <i class="pi pi-tag text-sm"></i>
+                <span>{{ product.category }}</span>
+              </div>
+            </div>
+            <span class="font-bold text-900">{{ product.distance }}</span>
+            <p-button
+              styleClass="p-button-sm p-button-danger p-button-outlined"
+              icon="pi pi-trash"
+              (onClick)="onClickAddNew()"
+            ></p-button>
+          </div>
+        </ng-template>
+      </p-orderList>
+    </div>
+  </div>
+  <ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-2">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        styleClass="p-button-secondary"
+        (onClick)="onClickCancel()"
+      ></p-button>
+      <p-button
+        [label]="!isEdit ? 'Save' : 'Update'"
+        icon="pi pi-save"
+        iconPos="left"
+        (onClick)="onClickSave()"
+      ></p-button>
+    </div>
+  </ng-template>
+</form>
