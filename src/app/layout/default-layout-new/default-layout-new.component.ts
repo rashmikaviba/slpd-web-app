@@ -75,14 +75,19 @@ export class DefaultLayoutNewComponent {
         label: "Trip Management",
         icon: "pi pi-map",
         routerLink: "/trip-management",
-        isVisible: true,
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.AdminTripManagement,
+        ]),
       },
       {
         menuId: 5,
         label: "Vehicle Management",
         icon: "pi pi-car",
         routerLink: "/vehicle-management",
-        isVisible: true,
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.SuperAdminVehicleManagement,
+          AppModule.AdminVehicleManagement,
+        ]),
       },
       {
         menuId: 6,
@@ -97,7 +102,7 @@ export class DefaultLayoutNewComponent {
         },
       },
       {
-        menuId: 5,
+        menuId: 7,
         label: "Vehicle Tracking",
         icon: "pi pi-map-marker",
         routerLink: "/vehicle-tracking",

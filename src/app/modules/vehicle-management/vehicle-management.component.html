@@ -25,7 +25,11 @@
   [rowHover]="true"
   [showCurrentPageReport]="true"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [globalFilterFields]="['fullName', 'userName']"
+  [globalFilterFields]="[
+    'vehicleTypeName',
+    'registrationNumber',
+    'vehicleOwner'
+  ]"
 >
   <ng-template pTemplate="caption">
     <div class="flex justify-content-between">
@@ -57,7 +61,12 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let col of columns">
+      <th
+        *ngFor="let col of columns"
+        [ngClass]="{
+          'text-center': col.field == 'status'
+        }"
+      >
         {{ col.header }}
       </th>
       <th class="text-center">Action</th>
@@ -77,37 +86,34 @@
           'line-through	': rowData.isBlackListed
         }"
       >
-        <ng-container *ngIf="col.field == 'vehicleNo'">
-          <span class="p-column-title font-bold">Vehicle Number</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'ownerName'">
-          <span class="p-column-title font-bold">Owner Name</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'type'">
-          <span class="p-column-title font-bold">Vehicle Type</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'regNo'">
-          <span class="p-column-title font-bold">Registration Number</span
-          >{{ rowData[col.field] }}
-        </ng-container>
-        <ng-container *ngIf="col.field == 'regDate'">
-          <span class="p-column-title font-bold">Registration Date</span
-          >{{ rowData[col.field] }}
-        </ng-container>
         <ng-container *ngIf="col.field == 'capacity'">
           <span class="p-column-title font-bold">Capacity</span
-          >{{ rowData[col.field] }}
+          >{{ rowData[col.field] + " CC" }}
+        </ng-container>
+
+        <ng-container *ngIf="col.field == 'status'">
+          <span class="p-column-title font-bold">Status</span>
+          <div class="text-center">
+            <p-button
+              [severity]="
+                rowData.status == 1
+                  ? 'success'
+                  : rowData.status == 2
+                  ? 'warning'
+                  : 'danger'
+              "
+              outlined="true"
+              label="{{ rowData.statusName }}"
+              (onClick)="onStatusChange(rowData)"
+            ></p-button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="col.field != 'capacity' && col.field != 'status'">
+          {{ rowData[col.field] || "-" }}
         </ng-container>
       </td>
-      <td
-        class="text-center"
-        [ngClass]="{
-        'bg-blue': rowIndex % 2 !== 0,
-      }"
-      >
+      <td class="text-center">
         <!-- <span class="p-column-title font-bold">Action</span> -->
         <button
           #btn

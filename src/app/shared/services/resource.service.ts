@@ -17,6 +17,8 @@ export class ResourceService {
   private User = this.host + "/user";
   private Leave = this.host + "/leave";
   private MonthAudit = this.host + "/monthAudit";
+  private Common = this.host + "/common";
+  private Vehicle = this.host + "/vehicle";
 
   auth = {
     login: this.Auth + "/login",
@@ -62,5 +64,18 @@ export class ResourceService {
   wegaShine = {
     session: "/session",
     devices: "/devices",
+  };
+
+  common = {
+    getDataByType: this.Common + "/data",
+  };
+
+  vehicle = {
+    saveVehicle: this.Vehicle,
+    getAllVehicles: this.Vehicle,
+    getVehicleById: this.Vehicle,
+    updateVehicle: this.Vehicle,
+    deleteVehicleById: this.Vehicle,
+    activeInactiveVehicles: this.Vehicle + "/activeInactive",
   };
 }

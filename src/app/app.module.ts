@@ -223,11 +223,6 @@ import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-
   ],
   declarations: [
     AppComponent,
-    // DefaultLayoutComponent,
-    // TopNavBarComponent,
-    // ConfigNavBarComponent,
-    // MainLayoutComponent,
-    // MainSideBarComponent,
     WebcamViewComponent,
     InactiveLoginComponent,
     DefaultLayoutNewComponent,
