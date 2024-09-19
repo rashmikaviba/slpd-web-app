@@ -29,6 +29,63 @@
             class="w-full"
           />
         </div>
+        <div class="field col-12">
+          <hr />
+        </div>
+        <div class="field col-12">
+          <label class="text-xl font-bold">Guest Details</label>
+        </div>
+        <div class="field col-12 md:col-12">
+          <label class="required" for="guestName">Guest Name</label>
+          <input
+            pInputText
+            type="text"
+            formControlName="guestName"
+            class="w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-12">
+          <label class="required" for="email">Email</label>
+          <input
+            pInputText
+            type="text"
+            formControlName="email"
+            class="w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label class="required" for="mobileNumber">Mobile Number</label>
+          <input
+            pInputText
+            type="number"
+            formControlName="mobileNumber"
+            class="w-full"
+          />
+        </div>
+        <div class="field col-12">
+          <hr />
+        </div>
+        <div class="field col-12">
+          <label class="text-xl font-bold">Additional Details</label>
+        </div>
+        <div class="field col-12 md:col-6">
+          <label class="required" for="totalINcome">Total Income</label>
+          <input
+            pInputText
+            type="number"
+            formControlName="totalINcome"
+            class="w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label class="required" for="estimatedCost">Estimated Expenses</label>
+          <input
+            pInputText
+            type="number"
+            formControlName="estimatedCost"
+            class="w-full"
+          />
+        </div>
       </div>
     </div>
     <div class="field col-12 md:col-6">
@@ -96,7 +153,7 @@
             <p-button
               styleClass="p-button-sm p-button-danger p-button-outlined"
               icon="pi pi-trash"
-              (onClick)="onClickAddNew()"
+              (onClick)="onClickDelete()"
             ></p-button>
           </div>
         </ng-template>

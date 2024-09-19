@@ -1,0 +1,51 @@
+{
+    "healthcareChecklist": [
+        {
+            "taskId": 1,
+            "taskName": "Are you feeling well today ?",
+            "status": false
+        },
+        {
+            "taskId": 2,
+            "taskName": "Do you have any symptoms of illness ? (Fever, Cough, etc) ?",
+            "status": false
+        },
+        {
+            "taskId": 3,
+            "taskName": "Have you taken any medication that could impair your driving ? ?",
+            "status": false
+        },
+        {
+            "taskId": 4,
+            "taskName": "Have you consumed alcohol in the last 24 hours ? ",
+            "status": false
+        }
+    ],
+    "vehicleChecklist": [
+        {
+            "taskId": 1,
+            "taskName": "Are all lights functioning properly ? (Headlights, Tail Lights, Indicators)",
+            "status": false
+        },
+        {
+            "taskId": 2,
+            "taskName": "Are the brakes operating effectively ?",
+            "status": false
+        },
+        {
+            "taskId": 3,
+            "taskName": "Is the tire pressure adequate and are the tires in good condition ?",
+            "status": false
+        },
+        {
+            "taskId": 4,
+            "taskName": "Is the engine oil level appropriate ?",
+            "status": false
+        },
+        {
+            "taskId": 5,
+            "taskName": "Is the fuel level sufficient for the trip ?",
+            "status": false
+        }
+    ]
+}
