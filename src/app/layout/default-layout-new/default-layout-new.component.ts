@@ -91,10 +91,12 @@ export class DefaultLayoutNewComponent {
       },
       {
         menuId: 6,
-        label: "Driver Management",
-        icon: "pi pi-user",
+        label: "Your Trips",
+        icon: "pi pi-map",
         routerLink: "/driver-management",
-        isVisible: true
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.DriverTripManagement,
+        ]),
       },
       {
         menuId: 7,

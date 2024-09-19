@@ -11,4 +11,5 @@ export enum AppModule {
   AdminTripManagement = 32,
 
   DriverLeaveManagement = 60,
+  DriverTripManagement = 61,
 }
