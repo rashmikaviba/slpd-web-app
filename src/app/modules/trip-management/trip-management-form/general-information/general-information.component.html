@@ -1,0 +1,208 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid align-items-start p-4">
+    <div class="field col-12 md:col-4">
+      <label class="required" for="startDate">Start Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="startDate"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="endDate">End Date</label>
+      <input pInputText type="date" formControlName="endDate" class="w-full" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="dateCount">Date Count</label>
+      <input
+        pInputText
+        type="number"
+        formControlName="dateCount"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-8">
+      <label class="required" for="email">Email</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="email"
+        class="w-full"
+        placeholder="text@gmail.com"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="mobile">Mobile</label>
+      <input pInputText type="number" formControlName="mobile" class="w-full" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="totalINcome">Total Income</label>
+      <input
+        pInputText
+        type="number"
+        formControlName="totalINcome"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="estimatedCost">Estimated Expenses</label>
+      <input
+        pInputText
+        type="number"
+        formControlName="estimatedCost"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12">
+      <hr />
+    </div>
+    <div class="field col-12">
+      <label class="text-xl font-bold">Arrival Information</label>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="arrivalDate">Arrival Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="arrivalDate"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="arrivalTime">Arrival Time</label>
+      <input
+        pInputText
+        type="time"
+        formControlName="arrivalTime"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="flightNumber">Flight Number</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="flightNumber"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12">
+      <hr />
+    </div>
+    <div class="field col-12">
+      <label class="text-xl font-bold">Departure Information</label>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="departureDate">Departure Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="departureDate"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="departureTime">Departure Time</label>
+      <input
+        pInputText
+        type="time"
+        formControlName="departureTime"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="departureFlightNumber">Flight Number</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="departureFlightNumber"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12">
+      <hr />
+    </div>
+    <div class="field col-12">
+      <label class="text-xl font-bold">Pickup Information</label>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="pickUpDate">Pickup Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="pickUpDate"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="pickUpTime">Pickup Time</label>
+      <input
+        pInputText
+        type="time"
+        formControlName="pickUpTime"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="pickUpCity">Pickup City</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="pickUpCity"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-12">
+      <label class="required" for="pickUpAddress">Pickup Time Address</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="pickUpAddress"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12">
+      <hr />
+    </div>
+    <div class="field col-12">
+      <label class="text-xl font-bold">Drop Off Information</label>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="dropOffDate">Drop Off Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="dropOffDate"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="dropOffTime">Drop Off Time</label>
+      <input
+        pInputText
+        type="time"
+        formControlName="dropOffTime"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label class="required" for="dropOffCity">Drop Off Time City</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="dropOffCity"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-12">
+      <label class="required" for="dropOffAddress">Drop Off Time Address</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="dropOffAddress"
+        class="w-full"
+      />
+    </div>
+  </div>
+</form>

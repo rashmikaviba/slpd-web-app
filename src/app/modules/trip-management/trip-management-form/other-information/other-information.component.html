@@ -1,0 +1,341 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid p-4">
+    <div class="field col-12 md:col-12">
+      <div class="field col-12">
+        <label class="text-xl font-bold">Activities</label>
+      </div>
+      <p-table
+        #dt
+        styleClass=""
+        [columns]="cols"
+        [value]="recodes"
+        responsiveLayout="stack"
+        [breakpoint]="'960px'"
+        dataKey="_id"
+        [responsive]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-gridlines"
+        [loading]="loading"
+        [rowHover]="true"
+        [paginator]="true"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between mb-2">
+            <p-button
+              styleClass="p-button-sm p-button-success"
+              icon="pi pi-plus"
+              label="Add Activity"
+              (onClick)="onClickAddNewActivity()"
+            ></p-button>
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Activity"
+              />
+            </p-iconField>
+          </div>
+          <ng-container class="mt-3" *ngIf="isAddNewGuest">
+            <div class="p-fluid grid formgrid align-items-end p-1">
+              <div class="field col-12 md:col-3">
+                <label class="required" for="date">Date</label>
+                <input
+                  pInputText
+                  type="date"
+                  formControlName="date"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-3">
+                <label class="required" for="adultCount">Adult Count</label>
+                <input
+                  pInputText
+                  type="text"
+                  formControlName="adultCount"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-3">
+                <label class="required" for="childCount">Child Count</label>
+                <input
+                  pInputText
+                  type="number"
+                  formControlName="childCount"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-3">
+                <label class="required" for="totalCost">Total Cost</label>
+                <input
+                  pInputText
+                  type="number"
+                  formControlName="totalCost"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-10">
+                <label class="required" for="description">Description</label>
+                <input
+                  pInputText
+                  type="text"
+                  formControlName="description"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-2">
+                <p-button
+                  styleClass="p-button-sm p-button-success"
+                  icon="pi pi-plus"
+                  pTooltip="Add"
+                  (onClick)="onClickSaveGuest()"
+                ></p-button>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{ col.header }}
+            </th>
+            <th class="text-center">Action</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-rowData
+          let-columns="columns"
+          let-rowIndex="rowIndex"
+        >
+          <tr>
+            <td
+              *ngFor="let col of columns"
+              [ngClass]="{
+        'bg-blue': rowIndex % 2 !== 0,
+      }"
+            >
+              <ng-container *ngIf="col.field == 'date'">
+                <span class="p-column-title font-bold">Date</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'adultCount'">
+                <span class="p-column-title font-bold">Adult Count</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'childCount'">
+                <span class="p-column-title font-bold">Child Count</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'description'">
+                <span class="p-column-title font-bold">Description</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'totalCost'">
+                <span class="p-column-title font-bold text-right"
+                  >Total Cost</span
+                >
+                <div class="text-right">{{ rowData[col.field] }}</div>
+              </ng-container>
+            </td>
+            <td
+              class="text-center"
+              [ngClass]="{
+            'bg-blue': rowIndex % 2 !== 0,
+          }"
+            >
+              <div
+                class="flex flex-wrap justify-content-center align-content-center gap-1"
+              >
+                <p-button
+                  styleClass="p-button-sm p-button-danger p-button-outlined"
+                  icon="pi pi-trash"
+                  (onClick)="onClickDeleteGuest()"
+                ></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length + 2">
+              <div
+                class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 100%; width: 100%"
+              >
+                <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                <small class="">No Activity Found</small>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="field col-12 md:col-12">
+      <div class="field col-12">
+        <hr />
+      </div>
+      <div class="field col-12">
+        <label class="text-xl font-bold">Hotel Details</label>
+      </div>
+      <p-table
+        #dt
+        styleClass=""
+        [columns]="hotelCols"
+        [value]="hotelRecords"
+        responsiveLayout="stack"
+        [breakpoint]="'960px'"
+        dataKey="_id"
+        [responsive]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-gridlines"
+        [loading]="loading"
+        [rowHover]="true"
+        [paginator]="true"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between mb-2">
+            <p-button
+              styleClass="p-button-sm p-button-success"
+              icon="pi pi-plus"
+              label="Add Hotel"
+              (onClick)="onClickAddNewHotel()"
+            ></p-button>
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Hotel"
+              />
+            </p-iconField>
+          </div>
+          <ng-container class="mt-3" *ngIf="isAddNewHotel">
+            <div class="p-fluid grid formgrid align-items-end p-1">
+              <div class="field col-12 md:col-4">
+                <label class="required" for="date">Date</label>
+                <!-- <input
+                  pInputText
+                  type="date"
+                  formControlName="hotelDate"
+                  class="w-full"
+                /> -->
+                <p-calendar
+                  [(ngModel)]="dates"
+                  selectionMode="multiple"
+                  [readonlyInput]="true"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+              <div class="field col-12 md:col-8">
+                <label class="required" for="hotelName">Hotel Name</label>
+                <input
+                  pInputText
+                  type="text"
+                  formControlName="hotelName"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-3">
+                <label class="required" for="city">City</label>
+                <input
+                  pInputText
+                  type="text"
+                  formControlName="city"
+                  class="w-full"
+                />
+              </div>
+              <div class="field col-12 md:col-2">
+                <p-button
+                  styleClass="p-button-sm p-button-success"
+                  icon="pi pi-plus"
+                  pTooltip="Add"
+                  (onClick)="onClickSaveGuest()"
+                ></p-button>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{ col.header }}
+            </th>
+            <th class="text-center">Action</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-rowData
+          let-columns="columns"
+          let-rowIndex="rowIndex"
+        >
+          <tr>
+            <td
+              *ngFor="let col of columns"
+              [ngClass]="{
+        'bg-blue': rowIndex % 2 !== 0,
+      }"
+            >
+              <ng-container *ngIf="col.field == 'date'">
+                <span class="p-column-title font-bold">Date</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'hotelName'">
+                <span class="p-column-title font-bold">Hotel Name(Address)</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+              <ng-container *ngIf="col.field == 'city'">
+                <span class="p-column-title font-bold">City</span
+                >{{ rowData[col.field] }}
+              </ng-container>
+            </td>
+            <td
+              class="text-center"
+              [ngClass]="{
+            'bg-blue': rowIndex % 2 !== 0,
+          }"
+            >
+              <div
+                class="flex flex-wrap justify-content-center align-content-center gap-1"
+              >
+                <p-button
+                  styleClass="p-button-sm p-button-danger p-button-outlined"
+                  icon="pi pi-trash"
+                  (onClick)="onClickDeleteGuest()"
+                ></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length + 2">
+              <div
+                class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 100%; width: 100%"
+              >
+                <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                <small class="">No Hotel Found</small>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</form>

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
 import { CommonForm } from 'src/app/shared/services/app-common-form';
 import { AppMessageService } from 'src/app/shared/services/app-message.service';
 import { SidebarService } from 'src/app/shared/services/sidebar.service';
@@ -12,58 +13,50 @@ import { SidebarService } from 'src/app/shared/services/sidebar.service';
 })
 export class TripManagementFormComponent {
   @ViewChild("templateRef", { static: true }) templateRef: TemplateRef<any>;
-  FV = new CommonForm();
-  products: any
-  isEdit: any
-  isAddNewDesigation: boolean = false
+  activeIndex: any = 0;
+  items: MenuItem[];
+  value: any = { value: 0, label: "General Information" };
+  showingIndex: number = 0;
+  userDetail: any;
+  uploadedImages: any;
+  isEdit: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe,
     private sidebarService: SidebarService,
-    private messageService: AppMessageService
-  ) {
-    this.createForm();
-  }
-
-  createForm() {
-    this.FV.formGroup = this.formBuilder.group({
-      startDate: ["", [Validators.required]],
-      endDate: ["", [Validators.required]],
-      passengersCount: ["", [Validators.required]],
-      placeName: [''],
-      distance: [''],
-      guestName: [''],
-      email: [''],
-      mobileNumber: [''],
-      totalINcome: [''],
-      estimatedCost: ['']
-    });
-  }
+    private messageService: AppMessageService,
+  ) { }
 
   ngOnInit(): void {
     let sideBarData = this.sidebarService.getData();
-    this.isEdit = sideBarData.isEdit
-    console.log("isEdit", this.isEdit)
     this.sidebarService.setFooterTemplate(this.templateRef);
 
-    this.products = [
-      { name: 'Colombo', category: 'Place', distance: '100 KM' },
-      { name: 'Galle', category: 'Place', distance: '50 KM' },
-      { name: 'Matara', category: 'Place', distance: '60 KM' },
-      { name: 'Kurunagala', category: 'Place', distance: '80 KM' },
-    ]
+    this.items = [
+      {
+        value: 0,
+        label: "General Information",
+      },
+      {
+        value: 1,
+        label: "Guest Information",
+      },
+      {
+        value: 2,
+        label: "Trip Information",
+      },
+      {
+        value: 3,
+        label: "Other Information",
+      },
+    ];
   }
 
-  onClickAddNew() {
-    try {
-      this.isAddNewDesigation = !this.isAddNewDesigation
-    } catch (error: any) {
-      this.messageService.showErrorAlert(error)
-    }
+  handleClick(index: number): void {
+    console.log("index", index);
+    this.showingIndex = this.items[index]?.value;
+    console.log("value", this.showingIndex);
   }
-  onClickSave() { }
-  onClickCancel() { }
-  onClickSubmit() { }
-  onClickDelete() { }
+
+  handleCancel() { }
+  handleUpdate(e: any) { }
+  handleSave(e: any) { }
 }
