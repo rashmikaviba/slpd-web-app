@@ -1,122 +1,135 @@
-import { DatePipe } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { CommonForm } from 'src/app/shared/services/app-common-form';
-import { AppMessageService } from 'src/app/shared/services/app-message.service';
-import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { CommonService } from "src/app/shared/services/api-services/common.service";
+import { DatePipe } from "@angular/common";
+import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { forkJoin, lastValueFrom } from "rxjs";
+import { CommonForm } from "src/app/shared/services/app-common-form";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
+import { genders, nationalities } from "src/app/shared/data/commonData";
+import { TripManagementFlowService } from "../trip-management-flow.service";
 
 @Component({
-  selector: 'app-guest-information',
-  templateUrl: './guest-information.component.html',
-  styleUrls: ['./guest-information.component.scss']
+  selector: "app-guest-information",
+  templateUrl: "./guest-information.component.html",
+  styleUrls: ["./guest-information.component.scss"],
 })
 export class GuestInformationComponent {
-  // @ViewChild("templateRef", { static: true }) templateRef: TemplateRef<any>;
   FV = new CommonForm();
-  products: any
-  isEdit: any
-  isAddNewDesigation: boolean = false
   cols: any;
-  recodes: any;
-  loading: any;
-  filteredItems: any[];
-  items: any[];
-  isAddNewGuest: boolean = false
-  gender: any[] = [
-    { id: 1, name: 'Male' },
-    { id: 2, name: 'Female' },
-    { id: 0, name: 'Other' }
-  ]
+  recodes: any[] = [];
+  isAddNewGuest: boolean = false;
+  gender: any[] = genders;
+  nationalities: any[] = nationalities;
 
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private sidebarService: SidebarService,
-    private messageService: AppMessageService
+    private messageService: AppMessageService,
+    private commonService: CommonService,
+    private tripMgtFlowService: TripManagementFlowService
   ) {
     this.createForm();
   }
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      startDate: ["", [Validators.required]],
-      endDate: ["", [Validators.required]],
-      dateCount: [''],
-      gender: [''],
-      nationality: [''],
-      age: [''],
-      guestName: ['']
+      gender: ["", [Validators.required]],
+      nationality: ["", [Validators.required]],
+      age: ["", [Validators.required, Validators.min(1), Validators.max(100)]],
+      guestName: ["", [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    let sideBarData = this.sidebarService.getData();
-    this.isEdit = sideBarData.isEdit
-    console.log("isEdit", this.isEdit)
-    // this.sidebarService.setFooterTemplate(this.templateRef);
-
     this.cols = [
-      { field: 'guestName', header: 'Guest Name' },
-      { field: 'nationality', header: 'Nationality' },
-      { field: 'age', header: 'Ages' }
-    ]
+      { field: "name", header: "Guest Name" },
+      { field: "gender", header: "Gender" },
+      { field: "nationality", header: "Nationality" },
+      { field: "age", header: "Ages" },
+    ];
 
-    this.recodes = [
-      { guestName: 'Lahiru', nationality: 'Sri Lankan', age: 25 },
-      { guestName: 'Lahiru', nationality: 'Sri Lankan', age: 25 },
-      { guestName: 'Lahiru', nationality: 'Sri Lankan', age: 25 },
-      { guestName: 'Lahiru', nationality: 'Sri Lankan', age: 25 },
-      { guestName: 'Lahiru', nationality: 'Sri Lankan', age: 25 },
-      { guestName: 'Lahiru', nationality: 'Sri Lankan', age: 25 },
-    ]
-
-    this.products = [
-      { name: 'Colombo', category: 'Place', distance: '100 KM' },
-      { name: 'Galle', category: 'Place', distance: '50 KM' },
-      { name: 'Matara', category: 'Place', distance: '60 KM' },
-      { name: 'Kurunagala', category: 'Place', distance: '80 KM' },
-    ]
-  }
-
-  onClickAddNew() {
-    try {
-      this.isAddNewDesigation = !this.isAddNewDesigation
-    } catch (error: any) {
-      this.messageService.showErrorAlert(error)
+    let data: any = this.tripMgtFlowService.getData();
+    if (data?.passengers) {
+      this.recodes = data.passengers;
+    } else {
+      this.recodes = [];
     }
   }
 
   onClickAddNewGuest() {
-    this.isAddNewGuest = !this.isAddNewGuest
+    this.FV.formGroup.reset();
+    this.isAddNewGuest = !this.isAddNewGuest;
   }
 
   onClickSaveGuest() {
-    this.isAddNewGuest = false
+    debugger;
+    let validateParams = "guestName,gender,nationality,age";
+    if (this.FV.validateControllers(validateParams)) {
+      return;
+    }
+
+    let formData = this.FV.formGroup.value;
+
+    let obj = {
+      id: this.generateUniqueId(),
+      name: formData.guestName,
+      nationality: formData.nationality,
+      age: formData.age,
+      gender: formData.gender,
+    };
+
+    this.recodes.push(obj);
+    this.FV.formGroup.reset();
+    this.isAddNewGuest = !this.isAddNewGuest;
   }
 
-  onClickDeleteGuest() { }
+  onClickDeleteGuest(id: string) {
+    let confirmationConfig = {
+      message: "Are you sure you want to delete this guest?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+    };
 
-  onClickSave() { }
-  onClickCancel() { }
-  onClickSubmit() { }
-  onClickDelete() { }
-
-  toggleMenu(menu: any, event: any, rowData: any) {
-    this.filteredItems = [];
-
-    this.filteredItems = this.items.filter((menuItem: any) => {
-      if (rowData?.isBlackListed && menuItem.id === 3) {
-        return false;
-      } else if (!rowData?.isBlackListed && menuItem.id === 4) {
-        return false;
-      } else {
-        return true;
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.recodes = this.recodes.filter((x) => x.id != id);
+        }
       }
-    });
+    );
+  }
 
-    this.filteredItems.forEach((menuItem) => {
-      menuItem.data = rowData;
-    });
-    menu.toggle(event);
+  onClickCancelGuest() {
+    this.FV.formGroup.reset();
+    this.isAddNewGuest = false;
+  }
+
+  generateUniqueId() {
+    let generatedId =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
+
+    while (this.recodes.findIndex((x) => x.id == generatedId) != -1) {
+      generatedId =
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15);
+    }
+
+    return generatedId;
+  }
+
+  onSaveAndMoveToNext() {
+    this.onClickCancelGuest();
+    if (this.recodes.length <= 0) {
+      this.messageService.showWarnAlert(
+        "Please add at least one guest to continue!"
+      );
+      return null;
+    }
+
+    return this.recodes;
   }
 }

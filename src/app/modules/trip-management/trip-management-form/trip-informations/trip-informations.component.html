@@ -35,8 +35,7 @@
         [value]="products"
         [listStyle]="{ 'max-height': '30rem' }"
         [dragdrop]="true"
-        filterBy="name"
-        filterPlaceholder="Filter by Places"
+        [metaKeySelection]="false"
       >
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center">

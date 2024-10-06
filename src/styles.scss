@@ -133,3 +133,18 @@ img {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.p-inputgroup > p-inputnumber input.p-inputnumber-input {
+  border-radius: 0;
+  margin: 0;
+}
+
+.p-inputgroup p-inputnumber:last-child input.p-inputnumber-input {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.p-inputgroup p-inputnumber:first-child input.p-inputnumber-input {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}

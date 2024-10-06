@@ -68,6 +68,7 @@ export class ResourceService {
 
   common = {
     getDataByType: this.Common + "/data",
+    getGenders: this.Common + "/gender",
   };
 
   vehicle = {

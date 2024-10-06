@@ -18,4 +18,12 @@ export class CommonService {
         return response;
       });
   }
+
+  GetGenderList() {
+    return this.dataAccess
+      .GET(this.resource.common.getGenders)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }
