@@ -1,6 +1,6 @@
 import { OtherInformationComponent } from "./other-information/other-information.component";
 import { DatePipe } from "@angular/common";
-import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { Component, HostListener, TemplateRef, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { MenuItem } from "primeng/api";
 import { CommonForm } from "src/app/shared/services/app-common-form";
@@ -35,68 +35,76 @@ export class TripManagementFormComponent {
     private tripMgtFlowService: TripManagementFlowService
   ) {}
 
+  @HostListener("window:resize", ["$event"])
+  onResize(event) {
+    this.checkViewport();
+  }
+
   ngOnInit(): void {
     let sideBarData = this.sidebarService.getData();
     this.sidebarService.setFooterTemplate(this.templateRef);
 
+    this.checkViewport();
+  }
+
+  checkViewport() {
+    let isMobile = window.innerWidth < 768; // Adjust as per your responsive design breakpoints
+
     this.items = [
       {
         value: 0,
-        label: "General Information",
+        label: isMobile ? "General" : "General Information",
       },
       {
         value: 1,
-        label: "Guest Information",
+        label: isMobile ? "Guest" : "Guest Information",
       },
       {
         value: 2,
-        label: "Trip Information",
+        label: isMobile ? "Trip" : "Trip Information",
       },
       {
         value: 3,
-        label: "Other Information",
+        label: isMobile ? "Other" : "Other Information",
       },
     ];
+
+    // if (this.isMobile) {
+    //   this.items = this.itemsMobile;
+    // } else {
+    //   this.items = this.itemsDesktop;
+    // }
   }
 
   handleClick(index: number): void {
+    console.log(index);
     let finishSteps = this.tripMgtFlowService.getFinishedStep();
-    let selectedMenuName = this.items[index]?.label;
-    switch (index) {
-      case 0:
-        this.showingIndex = 0;
-        break;
-      case 1:
-        if (finishSteps?.step0) {
-          this.showingIndex = 1;
-        } else {
-          this.messageService.showWarnAlert(
-            `Please complete required steps before  select ${selectedMenuName}!`
-          );
-        }
-        break;
-      case 2:
-        if (finishSteps?.step0 && finishSteps?.step1) {
-          this.showingIndex = 2;
-        } else {
-          this.messageService.showWarnAlert(
-            `Please complete required steps before  select ${selectedMenuName}!`
-          );
-        }
-        break;
-      case 3:
-        if (finishSteps?.step0 && finishSteps?.step1 && finishSteps?.step2) {
-          this.showingIndex = 3;
-        } else {
-          this.messageService.showWarnAlert(
-            `Please complete required steps before  select ${selectedMenuName}!`
-          );
-        }
-        break;
-      default:
-        break;
-    }
-    // this.showingIndex = this.items[index]?.value;
+
+    // switch (index) {
+    //   case 0:
+    //     this.showingIndex = 0;
+    //     break;
+    //   case 1:
+    //     if (finishSteps?.step0) {
+    //       this.showingIndex = 1;
+    //     }
+
+    //     break;
+    //   case 2:
+    //     if (finishSteps?.step0 && finishSteps?.step1) {
+    //       this.showingIndex = 2;
+    //     }
+    //     break;
+    //   case 3:
+    //     if (finishSteps?.step0 && finishSteps?.step1 && finishSteps?.step2) {
+    //       this.showingIndex = 3;
+    //     }
+    //     break;
+    //   default:
+    //     break;
+    // }
+
+    this.showingIndex = index;
   }
 
   handleCancel() {}
@@ -169,9 +177,5 @@ export class TripManagementFormComponent {
         console.log(this.tripMgtFlowService.getData());
         break;
     }
-  }
-
-  ngAfterViewChecked(): void {
-    console.log(this.tripMgtFlowService.getData());
   }
 }

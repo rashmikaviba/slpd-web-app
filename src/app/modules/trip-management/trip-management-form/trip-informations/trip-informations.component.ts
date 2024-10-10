@@ -57,6 +57,54 @@ export class TripInformationsComponent {
         date: "2024-09-10 / 2024-09-12",
         description: "Description is Required!",
       },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
+      {
+        date: "2024-09-10 / 2024-09-12",
+        description: "Description is Required!",
+      },
     ];
   }
 

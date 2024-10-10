@@ -1,11 +1,18 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
-  <div class="p-fluid grid formgrid p-4">
+  <div class="p-fluid grid formgrid pt-4 pl-4 pr-4">
     <div class="field col-12 md:col-12">
-      <label class="text-xl font-bold">Places Details</label>
-      <div class="p-fluid grid formgrid align-items-end mt-4">
+      <div class="flex justify-content-between mb-2">
+        <label class="text-xl font-bold">Places Details</label>
+        <p-button
+          styleClass="p-button-sm p-button-success"
+          icon="pi pi-plus"
+          label="Add Place"
+          (onClick)="onClickAddNew()"
+        ></p-button>
+      </div>
+      <!-- <div class="p-fluid grid formgrid align-items-end mt-4">
         <div class="field col-12 md:col-4">
           <label class="required" for="placeName">Date</label>
-          <!-- <input pInputText type="text" class="w-full" formControlName="date" /> -->
           <p-calendar
             [(ngModel)]="dates"
             selectionMode="multiple"
@@ -30,10 +37,10 @@
             (onClick)="onClickAddNew()"
           ></p-button>
         </div>
-      </div>
+      </div> -->
       <p-orderList
         [value]="products"
-        [listStyle]="{ 'max-height': '30rem' }"
+        [listStyle]="{ 'max-height': 'calc(100vh - 310px)' }"
         [dragdrop]="true"
         [metaKeySelection]="false"
       >
