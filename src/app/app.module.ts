@@ -117,16 +117,16 @@ import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-l
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
-import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
-import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
-import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
+// import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
+// import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
+// import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
 import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 import { DriverTaskFormComponent } from "./modules/driver-management/driver-task-form/driver-task-form.component";
-import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
-import { GeneralInformationComponent } from "./modules/trip-management/trip-management-form/general-information/general-information.component";
-import { GuestInformationComponent } from "./modules/trip-management/trip-management-form/guest-information/guest-information.component";
-import { OtherInformationComponent } from "./modules/trip-management/trip-management-form/other-information/other-information.component";
-import { TripInformationsComponent } from "./modules/trip-management/trip-management-form/trip-informations/trip-informations.component";
+// import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
+// import { GeneralInformationComponent } from "./modules/trip-management/trip-management-form/general-information/general-information.component";
+// import { GuestInformationComponent } from "./modules/trip-management/trip-management-form/guest-information/guest-information.component";
+// import { OtherInformationComponent } from "./modules/trip-management/trip-management-form/other-information/other-information.component";
+// import { TripInformationsComponent } from "./modules/trip-management/trip-management-form/trip-informations/trip-informations.component";
 
 @NgModule({
   imports: [
@@ -236,16 +236,16 @@ import { TripInformationsComponent } from "./modules/trip-management/trip-manage
     DefaultDashboardComponent,
     VehicleManagementComponent,
     AddNewVehicleComponent,
-    TripManagementComponent,
-    TripManagementFormComponent,
-    AddDriverAndVehicleFormComponent,
+    // TripManagementComponent,
+    // TripManagementFormComponent,
+    // AddDriverAndVehicleFormComponent,
     DriverManagementComponent,
     DriverTaskFormComponent,
-    TripManagementByDriverComponent,
-    GeneralInformationComponent,
-    GuestInformationComponent,
-    OtherInformationComponent,
-    TripInformationsComponent,
+    // TripManagementByDriverComponent,
+    // GeneralInformationComponent,
+    // GuestInformationComponent,
+    // OtherInformationComponent,
+    // TripInformationsComponent,
   ],
   providers: [
     DataAccessService,

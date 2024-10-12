@@ -17,6 +17,7 @@ export class TripManagementFlowService {
     dropOffInfo: null,
     activities: [],
     hotels: [],
+    places: [],
     email: null,
     phoneNumber: null,
   };
@@ -52,6 +53,7 @@ export class TripManagementFlowService {
       dropOffInfo: null,
       hotels: [],
       activities: [],
+      places: [],
       email: null,
       phoneNumber: null,
     };

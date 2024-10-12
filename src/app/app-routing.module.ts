@@ -5,9 +5,9 @@ import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-l
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { RouteGuardService } from "./shared/services/route-guard.service";
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
-import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
+// import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
-import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
+// import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
 // import { LeaveManagementComponent } from "./modules/leave-management/leave-management.component";
 
 const routes: Routes = [
@@ -50,15 +50,23 @@ const routes: Routes = [
   },
   {
     path: "trip-management",
-    component: DefaultLayoutNewComponent,
-    children: [
-      {
-        path: "",
-        component: TripManagementComponent,
-      },
-    ],
+    loadChildren: () =>
+      import("./modules/trip-management/trip-management.module").then(
+        (m) => m.TripManagementModule
+      ),
     canActivate: [RouteGuardService],
   },
+  // {
+  //   path: "trip-management",
+  //   component: DefaultLayoutNewComponent,
+  //   children: [
+  //     {
+  //       path: "",
+  //       component: TripManagementComponent,
+  //     },
+  //   ],
+  //   canActivate: [RouteGuardService],
+  // },
   {
     path: "driver-management",
     component: DefaultLayoutNewComponent,
@@ -70,17 +78,17 @@ const routes: Routes = [
     ],
     canActivate: [RouteGuardService],
   },
-  {
-    path: "trip-management-by-driver",
-    component: DefaultLayoutNewComponent,
-    children: [
-      {
-        path: "",
-        component: TripManagementByDriverComponent,
-      },
-    ],
-    canActivate: [RouteGuardService],
-  },
+  // {
+  //   path: "trip-management-by-driver",
+  //   component: DefaultLayoutNewComponent,
+  //   children: [
+  //     {
+  //       path: "",
+  //       component: TripManagementByDriverComponent,
+  //     },
+  //   ],
+  //   canActivate: [RouteGuardService],
+  // },
   // {
   //   path: "vehicle-management",
   //   component: VehicleManagementComponent,
@@ -120,4 +128,4 @@ const routes: Routes = [
   // ],
   // exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

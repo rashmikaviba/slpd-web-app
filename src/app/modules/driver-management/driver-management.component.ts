@@ -1,21 +1,21 @@
-import { Component, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
-import { PopupService } from 'src/app/shared/services/popup.service';
-import { SidebarService } from 'src/app/shared/services/sidebar.service';
-import { AddUserControlFlowService } from '../user/add-new-user/add-new-user-form/add-user-control-flow.service';
-import { UserService } from 'src/app/shared/services/api-services/user.service';
-import { AppMessageService } from 'src/app/shared/services/app-message.service';
-import { TransactionHandlerService } from 'src/app/shared/services/transaction-handler.service';
-import { ExcelService } from 'src/app/shared/services/excel.service';
-import { DatePipe } from '@angular/common';
-import { DriverTaskFormComponent } from './driver-task-form/driver-task-form.component';
-import { TripManagementByDriverComponent } from '../trip-management/trip-management-by-driver/trip-management-by-driver.component';
+import { Component, TemplateRef } from "@angular/core";
+import { Router } from "@angular/router";
+import { AppComponent } from "src/app/app.component";
+import { PopupService } from "src/app/shared/services/popup.service";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
+import { AddUserControlFlowService } from "../user/add-new-user/add-new-user-form/add-user-control-flow.service";
+import { UserService } from "src/app/shared/services/api-services/user.service";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
+import { ExcelService } from "src/app/shared/services/excel.service";
+import { DatePipe } from "@angular/common";
+import { DriverTaskFormComponent } from "./driver-task-form/driver-task-form.component";
+// import { TripManagementByDriverComponent } from '../trip-management/trip-management-by-driver/trip-management-by-driver.component';
 
 @Component({
-  selector: 'app-driver-management',
-  templateUrl: './driver-management.component.html',
-  styleUrls: ['./driver-management.component.scss']
+  selector: "app-driver-management",
+  templateUrl: "./driver-management.component.html",
+  styleUrls: ["./driver-management.component.scss"],
 })
 export class DriverManagementComponent {
   cols: any;
@@ -35,8 +35,8 @@ export class DriverManagementComponent {
     private messageService: AppMessageService,
     private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
-    private datePipe: DatePipe,
-  ) { }
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -48,10 +48,28 @@ export class DriverManagementComponent {
     ];
 
     this.recodes = [
-      { tripNo: '#1', startDate: '2024-09-16', endDate: '2024-09-18', passengersCount: '5', destinations: 'Colombo, Galle, Matara' },
-      { tripNo: '#2', startDate: '2024-09-16', endDate: '2024-09-18', passengersCount: '5', destinations: 'Colombo, Galle, Matara' },
-      { tripNo: '#3', startDate: '2024-09-16', endDate: '2024-09-18', passengersCount: '5', destinations: 'Colombo, Galle, Matara' },
-    ]
+      {
+        tripNo: "#1",
+        startDate: "2024-09-16",
+        endDate: "2024-09-18",
+        passengersCount: "5",
+        destinations: "Colombo, Galle, Matara",
+      },
+      {
+        tripNo: "#2",
+        startDate: "2024-09-16",
+        endDate: "2024-09-18",
+        passengersCount: "5",
+        destinations: "Colombo, Galle, Matara",
+      },
+      {
+        tripNo: "#3",
+        startDate: "2024-09-16",
+        endDate: "2024-09-18",
+        passengersCount: "5",
+        destinations: "Colombo, Galle, Matara",
+      },
+    ];
 
     this.sidebarService.sidebarEvent.subscribe((response) => {
       if (response) {
@@ -101,7 +119,6 @@ export class DriverManagementComponent {
     menu.toggle(event);
   }
 
-
   onClickAddNew() {
     let data = {
       userData: null,
@@ -124,7 +141,6 @@ export class DriverManagementComponent {
   }
 
   async onClickStartTrip(rowData: any) {
-
     // this, this.router.navigateByUrl("/trip-management-by-driver")
 
     let data = {
@@ -139,21 +155,21 @@ export class DriverManagementComponent {
       position: "right",
     };
 
-    this.sidebarService.addComponent(
-      "Manage Trip",
-      TripManagementByDriverComponent,
-      properties,
-      data
-    );
+    // this.sidebarService.addComponent(
+    //   "Manage Trip",
+    //   TripManagementByDriverComponent,
+    //   properties,
+    //   data
+    // );
   }
 
-  blockUnblockUser(type: number, rowData: any) { }
+  blockUnblockUser(type: number, rowData: any) {}
 
-  resetUserPassword(rowData: any) { }
+  resetUserPassword(rowData: any) {}
 
-  deleteUserById(rowData: any) { }
+  deleteUserById(rowData: any) {}
 
-  exportToExcel() { }
+  exportToExcel() {}
 
   onClickDriverTaskForm() {
     let data = {

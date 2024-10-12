@@ -73,8 +73,8 @@
       <td
         *ngFor="let col of columns"
         [ngClass]="{
-          'bg-blue': rowIndex % 2 !== 0,
-        }"
+            'bg-blue': rowIndex % 2 !== 0,
+          }"
       >
         <ng-container *ngIf="col.field == 'tripNo'">
           <span class="p-column-title font-bold">Trip Number</span
@@ -100,8 +100,8 @@
       <td
         class="text-center"
         [ngClass]="{
-              'bg-blue': rowIndex % 2 !== 0,
-            }"
+                'bg-blue': rowIndex % 2 !== 0,
+              }"
       >
         <div
           class="flex flex-wrap justify-content-center align-content-center gap-1"

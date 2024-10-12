@@ -9,6 +9,7 @@ import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { GeneralInformationComponent } from "./general-information/general-information.component";
 import { TripManagementFlowService } from "./trip-management-flow.service";
 import { GuestInformationComponent } from "./guest-information/guest-information.component";
+import { TripInformationsComponent } from "./trip-informations/trip-informations.component";
 
 @Component({
   selector: "app-trip-management-form",
@@ -23,6 +24,8 @@ export class TripManagementFormComponent {
   private guestInfoComponent!: GuestInformationComponent;
   @ViewChild(OtherInformationComponent)
   private otherInfoComponent!: OtherInformationComponent;
+  @ViewChild(TripInformationsComponent)
+  private tripInfoComponent!: TripInformationsComponent;
   activeIndex: any = 0;
   items: MenuItem[];
   value: any = { value: 0, label: "General Information" };
@@ -132,8 +135,12 @@ export class TripManagementFormComponent {
         }
         break;
       case 2:
-        this.tripMgtFlowService.setFinishedStep(2);
-        this.showingIndex = 3;
+        let tripInfo = this.tripInfoComponent.onSave();
+        if (tripInfo) {
+          this.tripMgtFlowService.setData({ places: tripInfo });
+          this.tripMgtFlowService.setFinishedStep(2);
+          this.showingIndex = 3;
+        }
         break;
       case 3:
         let confirmationConfig = {
