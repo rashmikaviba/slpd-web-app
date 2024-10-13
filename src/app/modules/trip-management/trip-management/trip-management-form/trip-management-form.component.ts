@@ -10,6 +10,7 @@ import { GeneralInformationComponent } from "./general-information/general-infor
 import { TripManagementFlowService } from "./trip-management-flow.service";
 import { GuestInformationComponent } from "./guest-information/guest-information.component";
 import { TripInformationsComponent } from "./trip-informations/trip-informations.component";
+import { TripService } from "src/app/shared/services/api-services/trip.service";
 
 @Component({
   selector: "app-trip-management-form",
@@ -31,11 +32,14 @@ export class TripManagementFormComponent {
   value: any = { value: 0, label: "General Information" };
   showingIndex: number = 0;
   isEdit: boolean = false;
+  tripId: string = "";
+  isView: boolean = false;
 
   constructor(
     private sidebarService: SidebarService,
     private messageService: AppMessageService,
-    private tripMgtFlowService: TripManagementFlowService
+    private tripMgtFlowService: TripManagementFlowService,
+    private tripService: TripService
   ) {}
 
   @HostListener("window:resize", ["$event"])
@@ -44,8 +48,32 @@ export class TripManagementFormComponent {
   }
 
   ngOnInit(): void {
-    let sideBarData = this.sidebarService.getData();
     this.sidebarService.setFooterTemplate(this.templateRef);
+    let sideBarData = this.sidebarService.getData();
+    this.isEdit = sideBarData.isEdit;
+    this.isView = sideBarData.isView;
+
+    if (this.isEdit) {
+      this.tripId = sideBarData.tripId;
+      let tripData = JSON.parse(JSON.stringify(sideBarData.tripData)); //{ ...sideBarData.tripData };
+      this.tripMgtFlowService.setData(tripData);
+
+      this.tripMgtFlowService.setFinishedStep(0);
+      this.tripMgtFlowService.setFinishedStep(1);
+      this.tripMgtFlowService.setFinishedStep(2);
+    } else if (this.isView) {
+      this.tripId = sideBarData.tripId;
+
+      let tripData = JSON.parse(JSON.stringify(sideBarData.tripData)); //{ ...sideBarData.tripData };
+      this.tripMgtFlowService.setData(tripData);
+
+      this.tripMgtFlowService.setFinishedStep(0);
+      this.tripMgtFlowService.setFinishedStep(1);
+      this.tripMgtFlowService.setFinishedStep(2);
+      this.tripMgtFlowService.setFinishedStep(3);
+
+      this.tripMgtFlowService.setView(true);
+    }
 
     this.checkViewport();
   }
@@ -80,8 +108,8 @@ export class TripManagementFormComponent {
   }
 
   handleClick(index: number): void {
-    console.log(index);
     let finishSteps = this.tripMgtFlowService.getFinishedStep();
+    let selectedStepName = this.items[index].label;
 
     // switch (index) {
     //   case 0:
@@ -90,17 +118,29 @@ export class TripManagementFormComponent {
     //   case 1:
     //     if (finishSteps?.step0) {
     //       this.showingIndex = 1;
+    //     } else {
+    //       this.messageService.showInfoAlert(
+    //         `Please finish previous step before moving to ${selectedStepName}`
+    //       );
     //     }
 
     //     break;
     //   case 2:
     //     if (finishSteps?.step0 && finishSteps?.step1) {
     //       this.showingIndex = 2;
+    //     } else {
+    //       this.messageService.showInfoAlert(
+    //         `Please finish previous step before moving to ${selectedStepName}`
+    //       );
     //     }
     //     break;
     //   case 3:
     //     if (finishSteps?.step0 && finishSteps?.step1 && finishSteps?.step2) {
     //       this.showingIndex = 3;
+    //     } else {
+    //       this.messageService.showInfoAlert(
+    //         `Please finish previous step before moving to ${selectedStepName}`
+    //       );
     //     }
     //     break;
     //   default:
@@ -178,10 +218,39 @@ export class TripManagementFormComponent {
                 }
               }
             }
+
+            let request = this.tripMgtFlowService.getData();
+
+            if (request) {
+              if (this.isEdit) {
+                this.tripService
+                  .UpdateTrip(this.tripId, request)
+                  .subscribe((response) => {
+                    if (response.IsSuccessful) {
+                      this.messageService.showSuccessAlert(response.Message);
+                      this.sidebarService.sidebarEvent.emit({
+                        action: "refresh",
+                      });
+                    } else {
+                      this.messageService.showErrorAlert(response.Message);
+                    }
+                  });
+              } else {
+                this.tripService.SaveTrip(request).subscribe((response) => {
+                  if (response.IsSuccessful) {
+                    this.messageService.showSuccessAlert(response.Message);
+                    this.sidebarService.sidebarEvent.emit({
+                      action: "refresh",
+                    });
+                  } else {
+                    this.messageService.showErrorAlert(response.Message);
+                  }
+                });
+              }
+            }
           }
         );
 
-        console.log(this.tripMgtFlowService.getData());
         break;
     }
   }

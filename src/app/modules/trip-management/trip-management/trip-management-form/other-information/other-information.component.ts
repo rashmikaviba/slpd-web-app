@@ -22,6 +22,7 @@ export class OtherInformationComponent {
   isAddNewHotel: boolean = false;
   minDate: Date = new Date();
   maxDate: Date = new Date();
+  isView: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +49,8 @@ export class OtherInformationComponent {
   }
 
   ngOnInit(): void {
+    this.isView = this.tripMgtFlowService.getIsView();
+
     this.cols = [
       { field: "date", header: "Date" },
       { field: "adultCount", header: "Adult" },
@@ -62,7 +65,9 @@ export class OtherInformationComponent {
       { field: "city", header: "City" },
     ];
 
-    let data: any = this.tripMgtFlowService.getData();
+    let data: any = JSON.parse(
+      JSON.stringify(this.tripMgtFlowService.getData())
+    ); //this.tripMgtFlowService.getData();
     this.minDate = new Date(data.startDate);
     this.maxDate = new Date(data.endDate);
 
@@ -101,7 +106,7 @@ export class OtherInformationComponent {
     let formData = this.FV.formGroup.value;
 
     let obj = {
-      id: this.generateUniqueId(this.activityRecodes),
+      _id: this.generateUniqueId(this.activityRecodes),
       date: formData.date,
       description: formData.description,
       adultCount: formData.adultCount,
@@ -117,7 +122,7 @@ export class OtherInformationComponent {
     this.FV.clearValues("date,adultCount,childCount,totalCost,description");
     this.FV.setValue("adultCount", 0);
     this.FV.setValue("childCount", 0);
-    this.isAddNewActivity = !this.isAddNewActivity;
+    this.isAddNewActivity = false;
   }
 
   onClickDeleteActivity(id: any) {
@@ -131,7 +136,9 @@ export class OtherInformationComponent {
       confirmationConfig,
       (isConfirm: boolean) => {
         if (isConfirm) {
-          this.activityRecodes = this.activityRecodes.filter((x) => x.id != id);
+          this.activityRecodes = this.activityRecodes.filter(
+            (x) => x._id != id
+          );
         }
       }
     );
@@ -163,7 +170,7 @@ export class OtherInformationComponent {
       .join(", ");
 
     let obj = {
-      id: this.generateUniqueId(this.hotelRecords),
+      _id: this.generateUniqueId(this.hotelRecords),
       dates: formData.hotelDate.length > 1 ? dates : dates,
       hotelName: formData.hotelName,
       city: formData.city,
@@ -185,7 +192,7 @@ export class OtherInformationComponent {
       confirmationConfig,
       (isConfirm: boolean) => {
         if (isConfirm) {
-          this.hotelRecords = this.hotelRecords.filter((x) => x.id != id);
+          this.hotelRecords = this.hotelRecords.filter((x) => x._id != id);
         }
       }
     );
@@ -193,7 +200,7 @@ export class OtherInformationComponent {
 
   onClickCancelHotel() {
     this.FV.clearValues("hotelDate,hotelName,city");
-    this.isAddNewHotel = !this.isAddNewHotel;
+    this.isAddNewHotel = false;
   }
 
   generateUniqueId(recodes: any[]) {
@@ -201,7 +208,7 @@ export class OtherInformationComponent {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
 
-    while (recodes.findIndex((x) => x.id == generatedId) != -1) {
+    while (recodes.findIndex((x) => x._id == generatedId) != -1) {
       generatedId =
         Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
@@ -216,7 +223,7 @@ export class OtherInformationComponent {
     let hotelRecordsRemovingShowDates: any[] =
       this.hotelRecords.map((x) => {
         return {
-          id: x.id,
+          _id: x._id,
           dates: x.dates,
           hotelName: x.hotelName,
           city: x.city,

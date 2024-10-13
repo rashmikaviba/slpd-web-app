@@ -35,7 +35,7 @@
       label="{{ isEdit ? 'Update' : 'Save' }}"
       icon="pi pi-save"
       iconPos="left"
-      *ngIf="showingIndex == 3"
+      *ngIf="showingIndex == 3 && !isView"
       (click)="handleSave()"
     ></p-button>
   </div>

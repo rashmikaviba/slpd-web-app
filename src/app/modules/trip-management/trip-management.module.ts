@@ -35,6 +35,8 @@ import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
 import { StepsModule } from "primeng/steps";
 import { EditorModule } from "primeng/editor";
+import { FieldsetModule } from "primeng/fieldset";
+import { ChipModule } from "primeng/chip";
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -42,8 +44,9 @@ import { GuestInformationComponent } from "./trip-management/trip-management-for
 import { OtherInformationComponent } from "./trip-management/trip-management-form/other-information/other-information.component";
 import { TripInformationsComponent } from "./trip-management/trip-management-form/trip-informations/trip-informations.component";
 import { AddDriverAndVehicleFormComponent } from "./trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
-import { TripManagementByDriverComponent } from "./trip-management/trip-management-by-driver/trip-management-by-driver.component";
+import { TripManagementByDriverComponent } from "./trip-management-by-driver/trip-management-by-driver.component";
 import { AddPlaceFormComponent } from "./trip-management/trip-management-form/trip-informations/add-place-form/add-place-form.component";
+import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
 
 @NgModule({
   declarations: [
@@ -56,6 +59,7 @@ import { AddPlaceFormComponent } from "./trip-management/trip-management-form/tr
     AddDriverAndVehicleFormComponent,
     TripManagementByDriverComponent,
     AddPlaceFormComponent,
+    DynamicComponentLoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -93,6 +97,8 @@ import { AddPlaceFormComponent } from "./trip-management/trip-management-form/tr
     InputGroupAddonModule,
     StepsModule,
     EditorModule,
+    FieldsetModule,
+    ChipModule,
   ],
 })
 export class TripManagementModule {}

@@ -51,6 +51,18 @@
         oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 15)"
       />
     </div>
+
+    <div class="field col-12 md:col-4">
+      <label class="required" for="mobile">Contact Person</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="contactPerson"
+        class="w-full"
+        maxlength="100"
+      />
+    </div>
+
     <div class="field col-12 md:col-4">
       <label class="required" for="totalINcome">Total Income</label>
 

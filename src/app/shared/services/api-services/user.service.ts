@@ -82,4 +82,12 @@ export class UserService {
         return response;
       });
   }
+
+  GetAllUsersByRole(roleId: number) {
+    return this.dataAccess
+      .GET(this.resource.user.getUsersByRole + `/${roleId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

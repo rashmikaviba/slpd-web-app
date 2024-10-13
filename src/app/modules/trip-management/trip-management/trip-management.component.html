@@ -20,12 +20,11 @@
   [responsive]="true"
   styleClass="p-datatable-gridlines"
   [rowsPerPageOptions]="[10, 25, 50]"
-  [loading]="loading"
   [paginator]="true"
   [rowHover]="true"
   [showCurrentPageReport]="true"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [globalFilterFields]="['fullName', 'userName']"
+  [globalFilterFields]="['tripConfirmedNumber', 'email', 'phoneNumber']"
 >
   <ng-template pTemplate="caption">
     <div class="flex justify-content-between">
@@ -57,7 +56,13 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let col of columns">
+      <th
+        *ngFor="let col of columns"
+        [ngClass]="{
+          'text-center': col.field == 'status',
+          'text-right': col.field == 'totalCost'
+        }"
+      >
         {{ col.header }}
       </th>
       <th class="text-center">Action</th>
@@ -73,28 +78,60 @@
       <td
         *ngFor="let col of columns"
         [ngClass]="{
-            'bg-blue': rowIndex % 2 !== 0,
-          }"
+          'bg-blue': rowIndex % 2 !== 0,
+        }"
       >
-        <ng-container *ngIf="col.field == 'tripNo'">
-          <span class="p-column-title font-bold">Trip Number</span
-          >{{ rowData[col.field] }}
-        </ng-container>
         <ng-container *ngIf="col.field == 'startDate'">
-          <span class="p-column-title font-bold">Start Date</span
-          >{{ rowData[col.field] }}
+          <span class="p-column-title font-bold">Start Date</span>
+          {{ rowData[col.field] | date : "dd-MM-yyyy" }}
         </ng-container>
         <ng-container *ngIf="col.field == 'endDate'">
-          <span class="p-column-title font-bold">End Date</span
-          >{{ rowData[col.field] }}
+          <span class="p-column-title font-bold">Applied Date</span>
+          {{ rowData[col.field] | date : "dd-MM-yyyy" }}
         </ng-container>
-        <ng-container *ngIf="col.field == 'passengersCount'">
-          <span class="p-column-title font-bold">Passengers Count</span
-          >{{ rowData[col.field] }}
+        <ng-container *ngIf="col.field == 'contact'">
+          <span class="p-column-title font-bold">Contact Details</span>
+          <div class="flex flex-column gap-1">
+            <span>
+              <i class="pi pi-whatsapp"></i>
+              {{ rowData.phoneNumber }}
+            </span>
+
+            <span
+              ><i class="pi pi-user"></i>
+              {{ rowData.contactPerson ? rowData.contactPerson : "" }}
+            </span>
+          </div>
         </ng-container>
-        <ng-container *ngIf="col.field == 'destinations'">
-          <span class="p-column-title font-bold">Destinations</span
-          >{{ rowData[col.field] }}
+        <ng-container *ngIf="col.field == 'status'">
+          <span class="p-column-title font-bold">Status</span>
+          <div class="text-center">
+            <p-button
+              [severity]="
+                rowData.status == 1
+                  ? 'secondary'
+                  : rowData.status == 3
+                  ? 'info'
+                  : rowData.status == 4
+                  ? 'success'
+                  : 'danger'
+              "
+              outlined="true"
+              label="{{ rowData.statusName }}"
+            ></p-button>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            col.field != 'startDate' &&
+            col.field != 'endDate' &&
+            col.field != 'contact' &&
+            col.field != 'status'
+          "
+        >
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] || "-" }}
         </ng-container>
       </td>
       <td
@@ -107,7 +144,7 @@
           class="flex flex-wrap justify-content-center align-content-center gap-1"
         >
           <!-- <span class="p-column-title font-bold">Action</span> -->
-          <button
+          <!-- <button
             type="button"
             pButton
             pTooltip="Assign Driver and Vehicle"
@@ -115,7 +152,7 @@
             class="p-button-outlined p-button-warning"
             icon="pi pi-check-circle"
             (click)="onClickAssignDriverAndVehicle()"
-          ></button>
+          ></button> -->
           <button
             #btn
             type="button"

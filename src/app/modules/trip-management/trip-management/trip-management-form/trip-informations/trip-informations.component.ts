@@ -16,6 +16,8 @@ import { OrderList } from "primeng/orderlist";
 })
 export class TripInformationsComponent {
   recodes: any[] = [];
+  isView: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -27,7 +29,11 @@ export class TripInformationsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.recodes = this.tripManagementFlowService.getData().places || [];
+    this.isView = this.tripManagementFlowService.getIsView();
+
+    this.recodes = JSON.parse(
+      JSON.stringify(this.tripManagementFlowService.getData().places || [])
+    ); // this.tripManagementFlowService.getData().places || [];
     this.recodes.map((x) => {
       x.showDate = x.dates
         .map((x) => {
@@ -53,7 +59,7 @@ export class TripInformationsComponent {
         debugger;
         if (result) {
           let obj = {
-            id: this.generateUniqueId(),
+            _id: this.generateUniqueId(),
             description: result?.description,
             dates: result?.dates,
             showDate: result?.dates
@@ -74,7 +80,7 @@ export class TripInformationsComponent {
     let generatedId =
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
-    while (this.recodes.findIndex((x) => x.id == generatedId) != -1) {
+    while (this.recodes.findIndex((x) => x._id == generatedId) != -1) {
       generatedId =
         Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
@@ -93,7 +99,7 @@ export class TripInformationsComponent {
       confirmationConfig,
       (isConfirm: boolean) => {
         if (isConfirm) {
-          this.recodes = this.recodes.filter((x) => x.id != id);
+          this.recodes = this.recodes.filter((x) => x._id != id);
         }
       }
     );
@@ -111,10 +117,9 @@ export class TripInformationsComponent {
     let resultResponse: any[] = [];
     this.recodes.forEach((x, i) => {
       resultResponse.push({
-        id: this.generateUniqueId(),
+        _id: x?._id,
         description: x?.description,
         dates: x?.dates,
-
         isReached: x?.isReached,
         index: i + 1,
       });

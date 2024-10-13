@@ -77,6 +77,7 @@ export class DefaultLayoutNewComponent {
         routerLink: "/trip-management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminTripManagement,
+          AppModule.SuperAdminTripManagement,
         ]),
       },
       {

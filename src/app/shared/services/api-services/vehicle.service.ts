@@ -71,4 +71,12 @@ export class VehicleService {
         return response;
       });
   }
+
+  GetByPassengerCount(passengerCount: number) {
+    return this.dataAccess
+      .GET(this.resource.vehicle.getAllVehiclesByCount + `/${passengerCount}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

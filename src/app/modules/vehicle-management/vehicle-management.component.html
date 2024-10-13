@@ -110,6 +110,7 @@
         </ng-container>
 
         <ng-container *ngIf="col.field != 'capacity' && col.field != 'status'">
+          <span class="p-column-title font-bold">{{ col.header }}</span>
           {{ rowData[col.field] || "-" }}
         </ng-container>
       </td>

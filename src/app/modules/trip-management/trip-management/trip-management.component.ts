@@ -1,16 +1,17 @@
+import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { AppComponent } from "src/app/app.component";
 import { PopupService } from "src/app/shared/services/popup.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { AddUserControlFlowService } from "../../user/add-new-user/add-new-user-form/add-user-control-flow.service";
-import { UserService } from "src/app/shared/services/api-services/user.service";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
-import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
 import { ExcelService } from "src/app/shared/services/excel.service";
 import { DatePipe } from "@angular/common";
 import { TripManagementFormComponent } from "./trip-management-form/trip-management-form.component";
 import { AddDriverAndVehicleFormComponent } from "./add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
+import { firstValueFrom } from "rxjs";
+import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
+import { TripManagementFlowService } from "./trip-management-form/trip-management-flow.service";
 
 @Component({
   selector: "app-trip-management",
@@ -20,64 +21,44 @@ import { AddDriverAndVehicleFormComponent } from "./add-driver-and-vehicle-form/
 export class TripManagementComponent implements OnInit {
   cols: any;
   recodes: any;
-  loading: any;
-  sidebarVisible2: boolean = false;
   template: TemplateRef<any>;
   items: any[];
   filteredItems: any[];
+  WellKnownTripStatus: any = WellKnownTripStatus;
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
     private popupService: PopupService,
     private router: Router,
-    private addUserControlFlowService: AddUserControlFlowService,
-    private userService: UserService,
+    private tripManagementFlowService: TripManagementFlowService,
     private messageService: AppMessageService,
-    private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private tripService: TripService
   ) {}
 
   ngOnInit(): void {
     this.cols = [
-      { field: "tripNo", header: "Trip Number" },
+      { field: "tripConfirmedNumber", header: "Trip Number" },
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
-      { field: "passengersCount", header: "Passengers Count" },
-      { field: "destinations", header: "Destinations" },
+      { field: "contact", header: "Contact Details" },
+      // { field: "contactPerson", header: "Contact Person" },
+      { field: "status", header: "Status" },
+      { field: "activeDriverName", header: "Driver Name" },
+      { field: "activeRegistrationNumber", header: "Vehicle Name" },
     ];
 
-    this.recodes = [
-      {
-        tripNo: "#1",
-        startDate: "2024-09-16",
-        endDate: "2024-09-18",
-        passengersCount: "5",
-        destinations: "Colombo, Galle, Matara",
-      },
-      {
-        tripNo: "#2",
-        startDate: "2024-09-16",
-        endDate: "2024-09-18",
-        passengersCount: "5",
-        destinations: "Colombo, Galle, Matara",
-      },
-      {
-        tripNo: "#3",
-        startDate: "2024-09-16",
-        endDate: "2024-09-18",
-        passengersCount: "5",
-        destinations: "Colombo, Galle, Matara",
-      },
-    ];
+    this.loadInitialData();
 
     this.sidebarService.sidebarEvent.subscribe((response) => {
-      if (response) {
+      if (response && response.action === "refresh") {
+        this.loadInitialData();
       }
 
       this.sidebarService.removeComponent();
       this.appComponent.sidebarVisible = false;
-      this.addUserControlFlowService.resetData();
+      this.tripManagementFlowService.clearData();
     });
 
     this.items = [
@@ -89,38 +70,30 @@ export class TripManagementComponent implements OnInit {
           this.onClickEdit(event.item.data);
         },
       },
-      // {
-      //   id: 5,
-      //   label: "Reset Password",
-      //   icon: "pi pi-refresh",
-      //   command: (event: any) => {
-      //     this.resetUserPassword(event.item.data);
-      //   },
-      // },
       {
         id: 2,
-        label: "Delete Trip",
-        icon: "pi pi-trash",
+        label: "View Trip",
+        icon: "pi pi-eye",
         command: (event: any) => {
-          this.deleteUserById(event.item.data);
+          this.onClickView(event.item.data);
         },
       },
-      // {
-      //   id: 3,
-      //   label: "Block User",
-      //   icon: "pi pi-ban",
-      //   command: (event: any) => {
-      //     this.blockUnblockUser(1, event.item.data);
-      //   },
-      // },
-      // {
-      //   id: 4,
-      //   label: "Unblock User",
-      //   icon: "pi pi-check-circle",
-      //   command: (event: any) => {
-      //     this.blockUnblockUser(2, event.item.data);
-      //   },
-      // },
+      {
+        id: 3,
+        label: "Edit Info",
+        icon: "pi pi-plus-circle",
+        command: (event: any) => {
+          this.onClickAssignDriverAndVehicle(event.item.data);
+        },
+      },
+      {
+        id: 4,
+        label: "Cancel Trip",
+        icon: "pi pi-trash",
+        command: (event: any) => {
+          this.onCLickCancelTrip(event.item.data);
+        },
+      },
     ];
   }
 
@@ -143,13 +116,26 @@ export class TripManagementComponent implements OnInit {
     menu.toggle(event);
   }
 
+  async loadInitialData() {
+    try {
+      const tripResponse = await firstValueFrom(this.tripService.GetAllTrips());
+
+      if (tripResponse?.IsSuccessful) {
+        this.recodes = tripResponse?.Result;
+      }
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
   onClickAddNew() {
     let data = {
-      userData: null,
+      tripData: null,
       isEdit: false,
+      isView: false,
     };
 
-    this.addUserControlFlowService.resetData();
+    this.tripManagementFlowService.clearData();
 
     let properties = {
       width: "50vw",
@@ -164,41 +150,115 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
+  async onClickView(rowData: any) {
+    try {
+      let data = {
+        tripData: null,
+        tripId: rowData?.id,
+        isEdit: false,
+        isView: true,
+      };
+
+      this.tripManagementFlowService.clearData();
+
+      const tripResponse = await firstValueFrom(
+        this.tripService.GetTripById(rowData?.id)
+      );
+
+      if (tripResponse?.IsSuccessful) {
+        data.tripData = tripResponse?.Result;
+      }
+
+      let properties = {
+        width: "50vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "View Trip",
+        TripManagementFormComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
   async onClickEdit(rowData: any) {
-    let data = {
-      userData: null,
-      isEdit: true,
+    try {
+      let data = {
+        tripData: null,
+        tripId: rowData?.id,
+        isEdit: true,
+        isView: false,
+      };
+
+      this.tripManagementFlowService.clearData();
+
+      const tripResponse = await firstValueFrom(
+        this.tripService.GetTripById(rowData?.id)
+      );
+
+      if (tripResponse?.IsSuccessful) {
+        data.tripData = tripResponse?.Result;
+      }
+
+      let properties = {
+        width: "50vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "Edit Trip",
+        TripManagementFormComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  onCLickCancelTrip(rowData: any) {
+    let confirmationConfig = {
+      message: "Are you sure you want to cancel this trip?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
     };
 
-    this.addUserControlFlowService.resetData();
-
-    let properties = {
-      width: "50vw",
-      position: "right",
-    };
-
-    this.sidebarService.addComponent(
-      "Edit Trip",
-      TripManagementFormComponent,
-      properties,
-      data
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.tripService.CancelTrip(rowData?.id).subscribe((response) => {
+            if (response.IsSuccessful) {
+              this.messageService.showSuccessAlert(response.Message);
+              this.loadInitialData();
+            } else {
+              this.messageService.showErrorAlert(response.Message);
+            }
+          });
+        }
+      }
     );
   }
 
-  blockUnblockUser(type: number, rowData: any) {}
-
-  resetUserPassword(rowData: any) {}
-
-  deleteUserById(rowData: any) {}
-
   exportToExcel() {}
 
-  onClickAssignDriverAndVehicle() {
+  onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
-    let width = "30vw";
-    let data = "";
+    let width = "40vw";
+    let data = {
+      tripInformation: rowData,
+    };
+
     this.popupService
       .OpenModel(AddDriverAndVehicleFormComponent, { header, width, data })
-      .subscribe((result) => {});
+      .subscribe((result) => {
+        if (result) {
+          this.loadInitialData();
+        }
+      });
   }
 }

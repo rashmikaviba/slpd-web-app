@@ -9,6 +9,7 @@ export class TripManagementFlowService {
     endDate: null,
     dateCount: null,
     totalCost: null,
+    contactPerson: null,
     estimatedExpense: null,
     passengers: [],
     arrivalInfo: null,
@@ -25,6 +26,8 @@ export class TripManagementFlowService {
   isFinishedStep0: boolean = false;
   isFinishedStep1: boolean = false;
   isFinishedStep2: boolean = false;
+
+  isView: boolean = false;
 
   constructor() {}
 
@@ -45,6 +48,7 @@ export class TripManagementFlowService {
       endDate: null,
       dateCount: null,
       totalCost: null,
+      contactPerson: null,
       estimatedExpense: null,
       passengers: [],
       arrivalInfo: null,
@@ -57,6 +61,12 @@ export class TripManagementFlowService {
       email: null,
       phoneNumber: null,
     };
+
+    this.isFinishedStep0 = false;
+    this.isFinishedStep1 = false;
+    this.isFinishedStep2 = false;
+
+    this.isView = false;
   }
 
   setFinishedStep(step: number) {
@@ -79,5 +89,13 @@ export class TripManagementFlowService {
       step1: this.isFinishedStep1,
       step2: this.isFinishedStep2,
     };
+  }
+
+  setView(isView: boolean) {
+    this.isView = isView;
+  }
+
+  getIsView() {
+    return this.isView;
   }
 }

@@ -19,6 +19,7 @@ export class ResourceService {
   private MonthAudit = this.host + "/monthAudit";
   private Common = this.host + "/common";
   private Vehicle = this.host + "/vehicle";
+  private Trip = this.host + "/trip";
 
   auth = {
     login: this.Auth + "/login",
@@ -41,6 +42,7 @@ export class ResourceService {
     unblockUser: this.User + "/unblock",
     updateUser: this.User,
     deleteUser: this.User,
+    getUsersByRole: this.User + "/userByRole",
   };
 
   leave = {
@@ -78,5 +80,15 @@ export class ResourceService {
     updateVehicle: this.Vehicle,
     deleteVehicleById: this.Vehicle,
     activeInactiveVehicles: this.Vehicle + "/activeInactive",
+    getAllVehiclesByCount: this.Vehicle + "/passengerCount",
+  };
+
+  trip = {
+    saveTrip: this.Trip,
+    getAllTrips: this.Trip,
+    getTripById: this.Trip,
+    updateTrip: this.Trip,
+    cancelTrip: this.Trip,
+    assignDriver: this.Trip + "/assignDriver",
   };
 }

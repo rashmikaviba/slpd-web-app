@@ -2,9 +2,6 @@
   <div class="p-fluid grid formgrid p-4">
     <div class="field col-12 md:col-12">
       <div class="field col-12">
-        <hr />
-      </div>
-      <div class="field col-12">
         <label class="text-xl font-bold">Hotel Details</label>
       </div>
       <p-table
@@ -32,6 +29,7 @@
               icon="pi pi-plus"
               label="Add Hotel"
               (onClick)="onClickAddNewHotel()"
+              *ngIf="!isView"
             ></p-button>
             <p-iconField iconPosition="left" class="ml-auto">
               <p-inputIcon>
@@ -103,7 +101,7 @@
             <th *ngFor="let col of columns">
               {{ col.header }}
             </th>
-            <th class="text-center">Action</th>
+            <th class="text-center" *ngIf="!isView">Action</th>
           </tr>
         </ng-template>
         <ng-template
@@ -120,11 +118,13 @@
       }"
             >
               <ng-container *ngIf="col.field == 'dates'">
-                <!-- dates getting as  '2022-11-25,2022-11-26,2022-11-27' need to display as 'nov 25, nov 26, nov 27' -->
+                <span class="p-column-title font-bold">Dates</span>
                 {{ rowData.showDates }}
               </ng-container>
 
               <ng-container *ngIf="col.field != 'dates'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+
                 {{ rowData[col.field] }}
               </ng-container>
             </td>
@@ -133,6 +133,7 @@
               [ngClass]="{
             'bg-blue': rowIndex % 2 !== 0,
           }"
+              *ngIf="!isView"
             >
               <div
                 class="flex flex-wrap justify-content-center align-content-center gap-1"
@@ -140,7 +141,7 @@
                 <p-button
                   styleClass="p-button-sm p-button-danger p-button-outlined"
                   icon="pi pi-trash"
-                  (onClick)="onClickDeleteHotel(rowData.id)"
+                  (onClick)="onClickDeleteHotel(rowData._id)"
                 ></p-button>
               </div>
             </td>
@@ -161,6 +162,9 @@
         </ng-template>
       </p-table>
     </div>
+    <!-- <div class="field col-12">
+      <hr />
+    </div> -->
     <div class="field col-12 md:col-12">
       <div class="field col-12">
         <label class="text-xl font-bold">Activities</label>
@@ -189,6 +193,7 @@
               styleClass="p-button-sm p-button-success"
               icon="pi pi-plus"
               label="Add Activity"
+              *ngIf="!isView"
               (onClick)="onClickAddNewActivity()"
             ></p-button>
             <p-iconField iconPosition="left" class="ml-auto">
@@ -304,7 +309,7 @@
             >
               {{ col.header }}
             </th>
-            <th class="text-center">Action</th>
+            <th class="text-center" *ngIf="!isView">Action</th>
           </tr>
         </ng-template>
         <ng-template
@@ -324,16 +329,19 @@
               }"
             >
               <ng-container *ngIf="col.field == 'date'">
+                <span class="p-column-title font-bold">Date</span>
                 {{ rowData[col.field] | date : "dd-MM-yyyy" }}
               </ng-container>
 
               <ng-container *ngIf="col.field == 'totalCost'">
+                <span class="p-column-title font-bold">Total Cost</span>
                 {{ rowData[col.field] | currency : "USD" : "symbol" : "1.0-2" }}
               </ng-container>
 
               <ng-container
                 *ngIf="col.field != 'date' && col.field != 'totalCost'"
               >
+                <span class="p-column-title font-bold">{{ col.header }}</span>
                 {{ rowData[col.field] }}
               </ng-container>
             </td>
@@ -342,6 +350,7 @@
               [ngClass]="{
             'bg-blue': rowIndex % 2 !== 0,
           }"
+              *ngIf="!isView"
             >
               <div
                 class="flex flex-wrap justify-content-center align-content-center gap-1"
@@ -349,7 +358,7 @@
                 <p-button
                   styleClass="p-button-sm p-button-danger p-button-outlined"
                   icon="pi pi-trash"
-                  (onClick)="onClickDeleteActivity(rowData.id)"
+                  (onClick)="onClickDeleteActivity(rowData._id)"
                 ></p-button>
               </div>
             </td>

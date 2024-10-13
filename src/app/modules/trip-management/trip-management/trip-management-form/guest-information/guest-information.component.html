@@ -27,6 +27,7 @@
               icon="pi pi-plus"
               label="Add Guest"
               (onClick)="onClickAddNewGuest()"
+              *ngIf="!isView"
             ></p-button>
             <p-iconField iconPosition="left" class="ml-auto">
               <p-inputIcon>
@@ -114,7 +115,7 @@
             <th *ngFor="let col of columns">
               {{ col.header }}
             </th>
-            <th class="text-center">Action</th>
+            <th class="text-center" *ngIf="!isView">Action</th>
           </tr>
         </ng-template>
         <ng-template
@@ -131,7 +132,7 @@
         }"
             >
               <ng-container>
-                <span class="p-column-title font-bold">Ages</span
+                <span class="p-column-title font-bold">{{ col.header }}</span
                 >{{ rowData[col.field] }}
               </ng-container>
             </td>
@@ -140,6 +141,7 @@
               [ngClass]="{
               'bg-blue': rowIndex % 2 !== 0,
             }"
+              *ngIf="!isView"
             >
               <div
                 class="flex flex-wrap justify-content-center align-content-center gap-1"
@@ -147,7 +149,7 @@
                 <p-button
                   styleClass="p-button-sm p-button-danger p-button-outlined"
                   icon="pi pi-trash"
-                  (onClick)="onClickDeleteGuest(rowData.id)"
+                  (onClick)="onClickDeleteGuest(rowData._id)"
                 ></p-button>
               </div>
             </td>

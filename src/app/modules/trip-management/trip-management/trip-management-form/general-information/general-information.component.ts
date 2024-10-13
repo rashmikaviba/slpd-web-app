@@ -15,7 +15,7 @@ export class GeneralInformationComponent {
   FV = new CommonForm();
   minStartDate: string = "";
   minEndDate: string = "";
-
+  isView: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -43,6 +43,7 @@ export class GeneralInformationComponent {
         ],
       ],
       mobile: ["", [Validators.required]],
+      contactPerson: ["", [Validators.required]],
 
       // arrival information
       isArrivalAdded: [false],
@@ -79,6 +80,8 @@ export class GeneralInformationComponent {
     this.minStartDate = this.datePipe.transform(today, "yyyy-MM-dd");
     this.minEndDate = this.datePipe.transform(today, "yyyy-MM-dd");
 
+    this.isView = this.tripMgtFlowService.getIsView();
+
     this.setValues();
   }
 
@@ -104,8 +107,9 @@ export class GeneralInformationComponent {
   }
 
   setValues() {
-    debugger;
-    let data: any = this.tripMgtFlowService.getData();
+    let data: any = JSON.parse(
+      JSON.stringify(this.tripMgtFlowService.getData())
+    ); //this.tripMgtFlowService.getData();
     console.log(data);
     if (data?.startDate) {
       this.FV.setValue(
@@ -127,6 +131,10 @@ export class GeneralInformationComponent {
 
     if (data?.estimatedExpense) {
       this.FV.setValue("estimatedCost", data?.estimatedExpense);
+    }
+
+    if (data?.contactPerson) {
+      this.FV.setValue("contactPerson", data?.contactPerson);
     }
 
     if (data?.totalCost) {
@@ -221,6 +229,10 @@ export class GeneralInformationComponent {
       this.FV.setValue("dropOffCity", data?.dropOffInfo?.dropOffCity);
       this.FV.setValue("dropOffAddress", data?.dropOffInfo?.dropOffAddress);
     }
+
+    if (this.isView) {
+      this.FV.disableFormControlls();
+    }
   }
 
   onSave() {
@@ -231,7 +243,7 @@ export class GeneralInformationComponent {
 
     // genaral information validation
     let validateParams =
-      "startDate,endDate,dateCount,estimatedCost,totalIncome,email,mobile";
+      "startDate,endDate,dateCount,estimatedCost,totalIncome,email,mobile,contactPerson";
 
     // // add arrival departure pickup drop off validations
     if (isArrivalAdded) {
@@ -261,8 +273,9 @@ export class GeneralInformationComponent {
       startDate: formData?.startDate,
       endDate: formData?.endDate,
       dateCount: dateCount,
-      totalCost: formData?.totalIncome,
-      estimatedExpense: formData?.estimatedCost,
+      contactPerson: formData?.contactPerson,
+      totalCost: formData?.totalIncome || 0,
+      estimatedExpense: formData?.estimatedCost || 0,
       arrivalInfo: isArrivalAdded
         ? {
             arrivalDate: formData?.arrivalDate,

@@ -21,6 +21,7 @@ export class GuestInformationComponent {
   isAddNewGuest: boolean = false;
   gender: any[] = genders;
   nationalities: any[] = nationalities;
+  isView: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,6 +44,8 @@ export class GuestInformationComponent {
   }
 
   ngOnInit(): void {
+    this.isView = this.tripMgtFlowService.getIsView();
+
     this.cols = [
       { field: "name", header: "Guest Name" },
       { field: "gender", header: "Gender" },
@@ -50,7 +53,9 @@ export class GuestInformationComponent {
       { field: "age", header: "Ages" },
     ];
 
-    let data: any = this.tripMgtFlowService.getData();
+    let data: any = JSON.parse(
+      JSON.stringify(this.tripMgtFlowService.getData())
+    ); //this.tripMgtFlowService.getData();
     if (data?.passengers) {
       this.recodes = data.passengers;
     } else {
@@ -73,7 +78,7 @@ export class GuestInformationComponent {
     let formData = this.FV.formGroup.value;
 
     let obj = {
-      id: this.generateUniqueId(),
+      _id: this.generateUniqueId(),
       name: formData.guestName,
       nationality: formData.nationality,
       age: formData.age,
@@ -96,7 +101,7 @@ export class GuestInformationComponent {
       confirmationConfig,
       (isConfirm: boolean) => {
         if (isConfirm) {
-          this.recodes = this.recodes.filter((x) => x.id != id);
+          this.recodes = this.recodes.filter((x) => x._id != id);
         }
       }
     );
@@ -112,7 +117,7 @@ export class GuestInformationComponent {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15);
 
-    while (this.recodes.findIndex((x) => x.id == generatedId) != -1) {
+    while (this.recodes.findIndex((x) => x._id == generatedId) != -1) {
       generatedId =
         Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
