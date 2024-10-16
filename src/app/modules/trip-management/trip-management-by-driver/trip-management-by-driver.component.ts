@@ -1,79 +1,173 @@
-import { DatePipe } from '@angular/common';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ApiConfigService } from 'src/app/shared/services/api-config.service';
-import { CommonForm } from 'src/app/shared/services/app-common-form';
-import { AppMessageService } from 'src/app/shared/services/app-message.service';
-import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Router } from "@angular/router";
+import { AppComponent } from "src/app/app.component";
+import { PopupService } from "src/app/shared/services/popup.service";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
+import { AddUserControlFlowService } from "../../user/add-new-user/add-new-user-form/add-user-control-flow.service";
+import { UserService } from "src/app/shared/services/api-services/user.service";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
+import { ExcelService } from "src/app/shared/services/excel.service";
+import { DatePipe } from "@angular/common";
+import { DriverTaskFormComponent } from "./driver-task-form/driver-task-form.component";
+import { firstValueFrom } from "rxjs";
+import { TripService } from "src/app/shared/services/api-services/trip.service";
+import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 
 @Component({
-  selector: 'app-trip-management-by-driver',
-  templateUrl: './trip-management-by-driver.component.html',
-  styleUrls: ['./trip-management-by-driver.component.scss']
+  selector: "app-trip-management-by-driver",
+  templateUrl: "./trip-management-by-driver.component.html",
+  styleUrls: ["./trip-management-by-driver.component.css"],
 })
-export class TripManagementByDriverComponent {
-  @ViewChild("templateRef", { static: true }) templateRef: TemplateRef<any>;
-  FV = new CommonForm();
-  tasks: any
-  isResponded: any = false
-  products: any
-
+export class TripManagementByDriverComponent implements OnInit {
+  cols: any;
+  recodes: any;
+  loading: any;
+  sidebarVisible2: boolean = false;
+  template: TemplateRef<any>;
+  items: any[];
+  filteredItems: any[];
   constructor(
-    private apiConfigService: ApiConfigService,
+    private sidebarService: SidebarService,
+    private appComponent: AppComponent,
+    private popupService: PopupService,
+    private router: Router,
+    private addUserControlFlowService: AddUserControlFlowService,
+    private userService: UserService,
     private messageService: AppMessageService,
-    private formBuilder: FormBuilder,
+    private transactionService: TransactionHandlerService,
+    private excelService: ExcelService,
     private datePipe: DatePipe,
-    private sidebarService: SidebarService
-  ) {
-    this.createForm()
-  }
-
-  createForm() {
-    this.FV.formGroup = this.formBuilder.group({
-      guestName: ["", [Validators.required]],
-      endDate: ["", [Validators.required]],
-      passengersCount: ["", [Validators.required]],
-      placeName: [''],
-      distance: [''],
-      date: [''],
-      time: ['']
-    });
-  }
+    private tripService: TripService
+  ) {}
 
   ngOnInit(): void {
-    let sideBarData = this.sidebarService.getData();
-    this.sidebarService.setFooterTemplate(this.templateRef);
+    this.cols = [
+      { field: "tripConfirmedNumber", header: "Trip Number" },
+      { field: "startDate", header: "Start Date" },
+      { field: "endDate", header: "End Date" },
+      { field: "contact", header: "Contact Details" },
+      // { field: "contactPerson", header: "Contact Person" },
+      { field: "status", header: "Status" },
+      // { field: "activeDriverName", header: "Driver Name" },
+      { field: "activeRegistrationNumber", header: "Vehicle Name" },
+    ];
 
-    this.products = [
-      { name: 'Colombo', category: 'Place', distance: '100 KM' },
-      { name: 'Galle', category: 'Place', distance: '50 KM' },
-      { name: 'Matara', category: 'Place', distance: '60 KM' },
-      { name: 'Kurunagala', category: 'Place', distance: '80 KM' },
-    ]
+    this.loadInitialData();
+
+    this.sidebarService.sidebarEvent.subscribe((response) => {
+      if (response && response.action == "refresh") {
+        this.loadInitialData();
+      }
+
+      this.sidebarService.removeComponent();
+      this.appComponent.sidebarVisible = false;
+      this.addUserControlFlowService.resetData();
+    });
+
+    this.items = [
+      {
+        id: 1,
+        label: "Check List",
+        icon: "pi pi-list-check",
+        command: (event: any) => {
+          this.onClickDriverTaskForm(event.item.data);
+        },
+      },
+      {
+        id: 2,
+        label: "Start Trip",
+        icon: "pi pi-arrow-circle-right",
+        command: (event: any) => {
+          this.onClickStartTrip(event.item.data);
+        },
+      },
+    ];
   }
 
-  loadAllDriverTasks() {
+  toggleMenu(menu: any, event: any, rowData: any) {
+    debugger;
+    this.filteredItems = [];
+
+    if (
+      !rowData.isCheckListDone &&
+      rowData.status == WellKnownTripStatus.PENDING
+    ) {
+      let selectedItem = this.items.filter((x) => x.id == 1);
+      this.filteredItems = this.filteredItems.concat(selectedItem);
+    }
+
+    if (
+      rowData.isCheckListDone &&
+      rowData.status == WellKnownTripStatus.PENDING
+    ) {
+      let selectedItem = this.items.filter((x) => x.id == 2);
+      this.filteredItems = this.filteredItems.concat(selectedItem);
+    }
+
+    this.filteredItems.forEach((menuItem) => {
+      menuItem.data = rowData;
+    });
+    menu.toggle(event);
+  }
+
+  async loadInitialData() {
     try {
-      this.apiConfigService.getDriverTasksJSON().subscribe((result) => {
-        if (result) {
-          let data = result
-          this.tasks = result
-          console.log("Data", data)
-        }
-      })
-    } catch (error: any) {
-      this.messageService.showErrorAlert(error)
+      const tripResponse = await firstValueFrom(this.tripService.GetAllTrips());
+
+      if (tripResponse?.IsSuccessful) {
+        this.recodes = tripResponse?.Result;
+      }
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
     }
   }
 
-  onClickYes(e: any) {
-    e.status = true
-    this.isResponded = true
+  onClickAddNew() {
+    let data = {
+      userData: null,
+      isEdit: false,
+    };
+
+    this.addUserControlFlowService.resetData();
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
   }
-  onClickNo(e: any) {
-    e.status = true
-    this.isResponded = true
+
+  async onClickStartTrip(rowData: any) {
+    let data = {
+      userData: null,
+      isEdit: true,
+    };
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
   }
-  onClickCancel() { }
-  onClickSave() { }
+
+  exportToExcel() {}
+
+  onClickDriverTaskForm(rowData: any) {
+    let data = {
+      tripInfo: rowData,
+      isView: false,
+      checkListInfo: null,
+    };
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
+
+    this.sidebarService.addComponent(
+      "Task Form",
+      DriverTaskFormComponent,
+      properties,
+      data
+    );
+  }
 }

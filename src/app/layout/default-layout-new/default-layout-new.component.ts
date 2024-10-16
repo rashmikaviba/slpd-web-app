@@ -94,7 +94,7 @@ export class DefaultLayoutNewComponent {
         menuId: 6,
         label: "Your Trips",
         icon: "pi pi-map",
-        routerLink: "/driver-management",
+        routerLink: "/trip-management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.DriverTripManagement,
         ]),
@@ -112,7 +112,7 @@ export class DefaultLayoutNewComponent {
         },
       },
       {
-        menuId: 7,
+        menuId: 8,
         label: "Vehicle Tracking",
         icon: "pi pi-map-marker",
         routerLink: "/vehicle-tracking",

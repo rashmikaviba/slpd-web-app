@@ -1,0 +1,192 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid p-2">
+    <div class="col-12">
+      <!-- <hr /> -->
+      <div class="">
+        <label class="text-xl font-bold">Health Checklist</label>
+        <div class="text-500 mb-5">
+          <!-- Egestas sed tempus urna et pharetra pharetra massa massa ultricies. -->
+        </div>
+        <ng-container *ngIf="tasks != null">
+          <ng-container
+            *ngFor="let health of tasks.healthcareChecklist; let i = index"
+          >
+            <ul class="list-none p-0 m-0 border-top-1 border-300">
+              <li
+                class="flex align-items-center py-3 px-2 flex-wrap"
+                [ngClass]="i % 2 ? '' : 'surface-ground'"
+              >
+                <div class="text-500 w-7 md:w-10 font-medium">
+                  {{ health.taskName }}
+                </div>
+                <div class="text-500 w-1 md:hidden font-medium"></div>
+                <div
+                  class="text-900 w-4 md:w-2 flex align-items-center text-center"
+                >
+                  <ng-container *ngIf="health.status == 1">
+                    <p-button
+                      label="Yes"
+                      tooltipPosition="bottom"
+                      styleClass="p-button-primary p-button-sm"
+                      (onClick)="onClickYes(health)"
+                    ></p-button>
+                    <p-button
+                      label="No"
+                      tooltipPosition="bottom"
+                      styleClass="bg-white text-blue-500 p-button-sm ml-2"
+                      (onClick)="onClickNo(health)"
+                    ></p-button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="health.status == 2 || health.status == 3"
+                  >
+                    <div class="flex justify-content-center gap-2">
+                      <p-button
+                        label="Yes"
+                        icon="pi pi-check-circle"
+                        styleClass="p-button-success p-button-outlined p-button-sm"
+                        *ngIf="health.status == 2"
+                      ></p-button>
+
+                      <p-button
+                        label="No"
+                        icon="pi pi-times-circle"
+                        *ngIf="health.status == 3"
+                        styleClass="p-button-danger p-button-outlined p-button-sm"
+                      ></p-button>
+
+                      <p-button
+                        icon="pi pi-refresh"
+                        styleClass="p-button-secondary p-button-outlined p-button-sm"
+                        *ngIf="
+                          !isView && (health.status == 3 || health.status == 2)
+                        "
+                        (onClick)="onClickRefresh(health)"
+                      ></p-button>
+                    </div>
+                  </ng-container>
+                </div>
+              </li>
+            </ul>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-12">
+      <hr />
+      <div class="mt-3">
+        <label class="text-xl font-bold">Vehicle Checklist</label>
+        <div class="text-500 mb-5">
+          <!-- Egestas sed tempus urna et pharetra pharetra massa massa ultricies. -->
+        </div>
+        <ng-container *ngIf="tasks != null">
+          <ng-container
+            *ngFor="let vehicle of tasks.vehicleChecklist; let i = index"
+          >
+            <ul class="list-none p-0 m-0 border-top-1 border-300">
+              <li
+                class="flex align-items-center py-3 px-2 flex-wrap"
+                [ngClass]="i % 2 ? '' : 'surface-ground'"
+              >
+                <div class="text-500 w-7 md:w-10 font-medium">
+                  {{ vehicle.taskName }}
+                </div>
+                <div class="text-500 w-1 md:hidden font-medium"></div>
+                <div class="text-900 w-4 md:w-2 flex">
+                  <ng-container *ngIf="vehicle.status == 1">
+                    <p-button
+                      label="Yes"
+                      tooltipPosition="bottom"
+                      styleClass="p-button-primary p-button-sm"
+                      (onClick)="onClickYes(vehicle)"
+                    ></p-button>
+                    <p-button
+                      label="No"
+                      tooltipPosition="bottom"
+                      styleClass="bg-white text-blue-500 p-button-sm ml-2"
+                      (onClick)="onClickNo(vehicle)"
+                    ></p-button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="vehicle.status == 2 || vehicle.status == 3"
+                  >
+                    <div class="flex justify-content-center gap-2">
+                      <p-button
+                        label="Yes"
+                        icon="pi pi-check-circle"
+                        styleClass="p-button-success p-button-outlined p-button-sm"
+                        *ngIf="vehicle.status == 2"
+                      ></p-button>
+
+                      <p-button
+                        label="No"
+                        icon="pi pi-times-circle"
+                        *ngIf="vehicle.status == 3"
+                        styleClass="p-button-danger p-button-outlined p-button-sm"
+                      ></p-button>
+
+                      <p-button
+                        icon="pi pi-refresh"
+                        styleClass="p-button-secondary p-button-outlined p-button-sm"
+                        *ngIf="
+                          !isView &&
+                          (vehicle.status == 3 || vehicle.status == 2)
+                        "
+                        (onClick)="onClickRefresh(vehicle)"
+                      ></p-button>
+                    </div>
+                  </ng-container>
+                </div>
+              </li>
+            </ul>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-12 mt-2">
+      <label class="text-xl font-bold">Terms and Conditions:</label>
+      <div class="flex gap-2 justify-content-start align-items-start mt-2">
+        <p-checkbox
+          [binary]="true"
+          formControlName="isTermChecked1"
+        ></p-checkbox>
+
+        <div class="text-500 mb-2">
+          I certify that all the information provided in this checklist is true
+          and accurate to the best of my knowledge. I agree to abide by all
+          safety regulations and guidelines while operating the vehicle.
+        </div>
+      </div>
+
+      <div class="flex gap-2 justify-content-start align-items-start">
+        <p-checkbox
+          [binary]="true"
+          formControlName="isTermChecked2"
+        ></p-checkbox>
+
+        <div class="text-500 mb-2">
+          I agree to abide by all safety regulations and guidelines while
+          operating the vehicle.
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-2">
+      <p-button
+        label="Submit"
+        icon="pi pi-save"
+        iconPos="left"
+        (onClick)="onClickSave()"
+      ></p-button>
+
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        styleClass="p-button-secondary"
+        (onClick)="onClickCancel()"
+      ></p-button>
+    </div>
+  </ng-template>
+</form>

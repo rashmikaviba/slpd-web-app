@@ -58,4 +58,20 @@ export class TripService {
         return response;
       });
   }
+
+  SaveCheckList(tripId: string, body: any) {
+    return this.dataAccess
+      .PUT(this.resource.trip.saveCheckList + `/${tripId}`, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  GetCheckList(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getCheckList + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

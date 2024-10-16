@@ -12,6 +12,7 @@ import { AddDriverAndVehicleFormComponent } from "./add-driver-and-vehicle-form/
 import { firstValueFrom } from "rxjs";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 import { TripManagementFlowService } from "./trip-management-form/trip-management-flow.service";
+import { DriverTaskFormComponent } from "../trip-management-by-driver/driver-task-form/driver-task-form.component";
 
 @Component({
   selector: "app-trip-management",
@@ -88,6 +89,14 @@ export class TripManagementComponent implements OnInit {
       },
       {
         id: 4,
+        label: "Check List",
+        icon: "pi pi-list-check",
+        command: (event: any) => {
+          this.onClickVIewCheckList(event.item.data);
+        },
+      },
+      {
+        id: 5,
         label: "Cancel Trip",
         icon: "pi pi-trash",
         command: (event: any) => {
@@ -100,15 +109,7 @@ export class TripManagementComponent implements OnInit {
   toggleMenu(menu: any, event: any, rowData: any) {
     this.filteredItems = [];
 
-    this.filteredItems = this.items.filter((menuItem: any) => {
-      if (rowData?.isBlackListed && menuItem.id === 3) {
-        return false;
-      } else if (!rowData?.isBlackListed && menuItem.id === 4) {
-        return false;
-      } else {
-        return true;
-      }
-    });
+    this.filteredItems = this.items;
 
     this.filteredItems.forEach((menuItem) => {
       menuItem.data = rowData;
@@ -260,5 +261,37 @@ export class TripManagementComponent implements OnInit {
           this.loadInitialData();
         }
       });
+  }
+
+  async onClickVIewCheckList(rowData: any) {
+    try {
+      let data = {
+        tripInfo: rowData,
+        isView: true,
+        checkListInfo: null,
+      };
+
+      const checkListResult = await firstValueFrom(
+        this.tripService.GetCheckList(rowData?.id)
+      );
+
+      if (checkListResult.IsSuccessful) {
+        data.checkListInfo = checkListResult.Result;
+      }
+
+      let properties = {
+        width: "50vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "Task Form",
+        DriverTaskFormComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
 }

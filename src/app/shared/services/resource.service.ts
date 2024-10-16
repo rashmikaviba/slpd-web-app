@@ -90,5 +90,9 @@ export class ResourceService {
     updateTrip: this.Trip,
     cancelTrip: this.Trip,
     assignDriver: this.Trip + "/assignDriver",
+
+    // checkList routes
+    saveCheckList: this.Trip + "/checkList",
+    getCheckList: this.Trip + "/checkList",
   };
 }
