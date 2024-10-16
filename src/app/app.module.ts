@@ -120,8 +120,8 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
-import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
-import { DriverTaskFormComponent } from "./modules/driver-management/driver-task-form/driver-task-form.component";
+// import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
+// import { DriverTaskFormComponent } from "./modules/driver-management/driver-task-form/driver-task-form.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
 // import { GeneralInformationComponent } from "./modules/trip-management/trip-management-form/general-information/general-information.component";
 // import { GuestInformationComponent } from "./modules/trip-management/trip-management-form/guest-information/guest-information.component";
@@ -239,8 +239,8 @@ import { DriverTaskFormComponent } from "./modules/driver-management/driver-task
     // TripManagementComponent,
     // TripManagementFormComponent,
     // AddDriverAndVehicleFormComponent,
-    DriverManagementComponent,
-    DriverTaskFormComponent,
+    // DriverManagementComponent,
+    // DriverTaskFormComponent,
     // TripManagementByDriverComponent,
     // GeneralInformationComponent,
     // GuestInformationComponent,

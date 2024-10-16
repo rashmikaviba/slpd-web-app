@@ -44,9 +44,10 @@ import { GuestInformationComponent } from "./trip-management/trip-management-for
 import { OtherInformationComponent } from "./trip-management/trip-management-form/other-information/other-information.component";
 import { TripInformationsComponent } from "./trip-management/trip-management-form/trip-informations/trip-informations.component";
 import { AddDriverAndVehicleFormComponent } from "./trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
-import { TripManagementByDriverComponent } from "./trip-management-by-driver/trip-management-by-driver.component";
 import { AddPlaceFormComponent } from "./trip-management/trip-management-form/trip-informations/add-place-form/add-place-form.component";
 import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
+import { TripManagementByDriverComponent } from "./trip-management-by-driver/trip-management-by-driver.component";
+import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task-form/driver-task-form.component";
 
 @NgModule({
   declarations: [
@@ -57,9 +58,10 @@ import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dyna
     OtherInformationComponent,
     TripInformationsComponent,
     AddDriverAndVehicleFormComponent,
-    TripManagementByDriverComponent,
     AddPlaceFormComponent,
     DynamicComponentLoaderComponent,
+    TripManagementByDriverComponent,
+    DriverTaskFormComponent,
   ],
   imports: [
     CommonModule,

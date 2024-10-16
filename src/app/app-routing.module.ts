@@ -6,7 +6,7 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
 import { RouteGuardService } from "./shared/services/route-guard.service";
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
-import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
+// import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
 // import { LeaveManagementComponent } from "./modules/leave-management/leave-management.component";
 
@@ -67,17 +67,6 @@ const routes: Routes = [
   //   ],
   //   canActivate: [RouteGuardService],
   // },
-  {
-    path: "driver-management",
-    component: DefaultLayoutNewComponent,
-    children: [
-      {
-        path: "",
-        component: DriverManagementComponent,
-      },
-    ],
-    canActivate: [RouteGuardService],
-  },
   // {
   //   path: "trip-management-by-driver",
   //   component: DefaultLayoutNewComponent,
