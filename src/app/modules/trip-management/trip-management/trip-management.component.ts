@@ -13,6 +13,7 @@ import { firstValueFrom } from "rxjs";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 import { TripManagementFlowService } from "./trip-management-form/trip-management-flow.service";
 import { DriverTaskFormComponent } from "../trip-management-by-driver/driver-task-form/driver-task-form.component";
+import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
 
 @Component({
   selector: "app-trip-management",
@@ -36,7 +37,7 @@ export class TripManagementComponent implements OnInit {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private tripService: TripService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -245,7 +246,7 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  exportToExcel() {}
+  exportToExcel() { }
 
   onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
@@ -290,6 +291,36 @@ export class TripManagementComponent implements OnInit {
         properties,
         data
       );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async onClickPrint(rowData: any) {
+    try {
+      const tripData = await firstValueFrom(
+        this.tripService.GetTripById(rowData?.id)
+      )
+
+      if (tripData.IsSuccessful) {
+        let data = tripData.Result;
+
+        this.tripManagementFlowService.clearData();
+
+        let properties = {
+          width: "50vw",
+          position: "right",
+        };
+
+        this.sidebarService.addComponent(
+          "Print",
+          TripManagementPrintComponent,
+          properties,
+          data
+        );
+      } else {
+        this.messageService.showErrorAlert(tripData.Message)
+      }
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }

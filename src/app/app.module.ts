@@ -110,6 +110,7 @@ import { WebcamModule } from "ngx-webcam";
 import { AuthorizationInterceptor } from "./core/interceptor/authorization.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SharedModule } from "./shared.module";
+import { NgxPrintModule } from 'ngx-print';
 import { UserModule } from "./modules/user/user.module";
 import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
@@ -227,6 +228,7 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
     IconFieldModule,
     InputIconModule,
     NgIdleKeepaliveModule.forRoot(),
+    NgxPrintModule
   ],
   declarations: [
     AppComponent,
@@ -272,4 +274,4 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

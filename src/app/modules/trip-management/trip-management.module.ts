@@ -37,6 +37,7 @@ import { StepsModule } from "primeng/steps";
 import { EditorModule } from "primeng/editor";
 import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
+import { NgxPrintModule } from 'ngx-print';
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -48,6 +49,7 @@ import { AddPlaceFormComponent } from "./trip-management/trip-management-form/tr
 import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
 import { TripManagementByDriverComponent } from "./trip-management-by-driver/trip-management-by-driver.component";
 import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task-form/driver-task-form.component";
+import { TripManagementPrintComponent } from './trip-management-print/trip-management-print.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,7 @@ import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task
     DynamicComponentLoaderComponent,
     TripManagementByDriverComponent,
     DriverTaskFormComponent,
+    TripManagementPrintComponent,
   ],
   imports: [
     CommonModule,
@@ -101,6 +104,7 @@ import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task
     EditorModule,
     FieldsetModule,
     ChipModule,
+    NgxPrintModule
   ],
 })
-export class TripManagementModule {}
+export class TripManagementModule { }
