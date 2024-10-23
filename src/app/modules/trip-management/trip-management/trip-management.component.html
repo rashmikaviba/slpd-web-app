@@ -135,7 +135,7 @@
         </ng-container>
       </td>
       <td
-        class="text-center"
+        class="text-center w-2"
         [ngClass]="{
                 'bg-blue': rowIndex % 2 !== 0,
               }"
@@ -144,15 +144,15 @@
           class="flex flex-wrap justify-content-center align-content-center gap-1"
         >
           <!-- <span class="p-column-title font-bold">Action</span> -->
-          <!-- <button
+          <button
             type="button"
             pButton
-            pTooltip="Assign Driver and Vehicle"
+            pTooltip="Print"
             tooltipPosition="bottom"
-            class="p-button-outlined p-button-warning"
-            icon="pi pi-check-circle"
-            (click)="onClickAssignDriverAndVehicle()"
-          ></button> -->
+            class="p-button-help"
+            icon="pi pi-print"
+            (click)="onClickPrint(rowData)"
+          ></button>
           <button
             #btn
             type="button"
