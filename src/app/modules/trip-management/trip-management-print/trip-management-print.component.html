@@ -23,8 +23,9 @@
     </div>
     <div class="field col-12 md:col-12 text-center">
       <label class="text-xl font-semibold"
-        >DK-{{ tripInfo?.tripConfirmedNumber }} – 01st August to 16th August -
-        2024</label
+        >DK-{{ tripInfo?.tripConfirmedNumber | number : "3.0-0" }} –
+        {{ tripInfo?.startDate | date : "MMMM d" }} to
+        {{ tripInfo?.endDate | date : "longDate" }}</label
       >
     </div>
     <div class="field col-12 md:col-12">
