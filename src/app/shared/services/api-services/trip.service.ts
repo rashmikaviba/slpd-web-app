@@ -74,4 +74,35 @@ export class TripService {
         return response;
       });
   }
+
+  UpdateTripStatus(tripId: string, status: number) {
+    return this.dataAccess
+      .PUT(
+        this.resource.trip.updateTripStatus + `/${tripId}/status/${status}`,
+        null
+      )
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  GetTripPlacesByTripId(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getPlacesByTripId + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  UpdateTripPlaceAsMarked(tripId: string, placeId: string, body: any) {
+    return this.dataAccess
+      .PUT(
+        this.resource.trip.updatePlaceAsMarked +
+          `/${tripId}/markAsReached/${placeId}`,
+        body
+      )
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

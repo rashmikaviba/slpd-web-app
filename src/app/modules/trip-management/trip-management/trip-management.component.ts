@@ -14,6 +14,7 @@ import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status
 import { TripManagementFlowService } from "./trip-management-form/trip-management-flow.service";
 import { DriverTaskFormComponent } from "../trip-management-by-driver/driver-task-form/driver-task-form.component";
 import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
+import { UpdateLocationFormComponent } from "../trip-management-by-driver/update-location-form/update-location-form.component";
 
 @Component({
   selector: "app-trip-management",
@@ -37,7 +38,7 @@ export class TripManagementComponent implements OnInit {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private tripService: TripService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -98,10 +99,26 @@ export class TripManagementComponent implements OnInit {
       },
       {
         id: 5,
+        label: "End Trip",
+        icon: "pi pi-stop-circle",
+        command: (event: any) => {
+          this.onClickEndTrip(event.item.data);
+        },
+      },
+      {
+        id: 6,
         label: "Cancel Trip",
         icon: "pi pi-trash",
         command: (event: any) => {
           this.onCLickCancelTrip(event.item.data);
+        },
+      },
+      {
+        id: 7,
+        label: "View Trip Info",
+        icon: "pi pi-info-circle",
+        command: (event: any) => {
+          this.onClickViewTripReachInfo(event.item.data);
         },
       },
     ];
@@ -110,7 +127,32 @@ export class TripManagementComponent implements OnInit {
   toggleMenu(menu: any, event: any, rowData: any) {
     this.filteredItems = [];
 
-    this.filteredItems = this.items;
+    const conditions = [
+      { ids: [2], condition: true },
+      {
+        ids: [1, 3],
+        condition:
+          rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.PENDING,
+      },
+      { ids: [4], condition: rowData?.isCheckListDone },
+      { ids: [5], condition: rowData?.status === WellKnownTripStatus.START },
+      { ids: [6], condition: rowData?.status === WellKnownTripStatus.PENDING },
+      {
+        ids: [7],
+        condition:
+          rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.FINISHED,
+      },
+    ];
+
+    conditions.forEach(({ ids, condition }) => {
+      if (condition) {
+        this.filteredItems = this.filteredItems.concat(
+          this.items.filter((x) => ids.includes(x.id))
+        );
+      }
+    });
 
     this.filteredItems.forEach((menuItem) => {
       menuItem.data = rowData;
@@ -246,7 +288,7 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  exportToExcel() { }
+  exportToExcel() {}
 
   onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
@@ -278,6 +320,9 @@ export class TripManagementComponent implements OnInit {
 
       if (checkListResult.IsSuccessful) {
         data.checkListInfo = checkListResult.Result;
+      } else {
+        this.messageService.showErrorAlert(checkListResult.Message);
+        return;
       }
 
       let properties = {
@@ -300,7 +345,7 @@ export class TripManagementComponent implements OnInit {
     try {
       const tripData = await firstValueFrom(
         this.tripService.GetTripById(rowData?.id)
-      )
+      );
 
       if (tripData.IsSuccessful) {
         let data = tripData.Result;
@@ -319,10 +364,54 @@ export class TripManagementComponent implements OnInit {
           data
         );
       } else {
-        this.messageService.showErrorAlert(tripData.Message)
+        this.messageService.showErrorAlert(tripData.Message);
       }
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }
+  }
+  onClickEndTrip(rowData: any) {
+    let confirmationConfig = {
+      message: "Are you sure you want to end this trip?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+    };
+
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.tripService
+            .UpdateTripStatus(rowData?.id, WellKnownTripStatus.FINISHED)
+            .subscribe((response) => {
+              if (response.IsSuccessful) {
+                this.messageService.showSuccessAlert(response.Message);
+                this.loadInitialData();
+              } else {
+                this.messageService.showErrorAlert(response.Message);
+              }
+            });
+        }
+      }
+    );
+  }
+
+  onClickViewTripReachInfo(rowData: any) {
+    let data = {
+      tripInfo: rowData,
+      isView: true,
+    };
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
+
+    this.sidebarService.addComponent(
+      "Update Current Location",
+      UpdateLocationFormComponent,
+      properties,
+      data
+    );
   }
 }

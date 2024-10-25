@@ -154,14 +154,13 @@
             icon="pi pi-list-check"
             (click)="onClickDriverTaskForm()"
           ></button> -->
-          <button
+          <p-button
             #btn
-            type="button"
-            pButton
-            class="ml-2"
+            styleClass="ml-2"
             icon="pi pi-ellipsis-v"
-            (click)="toggleMenu(menu, $event, rowData)"
-          ></button>
+            (onClick)="toggleMenu(menu, $event, rowData)"
+            [disabled]="rowData.status == WellKnownTripStatus.FINISHED"
+          ></p-button>
           <p-tieredMenu
             #menu
             [model]="filteredItems"

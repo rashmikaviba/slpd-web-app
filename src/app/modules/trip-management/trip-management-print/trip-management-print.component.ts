@@ -1,106 +1,94 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { AppMessageService } from 'src/app/shared/services/app-message.service';
-import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { DatePipe } from "@angular/common";
+import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
 
 @Component({
-  selector: 'app-trip-management-print',
-  templateUrl: './trip-management-print.component.html',
-  styleUrls: ['./trip-management-print.component.scss']
+  selector: "app-trip-management-print",
+  templateUrl: "./trip-management-print.component.html",
+  styleUrls: ["./trip-management-print.component.scss"],
 })
 export class TripManagementPrintComponent {
   @ViewChild("templateRef", { static: true }) templateRef: TemplateRef<any>;
-  hotelName: any
-  poPrintDetails: any
-  ResName: any
-  passengerDetails: any[] = []
-  flightDetails: any[] = []
-  pickupAndDropOff: any[] = []
-  clearItinerary: any[] = []
-  hotelDetails: any[] = []
-  activityCost: any[] = []
+  hotelName: any;
+  poPrintDetails: any;
+  ResName: any;
+  passengerDetails: any[] = [];
+  arrivalDetails: any = null;
+  departureDetails: any = null;
+  pickUpInfo: any = null;
+  dropOffInfo: any = null;
+  pickupAndDropOff: any[] = [];
+  places: any[] = [];
+  hotels: any[] = [];
+  activities: any[] = [];
+  activityCost: number = 0;
+  tripInfo: any;
 
   constructor(
     private sidebarService: SidebarService,
     private messageService: AppMessageService,
-  ) { }
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
     this.sidebarService.setFooterTemplate(this.templateRef);
     let sideBarData = this.sidebarService.getData();
-    console.log("sideBarData Trip", sideBarData)
+    this.tripInfo = sideBarData;
+    console.log("sideBarData Trip", sideBarData);
 
     // Bind Passenger Details
-    this.passengerDetails = sideBarData.passengers
+    this.passengerDetails = sideBarData.passengers;
+    this.arrivalDetails = sideBarData.arrivalInfo;
+    this.departureDetails = sideBarData.departureInfo;
 
-    // Bind Flight Details
-    sideBarData.arrivalInfo.status = "Arrival";
-    sideBarData.departureInfo.status = "Departure";
+    this.pickUpInfo = sideBarData.pickUpInfo;
+    this.dropOffInfo = sideBarData.dropOffInfo;
 
-    const flightDetails = [sideBarData.arrivalInfo, sideBarData.departureInfo];
-
-    this.flightDetails = flightDetails.map((flightData) => {
-      const {
-        status,
-        arrivalDate,
-        departureDate,
-        arrivalTime,
-        departureTime,
-        arrivalFlightNumber,
-        departureFlightNumber,
-      } = flightData;
-
-      return {
-        status,
-        date: status === "Arrival" ? arrivalDate : departureDate,
-        time: status === "Arrival" ? arrivalTime : departureTime,
-        number: status === "Arrival" ? arrivalFlightNumber : departureFlightNumber,
-      };
+    this.hotels = sideBarData.hotels;
+    this.hotels.map((hotel) => {
+      let dates = hotel.dates.split(",");
+      hotel.showDates = dates
+        .map((x) => {
+          return this.datePipe.transform(new Date(x), "MMM d");
+        })
+        .join(", ");
     });
 
-    // Bind pickup And DropOff
-    sideBarData.pickUpInfo.status = "Pick-up";
-    sideBarData.dropOffInfo.status = "Drop off";
+    this.activities = sideBarData.activities;
 
-    const pickupAndDropOff = [sideBarData.pickUpInfo, sideBarData.dropOffInfo]
+    this.activityCost = this.activities.reduce(
+      (acc, curr) => acc + curr.totalCost,
+      0
+    );
 
-    this.pickupAndDropOff = pickupAndDropOff.map((pickupAndDropOff) => {
-      const {
-        status,
-        pickupDate,
-        dropOffDate,
-        pickupTime,
-        dropOffTime,
-        pickupCity,
-        dropOffCity,
-        pickupAddress,
-        dropOffAddress
-      } = pickupAndDropOff;
+    this.places = sideBarData.places;
 
-      return {
-        status,
-        date: status === "Pick-up" ? pickupDate : dropOffDate,
-        time: status === "Pick-up" ? pickupTime : dropOffTime,
-        address: status === "Pick-up" ? pickupAddress : dropOffAddress,
-        city: status === "Pick-up" ? pickupCity : dropOffCity,
-      };
+    this.places.map((x) => {
+      x.showDates = x.dates
+        .map((x) => {
+          return this.datePipe.transform(new Date(x), "MMM d");
+        })
+        .join(", ");
     });
-
-    this.clearItinerary = [
-      { date: '01st August', details: 'COLOMBO 5.25AM - TRANSFER NEGOMBO -- GALLE 155KM (2H) - NIGHT IN: GALLE' },
-      { date: '02nd August', details: 'TRANSFER GALLE -- Yala - NIGHT IN: Yala' },
-      { date: '03rd August', details: 'YALA NATIONAL PARK - NIGHT IN: TISSAMAHARAMA' },
-      { date: '04th August', details: 'TRANSFER TISSAMAHARAMA -- ELLA 90KM (2H) - NIGHT IN: ELLA' }
-    ]
-
-    this.hotelDetails = [
-      { date: '01st August', name: 'Brixia Cafe & Guest', city: 'Galle' },
-      { date: '01st August', name: 'Brixia Cafe & Guest', city: 'Galle' }
-    ]
-
-    this.activityCost = [
-      { date: '04th August', activity: 'Half day Udawalawe Safari', passengers: '02 Adults and 01 child ( 4yd)', cost: '120.USD' },
-      { date: '06th August', activity: 'Train Ella to Nuwara Eliya ( Nanu oya)', passengers: '02 Adults and 01 child ( 4yd)', cost: '500.USD' },
-      { date: '14th August', activity: 'Esala perehara tickets', passengers: '02 Adults and 01 child ( 4yd)', cost: '150.USD' }
-    ]
+    // this.clearItinerary = [
+    //   {
+    //     date: "01st August",
+    //     details:
+    //       "COLOMBO 5.25AM - TRANSFER NEGOMBO -- GALLE 155KM (2H) - NIGHT IN: GALLE",
+    //   },
+    //   {
+    //     date: "02nd August",
+    //     details: "TRANSFER GALLE -- Yala - NIGHT IN: Yala",
+    //   },
+    //   {
+    //     date: "03rd August",
+    //     details: "YALA NATIONAL PARK - NIGHT IN: TISSAMAHARAMA",
+    //   },
+    //   {
+    //     date: "04th August",
+    //     details: "TRANSFER TISSAMAHARAMA -- ELLA 90KM (2H) - NIGHT IN: ELLA",
+    //   },
+    // ];
   }
 }

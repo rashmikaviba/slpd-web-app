@@ -13,6 +13,7 @@ import { DriverTaskFormComponent } from "./driver-task-form/driver-task-form.com
 import { firstValueFrom } from "rxjs";
 import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
+import { UpdateLocationFormComponent } from "./update-location-form/update-location-form.component";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -27,6 +28,7 @@ export class TripManagementByDriverComponent implements OnInit {
   template: TemplateRef<any>;
   items: any[];
   filteredItems: any[];
+  WellKnownTripStatus = WellKnownTripStatus;
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -82,11 +84,33 @@ export class TripManagementByDriverComponent implements OnInit {
           this.onClickStartTrip(event.item.data);
         },
       },
+      {
+        id: 3,
+        label: "Undo Start Trip",
+        icon: "pi pi-refresh",
+        command: (event: any) => {
+          this.onClickUndoStartTrip(event.item.data);
+        },
+      },
+      {
+        id: 4,
+        label: "Update Location",
+        icon: "pi pi-map-marker",
+        command: (event: any) => {
+          this.onClickUpdateCurrentLocation(event.item.data);
+        },
+      },
     ];
   }
 
   toggleMenu(menu: any, event: any, rowData: any) {
-    debugger;
+    if (!rowData?.isActiveDriver) {
+      this.messageService.showWarnAlert(
+        `You are not allowed to change this trip because you are not the active driver for this trip.`
+      );
+      return;
+    }
+
     this.filteredItems = [];
 
     if (
@@ -103,6 +127,19 @@ export class TripManagementByDriverComponent implements OnInit {
     ) {
       let selectedItem = this.items.filter((x) => x.id == 2);
       this.filteredItems = this.filteredItems.concat(selectedItem);
+    }
+
+    if (
+      rowData.isCheckListDone &&
+      rowData.status == WellKnownTripStatus.START
+    ) {
+      let selectedItem = this.items.filter((x) => x.id == 4);
+      this.filteredItems = this.filteredItems.concat(selectedItem);
+
+      if (rowData?.canUndo) {
+        let selectedItem2 = this.items.filter((x) => x.id == 3);
+        this.filteredItems = this.filteredItems.concat(selectedItem2);
+      }
     }
 
     this.filteredItems.forEach((menuItem) => {
@@ -137,16 +174,56 @@ export class TripManagementByDriverComponent implements OnInit {
     };
   }
 
-  async onClickStartTrip(rowData: any) {
-    let data = {
-      userData: null,
-      isEdit: true,
+  onClickStartTrip(rowData: any) {
+    let confirmationConfig = {
+      message: "Are you sure you want to start this trip?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
     };
 
-    let properties = {
-      width: "50vw",
-      position: "right",
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.tripService
+            .UpdateTripStatus(rowData?.id, WellKnownTripStatus.START)
+            .subscribe((response) => {
+              if (response.IsSuccessful) {
+                this.messageService.showSuccessAlert(response.Message);
+                this.loadInitialData();
+              } else {
+                this.messageService.showErrorAlert(response.Message);
+              }
+            });
+        }
+      }
+    );
+  }
+
+  onClickUndoStartTrip(rowData: any) {
+    let confirmationConfig = {
+      message: "Are you sure you want to undo start this trip?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
     };
+
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.tripService
+            .UpdateTripStatus(rowData?.id, WellKnownTripStatus.PENDING)
+            .subscribe((response) => {
+              if (response.IsSuccessful) {
+                this.messageService.showSuccessAlert(response.Message);
+                this.loadInitialData();
+              } else {
+                this.messageService.showErrorAlert(response.Message);
+              }
+            });
+        }
+      }
+    );
   }
 
   exportToExcel() {}
@@ -166,6 +243,25 @@ export class TripManagementByDriverComponent implements OnInit {
     this.sidebarService.addComponent(
       "Task Form",
       DriverTaskFormComponent,
+      properties,
+      data
+    );
+  }
+
+  onClickUpdateCurrentLocation(rowData: any) {
+    let data = {
+      tripInfo: rowData,
+      isView: false,
+    };
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
+
+    this.sidebarService.addComponent(
+      "Update Current Location",
+      UpdateLocationFormComponent,
       properties,
       data
     );

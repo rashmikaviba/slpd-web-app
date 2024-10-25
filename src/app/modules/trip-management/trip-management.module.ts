@@ -37,7 +37,8 @@ import { StepsModule } from "primeng/steps";
 import { EditorModule } from "primeng/editor";
 import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
-import { NgxPrintModule } from 'ngx-print';
+import { NgxPrintModule } from "ngx-print";
+import { DataViewModule } from "primeng/dataview";
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -49,7 +50,9 @@ import { AddPlaceFormComponent } from "./trip-management/trip-management-form/tr
 import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
 import { TripManagementByDriverComponent } from "./trip-management-by-driver/trip-management-by-driver.component";
 import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task-form/driver-task-form.component";
-import { TripManagementPrintComponent } from './trip-management-print/trip-management-print.component';
+import { TripManagementPrintComponent } from "./trip-management-print/trip-management-print.component";
+import { UpdateLocationFormComponent } from "./trip-management-by-driver/update-location-form/update-location-form.component";
+import { TagModule } from "primeng/tag";
 
 @NgModule({
   declarations: [
@@ -65,6 +68,7 @@ import { TripManagementPrintComponent } from './trip-management-print/trip-manag
     TripManagementByDriverComponent,
     DriverTaskFormComponent,
     TripManagementPrintComponent,
+    UpdateLocationFormComponent,
   ],
   imports: [
     CommonModule,
@@ -104,7 +108,9 @@ import { TripManagementPrintComponent } from './trip-management-print/trip-manag
     EditorModule,
     FieldsetModule,
     ChipModule,
-    NgxPrintModule
+    NgxPrintModule,
+    DataViewModule,
+    TagModule,
   ],
 })
-export class TripManagementModule { }
+export class TripManagementModule {}
