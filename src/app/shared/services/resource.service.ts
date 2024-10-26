@@ -61,6 +61,7 @@ export class ResourceService {
     getPendingLeaves: this.MonthAudit + "/pendingLeaves",
     createNewMonth: this.MonthAudit + "/createNewMonth",
     getWorkingInfo: this.MonthAudit + "/workingInfo",
+    getPendingTrips: this.MonthAudit + "/pendingTrip",
   };
 
   wegaShine = {

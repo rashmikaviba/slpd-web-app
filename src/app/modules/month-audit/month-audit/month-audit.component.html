@@ -49,6 +49,9 @@
           <app-pending-leave></app-pending-leave>
         </ng-container>
         <ng-container *ngIf="active == 2">
+          <app-pending-trip></app-pending-trip>
+        </ng-container>
+        <ng-container *ngIf="active == 3">
           <app-create-new-month></app-create-new-month>
         </ng-container>
       </div>
@@ -67,7 +70,7 @@
           <p-button
             label="Next"
             (click)="changeIndex(active + 1)"
-            [disabled]="active == 2"
+            [disabled]="active == 3"
             icon="pi pi-angle-right"
             iconPos="right"
           />

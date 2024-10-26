@@ -111,43 +111,43 @@ export class TripManagementFormComponent {
     let finishSteps = this.tripMgtFlowService.getFinishedStep();
     let selectedStepName = this.items[index].label;
 
-    // switch (index) {
-    //   case 0:
-    //     this.showingIndex = 0;
-    //     break;
-    //   case 1:
-    //     if (finishSteps?.step0) {
-    //       this.showingIndex = 1;
-    //     } else {
-    //       this.messageService.showInfoAlert(
-    //         `Please finish previous step before moving to ${selectedStepName}`
-    //       );
-    //     }
+    switch (index) {
+      case 0:
+        this.showingIndex = 0;
+        break;
+      case 1:
+        if (finishSteps?.step0) {
+          this.showingIndex = 1;
+        } else {
+          this.messageService.showInfoAlert(
+            `Please finish previous step before moving to ${selectedStepName}`
+          );
+        }
 
-    //     break;
-    //   case 2:
-    //     if (finishSteps?.step0 && finishSteps?.step1) {
-    //       this.showingIndex = 2;
-    //     } else {
-    //       this.messageService.showInfoAlert(
-    //         `Please finish previous step before moving to ${selectedStepName}`
-    //       );
-    //     }
-    //     break;
-    //   case 3:
-    //     if (finishSteps?.step0 && finishSteps?.step1 && finishSteps?.step2) {
-    //       this.showingIndex = 3;
-    //     } else {
-    //       this.messageService.showInfoAlert(
-    //         `Please finish previous step before moving to ${selectedStepName}`
-    //       );
-    //     }
-    //     break;
-    //   default:
-    //     break;
-    // }
+        break;
+      case 2:
+        if (finishSteps?.step0 && finishSteps?.step1) {
+          this.showingIndex = 2;
+        } else {
+          this.messageService.showInfoAlert(
+            `Please finish previous step before moving to ${selectedStepName}`
+          );
+        }
+        break;
+      case 3:
+        if (finishSteps?.step0 && finishSteps?.step1 && finishSteps?.step2) {
+          this.showingIndex = 3;
+        } else {
+          this.messageService.showInfoAlert(
+            `Please finish previous step before moving to ${selectedStepName}`
+          );
+        }
+        break;
+      default:
+        break;
+    }
 
-    this.showingIndex = index;
+    // this.showingIndex = index;
   }
 
   handleCancel() {}
