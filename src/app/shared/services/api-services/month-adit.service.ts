@@ -34,4 +34,12 @@ export class MonthAditService {
         return response;
       });
   }
+
+  GetPendingTrips() {
+    return this.dataAccess
+      .GET(this.resource.monthAudit.getPendingTrips)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

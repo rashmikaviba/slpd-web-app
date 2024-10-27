@@ -32,3 +32,9 @@
     opacity: 1;
   }
 }
+
+@media screen and (max-width: 960px) {
+  #app-sidebar-12 {
+    height: 100vh !important; /* Full height for small screens */
+  }
+}

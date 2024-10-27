@@ -9,12 +9,17 @@ export class ResourceService {
   constructor() {}
 
   public appHostURL: string = environment.appURL;
+  private host: string = environment.apiURL;
+  private wegaShineUrl: string = environment.wegaShineURL;
 
-  private Auth = "/auth";
-  private Store = "/store";
-  private User = "/user";
-  private Leave = "/leave";
-  private MonthAudit = "/monthAudit";
+  private Auth = this.host + "/auth";
+  private Store = this.host + "/store";
+  private User = this.host + "/user";
+  private Leave = this.host + "/leave";
+  private MonthAudit = this.host + "/monthAudit";
+  private Common = this.host + "/common";
+  private Vehicle = this.host + "/vehicle";
+  private Trip = this.host + "/trip";
 
   auth = {
     login: this.Auth + "/login",
@@ -37,6 +42,7 @@ export class ResourceService {
     unblockUser: this.User + "/unblock",
     updateUser: this.User,
     deleteUser: this.User,
+    getUsersByRole: this.User + "/userByRole",
   };
 
   leave = {
@@ -54,6 +60,45 @@ export class ResourceService {
   monthAudit = {
     getPendingLeaves: this.MonthAudit + "/pendingLeaves",
     createNewMonth: this.MonthAudit + "/createNewMonth",
-    getWorkingInfo : this.MonthAudit + "/workingInfo"
+    getWorkingInfo: this.MonthAudit + "/workingInfo",
+    getPendingTrips: this.MonthAudit + "/pendingTrip",
+  };
+
+  wegaShine = {
+    session: "/session",
+    devices: "/devices",
+  };
+
+  common = {
+    getDataByType: this.Common + "/data",
+    getGenders: this.Common + "/gender",
+  };
+
+  vehicle = {
+    saveVehicle: this.Vehicle,
+    getAllVehicles: this.Vehicle,
+    getVehicleById: this.Vehicle,
+    updateVehicle: this.Vehicle,
+    deleteVehicleById: this.Vehicle,
+    activeInactiveVehicles: this.Vehicle + "/activeInactive",
+    getAllVehiclesByCount: this.Vehicle + "/passengerCount",
+  };
+
+  trip = {
+    saveTrip: this.Trip,
+    getAllTrips: this.Trip,
+    getTripById: this.Trip,
+    updateTrip: this.Trip,
+    cancelTrip: this.Trip,
+    assignDriver: this.Trip + "/assignDriver",
+    updateTripStatus: this.Trip,
+
+    // checkList routes
+    saveCheckList: this.Trip + "/checkList",
+    getCheckList: this.Trip + "/checkList",
+
+    // trip places
+    getPlacesByTripId: this.Trip + "/places",
+    updatePlaceAsMarked: this.Trip,
   };
 }

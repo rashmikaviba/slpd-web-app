@@ -7,39 +7,6 @@ import { DriverLeaveFormComponent } from "./driver-leave-form/driver-leave-form.
 import { RoleResolver } from "./role.resolver";
 import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
 
-// const routes: Routes = [
-//   {
-//     path: "super-admin-leave",
-//     component: DefaultLayoutNewComponent,
-//     children: [
-//       {
-//         path: "",
-//         component: SuperAdminLeaveFormComponent,
-//       },
-//     ],
-//   },
-//   {
-//     path: "admin-leave",
-//     component: DefaultLayoutNewComponent,
-//     children: [
-//       {
-//         path: "",
-//         component: AdminLeaveFormComponent,
-//       },
-//     ],
-//   },
-//   {
-//     path: "driver-leave",
-//     component: DefaultLayoutNewComponent,
-//     children: [
-//       {
-//         path: "",
-//         component: DriverLeaveFormComponent,
-//       },
-//     ],
-//   },
-// ];
-
 const routes: Routes = [
   {
     path: "",

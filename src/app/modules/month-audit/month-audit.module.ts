@@ -34,12 +34,14 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MonthAuditComponent } from "./month-audit/month-audit.component";
 import { PendingLeaveComponent } from "./month-audit/pending-leave/pending-leave.component";
 import { CreateNewMonthComponent } from "./month-audit/create-new-month/create-new-month.component";
+import { PendingTripComponent } from "./month-audit/pending-trip/pending-trip.component";
 
 @NgModule({
   declarations: [
     MonthAuditComponent,
     PendingLeaveComponent,
     CreateNewMonthComponent,
+    PendingTripComponent,
   ],
   imports: [
     CommonModule,

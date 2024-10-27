@@ -71,6 +71,8 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { SidebarModule } from "primeng/sidebar";
 import { SkeletonModule } from "primeng/skeleton";
 import { SlideMenuModule } from "primeng/slidemenu";
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
 import { SliderModule } from "primeng/slider";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { SplitterModule } from "primeng/splitter";
@@ -108,11 +110,24 @@ import { WebcamModule } from "ngx-webcam";
 import { AuthorizationInterceptor } from "./core/interceptor/authorization.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SharedModule } from "./shared.module";
+import { NgxPrintModule } from 'ngx-print';
 import { UserModule } from "./modules/user/user.module";
 import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
+import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
+import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
+// import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
+// import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
+// import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
+// import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
+// import { DriverTaskFormComponent } from "./modules/driver-management/driver-task-form/driver-task-form.component";
+// import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
+// import { GeneralInformationComponent } from "./modules/trip-management/trip-management-form/general-information/general-information.component";
+// import { GuestInformationComponent } from "./modules/trip-management/trip-management-form/guest-information/guest-information.component";
+// import { OtherInformationComponent } from "./modules/trip-management/trip-management-form/other-information/other-information.component";
+// import { TripInformationsComponent } from "./modules/trip-management/trip-management-form/trip-informations/trip-informations.component";
 
 @NgModule({
   imports: [
@@ -210,19 +225,29 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
     WebcamModule,
     NgxSpinnerModule,
     SharedModule,
+    IconFieldModule,
+    InputIconModule,
     NgIdleKeepaliveModule.forRoot(),
+    NgxPrintModule
   ],
   declarations: [
     AppComponent,
-    // DefaultLayoutComponent,
-    // TopNavBarComponent,
-    // ConfigNavBarComponent,
-    // MainLayoutComponent,
-    // MainSideBarComponent,
     WebcamViewComponent,
     InactiveLoginComponent,
     DefaultLayoutNewComponent,
-    DefaultDashboardComponent
+    DefaultDashboardComponent,
+    VehicleManagementComponent,
+    AddNewVehicleComponent,
+    // TripManagementComponent,
+    // TripManagementFormComponent,
+    // AddDriverAndVehicleFormComponent,
+    // DriverManagementComponent,
+    // DriverTaskFormComponent,
+    // TripManagementByDriverComponent,
+    // GeneralInformationComponent,
+    // GuestInformationComponent,
+    // OtherInformationComponent,
+    // TripInformationsComponent,
   ],
   providers: [
     DataAccessService,

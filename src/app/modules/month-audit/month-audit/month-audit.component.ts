@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { PendingLeaveComponent } from "./pending-leave/pending-leave.component";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { PendingTripComponent } from "./pending-trip/pending-trip.component";
 
 @Component({
   selector: "app-month-audit",
@@ -12,6 +13,8 @@ export class MonthAuditComponent implements OnInit {
   active: number = 1;
   @ViewChild(PendingLeaveComponent)
   private pendingLeaveComponent!: PendingLeaveComponent;
+  @ViewChild(PendingTripComponent)
+  private PendingTripComponent!: PendingTripComponent;
   constructor(private massageService: AppMessageService) {}
 
   ngOnInit() {
@@ -21,8 +24,12 @@ export class MonthAuditComponent implements OnInit {
         index: 1,
       },
       {
-        label: "Create New Month",
+        label: "Pending Trips",
         index: 2,
+      },
+      {
+        label: "Create New Month",
+        index: 3,
       },
     ];
   }
@@ -37,7 +44,19 @@ export class MonthAuditComponent implements OnInit {
 
         if (recodes && recodes.length > 0) {
           this.massageService.showInfoAlert(
-            "Complete all pending leaves before move to create new month!"
+            "Complete all pending leaves before move to pending trips!"
+          );
+          return;
+        } else {
+          this.active = currIndex;
+        }
+        break;
+      case 3:
+        let tripRecodes = this.PendingTripComponent.recodes;
+
+        if (tripRecodes && tripRecodes.length > 0) {
+          this.massageService.showInfoAlert(
+            "Complete all pending trip before move to create new month!"
           );
           return;
         } else {

@@ -72,15 +72,53 @@ export class DefaultLayoutNewComponent {
       },
       {
         menuId: 4,
+        label: "Trip Management",
+        icon: "pi pi-map",
+        routerLink: "/trip-management",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.AdminTripManagement,
+          AppModule.SuperAdminTripManagement,
+        ]),
+      },
+      {
+        menuId: 5,
+        label: "Vehicle Management",
+        icon: "pi pi-car",
+        routerLink: "/vehicle-management",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.SuperAdminVehicleManagement,
+          AppModule.AdminVehicleManagement,
+        ]),
+      },
+      {
+        menuId: 6,
+        label: "Your Trips",
+        icon: "pi pi-map",
+        routerLink: "/trip-management",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.DriverTripManagement,
+        ]),
+      },
+      {
+        menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",
         // routerLink: "/month-audit",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminMonthAudit,
         ]),
-        command : (event: any) => {
+        command: (event: any) => {
           this.openMonthAudit();
-        }
+        },
+      },
+      {
+        menuId: 8,
+        label: "Vehicle Tracking",
+        icon: "pi pi-map-marker",
+        routerLink: "/vehicle-tracking",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.SuperAdminVehicleTracking,
+        ]),
       },
     ];
 
@@ -156,29 +194,25 @@ export class DefaultLayoutNewComponent {
   }
 
   openMonthAudit() {
-    debugger
+    debugger;
     let systemMonth = this.masterDataService.WorkingMonth;
     let systemYear = this.masterDataService.WorkingYear;
 
     let today = new Date();
 
-    let lastDayOfSystemDate = new Date(
-      systemYear,
-      systemMonth,
-      0
-    ).getDate();
+    let lastDayOfSystemDate = new Date(systemYear, systemMonth, 0).getDate();
     let systemDate = new Date(systemYear, systemMonth - 1, lastDayOfSystemDate);
-
-    
 
     if (today >= systemDate) {
       this.router.navigate(["/month-audit"]);
     } else {
-      this.messageService.showInfoAlert(`Month Audit is closed. You can do monthly audit for this month on or after the last day of this month (${systemYear}-${systemMonth}-${lastDayOfSystemDate})!`);
+      this.messageService.showInfoAlert(
+        `Month Audit is closed. You can do monthly audit for this month on or after the last day of this month (${systemYear}-${systemMonth}-${lastDayOfSystemDate})!`
+      );
     }
   }
 
-  moveToRouter(routerLink: string) { 
+  moveToRouter(routerLink: string) {
     this.router.navigate([routerLink]);
   }
 }
