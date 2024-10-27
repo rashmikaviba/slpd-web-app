@@ -1,4 +1,3 @@
-import { map } from "rxjs/operators";
 import { DatePipe } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { firstValueFrom } from "rxjs";
@@ -19,6 +18,7 @@ export class UpdateLocationFormComponent implements OnInit {
   tripInfo: any = null;
   isView: boolean = false;
   FV = new CommonForm();
+  isChanged: boolean = false;
   constructor(
     private messageService: AppMessageService,
     private geolocationService: GeolocationService,
@@ -90,7 +90,7 @@ export class UpdateLocationFormComponent implements OnInit {
             let request = {
               location: location,
             };
-
+            this.isChanged = true;
             this.tripService
               .UpdateTripPlaceAsMarked(this.tripInfo?.id, item._id, request)
               .subscribe((response) => {
@@ -106,6 +106,14 @@ export class UpdateLocationFormComponent implements OnInit {
       );
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.tripInfo.canUndo && this.isChanged) {
+      this.sideBarService.sidebarEvent.emit({
+        action: "refresh",
+      });
     }
   }
 }

@@ -160,20 +160,6 @@ export class TripManagementByDriverComponent implements OnInit {
     }
   }
 
-  onClickAddNew() {
-    let data = {
-      userData: null,
-      isEdit: false,
-    };
-
-    this.addUserControlFlowService.resetData();
-
-    let properties = {
-      width: "50vw",
-      position: "right",
-    };
-  }
-
   onClickStartTrip(rowData: any) {
     let confirmationConfig = {
       message: "Are you sure you want to start this trip?",

@@ -66,7 +66,7 @@
             (onClick)="onClickDelete(product?._id)"
             pTooltip="Remove Place"
             tooltipPosition="bottom"
-            *ngIf="!isView"
+            *ngIf="!isView || !product.isReached"
           ></p-button>
         </div>
       </ng-template>
