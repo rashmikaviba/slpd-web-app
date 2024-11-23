@@ -37,7 +37,6 @@ import { StepsModule } from "primeng/steps";
 import { EditorModule } from "primeng/editor";
 import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
-import { NgxPrintModule } from "ngx-print";
 import { DataViewModule } from "primeng/dataview";
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
@@ -53,6 +52,8 @@ import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task
 import { TripManagementPrintComponent } from "./trip-management-print/trip-management-print.component";
 import { UpdateLocationFormComponent } from "./trip-management-by-driver/update-location-form/update-location-form.component";
 import { TagModule } from "primeng/tag";
+import { SharedModule } from "src/app/shared.module";
+import { NgxPrintModule } from "ngx-print";
 
 @NgModule({
   declarations: [
@@ -108,9 +109,10 @@ import { TagModule } from "primeng/tag";
     EditorModule,
     FieldsetModule,
     ChipModule,
-    NgxPrintModule,
     DataViewModule,
     TagModule,
+    SharedModule,
+    NgxPrintModule,
   ],
 })
 export class TripManagementModule {}
