@@ -54,6 +54,7 @@ import { UpdateLocationFormComponent } from "./trip-management-by-driver/update-
 import { TagModule } from "primeng/tag";
 import { SharedModule } from "src/app/shared.module";
 import { NgxPrintModule } from "ngx-print";
+import { ExpenseManagementComponent } from "./expense-management/expense-management.component";
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { NgxPrintModule } from "ngx-print";
     DriverTaskFormComponent,
     TripManagementPrintComponent,
     UpdateLocationFormComponent,
+    ExpenseManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -113,6 +115,7 @@ import { NgxPrintModule } from "ngx-print";
     TagModule,
     SharedModule,
     NgxPrintModule,
+    NgxPrintModule
   ],
 })
-export class TripManagementModule {}
+export class TripManagementModule { }

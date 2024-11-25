@@ -15,6 +15,7 @@ import { TripManagementFlowService } from "./trip-management-form/trip-managemen
 import { DriverTaskFormComponent } from "../trip-management-by-driver/driver-task-form/driver-task-form.component";
 import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
 import { UpdateLocationFormComponent } from "../trip-management-by-driver/update-location-form/update-location-form.component";
+import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
 
 @Component({
   selector: "app-trip-management",
@@ -38,7 +39,7 @@ export class TripManagementComponent implements OnInit {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private tripService: TripService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -119,6 +120,14 @@ export class TripManagementComponent implements OnInit {
         icon: "pi pi-info-circle",
         command: (event: any) => {
           this.onClickViewTripReachInfo(event.item.data);
+        },
+      },
+      {
+        id: 7,
+        label: "Expense Management",
+        icon: "pi pi-info-circle",
+        command: (event: any) => {
+          this.onClickExpenseManagement(event.item.data);
         },
       },
     ];
@@ -288,7 +297,7 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  exportToExcel() {}
+  exportToExcel() { }
 
   onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
@@ -410,6 +419,25 @@ export class TripManagementComponent implements OnInit {
     this.sidebarService.addComponent(
       "Update Current Location",
       UpdateLocationFormComponent,
+      properties,
+      data
+    );
+  }
+
+  onClickExpenseManagement(rowData: any) {
+    let data = {
+      tripInfo: rowData,
+      isView: true,
+    };
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
+
+    this.sidebarService.addComponent(
+      "Update Current Location",
+      ExpenseManagementComponent,
       properties,
       data
     );
