@@ -38,6 +38,7 @@ import { EditorModule } from "primeng/editor";
 import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
 import { DataViewModule } from "primeng/dataview";
+import { ImageModule } from "primeng/image";
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -55,6 +56,7 @@ import { TagModule } from "primeng/tag";
 import { SharedModule } from "src/app/shared.module";
 import { NgxPrintModule } from "ngx-print";
 import { ExpenseManagementComponent } from "./expense-management/expense-management.component";
+import { ExpenseManagementFormComponent } from './expense-management/expense-management-form/expense-management-form.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import { ExpenseManagementComponent } from "./expense-management/expense-managem
     TripManagementPrintComponent,
     UpdateLocationFormComponent,
     ExpenseManagementComponent,
+    ExpenseManagementFormComponent,
   ],
   imports: [
     CommonModule,
@@ -115,7 +118,8 @@ import { ExpenseManagementComponent } from "./expense-management/expense-managem
     TagModule,
     SharedModule,
     NgxPrintModule,
-    NgxPrintModule
+    NgxPrintModule,
+    ImageModule
   ],
 })
 export class TripManagementModule { }

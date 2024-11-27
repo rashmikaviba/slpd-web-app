@@ -123,9 +123,9 @@ export class TripManagementComponent implements OnInit {
         },
       },
       {
-        id: 7,
+        id: 8,
         label: "Expense Management",
-        icon: "pi pi-info-circle",
+        icon: "pi pi-money-bill",
         command: (event: any) => {
           this.onClickExpenseManagement(event.item.data);
         },
@@ -149,6 +149,12 @@ export class TripManagementComponent implements OnInit {
       { ids: [6], condition: rowData?.status === WellKnownTripStatus.PENDING },
       {
         ids: [7],
+        condition:
+          rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.FINISHED,
+      },
+      {
+        ids: [8],
         condition:
           rowData?.status === WellKnownTripStatus.START ||
           rowData?.status === WellKnownTripStatus.FINISHED,
@@ -436,7 +442,7 @@ export class TripManagementComponent implements OnInit {
     };
 
     this.sidebarService.addComponent(
-      "Update Current Location",
+      "Expense Management",
       ExpenseManagementComponent,
       properties,
       data

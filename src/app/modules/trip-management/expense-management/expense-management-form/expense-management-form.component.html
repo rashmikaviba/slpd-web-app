@@ -1,0 +1,116 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-6">
+      <label for="expenseType">Expense Type</label>
+      <p-dropdown
+        id="expenseType"
+        class="w-full"
+        [options]="expenseType"
+        optionLabel="name"
+        optionValue="_id"
+        formControlName="expenseType"
+        [filter]="true"
+        appendTo="body"
+        [autoOptionFocus]="false"
+      ></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="amount">Amount</label>
+      <p-inputNumber
+        formControlName="amount"
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+      ></p-inputNumber>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="postalCode" class="font-medium text-900">Receipt Image</label>
+      <div class="flex gap-4">
+        <div
+          class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+          [ngClass]="
+            receiptImageUrl
+              ? 'border-2'
+              : 'border-dashed justify-content-center align-items-center'
+          "
+        >
+          <i class="pi pi-image text-2xl" *ngIf="!receiptImageUrl"></i>
+          <!-- <img
+              [src]="nicImageUrl"
+              *ngIf="nicImageUrl"
+              class="w-full h-full border-round"
+              style="object-fit: cover"
+            /> -->
+          <p-image
+            [src]="receiptImageUrl"
+            alt="Image"
+            [preview]="true"
+            *ngIf="receiptImageUrl"
+          />
+        </div>
+
+        <div
+          class="flex flex-column gap-2 align-items-center justify-content-center"
+        >
+          <button
+            pButton
+            [disabled]="!receiptImageUrl"
+            type="button"
+            label="Remove Image"
+            icon="pi pi-times"
+            class="p-button-danger p-button-outlined"
+            (click)="removeImage(1)"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="Upload Image"
+            icon="pi pi-camera"
+            class="p-button-primary p-button-outlined"
+            (click)="openUploadDialog(1)"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="date">Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="date"
+        class="w-full"
+        [min]="minStartDate"
+        (change)="onChangeDate()"
+      />
+    </div>
+    <div class="field col-12 md:col-12">
+      <label for="description">Description</label>
+      <textarea
+        pInputText
+        name="description"
+        id="description"
+        formArrayName="description"
+        class="w-full"
+        rows="5"
+        style="resize: none"
+      ></textarea>
+    </div>
+    <div class="field col-12 md:col-12">
+      <div class="flex gap-1" style="float: right">
+        <p-button
+          styleClass="p-button-secondary mr-2"
+          label="Cancel"
+          icon="pi pi-times"
+          (click)="onClickCancel()"
+        ></p-button>
+
+        <p-button
+          styleClass="p-button-success"
+          label="Save"
+          icon="pi pi-save"
+          (click)="onClickSave()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>
