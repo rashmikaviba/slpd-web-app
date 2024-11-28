@@ -1,59 +1,88 @@
-import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { WebcamViewComponent } from 'src/app/shared/components/webcam-view/webcam-view.component';
-import { TripService } from 'src/app/shared/services/api-services/trip.service';
-import { UserService } from 'src/app/shared/services/api-services/user.service';
-import { VehicleService } from 'src/app/shared/services/api-services/vehicle.service';
-import { CommonForm } from 'src/app/shared/services/app-common-form';
-import { AppMessageService } from 'src/app/shared/services/app-message.service';
-import { PopupService } from 'src/app/shared/services/popup.service';
-import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { ExpenseService } from "./../../../../shared/services/api-services/expense.service";
+import { DatePipe } from "@angular/common";
+import { Component } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
+import { firstValueFrom } from "rxjs";
+import { WebcamViewComponent } from "src/app/shared/components/webcam-view/webcam-view.component";
+import { expenseCategory } from "src/app/shared/data/expensesCategory";
+import { WellKnownUploadType } from "src/app/shared/enums/well-known-upload-type.enum";
+import { StoreService } from "src/app/shared/services/api-services/store.service";
+import { TripService } from "src/app/shared/services/api-services/trip.service";
+import { UserService } from "src/app/shared/services/api-services/user.service";
+import { VehicleService } from "src/app/shared/services/api-services/vehicle.service";
+import { CommonForm } from "src/app/shared/services/app-common-form";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { PopupService } from "src/app/shared/services/popup.service";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
 
 @Component({
-  selector: 'app-expense-management-form',
-  templateUrl: './expense-management-form.component.html',
-  styleUrls: ['./expense-management-form.component.scss']
+  selector: "app-expense-management-form",
+  templateUrl: "./expense-management-form.component.html",
+  styleUrls: ["./expense-management-form.component.scss"],
 })
 export class ExpenseManagementFormComponent {
   FV = new CommonForm();
-  isEdit: any;
-  expenseType: any[] = [];
-  minStartDate: any
+  expenseType: any[] = expenseCategory;
+  minDate: string = "";
+  maxDate: string = "";
   receiptImageUrl: string | ArrayBuffer | null = null;
-
+  uploadReceiptImage: any = null;
+  selectedReceiptImage: File = null;
+  type: string = "";
+  userType: string = "";
+  tripInfo: any = null;
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private sidebarService: SidebarService,
-    private userService: UserService,
-    private vehicleService: VehicleService,
     private messageService: AppMessageService,
     private config: DynamicDialogConfig,
     private ref: DynamicDialogRef,
-    private tripService: TripService,
     private popUpService: PopupService,
+    private storeService: StoreService,
+    private expenseService: ExpenseService
   ) {
     this.createForm();
   }
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      expenseType: ["", Validators.required],
-      amount: ["", Validators.required],
-      date: ["", Validators.required],
-      description: ["", Validators.required],
+      expenseType: ["", [Validators.required]],
+      amount: ["", [Validators.required, Validators.min(0.01)]],
+      date: ["", [Validators.required]],
+      description: ["", [Validators.maxLength(500)]],
     });
   }
 
   ngOnInit(): void {
     let dialogConfig = this.config.data;
+    this.userType = dialogConfig.userType;
+    this.type = dialogConfig.type;
+    this.tripInfo = dialogConfig.tripInfo;
+    debugger;
+
+    if (this.type == "add") {
+      this.minDate = this.datePipe.transform(
+        new Date(this.tripInfo.startDate),
+        "yyyy-MM-dd"
+      );
+      this.maxDate = this.datePipe.transform(
+        new Date(this.tripInfo.endDate),
+        "yyyy-MM-dd"
+      );
+
+      let today = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+      this.FV.setValue("date", today);
+    }
+
+    if (this.userType == "driver") {
+      this.FV.disableField("date");
+    }
   }
 
-  onChangeDate() { }
+  onChangeDate() {}
 
-  openUploadDialog(uploadType: number) {
+  openUploadDialog() {
     let header = "Capture ";
     this.popUpService
       .OpenModel(WebcamViewComponent, {
@@ -62,12 +91,68 @@ export class ExpenseManagementFormComponent {
         height: "35vh",
       })
       .subscribe((res) => {
-        if (res?.isSave) { }
+        if (res?.isSave) {
+          this.receiptImageUrl = res.imageUrl;
+          this.selectedReceiptImage = res.file;
+          this.uploadReceiptImage = res;
+        }
       });
   }
 
-  removeImage(uploadType: number) { }
+  removeImage() {
+    this.receiptImageUrl = null;
+    this.selectedReceiptImage = null;
+    this.uploadReceiptImage = null;
+  }
 
-  onClickSave() { }
-  onClickCancel() { }
+  async onClickSave() {
+    try {
+      let validateParams = "expenseType,amount,date,description";
+      if (this.FV.validateControllers(validateParams)) {
+        return;
+      }
+      debugger;
+      let formData = this.FV.formGroup.value;
+
+      let receiptUrl = "";
+      if (this.selectedReceiptImage != null) {
+        const receptResult = await firstValueFrom(
+          this.storeService.UploadImage(
+            this.selectedReceiptImage,
+            WellKnownUploadType.ExpensesRecept
+          )
+        );
+
+        if (receptResult.IsSuccessful) {
+          receiptUrl = receptResult.Result;
+        }
+      }
+
+      let request = {
+        typeId: formData.expenseType.id,
+        typeName: formData.expenseType.name,
+        amount: formData.amount,
+        description: formData.description || "",
+        date: formData.date,
+        receiptUrl: receiptUrl,
+      };
+
+      this.expenseService
+        .SaveExpense(request, this.tripInfo.id)
+        .subscribe((response) => {
+          if (response.IsSuccessful) {
+            this.messageService.showSuccessAlert(response.Message);
+            this.ref.close(true);
+          } else {
+            this.messageService.showErrorAlert(response.Message);
+          }
+        });
+    } catch (e) {
+      this.messageService.showErrorAlert(e?.message || e);
+    }
+  }
+
+  onClickCancel() {
+    this.ref.close(false);
+  }
 }

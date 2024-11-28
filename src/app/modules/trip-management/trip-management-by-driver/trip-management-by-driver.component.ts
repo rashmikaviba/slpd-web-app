@@ -14,6 +14,7 @@ import { firstValueFrom } from "rxjs";
 import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 import { UpdateLocationFormComponent } from "./update-location-form/update-location-form.component";
+import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -100,6 +101,14 @@ export class TripManagementByDriverComponent implements OnInit {
           this.onClickUpdateCurrentLocation(event.item.data);
         },
       },
+      {
+        id: 5,
+        label: "Expense Management",
+        icon: "pi pi-money-bill",
+        command: (event: any) => {
+          this.onClickExpenseManagement(event.item.data);
+        },
+      },
     ];
   }
 
@@ -133,7 +142,7 @@ export class TripManagementByDriverComponent implements OnInit {
       rowData.isCheckListDone &&
       rowData.status == WellKnownTripStatus.START
     ) {
-      let selectedItem = this.items.filter((x) => x.id == 4);
+      let selectedItem = this.items.filter((x) => x.id == 4 || x.id == 5);
       this.filteredItems = this.filteredItems.concat(selectedItem);
 
       if (rowData?.canUndo) {
@@ -248,6 +257,25 @@ export class TripManagementByDriverComponent implements OnInit {
     this.sidebarService.addComponent(
       "Update Current Location",
       UpdateLocationFormComponent,
+      properties,
+      data
+    );
+  }
+
+  onClickExpenseManagement(rowData: any) {
+    let data = {
+      tripInfo: rowData,
+      userType: "driver",
+    };
+
+    let properties = {
+      width: "50vw",
+      position: "right",
+    };
+
+    this.sidebarService.addComponent(
+      "Expense Management",
+      ExpenseManagementComponent,
       properties,
       data
     );

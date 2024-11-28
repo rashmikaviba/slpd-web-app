@@ -20,6 +20,7 @@ export class ResourceService {
   private Common = this.host + "/common";
   private Vehicle = this.host + "/vehicle";
   private Trip = this.host + "/trip";
+  private Expenses = this.host + "/expense";
 
   auth = {
     login: this.Auth + "/login",
@@ -100,5 +101,13 @@ export class ResourceService {
     // trip places
     getPlacesByTripId: this.Trip + "/places",
     updatePlaceAsMarked: this.Trip,
+  };
+
+  expense = {
+    saveExpense: this.Expenses,
+    updateExpense: this.Expenses,
+    deleteExpense: this.Expenses,
+    getAllExpensesByTrip: this.Expenses,
+    getExpenseById: this.Expenses,
   };
 }

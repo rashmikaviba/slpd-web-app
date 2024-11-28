@@ -16,6 +16,7 @@ import { DriverTaskFormComponent } from "../trip-management-by-driver/driver-tas
 import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
 import { UpdateLocationFormComponent } from "../trip-management-by-driver/update-location-form/update-location-form.component";
 import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
+import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
 
 @Component({
   selector: "app-trip-management",
@@ -38,8 +39,9 @@ export class TripManagementComponent implements OnInit {
     private messageService: AppMessageService,
     private excelService: ExcelService,
     private datePipe: DatePipe,
-    private tripService: TripService
-  ) { }
+    private tripService: TripService,
+    private expenseService: ExpenseService
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -156,8 +158,9 @@ export class TripManagementComponent implements OnInit {
       {
         ids: [8],
         condition:
-          rowData?.status === WellKnownTripStatus.START ||
-          rowData?.status === WellKnownTripStatus.FINISHED,
+          (rowData?.status === WellKnownTripStatus.START ||
+            rowData?.status === WellKnownTripStatus.FINISHED) &&
+          !rowData?.isMonthEndDone,
       },
     ];
 
@@ -303,7 +306,7 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  exportToExcel() { }
+  exportToExcel() {}
 
   onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
@@ -430,22 +433,35 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  onClickExpenseManagement(rowData: any) {
-    let data = {
-      tripInfo: rowData,
-      isView: true,
-    };
+  async onClickExpenseManagement(rowData: any) {
+    try {
+      let data = {
+        tripInfo: rowData,
+        userType: "admin",
+        expensesInfo: null,
+      };
 
-    let properties = {
-      width: "50vw",
-      position: "right",
-    };
+      const expenseResult = await firstValueFrom(
+        this.expenseService.GetAllExpensesByTrip(rowData?.id)
+      );
 
-    this.sidebarService.addComponent(
-      "Expense Management",
-      ExpenseManagementComponent,
-      properties,
-      data
-    );
+      if (expenseResult.IsSuccessful) {
+        data.expensesInfo = expenseResult.Result;
+      }
+
+      let properties = {
+        width: "50vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "Expense Management",
+        ExpenseManagementComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
 }

@@ -2,27 +2,33 @@
 <div class="mb-4">
   <!-- <div class="text-2xl font-semibold">Trip Management</div> -->
   <div class="p-fluid formgrid grid">
-    <div class="field col-12 md:col-4">
-      <div class="card">
+    <div class="field col-4 md:col-4">
+      <div class="card h-full">
         <div class="text-center">
-          <div for="amount" class="text-2xl font-semibold">15,200.00</div>
-          <div for="amount">Pending Amount</div>
+          <div for="amount" class="text-base md:text-2xl font-semibold">
+            {{ expensesInfo?.tripExpensesAmount | currency : "" : "" }}
+          </div>
+          <div for="amount" class="text-sm md:text-base">Estimated Expense</div>
         </div>
       </div>
     </div>
-    <div class="field col-12 md:col-4">
-      <div class="card">
+    <div class="field col-4 md:col-4">
+      <div class="card h-full">
         <div class="text-center">
-          <div for="amount" class="text-2xl font-semibold">15,200.00</div>
-          <div for="amount">Expense Amount</div>
+          <div for="amount" class="text-base md:text-2xl font-semibold">
+            {{ expensesInfo?.totalTripExpensesAmount | currency : "" : "" }}
+          </div>
+          <div for="amount" class="text-sm md:text-base">Total Expense</div>
         </div>
       </div>
     </div>
-    <div class="field col-12 md:col-4">
-      <div class="card">
+    <div class="field col-4 md:col-4">
+      <div class="card h-full">
         <div class="text-center">
-          <div for="amount" class="text-2xl font-semibold">15,200.00</div>
-          <div for="amount">Amount</div>
+          <div for="amount" class="text-base md:text-2xl font-semibold">
+            {{ expensesInfo?.remainingTripExpensesAmount | currency : "" : "" }}
+          </div>
+          <div for="amount" class="text-sm md:text-base">Remaining Expense</div>
         </div>
       </div>
     </div>
@@ -75,7 +81,7 @@
         label="Add New Expense"
         (onClick)="onClickAddNew()"
       ></p-button>
-      <p-iconField iconPosition="left" class="ml-auto">
+      <!-- <p-iconField iconPosition="left" class="ml-auto">
         <p-inputIcon>
           <i class="pi pi-search"></i>
         </p-inputIcon>
@@ -85,7 +91,7 @@
           (input)="dt.filterGlobal($any($event.target).value, 'contains')"
           placeholder="Search Expense"
         />
-      </p-iconField>
+      </p-iconField> -->
 
       <!-- </div> -->
     </div>
@@ -131,11 +137,13 @@
         </ng-container>
         <ng-container *ngIf="col.field == 'description'">
           <span class="p-column-title font-bold">Description</span>
-          {{ rowData[col.field] }}
+          <span pTooltip="{{ rowData[col.field] }}" tooltipPosition="bottom">{{
+            rowData[col.field] | truncate : 30
+          }}</span>
         </ng-container>
         <ng-container *ngIf="col.field == 'date'">
           <span class="p-column-title font-bold">Date</span>
-          {{ rowData[col.field] }}
+          {{ rowData[col.field] | date : "dd-MM-yyyy" }}
         </ng-container>
       </td>
       <td
