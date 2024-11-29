@@ -28,6 +28,7 @@ export class ExpenseManagementComponent {
   tripInfo: any = null;
   userType: string = "";
   expensesInfo: any = null;
+  isMonthEndDone: boolean = false;
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -49,6 +50,7 @@ export class ExpenseManagementComponent {
       this.expensesInfo = sidebarData?.expensesInfo;
       this.userType = sidebarData?.userType;
       this.recodes = sidebarData?.expensesInfo?.expenses || [];
+      this.isMonthEndDone = sidebarData?.expensesInfo?.isMonthEndDone || false;
     }
 
     this.cols = [
@@ -119,34 +121,71 @@ export class ExpenseManagementComponent {
       });
   }
 
-  onClickEdit(rowData) {
-    let header = "Edit Expense";
-    let width = "40vw";
-    let data = {
-      userType: this.userType,
-      type: "edit",
-      tripInfo: this.tripInfo,
-    };
+  async onClickEdit(rowData) {
+    try {
+      let header = "Edit Expense";
+      let width = "40vw";
+      let data = {
+        userType: this.userType,
+        type: "edit",
+        tripInfo: this.tripInfo,
+        expensesInfo: rowData,
+      };
 
-    this.popupService
-      .OpenModel(ExpenseManagementFormComponent, { header, width, data })
-      .subscribe((result) => {
-        if (result) {
-          this.loadExpensesData();
-        }
-      });
+      const expensesResult = await firstValueFrom(
+        this.expenseService.GetExpenseByTripIdAndExpenseId(
+          this.tripInfo?.id,
+          rowData?._id
+        )
+      );
+
+      if (expensesResult.IsSuccessful) {
+        data.expensesInfo = expensesResult.Result;
+      }
+
+      this.popupService
+        .OpenModel(ExpenseManagementFormComponent, { header, width, data })
+        .subscribe((result) => {
+          if (result) {
+            this.loadExpensesData();
+          }
+        });
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
-  onClickView(rowData) {
-    let header = "View Expense";
-    let width = "40vw";
-    let data = {};
 
-    this.popupService
-      .OpenModel(ExpenseManagementFormComponent, { header, width, data })
-      .subscribe((result) => {
-        if (result) {
-        }
-      });
+  async onClickView(rowData) {
+    try {
+      let header = "View Expense";
+      let width = "40vw";
+      let data = {
+        userType: this.userType,
+        type: "view",
+        tripInfo: this.tripInfo,
+        expensesInfo: rowData,
+      };
+
+      const expensesResult = await firstValueFrom(
+        this.expenseService.GetExpenseByTripIdAndExpenseId(
+          this.tripInfo?.id,
+          rowData?._id
+        )
+      );
+
+      if (expensesResult.IsSuccessful) {
+        data.expensesInfo = expensesResult.Result;
+      }
+
+      this.popupService
+        .OpenModel(ExpenseManagementFormComponent, { header, width, data })
+        .subscribe((result) => {
+          if (result) {
+          }
+        });
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
   onClickDelete(rowData: any) {
     const confirmationConfig = {
@@ -177,7 +216,13 @@ export class ExpenseManagementComponent {
   toggleMenu(menu: any, event: any, rowData: any) {
     this.filteredItems = [];
 
-    const conditions = [{ ids: [1, 2, 3], condition: true }];
+    const conditions = [
+      { ids: [1, 2, 3], condition: !this.isMonthEndDone },
+      {
+        ids: [2],
+        condition: this.isMonthEndDone,
+      },
+    ];
 
     conditions.forEach(({ ids, condition }) => {
       if (condition) {

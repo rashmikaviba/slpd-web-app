@@ -158,9 +158,8 @@ export class TripManagementComponent implements OnInit {
       {
         ids: [8],
         condition:
-          (rowData?.status === WellKnownTripStatus.START ||
-            rowData?.status === WellKnownTripStatus.FINISHED) &&
-          !rowData?.isMonthEndDone,
+          rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.FINISHED,
       },
     ];
 
@@ -362,7 +361,7 @@ export class TripManagementComponent implements OnInit {
   async onClickPrint(rowData: any) {
     try {
       const tripData = await firstValueFrom(
-        this.tripService.GetTripById(rowData?.id)
+        this.tripService.GetTripForPrintByTripId(rowData?.id)
       );
 
       if (tripData.IsSuccessful) {
@@ -435,6 +434,7 @@ export class TripManagementComponent implements OnInit {
 
   async onClickExpenseManagement(rowData: any) {
     try {
+      debugger;
       let data = {
         tripInfo: rowData,
         userType: "admin",

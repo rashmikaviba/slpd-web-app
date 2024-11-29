@@ -15,6 +15,7 @@ import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 import { UpdateLocationFormComponent } from "./update-location-form/update-location-form.component";
 import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
+import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -279,5 +280,33 @@ export class TripManagementByDriverComponent implements OnInit {
       properties,
       data
     );
+  }
+
+  async onClickPrint(rowData: any) {
+    try {
+      const tripData = await firstValueFrom(
+        this.tripService.GetTripForPrintByTripId(rowData?.id)
+      );
+
+      if (tripData.IsSuccessful) {
+        let data = tripData.Result;
+
+        let properties = {
+          width: "50vw",
+          position: "right",
+        };
+
+        this.sidebarService.addComponent(
+          "Print",
+          TripManagementPrintComponent,
+          properties,
+          data
+        );
+      } else {
+        this.messageService.showErrorAlert(tripData.Message);
+      }
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
 }

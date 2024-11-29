@@ -32,6 +32,8 @@ export class ExpenseManagementFormComponent {
   type: string = "";
   userType: string = "";
   tripInfo: any = null;
+  expensesInfo: any = null;
+  isView: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -59,7 +61,6 @@ export class ExpenseManagementFormComponent {
     this.userType = dialogConfig.userType;
     this.type = dialogConfig.type;
     this.tripInfo = dialogConfig.tripInfo;
-    debugger;
 
     if (this.type == "add") {
       this.minDate = this.datePipe.transform(
@@ -73,10 +74,45 @@ export class ExpenseManagementFormComponent {
 
       let today = this.datePipe.transform(new Date(), "yyyy-MM-dd");
       this.FV.setValue("date", today);
+    } else if (this.type == "edit") {
+      this.expensesInfo = dialogConfig.expensesInfo;
+      this.setValues();
+
+      this.minDate = this.datePipe.transform(
+        new Date(this.tripInfo.startDate),
+        "yyyy-MM-dd"
+      );
+      this.maxDate = this.datePipe.transform(
+        new Date(this.tripInfo.endDate),
+        "yyyy-MM-dd"
+      );
+    } else if (this.type == "view") {
+      this.expensesInfo = dialogConfig.expensesInfo;
+      this.isView = true;
+      this.setValues();
+      this.FV.formGroup.disable();
     }
 
     if (this.userType == "driver") {
       this.FV.disableField("date");
+    }
+  }
+
+  setValues() {
+    let selectedType = this.expenseType.find(
+      (x) => x.id == this.expensesInfo.typeId
+    );
+
+    this.FV.setValue("expenseType", selectedType ? selectedType : null);
+    this.FV.setValue("amount", this.expensesInfo.amount);
+    this.FV.setValue(
+      "date",
+      this.datePipe.transform(this.expensesInfo.date, "yyyy-MM-dd")
+    );
+    this.FV.setValue("description", this.expensesInfo.description);
+
+    if (this.expensesInfo.receiptUrl) {
+      this.receiptImageUrl = this.expensesInfo.receiptUrl;
     }
   }
 
@@ -111,10 +147,9 @@ export class ExpenseManagementFormComponent {
       if (this.FV.validateControllers(validateParams)) {
         return;
       }
-      debugger;
       let formData = this.FV.formGroup.value;
 
-      let receiptUrl = "";
+      let receiptUrl = this.type == "add" ? "" : this.expensesInfo.receiptUrl;
       if (this.selectedReceiptImage != null) {
         const receptResult = await firstValueFrom(
           this.storeService.UploadImage(
@@ -137,16 +172,29 @@ export class ExpenseManagementFormComponent {
         receiptUrl: receiptUrl,
       };
 
-      this.expenseService
-        .SaveExpense(request, this.tripInfo.id)
-        .subscribe((response) => {
-          if (response.IsSuccessful) {
-            this.messageService.showSuccessAlert(response.Message);
-            this.ref.close(true);
-          } else {
-            this.messageService.showErrorAlert(response.Message);
-          }
-        });
+      if (this.type == "add") {
+        this.expenseService
+          .SaveExpense(request, this.tripInfo.id)
+          .subscribe((response) => {
+            if (response.IsSuccessful) {
+              this.messageService.showSuccessAlert(response.Message);
+              this.ref.close(true);
+            } else {
+              this.messageService.showErrorAlert(response.Message);
+            }
+          });
+      } else if (this.type == "edit") {
+        this.expenseService
+          .UpdateExpense(request, this.tripInfo.id, this.expensesInfo._id)
+          .subscribe((response) => {
+            if (response.IsSuccessful) {
+              this.messageService.showSuccessAlert(response.Message);
+              this.ref.close(true);
+            } else {
+              this.messageService.showErrorAlert(response.Message);
+            }
+          });
+      }
     } catch (e) {
       this.messageService.showErrorAlert(e?.message || e);
     }

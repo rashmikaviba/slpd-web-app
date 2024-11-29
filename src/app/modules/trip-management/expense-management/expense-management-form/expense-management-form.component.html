@@ -44,11 +44,13 @@
             alt="Image"
             [preview]="true"
             *ngIf="receiptImageUrl"
+            [appendTo]="'body'"
           />
         </div>
 
         <div
           class="flex flex-column gap-2 align-items-center justify-content-center"
+          *ngIf="!isView"
         >
           <button
             pButton
@@ -93,7 +95,7 @@
         style="resize: none"
       ></textarea>
     </div>
-    <div class="field col-12 md:col-12">
+    <div class="field col-12 md:col-12" *ngIf="!isView">
       <div class="flex gap-1" style="float: right">
         <p-button
           styleClass="p-button-secondary mr-2"

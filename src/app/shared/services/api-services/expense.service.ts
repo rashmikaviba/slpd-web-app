@@ -61,4 +61,13 @@ export class ExpenseService {
         return response;
       });
   }
+
+  // /:tripId/:expenseId
+  GetExpenseByTripIdAndExpenseId(tripId: string, expenseId: string) {
+    return this.dataAccess
+      .GET(this.resource.expense.getExpensesById + `/${tripId}/${expenseId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

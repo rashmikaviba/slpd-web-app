@@ -93,6 +93,7 @@ export class ResourceService {
     cancelTrip: this.Trip,
     assignDriver: this.Trip + "/assignDriver",
     updateTripStatus: this.Trip,
+    getTripForPrint: this.Trip + "/tripForPrint",
 
     // checkList routes
     saveCheckList: this.Trip + "/checkList",
@@ -109,5 +110,6 @@ export class ResourceService {
     deleteExpense: this.Expenses,
     getAllExpensesByTrip: this.Expenses,
     getExpenseById: this.Expenses,
+    getExpensesById: this.Expenses,
   };
 }

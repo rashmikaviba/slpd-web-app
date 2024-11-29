@@ -73,7 +73,7 @@
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
   [globalFilterFields]="['tripConfirmedNumber', 'email', 'phoneNumber']"
 >
-  <ng-template pTemplate="caption">
+  <ng-template pTemplate="caption" *ngIf="!isMonthEndDone">
     <div class="flex flex-wrap justify-content-between">
       <p-button
         styleClass="mr-2 p-button-success"
