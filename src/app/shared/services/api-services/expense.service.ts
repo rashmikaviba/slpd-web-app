@@ -70,4 +70,13 @@ export class ExpenseService {
         return response;
       });
   }
+
+  // /saveSalary/:tripId
+  SaveDriverSalary(body: any, tripId: string) {
+    return this.dataAccess
+      .POST(this.resource.expense.saveDriverSalary + `/${tripId}`, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

@@ -73,7 +73,12 @@ export class ExpenseManagementFormComponent {
       );
 
       let today = this.datePipe.transform(new Date(), "yyyy-MM-dd");
-      this.FV.setValue("date", today);
+
+      if (today > this.maxDate) {
+        this.FV.setValue("date", this.maxDate);
+      } else {
+        this.FV.setValue("date", today);
+      }
     } else if (this.type == "edit") {
       this.expensesInfo = dialogConfig.expensesInfo;
       this.setValues();
@@ -148,6 +153,7 @@ export class ExpenseManagementFormComponent {
         return;
       }
       let formData = this.FV.formGroup.value;
+      let date = this.FV.getValue("date");
 
       let receiptUrl = this.type == "add" ? "" : this.expensesInfo.receiptUrl;
       if (this.selectedReceiptImage != null) {
@@ -168,7 +174,7 @@ export class ExpenseManagementFormComponent {
         typeName: formData.expenseType.name,
         amount: formData.amount,
         description: formData.description || "",
-        date: formData.date,
+        date: date,
         receiptUrl: receiptUrl,
       };
 

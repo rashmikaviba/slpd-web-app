@@ -50,7 +50,10 @@ export class ExpenseManagementComponent {
       this.expensesInfo = sidebarData?.expensesInfo;
       this.userType = sidebarData?.userType;
       this.recodes = sidebarData?.expensesInfo?.expenses || [];
-      this.isMonthEndDone = sidebarData?.expensesInfo?.isMonthEndDone || false;
+      this.isMonthEndDone =
+        this.tripInfo.status == WellKnownTripStatus.FINISHED
+          ? true
+          : sidebarData?.expensesInfo?.isMonthEndDone || false;
     }
 
     this.cols = [

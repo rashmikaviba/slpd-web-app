@@ -4,6 +4,9 @@ import { Component, OnInit } from "@angular/core";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 import { TripService } from "src/app/shared/services/api-services/trip.service";
+import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
+import { DriverSalaryFormComponent } from "src/app/modules/trip-management/trip-management/driver-salary-form/driver-salary-form.component";
+import { PopupService } from "src/app/shared/services/popup.service";
 
 @Component({
   selector: "app-pending-trip",
@@ -18,7 +21,9 @@ export class PendingTripComponent implements OnInit {
   constructor(
     private monthAditService: MonthAditService,
     private messageService: AppMessageService,
-    private tripService: TripService
+    private tripService: TripService,
+    private expenseService: ExpenseService,
+    private popupService: PopupService
   ) {}
 
   ngOnInit() {
@@ -49,6 +54,14 @@ export class PendingTripComponent implements OnInit {
           this.onCLickCancelTrip(event.item.data);
         },
       },
+      {
+        id: 3,
+        label: "Driver Salary",
+        icon: "pi pi-briefcase",
+        command: (event: any) => {
+          this.onClickAddDriverSalary(event.item.data);
+        },
+      },
     ];
 
     this.loadInitialData();
@@ -64,6 +77,14 @@ export class PendingTripComponent implements OnInit {
 
     if (rowData?.status === WellKnownTripStatus.START) {
       let selectedItem = this.items.filter((x) => x.id == 1);
+      this.filteredItems = this.filteredItems.concat(selectedItem);
+    }
+
+    if (
+      rowData?.status === WellKnownTripStatus.FINISHED &&
+      !rowData?.isDriverSalaryDone
+    ) {
+      let selectedItem = this.items.filter((x) => x.id == 3);
       this.filteredItems = this.filteredItems.concat(selectedItem);
     }
 
@@ -135,5 +156,34 @@ export class PendingTripComponent implements OnInit {
         }
       }
     );
+  }
+
+  async onClickAddDriverSalary(rowData: any) {
+    try {
+      let header = "Add Driver Salary";
+      let width = "40vw";
+      let data = {
+        tripInformation: rowData,
+        expensesInfo: null,
+      };
+
+      const expenseResult = await firstValueFrom(
+        this.expenseService.GetAllExpensesByTrip(rowData?.id)
+      );
+
+      if (expenseResult.IsSuccessful) {
+        data.expensesInfo = expenseResult.Result;
+      }
+
+      this.popupService
+        .OpenModel(DriverSalaryFormComponent, { header, width, data })
+        .subscribe((result) => {
+          if (result) {
+            this.loadInitialData();
+          }
+        });
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
 }

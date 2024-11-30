@@ -22,6 +22,7 @@ export class TripManagementPrintComponent {
   places: any[] = [];
   hotels: any[] = [];
   activities: any[] = [];
+  expensesDetails: any = null;
   activityCost: number = 0;
   tripInfo: any;
 
@@ -29,7 +30,7 @@ export class TripManagementPrintComponent {
     private sidebarService: SidebarService,
     private messageService: AppMessageService,
     private datePipe: DatePipe
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.sidebarService.setFooterTemplate(this.templateRef);
@@ -44,6 +45,7 @@ export class TripManagementPrintComponent {
 
     this.pickUpInfo = sideBarData.pickUpInfo;
     this.dropOffInfo = sideBarData.dropOffInfo;
+    this.expensesDetails = sideBarData.expenses;
 
     this.hotels = sideBarData.hotels;
     this.hotels.map((hotel) => {

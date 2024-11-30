@@ -56,7 +56,8 @@ import { TagModule } from "primeng/tag";
 import { SharedModule } from "src/app/shared.module";
 import { NgxPrintModule } from "ngx-print";
 import { ExpenseManagementComponent } from "./expense-management/expense-management.component";
-import { ExpenseManagementFormComponent } from './expense-management/expense-management-form/expense-management-form.component';
+import { ExpenseManagementFormComponent } from "./expense-management/expense-management-form/expense-management-form.component";
+import { DriverSalaryFormComponent } from "./trip-management/driver-salary-form/driver-salary-form.component";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { ExpenseManagementFormComponent } from './expense-management/expense-man
     UpdateLocationFormComponent,
     ExpenseManagementComponent,
     ExpenseManagementFormComponent,
+    DriverSalaryFormComponent,
   ],
   imports: [
     CommonModule,
@@ -119,7 +121,7 @@ import { ExpenseManagementFormComponent } from './expense-management/expense-man
     SharedModule,
     NgxPrintModule,
     NgxPrintModule,
-    ImageModule
+    ImageModule,
   ],
 })
-export class TripManagementModule { }
+export class TripManagementModule {}

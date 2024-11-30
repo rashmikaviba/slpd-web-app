@@ -120,7 +120,7 @@ export class DriverTaskFormComponent {
         if (response.IsSuccessful) {
           this.messageService.showSuccessAlert(response.Message);
           this.sidebarService.sidebarEvent.emit({
-            action: "clear",
+            action: "refresh",
           });
         } else {
           this.messageService.showErrorAlert(response.Message);

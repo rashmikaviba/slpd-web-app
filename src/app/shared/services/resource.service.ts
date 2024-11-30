@@ -111,5 +111,6 @@ export class ResourceService {
     getAllExpensesByTrip: this.Expenses,
     getExpenseById: this.Expenses,
     getExpensesById: this.Expenses,
+    saveDriverSalary: this.Expenses + "/saveSalary",
   };
 }
