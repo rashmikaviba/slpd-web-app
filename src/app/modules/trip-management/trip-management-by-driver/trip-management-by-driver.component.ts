@@ -153,11 +153,12 @@ export class TripManagementByDriverComponent implements OnInit {
         this.filteredItems = this.filteredItems.concat(selectedItem2);
       }
     }
+    debugger;
 
     if (
-      (rowData.isCheckListDone &&
-        rowData.status == WellKnownTripStatus.START) ||
-      WellKnownTripStatus.FINISHED
+      rowData.isCheckListDone &&
+      (rowData.status == WellKnownTripStatus.START ||
+        rowData.status == WellKnownTripStatus.FINISHED)
     ) {
       let selectedItem = this.items.filter((x) => x.id == 5);
       this.filteredItems = this.filteredItems.concat(selectedItem);
