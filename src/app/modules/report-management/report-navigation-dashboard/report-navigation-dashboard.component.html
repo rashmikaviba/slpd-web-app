@@ -21,7 +21,8 @@
                 [readonlyInput]="true" />
             </div>
 
-            <p-button label="Generate" icon="pi pi-sparkles" [outlined]="true"></p-button>
+            <p-button label="Generate" icon="pi pi-sparkles" [outlined]="true"
+              (onClick)="onClickGenerateReport(report)"></p-button>
           </div>
 
           <div class="flex flex-column gap-2 mt-2">

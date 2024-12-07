@@ -141,7 +141,7 @@ export class DefaultLayoutNewComponent {
   }
 
   ModuleActivate(routeModule: any) {
-    debugger;
+    // debugger;
     this.DynamicItems.forEach((element: any) => {
       if (element.label.toLowerCase().replace(/\s+/g, "-") == routeModule) {
         this.activeTab = element.menuId;

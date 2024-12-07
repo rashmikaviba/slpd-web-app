@@ -43,6 +43,7 @@ import { SharedModule } from 'primeng/api';
 import { MonthlyTripReportComponent } from './monthly-trip-report/monthly-trip-report.component';
 import { MonthlyExpensesReportComponent } from './monthly-expenses-report/monthly-expenses-report.component';
 import { MonthlyDriverSalaryComponent } from './monthly-driver-salary/monthly-driver-salary.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 
@@ -94,6 +95,7 @@ import { MonthlyDriverSalaryComponent } from './monthly-driver-salary/monthly-dr
     DataViewModule,
     SharedModule,
     ImageModule,
+    NgxPrintModule
   ]
 })
 export class ReportManagementModule { }
