@@ -33,6 +33,7 @@ export class GeneralInformationComponent {
       dateCount: ["", [Validators.required]],
       estimatedCost: [""],
       totalIncome: ["", [Validators.required]],
+      totalIncomeLocalCurrency: ["", [Validators.required]],
       email: [
         "",
         [
@@ -141,6 +142,10 @@ export class GeneralInformationComponent {
       this.FV.setValue("totalIncome", data?.totalCost);
     }
 
+    if (data?.totalCostLocalCurrency) {
+      this.FV.setValue("totalIncomeLocalCurrency", data?.totalCostLocalCurrency);
+    }
+
     if (data?.email) {
       this.FV.setValue("email", data?.email);
     }
@@ -243,7 +248,7 @@ export class GeneralInformationComponent {
 
     // genaral information validation
     let validateParams =
-      "startDate,endDate,dateCount,estimatedCost,totalIncome,email,mobile,contactPerson";
+      "startDate,endDate,dateCount,estimatedCost,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson";
 
     // // add arrival departure pickup drop off validations
     if (isArrivalAdded) {
@@ -275,37 +280,38 @@ export class GeneralInformationComponent {
       dateCount: dateCount,
       contactPerson: formData?.contactPerson,
       totalCost: formData?.totalIncome || 0,
+      totalCostLocalCurrency: formData?.totalIncomeLocalCurrency || 0,
       estimatedExpense: formData?.estimatedCost || 0,
       arrivalInfo: isArrivalAdded
         ? {
-            arrivalDate: formData?.arrivalDate,
-            arrivalTime: formData?.arrivalDate + " " + formData?.arrivalTime,
-            arrivalFlightNumber: formData?.arrivalFlightNumber,
-          }
+          arrivalDate: formData?.arrivalDate,
+          arrivalTime: formData?.arrivalDate + " " + formData?.arrivalTime,
+          arrivalFlightNumber: formData?.arrivalFlightNumber,
+        }
         : null,
       departureInfo: isDepartureAdded
         ? {
-            departureDate: formData?.departureDate,
-            departureTime:
-              formData?.departureDate + " " + formData?.departureTime,
-            departureFlightNumber: formData?.departureFlightNumber,
-          }
+          departureDate: formData?.departureDate,
+          departureTime:
+            formData?.departureDate + " " + formData?.departureTime,
+          departureFlightNumber: formData?.departureFlightNumber,
+        }
         : null,
       pickUpInfo: isPickupAdded
         ? {
-            pickupDate: formData?.pickUpDate,
-            pickupTime: formData?.pickUpDate + " " + formData?.pickUpTime,
-            pickupCity: formData?.pickUpCity,
-            pickupAddress: formData?.pickUpAddress,
-          }
+          pickupDate: formData?.pickUpDate,
+          pickupTime: formData?.pickUpDate + " " + formData?.pickUpTime,
+          pickupCity: formData?.pickUpCity,
+          pickupAddress: formData?.pickUpAddress,
+        }
         : null,
       dropOffInfo: isDropOffAdded
         ? {
-            dropOffDate: formData?.dropOffDate,
-            dropOffTime: formData?.dropOffDate + " " + formData?.dropOffTime,
-            dropOffCity: formData?.dropOffCity,
-            dropOffAddress: formData?.dropOffAddress,
-          }
+          dropOffDate: formData?.dropOffDate,
+          dropOffTime: formData?.dropOffDate + " " + formData?.dropOffTime,
+          dropOffCity: formData?.dropOffCity,
+          dropOffAddress: formData?.dropOffAddress,
+        }
         : null,
       email: formData?.email,
       phoneNumber: formData?.mobile,

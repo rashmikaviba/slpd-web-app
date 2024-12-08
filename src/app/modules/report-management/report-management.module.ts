@@ -44,6 +44,7 @@ import { MonthlyTripReportComponent } from './monthly-trip-report/monthly-trip-r
 import { MonthlyExpensesReportComponent } from './monthly-expenses-report/monthly-expenses-report.component';
 import { MonthlyDriverSalaryComponent } from './monthly-driver-salary/monthly-driver-salary.component';
 import { NgxPrintModule } from 'ngx-print';
+import { MonthlyIncomeReportComponent } from './monthly-income-report/monthly-income-report.component';
 
 
 
@@ -52,7 +53,8 @@ import { NgxPrintModule } from 'ngx-print';
     ReportNavigationDashboardComponent,
     MonthlyTripReportComponent,
     MonthlyExpensesReportComponent,
-    MonthlyDriverSalaryComponent
+    MonthlyDriverSalaryComponent,
+    MonthlyIncomeReportComponent
   ],
   imports: [
     CommonModule,

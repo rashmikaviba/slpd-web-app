@@ -10,6 +10,7 @@ import { ReportService } from 'src/app/shared/services/api-services/report.servi
 import { DatePipe } from '@angular/common';
 import { MonthlyExpensesReportComponent } from '../monthly-expenses-report/monthly-expenses-report.component';
 import { MonthlyDriverSalaryComponent } from '../monthly-driver-salary/monthly-driver-salary.component';
+import { MonthlyIncomeReportComponent } from '../monthly-income-report/monthly-income-report.component';
 
 @Component({
   selector: 'app-report-navigation-dashboard',
@@ -169,7 +170,32 @@ export class ReportNavigationDashboardComponent implements OnInit {
 
   async openMonthlyIncomeReport(date: string) {
     try {
+      let data = {
+        reportDetails: [],
+        month: date
+      }
+      const reportResult = await firstValueFrom(this.reportService.GetMonthlyIncomeReportData(date));
 
+      if (reportResult.IsSuccessful) {
+        data.reportDetails = reportResult.Result;
+      }
+
+      if (data.reportDetails?.length <= 0) {
+        this.messageService.showInfoAlert(`No income data found for selected month (${date})!`)
+        return
+      }
+
+      let properties = {
+        width: "60vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "", //Monthly Trip Report
+        MonthlyIncomeReportComponent,
+        properties,
+        data
+      );
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error)
     }
