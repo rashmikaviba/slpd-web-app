@@ -28,7 +28,7 @@ export class DefaultLayoutNewComponent {
     private messageService: AppMessageService,
     private datePipe: DatePipe,
     private popupService: PopupService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.workingDate = this.masterDataService.WorkingDate;
@@ -120,6 +120,15 @@ export class DefaultLayoutNewComponent {
           AppModule.SuperAdminVehicleTracking,
         ]),
       },
+      {
+        menuId: 9,
+        label: "Reports",
+        icon: "pi pi-file",
+        routerLink: "/reports",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.AdminReportManagement, AppModule.SuperAdminReportManagement
+        ]),
+      },
     ];
 
     this.items = [
@@ -138,6 +147,8 @@ export class DefaultLayoutNewComponent {
         this.activeTab = element.menuId;
       }
     });
+
+    console.log(this.activeTab);
   }
 
   onClickNotification() {
@@ -190,7 +201,7 @@ export class DefaultLayoutNewComponent {
         header: "CHANGE PASSWORD",
         width: "30vw",
       })
-      .subscribe((res) => {});
+      .subscribe((res) => { });
   }
 
   openMonthAudit() {

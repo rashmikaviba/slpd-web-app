@@ -99,6 +99,14 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   },
+  {
+    path: "reports",
+    loadChildren: () =>
+      import("./modules/report-management/report-management.module").then(
+        (m) => m.ReportManagementModule
+      ),
+    canActivate: [RouteGuardService],
+  }
 ];
 
 @NgModule({
@@ -117,4 +125,4 @@ const routes: Routes = [
   // ],
   // exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

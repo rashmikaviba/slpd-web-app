@@ -2811,7 +2811,7 @@ body a:hover {
 
 @media print {
   body * {
-    visibility: hidden;
+    visibility: visible;
   }
 
   #invoice-content * {

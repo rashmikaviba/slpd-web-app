@@ -37,8 +37,8 @@ import { StepsModule } from "primeng/steps";
 import { EditorModule } from "primeng/editor";
 import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
-import { NgxPrintModule } from "ngx-print";
 import { DataViewModule } from "primeng/dataview";
+import { ImageModule } from "primeng/image";
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -53,6 +53,11 @@ import { DriverTaskFormComponent } from "./trip-management-by-driver/driver-task
 import { TripManagementPrintComponent } from "./trip-management-print/trip-management-print.component";
 import { UpdateLocationFormComponent } from "./trip-management-by-driver/update-location-form/update-location-form.component";
 import { TagModule } from "primeng/tag";
+import { SharedModule } from "src/app/shared.module";
+import { NgxPrintModule } from "ngx-print";
+import { ExpenseManagementComponent } from "./expense-management/expense-management.component";
+import { ExpenseManagementFormComponent } from "./expense-management/expense-management-form/expense-management-form.component";
+import { DriverSalaryFormComponent } from "./trip-management/driver-salary-form/driver-salary-form.component";
 
 @NgModule({
   declarations: [
@@ -69,6 +74,9 @@ import { TagModule } from "primeng/tag";
     DriverTaskFormComponent,
     TripManagementPrintComponent,
     UpdateLocationFormComponent,
+    ExpenseManagementComponent,
+    ExpenseManagementFormComponent,
+    DriverSalaryFormComponent,
   ],
   imports: [
     CommonModule,
@@ -108,9 +116,12 @@ import { TagModule } from "primeng/tag";
     EditorModule,
     FieldsetModule,
     ChipModule,
-    NgxPrintModule,
     DataViewModule,
     TagModule,
+    SharedModule,
+    NgxPrintModule,
+    NgxPrintModule,
+    ImageModule,
   ],
 })
 export class TripManagementModule {}

@@ -110,7 +110,6 @@ import { WebcamModule } from "ngx-webcam";
 import { AuthorizationInterceptor } from "./core/interceptor/authorization.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SharedModule } from "./shared.module";
-import { NgxPrintModule } from 'ngx-print';
 import { UserModule } from "./modules/user/user.module";
 import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
@@ -118,6 +117,7 @@ import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-l
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
+import { NgxPrintModule } from "ngx-print";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -228,7 +228,8 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
     IconFieldModule,
     InputIconModule,
     NgIdleKeepaliveModule.forRoot(),
-    NgxPrintModule
+    UserModule,
+    NgxPrintModule,
   ],
   declarations: [
     AppComponent,
@@ -274,4 +275,4 @@ import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-veh
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

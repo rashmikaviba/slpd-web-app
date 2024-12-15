@@ -9,6 +9,7 @@ export class TripManagementFlowService {
     endDate: null,
     dateCount: null,
     totalCost: null,
+    totalCostLocalCurrency: null,
     contactPerson: null,
     estimatedExpense: null,
     passengers: [],
@@ -29,7 +30,7 @@ export class TripManagementFlowService {
 
   isView: boolean = false;
 
-  constructor() {}
+  constructor() { }
 
   setData(data: any) {
     this.request = {
@@ -48,6 +49,7 @@ export class TripManagementFlowService {
       endDate: null,
       dateCount: null,
       totalCost: null,
+      totalCostLocalCurrency: null,
       contactPerson: null,
       estimatedExpense: null,
       passengers: [],

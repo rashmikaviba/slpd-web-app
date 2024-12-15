@@ -105,4 +105,12 @@ export class TripService {
         return response;
       });
   }
+
+  GetTripForPrintByTripId(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getTripForPrint + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

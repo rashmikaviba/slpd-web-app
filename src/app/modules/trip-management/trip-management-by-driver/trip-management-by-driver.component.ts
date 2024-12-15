@@ -14,6 +14,9 @@ import { firstValueFrom } from "rxjs";
 import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { WellKnownTripStatus } from "src/app/shared/enums/well-known-trip-status.enum";
 import { UpdateLocationFormComponent } from "./update-location-form/update-location-form.component";
+import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
+import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
+import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -40,7 +43,8 @@ export class TripManagementByDriverComponent implements OnInit {
     private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
     private datePipe: DatePipe,
-    private tripService: TripService
+    private tripService: TripService,
+    private expenseService: ExpenseService
   ) {}
 
   ngOnInit(): void {
@@ -100,6 +104,14 @@ export class TripManagementByDriverComponent implements OnInit {
           this.onClickUpdateCurrentLocation(event.item.data);
         },
       },
+      {
+        id: 5,
+        label: "Expense Management",
+        icon: "pi pi-money-bill",
+        command: (event: any) => {
+          this.onClickExpenseManagement(event.item.data);
+        },
+      },
     ];
   }
 
@@ -140,6 +152,16 @@ export class TripManagementByDriverComponent implements OnInit {
         let selectedItem2 = this.items.filter((x) => x.id == 3);
         this.filteredItems = this.filteredItems.concat(selectedItem2);
       }
+    }
+    debugger;
+
+    if (
+      rowData.isCheckListDone &&
+      (rowData.status == WellKnownTripStatus.START ||
+        rowData.status == WellKnownTripStatus.FINISHED)
+    ) {
+      let selectedItem = this.items.filter((x) => x.id == 5);
+      this.filteredItems = this.filteredItems.concat(selectedItem);
     }
 
     this.filteredItems.forEach((menuItem) => {
@@ -251,5 +273,66 @@ export class TripManagementByDriverComponent implements OnInit {
       properties,
       data
     );
+  }
+
+  async onClickExpenseManagement(rowData: any) {
+    try {
+      debugger;
+      let data = {
+        tripInfo: rowData,
+        userType: "driver",
+        expensesInfo: null,
+      };
+
+      const expenseResult = await firstValueFrom(
+        this.expenseService.GetAllExpensesByTrip(rowData?.id)
+      );
+
+      if (expenseResult.IsSuccessful) {
+        data.expensesInfo = expenseResult.Result;
+      }
+
+      let properties = {
+        width: "50vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "Expense Management",
+        ExpenseManagementComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async onClickPrint(rowData: any) {
+    try {
+      const tripData = await firstValueFrom(
+        this.tripService.GetTripForPrintByTripId(rowData?.id)
+      );
+
+      if (tripData.IsSuccessful) {
+        let data = tripData.Result;
+
+        let properties = {
+          width: "50vw",
+          position: "right",
+        };
+
+        this.sidebarService.addComponent(
+          "Print",
+          TripManagementPrintComponent,
+          properties,
+          data
+        );
+      } else {
+        this.messageService.showErrorAlert(tripData.Message);
+      }
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
 }

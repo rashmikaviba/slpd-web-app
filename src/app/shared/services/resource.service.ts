@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class ResourceService {
-  constructor() {}
+  constructor() { }
 
   public appHostURL: string = environment.appURL;
   private host: string = environment.apiURL;
@@ -20,6 +20,8 @@ export class ResourceService {
   private Common = this.host + "/common";
   private Vehicle = this.host + "/vehicle";
   private Trip = this.host + "/trip";
+  private Expenses = this.host + "/expense";
+  private Report = this.host + "/report";
 
   auth = {
     login: this.Auth + "/login",
@@ -92,6 +94,7 @@ export class ResourceService {
     cancelTrip: this.Trip,
     assignDriver: this.Trip + "/assignDriver",
     updateTripStatus: this.Trip,
+    getTripForPrint: this.Trip + "/tripForPrint",
 
     // checkList routes
     saveCheckList: this.Trip + "/checkList",
@@ -101,4 +104,21 @@ export class ResourceService {
     getPlacesByTripId: this.Trip + "/places",
     updatePlaceAsMarked: this.Trip,
   };
+
+  expense = {
+    saveExpense: this.Expenses,
+    updateExpense: this.Expenses,
+    deleteExpense: this.Expenses,
+    getAllExpensesByTrip: this.Expenses,
+    getExpenseById: this.Expenses,
+    getExpensesById: this.Expenses,
+    saveDriverSalary: this.Expenses + "/saveSalary",
+  };
+
+  report = {
+    monthlyTripReport: this.Report + '/monthlyTripReport',
+    monthlyExpensesReport: this.Report + '/monthlyExpensesReport',
+    monthlyDriverSalary: this.Report + '/monthlyDriverSalary',
+    monthlyIncomeReport: this.Report + '/monthlyIncomeReport',
+  }
 }

@@ -15,6 +15,9 @@ import { TripManagementFlowService } from "./trip-management-form/trip-managemen
 import { DriverTaskFormComponent } from "../trip-management-by-driver/driver-task-form/driver-task-form.component";
 import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
 import { UpdateLocationFormComponent } from "../trip-management-by-driver/update-location-form/update-location-form.component";
+import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
+import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
+import { DriverSalaryFormComponent } from "./driver-salary-form/driver-salary-form.component";
 
 @Component({
   selector: "app-trip-management",
@@ -37,7 +40,8 @@ export class TripManagementComponent implements OnInit {
     private messageService: AppMessageService,
     private excelService: ExcelService,
     private datePipe: DatePipe,
-    private tripService: TripService
+    private tripService: TripService,
+    private expenseService: ExpenseService
   ) {}
 
   ngOnInit(): void {
@@ -121,6 +125,22 @@ export class TripManagementComponent implements OnInit {
           this.onClickViewTripReachInfo(event.item.data);
         },
       },
+      {
+        id: 8,
+        label: "Expense Management",
+        icon: "pi pi-money-bill",
+        command: (event: any) => {
+          this.onClickExpenseManagement(event.item.data);
+        },
+      },
+      {
+        id: 9,
+        label: "Driver Salary",
+        icon: "pi pi-briefcase",
+        command: (event: any) => {
+          this.onClickAddDriverSalary(event.item.data);
+        },
+      },
     ];
   }
 
@@ -143,6 +163,18 @@ export class TripManagementComponent implements OnInit {
         condition:
           rowData?.status === WellKnownTripStatus.START ||
           rowData?.status === WellKnownTripStatus.FINISHED,
+      },
+      {
+        ids: [8],
+        condition:
+          rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.FINISHED,
+      },
+      {
+        ids: [9],
+        condition:
+          rowData?.status === WellKnownTripStatus.FINISHED &&
+          !rowData?.isMonthEndDone,
       },
     ];
 
@@ -344,7 +376,7 @@ export class TripManagementComponent implements OnInit {
   async onClickPrint(rowData: any) {
     try {
       const tripData = await firstValueFrom(
-        this.tripService.GetTripById(rowData?.id)
+        this.tripService.GetTripForPrintByTripId(rowData?.id)
       );
 
       if (tripData.IsSuccessful) {
@@ -413,5 +445,67 @@ export class TripManagementComponent implements OnInit {
       properties,
       data
     );
+  }
+
+  async onClickExpenseManagement(rowData: any) {
+    try {
+      debugger;
+      let data = {
+        tripInfo: rowData,
+        userType: "admin",
+        expensesInfo: null,
+      };
+
+      const expenseResult = await firstValueFrom(
+        this.expenseService.GetAllExpensesByTrip(rowData?.id)
+      );
+
+      if (expenseResult.IsSuccessful) {
+        data.expensesInfo = expenseResult.Result;
+      }
+
+      let properties = {
+        width: "50vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "Expense Management",
+        ExpenseManagementComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async onClickAddDriverSalary(rowData: any) {
+    try {
+      let header = "Add Driver Salary";
+      let width = "40vw";
+      let data = {
+        tripInformation: rowData,
+        expensesInfo: null,
+      };
+
+      const expenseResult = await firstValueFrom(
+        this.expenseService.GetAllExpensesByTrip(rowData?.id)
+      );
+
+      if (expenseResult.IsSuccessful) {
+        data.expensesInfo = expenseResult.Result;
+      }
+
+      this.popupService
+        .OpenModel(DriverSalaryFormComponent, { header, width, data })
+        .subscribe((result) => {
+          if (result) {
+            this.loadInitialData();
+          }
+        });
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
   }
 }

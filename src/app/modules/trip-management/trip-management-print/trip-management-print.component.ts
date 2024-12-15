@@ -22,6 +22,7 @@ export class TripManagementPrintComponent {
   places: any[] = [];
   hotels: any[] = [];
   activities: any[] = [];
+  expensesDetails: any = null;
   activityCost: number = 0;
   tripInfo: any;
 
@@ -29,13 +30,12 @@ export class TripManagementPrintComponent {
     private sidebarService: SidebarService,
     private messageService: AppMessageService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sidebarService.setFooterTemplate(this.templateRef);
     let sideBarData = this.sidebarService.getData();
     this.tripInfo = sideBarData;
-    console.log("sideBarData Trip", sideBarData);
 
     // Bind Passenger Details
     this.passengerDetails = sideBarData.passengers;
@@ -44,6 +44,7 @@ export class TripManagementPrintComponent {
 
     this.pickUpInfo = sideBarData.pickUpInfo;
     this.dropOffInfo = sideBarData.dropOffInfo;
+    this.expensesDetails = sideBarData.expenses;
 
     this.hotels = sideBarData.hotels;
     this.hotels.map((hotel) => {
@@ -71,24 +72,5 @@ export class TripManagementPrintComponent {
         })
         .join(", ");
     });
-    // this.clearItinerary = [
-    //   {
-    //     date: "01st August",
-    //     details:
-    //       "COLOMBO 5.25AM - TRANSFER NEGOMBO -- GALLE 155KM (2H) - NIGHT IN: GALLE",
-    //   },
-    //   {
-    //     date: "02nd August",
-    //     details: "TRANSFER GALLE -- Yala - NIGHT IN: Yala",
-    //   },
-    //   {
-    //     date: "03rd August",
-    //     details: "YALA NATIONAL PARK - NIGHT IN: TISSAMAHARAMA",
-    //   },
-    //   {
-    //     date: "04th August",
-    //     details: "TRANSFER TISSAMAHARAMA -- ELLA 90KM (2H) - NIGHT IN: ELLA",
-    //   },
-    // ];
   }
 }
