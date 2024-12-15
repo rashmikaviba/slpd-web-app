@@ -4,8 +4,8 @@
 @import "../node_modules/primeflex/primeflex.scss";
 @import "../node_modules/primeicons/primeicons.css";
 @import "../node_modules/prismjs/themes/prism-coy.css";
-@import "assets/demo/flags/flags.css";
-@import "assets/demo/documentation.scss";
+// @import "assets/demo/flags/flags.css";
+// @import "assets/demo/documentation.scss";
 // import Quill styles in styles.scss
 @import "../node_modules/quill/dist/quill.core.css";
 @import "../node_modules/quill/dist/quill.snow.css";
@@ -109,4 +109,42 @@ img {
   right: 0;
   padding: 10px;
   position: fixed;
+}
+
+.p-inputgroup > p-dropdown {
+  display: grid;
+  flex: 1 1 auto;
+  width: 1%;
+
+  .p-dropdown {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.p-inputgroup p-dropdown:not(:last-child) .p-dropdown {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.p-inputgroup p-dropdown:not(:first-child) .p-dropdown {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.p-inputgroup > p-inputnumber input.p-inputnumber-input {
+  border-radius: 0;
+  margin: 0;
+}
+
+.p-inputgroup p-inputnumber:last-child input.p-inputnumber-input {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.p-inputgroup p-inputnumber:first-child input.p-inputnumber-input {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }

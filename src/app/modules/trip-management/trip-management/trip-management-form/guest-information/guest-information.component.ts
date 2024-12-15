@@ -1,0 +1,140 @@
+import { CommonService } from "src/app/shared/services/api-services/common.service";
+import { DatePipe } from "@angular/common";
+import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { forkJoin, lastValueFrom } from "rxjs";
+import { CommonForm } from "src/app/shared/services/app-common-form";
+import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { SidebarService } from "src/app/shared/services/sidebar.service";
+import { genders, nationalities } from "src/app/shared/data/commonData";
+import { TripManagementFlowService } from "../trip-management-flow.service";
+
+@Component({
+  selector: "app-guest-information",
+  templateUrl: "./guest-information.component.html",
+  styleUrls: ["./guest-information.component.scss"],
+})
+export class GuestInformationComponent {
+  FV = new CommonForm();
+  cols: any;
+  recodes: any[] = [];
+  isAddNewGuest: boolean = false;
+  gender: any[] = genders;
+  nationalities: any[] = nationalities;
+  isView: boolean = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    private sidebarService: SidebarService,
+    private messageService: AppMessageService,
+    private commonService: CommonService,
+    private tripMgtFlowService: TripManagementFlowService
+  ) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.FV.formGroup = this.formBuilder.group({
+      gender: ["", [Validators.required]],
+      nationality: ["", [Validators.required]],
+      age: ["", [Validators.required, Validators.min(1), Validators.max(100)]],
+      guestName: ["", [Validators.required]],
+    });
+  }
+
+  ngOnInit(): void {
+    this.isView = this.tripMgtFlowService.getIsView();
+
+    this.cols = [
+      { field: "name", header: "Guest Name" },
+      { field: "gender", header: "Gender" },
+      { field: "nationality", header: "Nationality" },
+      { field: "age", header: "Ages" },
+    ];
+
+    let data: any = JSON.parse(
+      JSON.stringify(this.tripMgtFlowService.getData())
+    ); //this.tripMgtFlowService.getData();
+    if (data?.passengers) {
+      this.recodes = data.passengers;
+    } else {
+      this.recodes = [];
+    }
+  }
+
+  onClickAddNewGuest() {
+    this.FV.formGroup.reset();
+    this.isAddNewGuest = !this.isAddNewGuest;
+  }
+
+  onClickSaveGuest() {
+    debugger;
+    let validateParams = "guestName,gender,nationality,age";
+    if (this.FV.validateControllers(validateParams)) {
+      return;
+    }
+
+    let formData = this.FV.formGroup.value;
+
+    let obj = {
+      _id: this.generateUniqueId(),
+      name: formData.guestName,
+      nationality: formData.nationality,
+      age: formData.age,
+      gender: formData.gender,
+    };
+
+    this.recodes.push(obj);
+    this.FV.formGroup.reset();
+    this.isAddNewGuest = !this.isAddNewGuest;
+  }
+
+  onClickDeleteGuest(id: string) {
+    let confirmationConfig = {
+      message: "Are you sure you want to delete this guest?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+    };
+
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+          this.recodes = this.recodes.filter((x) => x._id != id);
+        }
+      }
+    );
+  }
+
+  onClickCancelGuest() {
+    this.FV.formGroup.reset();
+    this.isAddNewGuest = false;
+  }
+
+  generateUniqueId() {
+    let generatedId =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
+
+    while (this.recodes.findIndex((x) => x._id == generatedId) != -1) {
+      generatedId =
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15);
+    }
+
+    return generatedId;
+  }
+
+  onSaveAndMoveToNext() {
+    this.onClickCancelGuest();
+    if (this.recodes.length <= 0) {
+      this.messageService.showWarnAlert(
+        "Please add at least one guest to continue!"
+      );
+      return null;
+    }
+
+    return this.recodes;
+  }
+}

@@ -22,24 +22,37 @@ import { AccordionModule } from "primeng/accordion";
 import { RadioButtonModule } from "primeng/radiobutton";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { MenuModule } from "primeng/menu";
-import { CardModule } from 'primeng/card';
+import { CardModule } from "primeng/card";
 import { ChartModule } from "primeng/chart";
-import { ChipsModule } from 'primeng/chips';
+import { ChipsModule } from "primeng/chips";
 import { AvatarModule } from "primeng/avatar";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { OverlayPanelModule } from "primeng/overlaypanel";
 import { OrderListModule } from "primeng/orderlist";
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { AddNewUserComponent } from './add-new-user/add-new-user.component';
-import { AddNewUserFormComponent } from './add-new-user/add-new-user-form/add-new-user-form.component';
-import { StepsModule } from 'primeng/steps';
-import { ToastModule } from 'primeng/toast';
-import { PersonalDetailsComponent } from './add-new-user/add-new-user-form/personal-details/personal-details.component';
-import { BankDetailsComponent } from './add-new-user/add-new-user-form/bank-details/bank-details.component';
-import { UploadVerificationsComponent } from './add-new-user/add-new-user-form/upload-verifications/upload-verifications.component';
+import { ToggleButtonModule } from "primeng/togglebutton";
+import { InputNumberModule } from "primeng/inputnumber";
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
+import { ImageModule } from "primeng/image";
+
+import { AddNewUserComponent } from "./add-new-user/add-new-user.component";
+import { AddNewUserFormComponent } from "./add-new-user/add-new-user-form/add-new-user-form.component";
+import { StepsModule } from "primeng/steps";
+import { ToastModule } from "primeng/toast";
+import { PersonalDetailsComponent } from "./add-new-user/add-new-user-form/personal-details/personal-details.component";
+import { BankDetailsComponent } from "./add-new-user/add-new-user-form/bank-details/bank-details.component";
+import { UploadVerificationsComponent } from "./add-new-user/add-new-user-form/upload-verifications/upload-verifications.component";
 
 @NgModule({
-  declarations: [ChangePasswordComponent, SignInComponent, AddNewUserComponent, AddNewUserFormComponent, PersonalDetailsComponent, BankDetailsComponent, UploadVerificationsComponent],
+  declarations: [
+    ChangePasswordComponent,
+    SignInComponent,
+    AddNewUserComponent,
+    AddNewUserFormComponent,
+    PersonalDetailsComponent,
+    BankDetailsComponent,
+    UploadVerificationsComponent,
+  ],
   imports: [
     ButtonModule,
     FormsModule,
@@ -70,7 +83,11 @@ import { UploadVerificationsComponent } from './add-new-user/add-new-user-form/u
     StepsModule,
     ToastModule,
     CardModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    InputNumberModule,
+    IconFieldModule,
+    InputIconModule,
+    ImageModule,
   ],
 })
-export class UserModule { }
+export class UserModule {}

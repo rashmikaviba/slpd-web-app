@@ -1,25 +1,26 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AddNewUserComponent } from './add-new-user/add-new-user.component';
-import { DefaultLayoutNewComponent } from 'src/app/layout/default-layout-new/default-layout-new.component';
-import { PersonalDetailsComponent } from './add-new-user/add-new-user-form/personal-details/personal-details.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AddNewUserComponent } from "./add-new-user/add-new-user.component";
+import { DefaultLayoutNewComponent } from "src/app/layout/default-layout-new/default-layout-new.component";
+import { PersonalDetailsComponent } from "./add-new-user/add-new-user-form/personal-details/personal-details.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: DefaultLayoutNewComponent,
     children: [
       {
-        path: '',
+        path: "",
         component: AddNewUserComponent,
       },
     ],
   },
-  { path: 'personal', component: PersonalDetailsComponent }
+
+  { path: "personal", component: PersonalDetailsComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UserRoutingModule { }
+export class UserRoutingModule {}

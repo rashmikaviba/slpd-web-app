@@ -1,0 +1,325 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="">
+    <div class="text-2xl font-semibold mb-4">Leave Management</div>
+    <p-table
+      #dt
+      styleClass=""
+      [columns]="cols"
+      [value]="recodes"
+      dataKey="_id"
+      [rows]="10"
+      responsiveLayout="stack"
+      [breakpoint]="'960px'"
+      styleClass="p-datatable-gridlines"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [paginator]="true"
+      [rowHover]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['appliedUserName']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="grid flex justify-content-between">
+          <div class="col-12 md:col-3">
+            <p-inputGroup>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-excel"
+                class="p-button-success"
+                pTooltip="Export to XLS"
+                tooltipPosition="right"
+                (click)="exportToExcel()"
+              ></button>
+              <p-dropdown
+                id="leaveType"
+                [options]="leaveTypes"
+                optionLabel="name"
+                formControlName="leaveType"
+                appendTo="body"
+                placeholder="Select Leave Type"
+                [showClear]="true"
+                optionValue="id"
+                styleClass="w-full"
+                [autoOptionFocus]="false"
+                (onChange)="onLeaveTypeChange($event)"
+                (onClear)="onLeaveTypeChange($event)"
+              ></p-dropdown>
+            </p-inputGroup>
+          </div>
+
+          <div class="col-12 md:col-3">
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input
+                pInputText
+                type="text"
+                [style]="{ width: '100%' }"
+                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Leave"
+              />
+            </p-iconField>
+          </div>
+        </div>
+        <!-- <div class="flex flex-wrap justify-content-between">
+          <p-dropdown
+            id="leaveType"
+            [options]="leaveTypes"
+            optionLabel="name"
+            formControlName="leaveType"
+            [style]="{ width: '100%' }"
+            appendTo="body"
+            placeholder="Select Leave Type"
+            [showClear]="true"
+            optionValue="id"
+            [autoOptionFocus]="false"
+            (onChange)="onLeaveTypeChange($event)"
+            (onClear)="onLeaveTypeChange($event)"
+          ></p-dropdown>
+
+          <p-iconField iconPosition="left" class="ml-auto">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search Leave"
+            />
+          </p-iconField>
+        </div> -->
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th
+            *ngFor="let col of columns"
+            [ngClass]="{
+              'text-center':
+                col.field == 'status' ||
+                col.field == 'availableLeaveCount' ||
+                col.field == 'dateCount'
+            }"
+          >
+            {{ col.header }}
+          </th>
+          <th class="text-center">Action</th>
+        </tr>
+      </ng-template>
+
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+      >
+        <tr>
+          <td
+            *ngFor="let col of columns"
+            [ngClass]="{
+              'bg-blue': rowIndex % 2 !== 0,
+              'text-center':
+                col.field == 'status' ||
+                col.field == 'availableLeaveCount' ||
+                col.field == 'dateCount'
+            }"
+          >
+            <ng-container *ngIf="col.field == 'status'">
+              <span class="p-column-title font-bold">Status</span>
+              <div class="text-center">
+                <p-button
+                  [severity]="
+                    rowData.status == 1
+                      ? 'secondary'
+                      : rowData.status == 2
+                      ? 'success'
+                      : 'danger'
+                  "
+                  outlined="true"
+                  label="{{ rowData.statusName }}"
+                ></p-button>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="col.field == 'createdAt'">
+              <span class="p-column-title font-bold">Applied Date</span>
+              <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
+            </ng-container>
+
+            <ng-container *ngIf="col.field == 'startDate'">
+              <span class="p-column-title font-bold">Requested Dates</span>
+              <span *ngIf="rowData.dateCount == 1">{{
+                rowData.startDate | date : "dd/MM/yyyy"
+              }}</span>
+              <span *ngIf="rowData.dateCount > 1"
+                >{{ rowData.startDate | date : "dd-MM-yyyy" }} -
+                {{ rowData.endDate | date : "dd-MM-yyyy" }}</span
+              >
+            </ng-container>
+            <ng-container *ngIf="col.field == 'appliedUserName'">
+              <span class="p-column-title font-bold">Applied By</span
+              >{{ rowData[col.field] || "-" }}
+            </ng-container>
+            <ng-container *ngIf="col.field == 'appliedUserRole'">
+              <span class="p-column-title font-bold">User Type</span
+              >{{ rowData[col.field] || "-" }}
+            </ng-container>
+            <ng-container *ngIf="col.field == 'availableLeaveCount'">
+              <span class="p-column-title font-bold">Available Leave Count</span
+              >{{ rowData[col.field] || "-" }}
+            </ng-container>
+            <ng-container *ngIf="col.field == 'dateCount'">
+              <span class="p-column-title font-bold">Requested Leave Count</span
+              >{{ rowData[col.field] || "-" }}
+            </ng-container>
+            <ng-container *ngIf="col.field == 'reason'">
+              <span class="p-column-title font-bold">Reason</span
+              >{{ rowData[col.field] || "-" }}
+            </ng-container>
+            <!-- <ng-container
+              *ngIf="
+                col.field != 'status' &&
+                col.field != 'startDate' &&
+                col.field != 'createdAt'
+              "
+            >
+              {{ rowData[col.field] || "-" }}
+            </ng-container> -->
+          </td>
+          <td class="text-center" [ngClass]="{ 'bg-blue': rowIndex % 2 !== 0 }">
+            <div
+              class="flex flex-wrap justify-content-center align-content-center gap-1"
+            >
+              <button
+                #btn
+                type="button"
+                pButton
+                icon="pi pi-ellipsis-v"
+                (click)="toggleMenu(menu, $event, rowData)"
+                [disabled]="rowData.isMonthEndDone"
+              ></button>
+
+              <!-- Info Button -->
+              <button
+                type="button"
+                pButton
+                icon="pi pi-info-circle"
+                class="p-button-info"
+                (click)="op.toggle($event)"
+                [disabled]="rowData.status == 1"
+                pTooltip="View Info"
+                tooltipPosition="bottom"
+              ></button>
+
+              <p-overlayPanel #op styleClass="over ml-5 mr-5">
+                <div class="w-24rem">
+                  <div>
+                    <div class="grid">
+                      <div class="col-12">
+                        <span class="font-medium text-900 block mb-2">{{
+                          rowData.status == 2
+                            ? "Approved User/Date"
+                            : rowData.status == 3
+                            ? "Rejected User/Date"
+                            : ""
+                        }}</span>
+
+                        <p-inputGroup>
+                          <input
+                            pInputText
+                            value="{{
+                              rowData.status == 2
+                                ? rowData.approvedUser
+                                : rowData.status == 3
+                                ? rowData.rejectedUser
+                                : ''
+                            }}"
+                            readonly
+                            class="w-6"
+                            [disabled]="true"
+                          />
+                          <input
+                            pInputText
+                            value="{{
+                              rowData.status == 2
+                                ? (rowData.approveDate
+                                  | date : 'dd-MM-yyyy h:mm a')
+                                : rowData.status == 3
+                                ? (rowData.rejectDate
+                                  | date : 'dd-MM-yyyy h:mm a')
+                                : ''
+                            }}"
+                            readonly
+                            class="w-6"
+                            [disabled]="true"
+                          />
+                        </p-inputGroup>
+                      </div>
+                      <div class="col-12">
+                        <div
+                          *ngIf="rowData.rejectReason || rowData.approveRemark"
+                        >
+                          <span class="font-medium text-900 block mb-2">{{
+                            rowData.status == 2
+                              ? "Approved Remark"
+                              : rowData.status == 3
+                              ? "Rejected Remark"
+                              : ""
+                          }}</span>
+                          <textarea
+                            pInputTextarea
+                            [(ngModel)]="rowData.approveRemark"
+                            readonly
+                            class="w-full"
+                            style="resize: none"
+                            rows="3"
+                            [ngModelOptions]="{ standalone: true }"
+                            [disabled]="true"
+                            *ngIf="rowData.status == 2"
+                          ></textarea>
+                          <textarea
+                            pInputTextarea
+                            [(ngModel)]="rowData.rejectReason"
+                            readonly
+                            class="w-full"
+                            style="resize: none"
+                            rows="3"
+                            [ngModelOptions]="{ standalone: true }"
+                            [disabled]="true"
+                            *ngIf="rowData.status == 3"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-overlayPanel>
+            </div>
+            <p-tieredMenu
+              #menu
+              [model]="filteredItems"
+              [popup]="true"
+              appendTo="body"
+            ></p-tieredMenu>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length + 2">
+            <div
+              class="flex flex-column justify-content-center align-items-center gap-2"
+              style="height: 300px; width: 100%"
+            >
+              <i class="pi pi-inbox text-5xl text-gray-400"></i>
+              <small class="">No Leaves Found</small>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</form>

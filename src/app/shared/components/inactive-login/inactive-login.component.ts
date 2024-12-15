@@ -5,6 +5,7 @@ import { DynamicDialogRef } from "primeng/dynamicdialog";
 import { AppMessageService } from "../../services/app-message.service";
 import { MasterDataService } from "../../services/master-data.service";
 import { TransactionHandlerService } from "../../services/transaction-handler.service";
+import { MonthAditService } from "../../services/api-services/month-adit.service";
 
 @Component({
   selector: "app-inactive-login",
@@ -19,7 +20,8 @@ export class InactiveLoginComponent implements OnInit {
     private ref: DynamicDialogRef,
     private messageService: AppMessageService,
     private masterDataService: MasterDataService,
-    private transactionService: TransactionHandlerService
+    private transactionService: TransactionHandlerService,
+    private monthAuditService: MonthAditService
   ) {
     this.createForm();
   }
@@ -50,24 +52,25 @@ export class InactiveLoginComponent implements OnInit {
     let password = this.FV.getValue("password");
 
     let request = {
-      username: this.masterDataService.CurrentUserName,
       password: password,
-      HotelId: this.masterDataService.HotelId,
-      grant_type: "password",
     };
 
-    this.transactionService.SignIn(request).subscribe((result: any) => {
-      if (result.access_token) {
-        this.masterDataService.setUserData(result);
-        this.masterDataService.HotelId = this.masterDataService.HotelId;
-        this.messageService.showSuccessAlert("Session restored successfully!");
-        this.ref.close(true);
-      } else {
-        this.messageService.showErrorAlert(
-          "Invalid password! Please try again!"
-        );
-      }
-    });
+    this.transactionService
+      .refreshAuthentication(request)
+      .subscribe((response) => {
+        if (response.IsSuccessful) {
+          this.messageService.showSuccessAlert(response.Message);
+          this.masterDataService.SessionKey = response.Result;
+          this.monthAuditService.GetWorkingInformation().subscribe((response) => {
+            if (response.IsSuccessful) {
+              this.masterDataService.setWorkingInfo(response.Result);
+              this.ref.close(true);
+            }
+          })
+        } else {
+          this.messageService.showErrorAlert(response.Message);
+        }
+      });
   }
 
   cancel() {

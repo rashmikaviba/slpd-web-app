@@ -16,7 +16,7 @@
         <i class="pi pi-bars text-4xl"></i>
       </a>
       <img
-        src="assets/images/blocks/logos/hyper-700.svg"
+        src="assets/signin-4.png"
         alt="Image"
         height="40"
         class="mr-0 lg:mr-6"
@@ -29,21 +29,39 @@
         leaveToClass="hidden"
         [hideOnOutsideClick]="true"
       >
-        <i class="pi pi-ellipsis-v text-2xl"></i>
+        <!-- <i class="pi pi-ellipsis-v text-2xl"></i> -->
+        <div class="surface-card shadow-1 p-2 pl-2 pr-2 font-bold text-medium">
+          <div class="flex justify-content-center align-items-center gap-2">
+            <div class="status-dot"></div>
+            <span class="block font-medium">{{ showWorkingDate }}</span>
+            <!-- <span class="block font-medium"></span> -->
+          </div>
+        </div>
       </a>
       <ul
         class="list-none p-3 lg:p-0 m-0 lg:align-items-center select-none flex-column lg:flex-row absolute hidden lg:flex lg:static surface-overlay right-0 top-100 z-1 shadow-2 lg:shadow-none"
       >
-        <li class="lg:mr-1">
-          <a
-            pRipple
-            class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150 lg:border-circle"
+        <li class="lg:mr-2">
+          <div
+            class="surface-card shadow-1 p-2 pl-2 pr-2 font-bold text-medium"
           >
-            <i class="pi pi-inbox text-base lg:text-2xl mr-2 lg:mr-0"></i>
-            <span class="block lg:hidden font-medium">Inbox</span>
-          </a>
+            <div class="flex justify-content-center align-items-center gap-2">
+              <div class="status-dot"></div>
+              <span class="block font-medium">{{ showWorkingDate }}</span>
+              <!-- <span class="block font-medium"></span> -->
+            </div>
+          </div>
         </li>
-        <li class="lg:mr-1">
+
+        <!-- <li class="lg:mr-1">
+          <div
+            class="surface-card shadow-1 p-2 pl-4 pr-4 font-bold text-medium"
+          >
+            <span class="block font-medium">August</span>
+          </div>
+        </li> -->
+
+        <!-- <li class="lg:mr-1">
           <a
             pRipple
             class="flex p-3 align-items-center text-600 hover:text-900 hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150 lg:border-circle"
@@ -63,11 +81,11 @@
             pRipple
             class="flex p-3 align-items-center hover:surface-100 font-medium border-round cursor-pointer transition-colors transition-duration-150 lg:border-circle"
           >
-            <!-- <img
-                src="assets/images/blocks/avatars/circle/avatar-f-1.png"
-                class="mr-3 lg:mr-0"
-                style="width: 25px; height: 25px"
-              /> -->
+            <img
+              src="assets/images/user/avatar-f-3.png"
+              class="mr-3 lg:mr-0"
+              style="width: 25px; height: 25px"
+            />
             <div class="block lg:hidden">
               <div class="text-900 font-medium">Josephine Lillard</div>
               <span class="text-600 font-medium text-sm"
@@ -75,7 +93,7 @@
               >
             </div>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <!-- <ul
@@ -105,7 +123,7 @@
       <div
         id="app-sidebar-12"
         class="surface-card hidden lg:block flex-shrink-0 absolute lg:static left-0 top-0 z-1 select-none shadow-2"
-        style="width: 280px; border-radius: 12px"
+        style="width: 280px; border-radius: 12px; height: auto"
       >
         <div class="flex flex-column h-full">
           <div class="overflow-y-auto">
@@ -125,11 +143,16 @@
             <!-- <li> -->
             <ul class="p-0 m-0 overflow-hidden">
               <ng-container *ngFor="let item of DynamicItems">
-                <li routerLink="/user">
+                <li *ngIf="item.isVisible">
+                  <!-- routerLink="{{ item?.routerLink ? item?.routerLink : '' }}" -->
                   <a
                     id="{{ item.label }}"
                     pRipple
-                    routerLink="{{ item.routerLink }}"
+                    (click)="
+                      item?.command
+                        ? item?.command($event)
+                        : moveToRouter(item?.routerLink)
+                    "
                     [ngClass]="activeTab === item.menuId ? 'bg-demo' : ''"
                     class="flex align-items-center cursor-pointer p-3 text-700 hover:bg-purple-50"
                   >
@@ -156,8 +179,9 @@
               pRipple
               class="cursor-pointer inline-flex align-items-center justify-content-center border-2 surface-border hover:surface-100 text-600 transition-colors transition-duration-150 border-circle"
               style="width: 40px; height: 40px"
+              (click)="onClickNotification()"
             >
-              <i class="pi pi-file text-xl"></i>
+              <i class="pi pi-bell text-xl"></i>
             </a>
             <a
               pRipple
@@ -170,21 +194,23 @@
               pRipple
               class="cursor-pointer inline-flex align-items-center justify-content-center border-2 surface-border hover:surface-100 text-600 transition-colors transition-duration-150 border-circle"
               style="width: 40px; height: 40px"
+              (click)="onClickSettings()"
             >
               <i class="pi pi-cog text-xl"></i>
             </a>
+
             <a
               pRipple
-              routerLink="/login"
               class="cursor-pointer inline-flex align-items-center justify-content-center text-red-200 hover:bg-red-500 hover:text-white border-2 border-red-200 hover:border-red-600 transition-colors transition-duration-150 border-circle"
               style="width: 40px; height: 40px"
+              (click)="onClickLogout()"
             >
               <i class="pi pi-sign-out text-xl"></i>
             </a>
           </div>
         </div>
       </div>
-      <div class="flex flex-column flex-auto">
+      <div class="flex flex-column flex-auto" style="overflow: scroll">
         <div
           class="shadow-2 card surface-card flex-auto lg:ml-5 p-4"
           style="border-radius: 8px"

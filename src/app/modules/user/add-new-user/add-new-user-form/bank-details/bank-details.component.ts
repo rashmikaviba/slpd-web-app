@@ -1,71 +1,46 @@
-import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { CommonForm } from 'src/app/shared/services/app-common-form';
+import { Component } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
+import { CommonForm } from "src/app/shared/services/app-common-form";
+import { AddUserControlFlowService } from "../add-user-control-flow.service";
+import { banks } from "../../../../../shared/data/bankData";
 
 @Component({
-  selector: 'app-bank-details',
-  templateUrl: './bank-details.component.html',
-  styleUrls: ['./bank-details.component.scss']
+  selector: "app-bank-details",
+  templateUrl: "./bank-details.component.html",
+  styleUrls: ["./bank-details.component.scss"],
 })
 export class BankDetailsComponent {
   FV = new CommonForm();
-  genders: any = [
-    { name: 'Male' },
-    { name: 'Female' },
-    { name: 'Other' },
-  ]
-  banks: any[] = [
-    { name: 'BOC Bank' },
-    { name: 'Commercial Bank' },
-    { name: 'HNB Bank' },
-  ]
-  branch: any[] = [
-    { name: 'Kadawatha' },
-    { name: 'Kaduwela' },
-    { name: 'Kiribathgoda' },
-  ]
-  role: any[] = [
-    { name: 'Admin' },
-    { name: 'Cashier' },
-    { name: 'Sales' },
-  ]
-
-  value: any = { value: 0, label: 'Personal', routerLink: '/personal' }
-  showingIndex: number = 0;
+  userDetail: any;
+  bankArr = banks;
 
   constructor(
     private formBuilder: FormBuilder,
+    private addUserControlFlowService: AddUserControlFlowService
   ) {
     this.createForm();
   }
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      fullName: [""],
-      userName: [""],
-      gender: [""],
-      dateOfBirth: [''],
-      address: [''],
-      nicNo: [''],
-      number1: [''],
-      number2: [''],
-      email: [''],
-      bankName: [''],
-      branchName: [''],
-      accNumber: [''],
-      accHolderName: [''],
-      accHolderAddress: [''],
-      basicSalary: [''],
-      leaveCount: [''],
-      languages: [''],
-      role: ['']
+      bankName: ["", [Validators.required]],
+      branchName: ["", [Validators.required]],
+      accNumber: ["", [Validators.required]],
+      accHolderName: ["", [Validators.required]],
+      accHolderAddress: ["", [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-
+    this.userDetail = this.addUserControlFlowService.getUserDetail();
+    this.setValues();
   }
 
-  onUpload(data: any) { }
-  submit() { }
+  setValues() {
+    this.FV.setValue("bankName", this.userDetail?.bankId);
+    this.FV.setValue("branchName", this.userDetail?.branch);
+    this.FV.setValue("accNumber", this.userDetail?.accountNumber);
+    this.FV.setValue("accHolderName", this.userDetail?.accountHolderName);
+    this.FV.setValue("accHolderAddress", this.userDetail?.accountHolderAddress);
+  }
 }

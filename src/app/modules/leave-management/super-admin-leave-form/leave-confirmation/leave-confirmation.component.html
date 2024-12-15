@@ -1,0 +1,78 @@
+<form [formGroup]="FV.formGroup" autocomplete="off" (ngSubmit)="onSubmit()">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-6">
+      <label for="employeeName">Employee Name</label>
+      <input
+        id="employeeName"
+        pInputText
+        type="text"
+        class="w-full"
+        formControlName="employeeName"
+      />
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="leaveDates">Leave Dates</label>
+
+      <p-inputGroup>
+        <input
+          id="leaveDates"
+          pInputText
+          type="text"
+          class="w-full"
+          formControlName="leaveDates"
+        />
+        <p-inputGroupAddon>{{ dateCount }}</p-inputGroupAddon>
+      </p-inputGroup>
+    </div>
+
+    <div class="field col-12 md:col-12">
+      <label for="leaveDates">Leave Reason</label>
+      <textarea
+        rows="3"
+        pInputText
+        type="text"
+        class="w-full"
+        formControlName="leaveReason"
+        style="resize: none"
+      ></textarea>
+    </div>
+
+    <div class="field col-12 md:col-12">
+      <label for="leaveDates">{{
+        isApproved ? "Approve Remark" : "Reject Remark"
+      }}</label>
+      <textarea
+        rows="3"
+        pInputText
+        type="text"
+        class="w-full"
+        formControlName="reason"
+        style="resize: none"
+        maxlength="500"
+      ></textarea>
+
+      <div class="flex justify-content-end">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("reason")?.length || 0 }} / 500</small
+        >
+      </div>
+    </div>
+    <div class="field col-12 md:col-12">
+      <div class="flex gap-1" style="float: right">
+        <p-button
+          styleClass="p-button-secondary mr-2"
+          label="Cancel"
+          icon="pi pi-times"
+          (click)="onClickCancel()"
+        ></p-button>
+
+        <p-button
+          styleClass="{{ isApproved ? 'p-button-success' : 'p-button-danger' }}"
+          label="{{ isApproved ? 'Approve' : 'Reject' }}"
+          icon="{{ isApproved ? 'pi pi-check' : 'pi pi-times' }}"
+          (click)="onClickReject()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

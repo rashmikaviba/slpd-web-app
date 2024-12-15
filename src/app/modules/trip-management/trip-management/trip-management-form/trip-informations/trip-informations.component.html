@@ -1,0 +1,85 @@
+<div class="p-fluid grid formgrid pt-4 pl-4 pr-4">
+  <div class="field col-12 md:col-12">
+    <div class="flex justify-content-between mb-2">
+      <label class="text-xl font-bold">Places Details</label>
+      <p-button
+        styleClass="p-button-sm p-button-success"
+        icon="pi pi-plus"
+        label="Add Place"
+        (onClick)="onClickAddNew()"
+        *ngIf="!isView"
+      ></p-button>
+    </div>
+    <!-- <div class="p-fluid grid formgrid align-items-end mt-4">
+        <div class="field col-12 md:col-4">
+          <label class="required" for="placeName">Date</label>
+          <p-calendar
+            [(ngModel)]="dates"
+            selectionMode="multiple"
+            [readonlyInput]="true"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label class="required" for="description">Description</label>
+          <input
+            pInputText
+            type="text"
+            class="w-full"
+            formControlName="description"
+          />
+        </div>
+        <div class="field col-12 md:col-2">
+          <p-button
+            styleClass="p-button-sm p-button-success"
+            icon="pi pi-plus"
+            label="Add"
+            (onClick)="onClickAddNew()"
+          ></p-button>
+        </div>
+      </div> -->
+    <p-orderList
+      #list
+      [value]="recodes"
+      [listStyle]="{ 'max-height': 'calc(100vh - 310px)' }"
+      [dragdrop]="true"
+      [metaKeySelection]="false"
+      [disabled]="isView"
+    >
+      <ng-template pTemplate="header">
+        <div class="flex justify-content-between align-items-center">
+          <span>List of Places</span>
+        </div>
+      </ng-template>
+      <ng-template let-product pTemplate="item">
+        <div
+          class="flex flex-wrap p-2 align-items-center justify-content-between gap-3"
+        >
+          <span class="font-semibold"
+            ><i class="pi pi-calendar text-sm mr-2"></i
+            >{{ product.showDate }}</span
+          >
+          <span class="text-900" [innerHTML]="product.description"></span>
+          <p-button
+            styleClass="p-button-sm p-button-danger p-button-outlined z-1"
+            icon="pi pi-trash"
+            (onClick)="onClickDelete(product?._id)"
+            pTooltip="Remove Place"
+            tooltipPosition="bottom"
+            *ngIf="!isView || !product.isReached"
+          ></p-button>
+        </div>
+      </ng-template>
+      <!-- empty -->
+      <ng-template pTemplate="empty">
+        <div
+          class="flex flex-column justify-content-center align-items-center gap-2"
+          style="height: 300px; width: 100%"
+        >
+          <i class="pi pi-inbox text-5xl text-gray-400"></i>
+          <small class="">No Places Found</small>
+        </div>
+      </ng-template>
+    </p-orderList>
+  </div>
+</div>

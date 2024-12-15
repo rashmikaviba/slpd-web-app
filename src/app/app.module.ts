@@ -71,6 +71,8 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { SidebarModule } from "primeng/sidebar";
 import { SkeletonModule } from "primeng/skeleton";
 import { SlideMenuModule } from "primeng/slidemenu";
+import { IconFieldModule } from "primeng/iconfield";
+import { InputIconModule } from "primeng/inputicon";
 import { SliderModule } from "primeng/slider";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { SplitterModule } from "primeng/splitter";
@@ -92,9 +94,6 @@ import { MenubarModule } from "primeng/menubar";
 
 import { VirtualScrollerModule } from "primeng/virtualscroller";
 import { AppComponent } from "./app.component";
-import { NotFoundComponent } from "./shared/components/not-found/not-found.component";
-import { ErrorComponent } from "./shared/components/error/error.component";
-import { AccessDeniedComponent } from "./shared/components/access-denied/access-denied.component";
 import { DataAccessService } from "./shared/services/data-access.service";
 import { HelperService } from "./shared/services/helper.service";
 import { PopupService } from "./shared/services/popup.service";
@@ -110,17 +109,25 @@ import { WebcamViewComponent } from "./shared/components/webcam-view/webcam-view
 import { WebcamModule } from "ngx-webcam";
 import { AuthorizationInterceptor } from "./core/interceptor/authorization.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
-import { PrivilegeConfirmComponent } from "./shared/components/privilege-confirm/privilege-confirm.component";
-import { ReportViewerComponent } from "./shared/components/report-viewer/report-viewer.component";
 import { SharedModule } from "./shared.module";
 import { UserModule } from "./modules/user/user.module";
-import { AuditTrailViewComponent } from "./shared/components/audit-trail-view/audit-trail-view.component";
-import { ReportService } from "./shared/services/api-services/report/report.service";
-import { ReportPageComponent } from "./shared/components/report-page/report-page.component";
 import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
+import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
+import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
+import { NgxPrintModule } from "ngx-print";
+// import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
+// import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
+// import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
+// import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
+// import { DriverTaskFormComponent } from "./modules/driver-management/driver-task-form/driver-task-form.component";
+// import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
+// import { GeneralInformationComponent } from "./modules/trip-management/trip-management-form/general-information/general-information.component";
+// import { GuestInformationComponent } from "./modules/trip-management/trip-management-form/guest-information/guest-information.component";
+// import { OtherInformationComponent } from "./modules/trip-management/trip-management-form/other-information/other-information.component";
+// import { TripInformationsComponent } from "./modules/trip-management/trip-management-form/trip-informations/trip-informations.component";
 
 @NgModule({
   imports: [
@@ -217,28 +224,31 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
     StyleClassModule,
     WebcamModule,
     NgxSpinnerModule,
-    UserModule,
     SharedModule,
+    IconFieldModule,
+    InputIconModule,
     NgIdleKeepaliveModule.forRoot(),
+    UserModule,
+    NgxPrintModule,
   ],
   declarations: [
     AppComponent,
-    NotFoundComponent,
-    ErrorComponent,
-    AccessDeniedComponent,
-    // DefaultLayoutComponent,
-    // TopNavBarComponent,
-    // ConfigNavBarComponent,
-    // MainLayoutComponent,
-    // MainSideBarComponent,
     WebcamViewComponent,
-    PrivilegeConfirmComponent,
-    ReportViewerComponent,
-    AuditTrailViewComponent,
-    ReportPageComponent,
     InactiveLoginComponent,
     DefaultLayoutNewComponent,
-    DefaultDashboardComponent
+    DefaultDashboardComponent,
+    VehicleManagementComponent,
+    AddNewVehicleComponent,
+    // TripManagementComponent,
+    // TripManagementFormComponent,
+    // AddDriverAndVehicleFormComponent,
+    // DriverManagementComponent,
+    // DriverTaskFormComponent,
+    // TripManagementByDriverComponent,
+    // GeneralInformationComponent,
+    // GuestInformationComponent,
+    // OtherInformationComponent,
+    // TripInformationsComponent,
   ],
   providers: [
     DataAccessService,
@@ -255,7 +265,6 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
     // DateConverterPipe,
     SidebarService,
     RouteGuardService,
-    ReportService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: HTTP_INTERCEPTORS,
@@ -266,4 +275,4 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

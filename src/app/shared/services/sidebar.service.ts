@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from "@angular/core";
+import { Injectable, EventEmitter, TemplateRef } from "@angular/core";
 
 @Injectable()
 export class SidebarService {
@@ -10,6 +10,7 @@ export class SidebarService {
   private header: String;
   private data: any;
   sidebarEvent = new EventEmitter<any>();
+  private footerTemplate: TemplateRef<any>;
 
   addComponent(header: String, component: any, properties: any, data: any) {
     if (this.componentList.length > 0) {
@@ -22,10 +23,15 @@ export class SidebarService {
     //extract footer ng-template from component
   }
 
+  setFooterTemplate(footer: TemplateRef<any>) {
+    this.footerTemplate = footer;
+  }
+
   removeComponent() {
     this.componentList = [];
     this.properties = {};
     this.header = "";
+    this.footerTemplate = null;
   }
 
   getData() {
@@ -44,9 +50,14 @@ export class SidebarService {
     return this.header;
   }
 
+  getFooterTemplate(): TemplateRef<any> {
+    return this.footerTemplate;
+  }
+
   closeSidebar() {
     this.componentList = [];
     this.properties = {};
     this.header = "";
+    this.footerTemplate = null;
   }
 }

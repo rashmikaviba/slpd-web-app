@@ -1,0 +1,34 @@
+<form [formGroup]="FV.formGroup">
+  <div class="surface-card p-1 shadow-2 border-round">
+    <div class="grid formgrid p-fluid mt-1 p-2">
+      <div class="field mb-3 mt-3 col-12 md:col-6">
+        <div class="flex flex-column gap-2">
+          <label class="text-lg font-bold" style="color: red"
+            >You are closing Month - {{ showWorkingDate }}
+          </label>
+
+          <label class="text-lg font-bold" style="color: red"
+            >After Month Audit, data for this month will be frozen.
+          </label>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <input
+            id="selectDate"
+            formControlName="selectMonth"
+            style="width: 170px"
+            pInputText
+            type="month"
+            min="{{ preventMinMonth }}"
+            max="{{ preventMaxMonth }}"
+          />
+          <p-button
+            label="Finish"
+            tooltipPosition="left"
+            (click)="finish()"
+            class="p-button-primary"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

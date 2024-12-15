@@ -1,0 +1,42 @@
+<!-- <form [formGroup]="FV.formGroup" autocomplete="off"></form> -->
+<p-steps
+  [model]="items"
+  [(ngModel)]="value"
+  [readonly]="false"
+  [activeIndex]="showingIndex"
+  (activeIndexChange)="handleClick($event)"
+>
+</p-steps>
+
+<hr />
+<app-general-information *ngIf="showingIndex == 0"></app-general-information>
+<app-guest-information *ngIf="showingIndex == 1"></app-guest-information>
+<app-trip-informations *ngIf="showingIndex == 2"></app-trip-informations>
+<app-other-information *ngIf="showingIndex == 3"></app-other-information>
+
+<ng-template #templateRef>
+  <div class="flex justify-content-end align-items-center gap-2">
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      styleClass="p-button-secondary"
+      (click)="handleCancel()"
+    ></p-button>
+
+    <p-button
+      label="Next"
+      icon="pi pi-angle-double-right"
+      iconPos="left"
+      *ngIf="showingIndex != 3"
+      (click)="handleSave()"
+    ></p-button>
+
+    <p-button
+      label="{{ isEdit ? 'Update' : 'Save' }}"
+      icon="pi pi-save"
+      iconPos="left"
+      *ngIf="showingIndex == 3 && !isView"
+      (click)="handleSave()"
+    ></p-button>
+  </div>
+</ng-template>

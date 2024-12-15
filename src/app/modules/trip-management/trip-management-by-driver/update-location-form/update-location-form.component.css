@@ -1,0 +1,4 @@
+.customClass {
+  margin: 0 !important; /* Removes margin between paragraphs */
+  line-height: 0.5 !important; /* Adjusts the line height */
+}

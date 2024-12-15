@@ -3,6 +3,7 @@ import {
   DialogService,
   DynamicDialogConfig,
   DynamicDialogRef,
+  DynamicDialogTemplates,
 } from "primeng/dynamicdialog";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -13,17 +14,29 @@ import { map } from "rxjs/operators";
 export class PopupService {
   openDynamicDialogRefs: DynamicDialogRef[] = [];
   private openedModals: Array<string>;
+
   constructor(private dialogService: DialogService) {
     this.openedModals = [];
   }
 
-  OpenModel(compnent: Type<any>, config: DynamicDialogConfig) {
+  OpenModel(
+    compnent: Type<any>,
+    config: DynamicDialogConfig,
+    templates: DynamicDialogTemplates = {}
+  ) {
     let ref;
     this.openDynamicDialogRefs.push(
       (ref = this.dialogService.open(compnent, {
         header: config.header,
         data: config.data,
         width: config.width || "50vw",
+        breakpoints: {
+          "960px": "75vw",
+          "640px": "90vw",
+        },
+        templates: {
+          footer: templates.footer,
+        },
       }))
     );
 

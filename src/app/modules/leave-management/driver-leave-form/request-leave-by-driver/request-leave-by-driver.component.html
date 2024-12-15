@@ -1,0 +1,184 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-6">
+      <label for="startDate" class="required">Start Date</label>
+      <input
+        id="startDate"
+        pInputText
+        type="date"
+        class="w-full"
+        formControlName="startDate"
+        [max]="maxValidateDate"
+        [min]="minValidateDate"
+        (change)="onChangeStartDate()"
+      />
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="endDate" class="required">End Date</label>
+      <input
+        id="endDate"
+        pInputText
+        type="date"
+        class="w-full"
+        formControlName="endDate"
+        [min]="endDateMinValidateDate"
+        [max]="endDateMaxValidateDate"
+        (change)="onChangeEndDate()"
+      />
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="dateCount">Date Count</label>
+      <input
+        id="dateCount"
+        pInputText
+        type="number"
+        class="w-full"
+        [(ngModel)]="dateCount"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="true"
+      />
+    </div>
+    <!-- <div class="field col-12 md:col-6" *ngIf="showAvailableLeave">
+      <label for="dateCount">Available Leave</label>
+      <input
+        id="dateCount"
+        pInputText
+        type="number"
+        class="w-full"
+        [(ngModel)]="availableLeave"
+        [ngModelOptions]="{ standalone: true }"
+        [disabled]="true"
+      />
+    </div> -->
+    <div class="field col-12 md:col-12">
+      <label for="reason" class="required">Reason</label>
+      <textarea
+        id="reason"
+        name="reason"
+        pInputText
+        rows="4"
+        class="w-full"
+        formControlName="reason"
+        style="resize: none"
+        maxlength="500"
+        pattern="^(?!\s*$).+"
+      ></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isView">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("reason")?.length || 0 }} / 500</small
+        >
+      </div>
+    </div>
+
+    <ng-container
+      *ngIf="isView && (leaveData.status == 2 || leaveData.status == 3)"
+    >
+      <div class="field col-12 md:col-12">
+        <span class="font-medium text-900 block mt-2">{{
+          leaveData.status == 2
+            ? "APPROVED REMARK INFORMATION"
+            : leaveData.status == 3
+            ? "REJECTED REMARK INFORMATION"
+            : ""
+        }}</span>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label>{{
+          leaveData.status == 2
+            ? "Approved User"
+            : leaveData.status == 3
+            ? "Rejected User"
+            : ""
+        }}</label>
+        <input
+          pInputText
+          value="{{
+            leaveData.status == 2
+              ? leaveData.approvedUser
+              : leaveData.status == 3
+              ? leaveData.rejectedUser
+              : ''
+          }}"
+          readonly
+          [disabled]="true"
+        />
+      </div>
+      <div class="field col-12 md:col-6">
+        <label>{{
+          leaveData.status == 2
+            ? "Approved Date"
+            : leaveData.status == 3
+            ? "Rejected Date"
+            : ""
+        }}</label>
+        <input
+          pInputText
+          value="{{
+            leaveData.status == 2
+              ? (leaveData.approveDate | date : 'dd-MM-yyyy h:mm a')
+              : leaveData.status == 3
+              ? (leaveData.rejectDate | date : 'dd-MM-yyyy h:mm a')
+              : ''
+          }}"
+          readonly
+          [disabled]="true"
+        />
+      </div>
+
+      <div
+        class="field col-12 md:col-12"
+        *ngIf="leaveData.rejectReason || leaveData.approveRemark"
+      >
+        <label>{{
+          leaveData.status == 2
+            ? "Approved Remark"
+            : leaveData.status == 3
+            ? "Rejected Remark"
+            : ""
+        }}</label>
+        <textarea
+          pInputTextarea
+          [(ngModel)]="leaveData.approveRemark"
+          readonly
+          style="resize: none"
+          rows="3"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="true"
+          *ngIf="leaveData.status == 2"
+        ></textarea>
+        <textarea
+          pInputTextarea
+          [(ngModel)]="leaveData.rejectReason"
+          readonly
+          style="resize: none"
+          rows="3"
+          [ngModelOptions]="{ standalone: true }"
+          [disabled]="true"
+          *ngIf="leaveData.status == 3"
+        ></textarea>
+      </div>
+    </ng-container>
+  </div>
+  <ng-template #templateRef>
+    <div
+      class="flex justify-content-end align-items-center gap-2"
+      *ngIf="!isView"
+    >
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        styleClass="p-button-secondary"
+        (click)="handleCancel()"
+      ></p-button>
+
+      <p-button
+        label="{{ isEdit ? 'Update' : 'Save' }}"
+        icon="pi pi-save"
+        iconPos="left"
+        (click)="handleSave()"
+      ></p-button>
+    </div>
+  </ng-template>
+</form>

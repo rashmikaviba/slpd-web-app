@@ -4,7 +4,9 @@
     <div class="col-12">
       <div class="p-fluid grid formgrid align-items-end">
         <div class="field mb-3 col-12 md:col-6">
-          <label for="postalCode" class="font-medium text-900">NIC Image</label>
+          <label for="postalCode" class="font-medium text-900"
+            >Profile Image</label
+          >
           <div class="flex gap-4">
             <div
               class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
@@ -15,11 +17,17 @@
               "
             >
               <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
-              <img
+              <!-- <img
                 [src]="profileImageUrl"
                 *ngIf="profileImageUrl"
                 class="w-full h-full border-round"
                 style="object-fit: cover"
+              /> -->
+              <p-image
+                [src]="profileImageUrl"
+                alt="Image"
+                [preview]="true"
+                *ngIf="profileImageUrl"
               />
             </div>
 
@@ -33,7 +41,7 @@
                 label="Remove Image"
                 icon="pi pi-times"
                 class="p-button-danger p-button-outlined"
-                (click)="removeImage()"
+                (click)="removeImage(WellKnownUploadType.ProfileImage)"
               ></button>
               <button
                 pButton
@@ -41,7 +49,57 @@
                 label="Upload Image"
                 icon="pi pi-camera"
                 class="p-button-primary p-button-outlined"
-                (click)="openUploadDialog()"
+                (click)="openUploadDialog(WellKnownUploadType.ProfileImage)"
+              ></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field mb-3 col-12 md:col-6">
+          <label for="postalCode" class="font-medium text-900">NIC Image</label>
+          <div class="flex gap-4">
+            <div
+              class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+              [ngClass]="
+                nicImageUrl
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              "
+            >
+              <i class="pi pi-image text-2xl" *ngIf="!nicImageUrl"></i>
+              <!-- <img
+                [src]="nicImageUrl"
+                *ngIf="nicImageUrl"
+                class="w-full h-full border-round"
+                style="object-fit: cover"
+              /> -->
+              <p-image
+                [src]="nicImageUrl"
+                alt="Image"
+                [preview]="true"
+                *ngIf="nicImageUrl"
+              />
+            </div>
+
+            <div
+              class="flex flex-column gap-2 align-items-center justify-content-center"
+            >
+              <button
+                pButton
+                [disabled]="!nicImageUrl"
+                type="button"
+                label="Remove Image"
+                icon="pi pi-times"
+                class="p-button-danger p-button-outlined"
+                (click)="removeImage(WellKnownUploadType.NICImage)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                label="Upload Image"
+                icon="pi pi-camera"
+                class="p-button-primary p-button-outlined"
+                (click)="openUploadDialog(WellKnownUploadType.NICImage)"
               ></button>
             </div>
           </div>
@@ -54,17 +112,23 @@
             <div
               class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
               [ngClass]="
-                profileImageUrl
+                drivingLicenseUrl
                   ? 'border-2'
                   : 'border-dashed justify-content-center align-items-center'
               "
             >
-              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
-              <img
-                [src]="profileImageUrl"
-                *ngIf="profileImageUrl"
+              <i class="pi pi-image text-2xl" *ngIf="!drivingLicenseUrl"></i>
+              <!-- <img
+                [src]="drivingLicenseUrl"
+                *ngIf="drivingLicenseUrl"
                 class="w-full h-full border-round"
                 style="object-fit: cover"
+              /> -->
+              <p-image
+                [src]="drivingLicenseUrl"
+                alt="Image"
+                [preview]="true"
+                *ngIf="drivingLicenseUrl"
               />
             </div>
 
@@ -73,12 +137,12 @@
             >
               <button
                 pButton
-                [disabled]="!profileImageUrl"
+                [disabled]="!drivingLicenseUrl"
                 type="button"
                 label="Remove Image"
                 icon="pi pi-times"
                 class="p-button-danger p-button-outlined"
-                (click)="removeImage()"
+                (click)="removeImage(WellKnownUploadType.DrivingLicense)"
               ></button>
               <button
                 pButton
@@ -86,7 +150,7 @@
                 label="Upload Image"
                 icon="pi pi-camera"
                 class="p-button-primary p-button-outlined"
-                (click)="openUploadDialog()"
+                (click)="openUploadDialog(WellKnownUploadType.DrivingLicense)"
               ></button>
             </div>
           </div>
@@ -99,17 +163,23 @@
             <div
               class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
               [ngClass]="
-                profileImageUrl
+                gsCertificateUrl
                   ? 'border-2'
                   : 'border-dashed justify-content-center align-items-center'
               "
             >
-              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
-              <img
-                [src]="profileImageUrl"
-                *ngIf="profileImageUrl"
+              <i class="pi pi-image text-2xl" *ngIf="!gsCertificateUrl"></i>
+              <!-- <img
+                [src]="gsCertificateUrl"
+                *ngIf="gsCertificateUrl"
                 class="w-full h-full border-round"
                 style="object-fit: cover"
+              /> -->
+              <p-image
+                [src]="gsCertificateUrl"
+                alt="Image"
+                [preview]="true"
+                *ngIf="gsCertificateUrl"
               />
             </div>
 
@@ -118,12 +188,12 @@
             >
               <button
                 pButton
-                [disabled]="!profileImageUrl"
+                [disabled]="!gsCertificateUrl"
                 type="button"
                 label="Remove Image"
                 icon="pi pi-times"
                 class="p-button-danger p-button-outlined"
-                (click)="removeImage()"
+                (click)="removeImage(WellKnownUploadType.GSCertificate)"
               ></button>
               <button
                 pButton
@@ -131,7 +201,7 @@
                 label="Upload Image"
                 icon="pi pi-camera"
                 class="p-button-primary p-button-outlined"
-                (click)="openUploadDialog()"
+                (click)="openUploadDialog(WellKnownUploadType.GSCertificate)"
               ></button>
             </div>
           </div>
@@ -144,17 +214,23 @@
             <div
               class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
               [ngClass]="
-                profileImageUrl
+                sltdaCertificateUrl
                   ? 'border-2'
                   : 'border-dashed justify-content-center align-items-center'
               "
             >
-              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
-              <img
-                [src]="profileImageUrl"
-                *ngIf="profileImageUrl"
+              <i class="pi pi-image text-2xl" *ngIf="!sltdaCertificateUrl"></i>
+              <!-- <img
+                [src]="sltdaCertificateUrl"
+                *ngIf="sltdaCertificateUrl"
                 class="w-full h-full border-round"
                 style="object-fit: cover"
+              /> -->
+              <p-image
+                [src]="sltdaCertificateUrl"
+                alt="Image"
+                [preview]="true"
+                *ngIf="sltdaCertificateUrl"
               />
             </div>
 
@@ -163,12 +239,12 @@
             >
               <button
                 pButton
-                [disabled]="!profileImageUrl"
+                [disabled]="!sltdaCertificateUrl"
                 type="button"
                 label="Remove Image"
                 icon="pi pi-times"
                 class="p-button-danger p-button-outlined"
-                (click)="removeImage()"
+                (click)="removeImage(WellKnownUploadType.SLTDACertificate)"
               ></button>
               <button
                 pButton
@@ -176,7 +252,7 @@
                 label="Upload Image"
                 icon="pi pi-camera"
                 class="p-button-primary p-button-outlined"
-                (click)="openUploadDialog()"
+                (click)="openUploadDialog(WellKnownUploadType.SLTDACertificate)"
               ></button>
             </div>
           </div>
@@ -189,17 +265,23 @@
             <div
               class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
               [ngClass]="
-                profileImageUrl
+                policeReportUrl
                   ? 'border-2'
                   : 'border-dashed justify-content-center align-items-center'
               "
             >
-              <i class="pi pi-image text-2xl" *ngIf="!profileImageUrl"></i>
-              <img
-                [src]="profileImageUrl"
-                *ngIf="profileImageUrl"
+              <i class="pi pi-image text-2xl" *ngIf="!policeReportUrl"></i>
+              <!-- <img
+                [src]="policeReportUrl"
+                *ngIf="policeReportUrl"
                 class="w-full h-full border-round"
                 style="object-fit: cover"
+              /> -->
+              <p-image
+                [src]="policeReportUrl"
+                alt="Image"
+                [preview]="true"
+                *ngIf="policeReportUrl"
               />
             </div>
 
@@ -208,12 +290,12 @@
             >
               <button
                 pButton
-                [disabled]="!profileImageUrl"
+                [disabled]="!policeReportUrl"
                 type="button"
                 label="Remove Image"
                 icon="pi pi-times"
                 class="p-button-danger p-button-outlined"
-                (click)="removeImage()"
+                (click)="removeImage(WellKnownUploadType.PoliceReport)"
               ></button>
               <button
                 pButton
@@ -221,23 +303,11 @@
                 label="Upload Image"
                 icon="pi pi-camera"
                 class="p-button-primary p-button-outlined"
-                (click)="openUploadDialog()"
+                (click)="openUploadDialog(WellKnownUploadType.PoliceReport)"
               ></button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="grid">
-    <div class="col-12">
-      <div class="ButtonFooterCustom" style="float: right">
-        <p-button
-          label="Save"
-          (onClick)="submit()"
-          icon="pi pi-save"
-          iconPos="left"
-        ></p-button>
       </div>
     </div>
   </div>

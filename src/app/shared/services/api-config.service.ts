@@ -9,4 +9,8 @@ export class ApiConfigService {
   public getConfigJSON() {
     return this.http.get("assets/config.json");
   }
+
+  public getDriverTasksJSON() {
+    return this.http.get("assets/driver-task.json")
+  }
 }
