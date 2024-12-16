@@ -196,7 +196,9 @@
             </ng-container>
             <ng-container *ngIf="col.field == 'reason'">
               <span class="p-column-title font-bold">reason</span>
-              <span> {{ rowData[col.field] || "-" }}</span>
+              <span pTooltip="{{ rowData[col.field] }}">
+                {{ (rowData[col.field] | truncate : 40) || "-" }}
+              </span>
             </ng-container>
 
             <!-- <ng-container
