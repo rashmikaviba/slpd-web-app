@@ -8,9 +8,7 @@ import { environment } from "src/environments/environment";
 export class ResourceService {
   constructor() { }
 
-  public appHostURL: string = environment.appURL;
   private host: string = environment.apiURL;
-  private wegaShineUrl: string = environment.wegaShineURL;
 
   private Auth = this.host + "/auth";
   private Store = this.host + "/store";
