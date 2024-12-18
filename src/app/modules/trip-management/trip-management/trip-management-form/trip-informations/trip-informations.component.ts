@@ -26,7 +26,7 @@ export class TripInformationsComponent {
     private tripManagementFlowService: TripManagementFlowService,
     private popUpService: PopupService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.isView = this.tripManagementFlowService.getIsView();
@@ -56,7 +56,7 @@ export class TripInformationsComponent {
         data,
       })
       .subscribe((result) => {
-        debugger;
+        ;
         if (result) {
           let obj = {
             _id: this.generateUniqueId(),

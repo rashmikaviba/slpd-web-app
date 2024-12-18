@@ -123,7 +123,6 @@ export class AppComponent {
 
     this.idle.onTimeoutWarning.subscribe((countdown) => {
       this.idleState = "You will time out in " + countdown + " seconds!";
-      console.log(this.idleState);
     });
 
     let timeOut = this.masterDataService.TimedOut;
@@ -156,7 +155,6 @@ export class AppComponent {
 
   reset() {
     this.idle.watch();
-    console.log("reset");
     this.timedOut = false;
     this.masterDataService.TimedOut = "false";
   }

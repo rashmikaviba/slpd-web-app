@@ -166,7 +166,7 @@ export class SuperAdminLeaveFormComponent {
     ];
 
     let excelData: any[] = [];
-    debugger;
+    ;
     this.recodes.forEach((item: any) => {
       let obj = {
         appliedUserName: item.appliedUserName,

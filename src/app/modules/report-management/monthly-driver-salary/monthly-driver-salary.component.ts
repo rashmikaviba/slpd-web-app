@@ -69,8 +69,6 @@ export class MonthlyDriverSalaryComponent {
       this.totalSalary = this.reportDetails.reduce((total: number, report: any) => {
         return total += report.totalSalary;
       }, 0);
-
-      console.log(this.reportDetails);
     }
   }
 

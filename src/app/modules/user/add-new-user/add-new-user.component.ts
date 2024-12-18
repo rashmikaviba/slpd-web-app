@@ -37,7 +37,7 @@ export class AddNewUserComponent {
     private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -185,9 +185,8 @@ export class AddNewUserComponent {
 
   blockUnblockUser(type: number, rowData: any) {
     let confirmationConfig = {
-      message: `Are you sure you want to ${
-        type == 1 ? "block" : "unblock"
-      } this user?`,
+      message: `Are you sure you want to ${type == 1 ? "block" : "unblock"
+        } this user?`,
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
     };
@@ -303,7 +302,7 @@ export class AddNewUserComponent {
     ];
 
     let excelData: any[] = [];
-    debugger;
+    ;
     this.recodes.forEach((item: any) => {
       let languageNames: string = "";
       if (item.languages?.length > 0) {

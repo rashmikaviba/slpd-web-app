@@ -124,7 +124,7 @@ export class RequestLeaveByAdminComponent {
   }
 
   handleSave() {
-    debugger;
+    ;
     if (this.FV.validateControllers("startDate,endDate,reason")) {
       return;
     }

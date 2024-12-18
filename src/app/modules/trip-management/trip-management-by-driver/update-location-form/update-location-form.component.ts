@@ -25,7 +25,7 @@ export class UpdateLocationFormComponent implements OnInit {
     private tripService: TripService,
     private sideBarService: SidebarService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     let sideBarData: any = this.sideBarService.getData();
@@ -56,7 +56,6 @@ export class UpdateLocationFormComponent implements OnInit {
         });
       }
 
-      console.log(this.places);
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }

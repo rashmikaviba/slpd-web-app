@@ -40,7 +40,7 @@ export class AddNewUserFormComponent {
     private messageService: AppMessageService,
     private storeService: StoreService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     let sideBarData = this.sidebarService.getData();
@@ -71,7 +71,7 @@ export class AddNewUserFormComponent {
   }
 
   handleClick(index: number): void {
-    debugger;
+    ;
     let isStepCompleted = this.addUserControlFlowService.getStepValue(
       index
     ) as boolean;
@@ -86,7 +86,7 @@ export class AddNewUserFormComponent {
   }
 
   handleSave(index: number): void {
-    debugger;
+    ;
     switch (index) {
       case 0:
         this.savePersonalDetails();
@@ -104,7 +104,7 @@ export class AddNewUserFormComponent {
 
   async savePersonalDetails() {
     try {
-      debugger;
+      ;
       let data = this.pdc.FV.formGroup.value;
       this.userDetail = this.addUserControlFlowService.getUserDetail();
       let role = this.pdc.FV.getValue("role");
