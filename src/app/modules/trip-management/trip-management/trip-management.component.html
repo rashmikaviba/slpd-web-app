@@ -2,7 +2,7 @@
 <div class="flex justify-content-between align-items-center mb-4">
   <div class="text-2xl font-semibold">Trip Management</div>
   <p-button
-    styleClass=" mr-2"
+    styleClass="p-button-sm mb:p-button"
     icon="pi pi-plus"
     label="Add New Trip"
     (onClick)="onClickAddNew()"
@@ -33,7 +33,7 @@
         pButton
         pRipple
         icon="pi pi-file-excel"
-        class="p-button-success"
+        class="p-button-success p-button-sm mb:p-button"
         pTooltip="Export to XLS"
         tooltipPosition="right"
         (click)="exportToExcel()"
@@ -141,7 +141,7 @@
               }"
       >
         <div
-          class="flex flex-wrap justify-content-center align-content-center gap-1"
+          class="flex flex-wrap justify-content-center align-content-center gap-2"
         >
           <!-- <span class="p-column-title font-bold">Action</span> -->
           <button
@@ -157,7 +157,6 @@
             #btn
             type="button"
             pButton
-            class="ml-2"
             icon="pi pi-ellipsis-v"
             (click)="toggleMenu(menu, $event, rowData)"
           ></button>

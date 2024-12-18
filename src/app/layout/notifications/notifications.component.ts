@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent {
-
+  notifications: any[] = [
+    {}, {}, {}, {}, {},
+  ]
 }

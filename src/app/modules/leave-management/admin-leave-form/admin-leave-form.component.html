@@ -3,7 +3,7 @@
     <div class="flex justify-content-between align-items-center mb-4">
       <div class="text-2xl font-semibold">Leave Management</div>
       <p-button
-        styleClass=" mr-2"
+        styleClass="p-button-sm mb:p-button"
         icon="pi pi-plus"
         label="Request Leave"
         (onClick)="onOpenApplyLeave(1, null)"
@@ -337,10 +337,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage" let-columns>
         <tr>
-          <td
-            [attr.colspan]="columns.length + 2"
-            class="flex justify-content-center align-content-center"
-          >
+          <td [attr.colspan]="columns.length + 2">
             <div
               class="flex flex-column justify-content-center align-items-center gap-2"
               style="height: 300px"

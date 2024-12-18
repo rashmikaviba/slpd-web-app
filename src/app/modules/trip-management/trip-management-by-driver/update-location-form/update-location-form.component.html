@@ -59,6 +59,7 @@
                       <p-button
                         icon="pi pi-map-marker"
                         [outlined]="true"
+                        styleClass="p-button-sm mb:p-button"
                         *ngIf="!item.isReached && !isView"
                         label="Mark As Reached"
                         (onClick)="markAsReached(item)"

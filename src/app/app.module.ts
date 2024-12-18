@@ -118,6 +118,7 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
 import { NgxPrintModule } from "ngx-print";
+import { NotificationsComponent } from "./layout/notifications/notifications.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -239,6 +240,7 @@ import { NgxPrintModule } from "ngx-print";
     DefaultDashboardComponent,
     VehicleManagementComponent,
     AddNewVehicleComponent,
+    NotificationsComponent
     // TripManagementComponent,
     // TripManagementFormComponent,
     // AddDriverAndVehicleFormComponent,
@@ -275,4 +277,4 @@ import { NgxPrintModule } from "ngx-print";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
