@@ -45,7 +45,7 @@ export class TripManagementByDriverComponent implements OnInit {
     private datePipe: DatePipe,
     private tripService: TripService,
     private expenseService: ExpenseService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -153,7 +153,7 @@ export class TripManagementByDriverComponent implements OnInit {
         this.filteredItems = this.filteredItems.concat(selectedItem2);
       }
     }
-    debugger;
+    ;
 
     if (
       rowData.isCheckListDone &&
@@ -234,7 +234,7 @@ export class TripManagementByDriverComponent implements OnInit {
     );
   }
 
-  exportToExcel() {}
+  exportToExcel() { }
 
   onClickDriverTaskForm(rowData: any) {
     let data = {
@@ -277,7 +277,7 @@ export class TripManagementByDriverComponent implements OnInit {
 
   async onClickExpenseManagement(rowData: any) {
     try {
-      debugger;
+      ;
       let data = {
         tripInfo: rowData,
         userType: "driver",

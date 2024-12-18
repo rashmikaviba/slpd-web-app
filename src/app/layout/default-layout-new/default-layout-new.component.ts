@@ -141,14 +141,11 @@ export class DefaultLayoutNewComponent {
   }
 
   ModuleActivate(routeModule: any) {
-    // debugger;
     this.DynamicItems.forEach((element: any) => {
       if (element.label.toLowerCase().replace(/\s+/g, "-") == routeModule) {
         this.activeTab = element.menuId;
       }
     });
-
-    console.log(this.activeTab);
   }
 
   onClickNotification() {
@@ -205,7 +202,7 @@ export class DefaultLayoutNewComponent {
   }
 
   openMonthAudit() {
-    debugger;
+    ;
     let systemMonth = this.masterDataService.WorkingMonth;
     let systemYear = this.masterDataService.WorkingYear;
 

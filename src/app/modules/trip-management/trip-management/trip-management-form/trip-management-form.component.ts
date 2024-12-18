@@ -40,7 +40,7 @@ export class TripManagementFormComponent {
     private messageService: AppMessageService,
     private tripMgtFlowService: TripManagementFlowService,
     private tripService: TripService
-  ) {}
+  ) { }
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
@@ -150,12 +150,12 @@ export class TripManagementFormComponent {
     // this.showingIndex = index;
   }
 
-  handleCancel() {}
+  handleCancel() { }
 
-  handleUpdate(e: any) {}
+  handleUpdate(e: any) { }
 
   handleSave() {
-    debugger;
+    ;
     switch (this.showingIndex) {
       case 0:
         let generalInfo = this.generalInfoComponent.onSave();

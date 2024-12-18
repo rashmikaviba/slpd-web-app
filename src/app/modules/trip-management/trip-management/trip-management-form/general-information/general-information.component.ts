@@ -111,7 +111,6 @@ export class GeneralInformationComponent {
     let data: any = JSON.parse(
       JSON.stringify(this.tripMgtFlowService.getData())
     ); //this.tripMgtFlowService.getData();
-    console.log(data);
     if (data?.startDate) {
       this.FV.setValue(
         "startDate",

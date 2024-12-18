@@ -155,7 +155,7 @@ export class OtherInformationComponent {
     }
 
     let formData = this.FV.formGroup.value;
-    debugger;
+    ;
 
     let dates = formData.hotelDate
       .map((x) => {

@@ -27,8 +27,6 @@ export class MonthlyTripReportComponent {
     if (this.reportDetails.length > 0) {
       this.preprocessData();
     }
-
-    console.log(this.reportDetails)
   }
 
   preprocessData() {
