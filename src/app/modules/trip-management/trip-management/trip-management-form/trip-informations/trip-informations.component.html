@@ -43,7 +43,7 @@
       [value]="recodes"
       [listStyle]="{ 'max-height': 'calc(100vh - 310px)' }"
       [dragdrop]="true"
-      [metaKeySelection]="false"
+      [metaKeySelection]="true"
       [disabled]="isView"
     >
       <ng-template pTemplate="header">
@@ -61,7 +61,8 @@
           >
           <span class="text-900" [innerHTML]="product.description"></span>
           <p-button
-            styleClass="p-button-sm p-button-danger p-button-outlined z-1"
+            styleClass="p-button-sm p-button-danger p-button-outlined"
+            [ngStyle]="{ 'z-index': 1 }"
             icon="pi pi-trash"
             (onClick)="onClickDelete(product?._id)"
             pTooltip="Remove Place"

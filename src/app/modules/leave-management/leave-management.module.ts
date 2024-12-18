@@ -40,6 +40,7 @@ import { LeaveConfirmationComponent } from "./super-admin-leave-form/leave-confi
 import { RequestLeaveByAdminComponent } from "./admin-leave-form/request-leave-by-admin/request-leave-by-admin.component";
 import { RequestLeaveByDriverComponent } from "./driver-leave-form/request-leave-by-driver/request-leave-by-driver.component";
 import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dynamic-component-loader.component";
+import { SharedModule } from "src/app/shared.module";
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { DynamicComponentLoaderComponent } from "./dynamic-component-loader/dyna
     InputIconModule,
     InputGroupModule,
     InputGroupAddonModule,
+    SharedModule
   ],
 })
-export class LeaveManagementModule {}
+export class LeaveManagementModule { }
