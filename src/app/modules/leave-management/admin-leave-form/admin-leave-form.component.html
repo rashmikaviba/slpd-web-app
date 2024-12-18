@@ -63,45 +63,51 @@
           </div> -->
         <!--**********************Second Style********************-->
         <div class="p-fluid grid formgrid">
-          <div class="field col-12 md:col-3">
-            <div class="card shadow-1">
-              <label for="pendingLeaves">Yearly Eligible Leaves</label>
+          <div class="field col-6 md:col-3">
+            <div class="card shadow-1 text-center md:text-left">
+              <label for="pendingLeaves" class="text-sm md:text-base"
+                >Yearly Eligible Leaves</label
+              >
               <div class="text-center mt-3">
-                <label class="text-xl text-gray-500">{{
+                <label class="text-gray-500 text-base md:text-2xl">{{
                   leaveData?.yearlyEligibleLeaveCount
                 }}</label>
               </div>
             </div>
           </div>
 
-          <div class="field col-12 md:col-3">
-            <div class="card shadow-1">
-              <label for="rejectedLeaves"
+          <div class="field col-6 md:col-3">
+            <div class="card shadow-1 text-center md:text-left">
+              <label for="rejectedLeaves" class="text-sm md:text-base"
                 >Available Leaves ({{ workingYear }})
               </label>
               <div class="text-center mt-3">
-                <label class="text-xl text-blue-500">{{
+                <label class="text-blue-500 text-base md:text-2xl">{{
                   leaveData?.remainingLeaveCount
                 }}</label>
               </div>
             </div>
           </div>
 
-          <div class="field col-12 md:col-3">
-            <div class="card shadow-1">
-              <label for="leavesTaken">Leaves Taken</label>
+          <div class="field col-6 md:col-3">
+            <div class="card shadow-1 text-center md:text-left">
+              <label for="leavesTaken" class="text-sm md:text-base"
+                >Leaves Taken</label
+              >
               <div class="text-center mt-3">
-                <label class="text-xl text-green-500">{{
+                <label class="text-green-500 text-base md:text-2xl">{{
                   leaveData?.approveLeaveCount
                 }}</label>
               </div>
             </div>
           </div>
-          <div class="field col-12 md:col-3">
-            <div class="card shadow-1">
-              <label for="rejectedLeaves">Rejected Leaves</label>
+          <div class="field col-6 md:col-3">
+            <div class="card shadow-1 text-center md:text-left">
+              <label for="rejectedLeaves" class="text-sm md:text-base"
+                >Rejected Leaves</label
+              >
               <div class="text-center mt-3">
-                <label class="text-xl text-red-500">{{
+                <label class="text-red-500 text-base md:text-2xl">{{
                   leaveData?.rejectLeaveCount
                 }}</label>
               </div>
@@ -331,7 +337,10 @@
       </ng-template>
       <ng-template pTemplate="emptymessage" let-columns>
         <tr>
-          <td [attr.colspan]="columns.length + 2">
+          <td
+            [attr.colspan]="columns.length + 2"
+            class="flex justify-content-center align-content-center"
+          >
             <div
               class="flex flex-column justify-content-center align-items-center gap-2"
               style="height: 300px"
