@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class ResourceService {
-  constructor() { }
+  constructor() {}
 
   private host: string = environment.apiURL;
 
@@ -20,6 +20,8 @@ export class ResourceService {
   private Trip = this.host + "/trip";
   private Expenses = this.host + "/expense";
   private Report = this.host + "/report";
+  private ExpenseRequest = this.host + "/expenseRequest";
+  private Notification = this.host + "/notification";
 
   auth = {
     login: this.Auth + "/login",
@@ -114,9 +116,20 @@ export class ResourceService {
   };
 
   report = {
-    monthlyTripReport: this.Report + '/monthlyTripReport',
-    monthlyExpensesReport: this.Report + '/monthlyExpensesReport',
-    monthlyDriverSalary: this.Report + '/monthlyDriverSalary',
-    monthlyIncomeReport: this.Report + '/monthlyIncomeReport',
-  }
+    monthlyTripReport: this.Report + "/monthlyTripReport",
+    monthlyExpensesReport: this.Report + "/monthlyExpensesReport",
+    monthlyDriverSalary: this.Report + "/monthlyDriverSalary",
+    monthlyIncomeReport: this.Report + "/monthlyIncomeReport",
+  };
+
+  expenseRequest = {
+    save: this.ExpenseRequest,
+    approveExpense: this.ExpenseRequest + "/approve",
+    rejectExpense: this.ExpenseRequest + "/reject",
+    getExpenseExtensionById: this.ExpenseRequest,
+  };
+
+  notification = {
+    getAllNotifications: this.Notification,
+  };
 }

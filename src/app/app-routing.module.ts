@@ -56,33 +56,6 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   },
-  // {
-  //   path: "trip-management",
-  //   component: DefaultLayoutNewComponent,
-  //   children: [
-  //     {
-  //       path: "",
-  //       component: TripManagementComponent,
-  //     },
-  //   ],
-  //   canActivate: [RouteGuardService],
-  // },
-  // {
-  //   path: "trip-management-by-driver",
-  //   component: DefaultLayoutNewComponent,
-  //   children: [
-  //     {
-  //       path: "",
-  //       component: TripManagementByDriverComponent,
-  //     },
-  //   ],
-  //   canActivate: [RouteGuardService],
-  // },
-  // {
-  //   path: "vehicle-management",
-  //   component: VehicleManagementComponent,
-  //   canActivate: [RouteGuardService],
-  // },
   {
     path: "month-audit",
     loadChildren: () =>
@@ -106,7 +79,7 @@ const routes: Routes = [
         (m) => m.ReportManagementModule
       ),
     canActivate: [RouteGuardService],
-  }
+  },
 ];
 
 @NgModule({
@@ -125,4 +98,4 @@ const routes: Routes = [
   // ],
   // exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

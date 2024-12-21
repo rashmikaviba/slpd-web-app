@@ -85,7 +85,9 @@
       <p-button
         styleClass="p-button-primary p-button-outlined p-button-sm mb:p-button"
         icon="pi pi-money-bill"
-        label="Request More"
+        label="Expense Extension"
+        *ngIf="userRole == 3"
+        (onClick)="onClickExpenseExtension()"
       ></p-button>
       <!-- <p-iconField iconPosition="left" class="ml-auto">
         <p-inputIcon>

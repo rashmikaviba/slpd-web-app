@@ -12,6 +12,8 @@ import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { ExpenseManagementFormComponent } from "./expense-management-form/expense-management-form.component";
 import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
 import { firstValueFrom } from "rxjs";
+import { MasterDataService } from "src/app/shared/services/master-data.service";
+import { ExpenseRequestFormComponent } from "./expense-request-form/expense-request-form.component";
 
 @Component({
   selector: "app-expense-management",
@@ -29,6 +31,7 @@ export class ExpenseManagementComponent {
   userType: string = "";
   expensesInfo: any = null;
   isMonthEndDone: boolean = false;
+  userRole: number = 0;
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -39,10 +42,12 @@ export class ExpenseManagementComponent {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private tripService: TripService,
-    private expenseService: ExpenseService
+    private expenseService: ExpenseService,
+    private masterDataService: MasterDataService
   ) {}
 
   ngOnInit(): void {
+    this.userRole = this.masterDataService.Role;
     let sidebarData: any = this.sidebarService.getData();
 
     if (sidebarData) {
@@ -239,5 +244,17 @@ export class ExpenseManagementComponent {
       menuItem.data = rowData;
     });
     menu.toggle(event);
+  }
+
+  onClickExpenseExtension() {
+    let header = "Expense Request";
+    let width = "40vw";
+    let data = {
+      tripInfo: this.tripInfo,
+    };
+
+    this.popupService
+      .OpenModel(ExpenseRequestFormComponent, { header, width, data })
+      .subscribe((result) => {});
   }
 }

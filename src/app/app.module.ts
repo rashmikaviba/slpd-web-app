@@ -1,4 +1,5 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { notificationReducer } from "./store/reducer/notification.reducer";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, isDevMode } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
@@ -118,7 +119,10 @@ import { DefaultDashboardComponent } from "./layout/default-dashboard/default-da
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
 import { NgxPrintModule } from "ngx-print";
-import { NotificationsComponent } from "./layout/notifications/notifications.component";
+import { NotificationsComponent } from "./shared/components/notifications/notifications.component";
+import { StoreModule } from "@ngrx/store";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { reducers } from "./store/app.reducer";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -231,6 +235,8 @@ import { NotificationsComponent } from "./layout/notifications/notifications.com
     NgIdleKeepaliveModule.forRoot(),
     UserModule,
     NgxPrintModule,
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   declarations: [
     AppComponent,
@@ -240,7 +246,7 @@ import { NotificationsComponent } from "./layout/notifications/notifications.com
     DefaultDashboardComponent,
     VehicleManagementComponent,
     AddNewVehicleComponent,
-    NotificationsComponent
+    NotificationsComponent,
     // TripManagementComponent,
     // TripManagementFormComponent,
     // AddDriverAndVehicleFormComponent,
@@ -277,4 +283,4 @@ import { NotificationsComponent } from "./layout/notifications/notifications.com
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,13 +1,19 @@
+import { firstValueFrom } from "rxjs";
+import { NotificationService } from "./../../shared/services/api-services/notification.service";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { NotificationsComponent } from "../notifications/notifications.component";
+import { NotificationsComponent } from "../../shared/components/notifications/notifications.component";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { AppModule } from "src/app/shared/enums/app-module.enum";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { DatePipe } from "@angular/common";
 import { PopupService } from "src/app/shared/services/popup.service";
 import { ChangePasswordComponent } from "src/app/modules/user/change-password/change-password.component";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/app.state";
+import { initiallySetState } from "src/app/store/action/notification.action";
+import { selectNotificationCount } from "src/app/store/selector/notification.selector";
 
 @Component({
   selector: "app-default-layout-new",
@@ -21,14 +27,17 @@ export class DefaultLayoutNewComponent {
   workingDate: string = "";
   showWorkingDate: string = "";
   items: any[];
+  notificationCount: number = 0;
   constructor(
     private router: Router,
     private sidebarService: SidebarService,
     private masterDataService: MasterDataService,
     private messageService: AppMessageService,
     private datePipe: DatePipe,
-    private popupService: PopupService
-  ) { }
+    private popupService: PopupService,
+    private notificationService: NotificationService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     this.workingDate = this.masterDataService.WorkingDate;
@@ -126,7 +135,8 @@ export class DefaultLayoutNewComponent {
         icon: "pi pi-file",
         routerLink: "/reports",
         isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.AdminReportManagement, AppModule.SuperAdminReportManagement
+          AppModule.AdminReportManagement,
+          AppModule.SuperAdminReportManagement,
         ]),
       },
     ];
@@ -138,6 +148,15 @@ export class DefaultLayoutNewComponent {
       },
     ];
     this.ModuleActivate(module);
+
+    // ngrx store
+    let isLoaded = this.notificationService.getNotificationLoaded();
+    if (!isLoaded) {
+      this.getAllNotifications();
+    }
+    this.store.select(selectNotificationCount).subscribe((count) => {
+      this.notificationCount = count;
+    });
   }
 
   ModuleActivate(routeModule: any) {
@@ -198,11 +217,10 @@ export class DefaultLayoutNewComponent {
         header: "CHANGE PASSWORD",
         width: "30vw",
       })
-      .subscribe((res) => { });
+      .subscribe((res) => {});
   }
 
   openMonthAudit() {
-    ;
     let systemMonth = this.masterDataService.WorkingMonth;
     let systemYear = this.masterDataService.WorkingYear;
 
@@ -222,5 +240,21 @@ export class DefaultLayoutNewComponent {
 
   moveToRouter(routerLink: string) {
     this.router.navigate([routerLink]);
+  }
+
+  // Handle Notification
+  async getAllNotifications() {
+    this.store.dispatch(initiallySetState({ notifications: [] }));
+
+    const notificationResult = await firstValueFrom(
+      this.notificationService.GetAllNotifications()
+    );
+
+    if (notificationResult.IsSuccessful) {
+      this.notificationService.setNotificationLoaded();
+      this.store.dispatch(
+        initiallySetState({ notifications: notificationResult.Result || [] })
+      );
+    }
   }
 }
