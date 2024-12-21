@@ -33,7 +33,7 @@ export class AppMessageService {
   }
 
   demShowWarnAlert(msg: string) {
-    this.demShowAlert("warn", "Warning", msg);
+    this.showAlert("warn", "Warning", msg);
   }
   showSuccessAlert(msg: string) {
     this.showAlert("success", "Success", msg);
@@ -51,16 +51,22 @@ export class AppMessageService {
     this.showAlert("warn", "Warning", msg);
   }
 
-  private demShowAlert(
+  showNotificationAlert(msg: string) {
+    this.customShowAlert("info", "Notification", msg, "pi pi-bell");
+  }
+
+  private customShowAlert(
     type: "success" | "info" | "warn" | "error",
-    summary: "Success" | "Information" | "Warning" | "Error",
-    msg: string
+    summary: "Success" | "Information" | "Warning" | "Error" | "Notification",
+    msg: string,
+    icon: string
   ) {
     this.messageService.add({
       severity: type,
       summary: summary,
       detail: msg,
       life: 3000,
+      icon: icon,
     });
   }
 

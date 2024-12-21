@@ -1,4 +1,4 @@
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, Subscription } from "rxjs";
 import { NotificationService } from "./../../shared/services/api-services/notification.service";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
@@ -12,8 +12,13 @@ import { PopupService } from "src/app/shared/services/popup.service";
 import { ChangePasswordComponent } from "src/app/modules/user/change-password/change-password.component";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.state";
-import { initiallySetState } from "src/app/store/action/notification.action";
+import {
+  addNotification,
+  initiallySetState,
+  removeNotification,
+} from "src/app/store/action/notification.action";
 import { selectNotificationCount } from "src/app/store/selector/notification.selector";
+import { ExpenseExtensionService } from "src/app/shared/services/api-services/expense-extension.service";
 
 @Component({
   selector: "app-default-layout-new",
@@ -28,6 +33,7 @@ export class DefaultLayoutNewComponent {
   showWorkingDate: string = "";
   items: any[];
   notificationCount: number = 0;
+  private subscriptions: Subscription[] = [];
   constructor(
     private router: Router,
     private sidebarService: SidebarService,
@@ -36,7 +42,8 @@ export class DefaultLayoutNewComponent {
     private datePipe: DatePipe,
     private popupService: PopupService,
     private notificationService: NotificationService,
-    private store: Store<AppState>
+    private store: Store<AppState>, // private webSocketService: WebSocketService
+    private expenseRequestService: ExpenseExtensionService
   ) {}
 
   ngOnInit(): void {
@@ -157,6 +164,45 @@ export class DefaultLayoutNewComponent {
     this.store.select(selectNotificationCount).subscribe((count) => {
       this.notificationCount = count;
     });
+
+    this.subscriptions.push(
+      this.expenseRequestService.onNewExpenseRequest().subscribe({
+        next: (expense: any) => {
+          this.messageService.showNotificationAlert(expense?.message);
+          this.store.dispatch(addNotification({ notification: expense.data }));
+        },
+
+        error: (error) => {
+          console.error("Socket error:", error);
+        },
+      })
+    );
+
+    this.subscriptions.push(
+      this.expenseRequestService.onApproveExpenseRequest().subscribe({
+        next: (expense: any) => {
+          this.store.dispatch(
+            removeNotification({ notification: expense.data })
+          );
+        },
+        error: (error) => {
+          console.error("Socket error:", error);
+        },
+      })
+    );
+
+    this.subscriptions.push(
+      this.expenseRequestService.onRejectExpenseRequest().subscribe({
+        next: (expense: any) => {
+          this.store.dispatch(
+            removeNotification({ notification: expense.data })
+          );
+        },
+        error: (error) => {
+          console.error("Socket error:", error);
+        },
+      })
+    );
   }
 
   ModuleActivate(routeModule: any) {
@@ -171,7 +217,7 @@ export class DefaultLayoutNewComponent {
     let data = {};
 
     let properties = {
-      width: "20vw",
+      width: "320px",
       position: "left",
     };
 
@@ -256,5 +302,10 @@ export class DefaultLayoutNewComponent {
         initiallySetState({ notifications: notificationResult.Result || [] })
       );
     }
+  }
+
+  ngOnDestroy() {
+    // Clean up all subscriptions
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

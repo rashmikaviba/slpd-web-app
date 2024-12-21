@@ -8,7 +8,7 @@ import { environment } from "src/environments/environment";
 export class ResourceService {
   constructor() {}
 
-  private host: string = environment.apiURL;
+  private host: string = environment.apiURL + "/api/v1";
 
   private Auth = this.host + "/auth";
   private Store = this.host + "/store";

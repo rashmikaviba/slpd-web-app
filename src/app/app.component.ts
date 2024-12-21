@@ -68,7 +68,7 @@ export class AppComponent {
 
   checkScreenWidth() {
     const width = window.innerWidth;
-    if (width < 1024) {
+    if (width < 850) {
       this.isSidebarFullSize = true;
     } else {
       this.isSidebarFullSize = false;

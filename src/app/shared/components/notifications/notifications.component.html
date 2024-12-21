@@ -18,7 +18,7 @@
           <span class="text-700 font-normal"
             >has requested an expense extension of
             <span class="text-primary font-medium"
-              >LKR {{ item?.requestedAmount }}</span
+              >LKR {{ item?.requestedAmount | number : "1.2-2" }}</span
             >
             for Trip {{ item?.tripConfirmedNumber }}.
           </span>
@@ -42,9 +42,9 @@
       "
     >
       <div class="flex flex-column align-items-center">
-        <i class="pi pi-bell-slash text-2xl text-bluegray-200"></i>
+        <i class="pi pi-inbox text-5xl text-bluegray-200"></i>
         <span class="line-height-3 text-xl text-bluegray-200"
-          >No Notifications Found</span
+          >No Notifications</span
         >
       </div>
     </li>

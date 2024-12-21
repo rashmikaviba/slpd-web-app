@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ResourceService } from "../resource.service";
 import { DataAccessService } from "../data-access.service";
+import { WebSocketService } from "../socket-services/web-socket.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -8,7 +10,8 @@ import { DataAccessService } from "../data-access.service";
 export class ExpenseExtensionService {
   constructor(
     private dataAccess: DataAccessService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private socketService: WebSocketService
   ) {}
 
   saveExpenseRequest(body: any) {
@@ -46,5 +49,17 @@ export class ExpenseExtensionService {
       .pipe((response) => {
         return response;
       });
+  }
+
+  onNewExpenseRequest(): Observable<any> {
+    return this.socketService.listen("new-expense-request", true);
+  }
+
+  onApproveExpenseRequest(): Observable<any> {
+    return this.socketService.listen("expense-request-approved");
+  }
+
+  onRejectExpenseRequest(): Observable<any> {
+    return this.socketService.listen("expense-request-rejected");
   }
 }
