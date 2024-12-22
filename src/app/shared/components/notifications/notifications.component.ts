@@ -15,7 +15,7 @@ import { ExpenseExtensionService } from "../../services/api-services/expense-ext
 })
 export class NotificationsComponent {
   notifications: any[] = [];
-  private timerSubscription!: Subscription;
+  // private timerSubscription!: Subscription;
 
   constructor(
     private store: Store<AppState>,
@@ -29,9 +29,9 @@ export class NotificationsComponent {
       this.notifications = notifications;
     });
 
-    this.timerSubscription = interval(20000).subscribe(() => {
-      this.notifications = [...this.notifications];
-    });
+    // this.timerSubscription = interval(20000).subscribe(() => {
+    //   this.notifications = [...this.notifications];
+    // });
   }
 
   async onClickExpenseExtension(rowData: any) {
@@ -58,10 +58,10 @@ export class NotificationsComponent {
     }
   }
 
-  ngOnDestroy() {
-    // Unsubscribe from the timer to avoid memory leaks
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy() {
+  //   // Unsubscribe from the timer to avoid memory leaks
+  //   if (this.timerSubscription) {
+  //     this.timerSubscription.unsubscribe();
+  //   }
+  // }
 }
