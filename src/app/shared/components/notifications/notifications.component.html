@@ -26,7 +26,7 @@
       </div>
 
       <div class="flex justify-content-end align-content-center mt-1">
-        <span class="text-500 text-sm">one minute ago</span>
+        <span class="text-500 text-sm">{{ item.createdAt | dateAgo }}</span>
       </div>
     </li>
   </ng-container>
