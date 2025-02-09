@@ -1,9 +1,24 @@
 <div id="demo">
-  <div class="flex justify-content-between">
-    <div>
-      <div>SLPD Pvt Ltd</div>
-      <div>Colombo 10</div>
-      <div>+94 77 566 1026/ +94 11 285 4620</div>
+  <div class="flex justify-content-between align-content-center">
+    <div class="flex flex-column gap-1">
+      <div class="text-xl font-bold">{{ companyInformation?.companyName }}</div>
+
+      <div class="flex align-items-start gap-2">
+        <div class="flex flex-column">
+          <span>{{ companyInformation?.addressline1 }}</span>
+          <span>{{ companyInformation?.addressline2 }}</span>
+        </div>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-envelope"></i>
+        <span>{{ companyInformation?.email }}</span>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-phone"></i>
+        <span>{{ companyInformation?.phone }}</span>
+      </div>
     </div>
     <div>
       <img
@@ -141,20 +156,22 @@
       </div>
     </ng-container>
 
-    <div class="field col-12 md:col-12">
-      <label class="text-xl font-semibold">
-        <p>
-          WhatsApp / Viber: {{ tripInfo?.phoneNumber }} - Email:
-          {{ tripInfo?.email }}
-        </p>
-        <p class="text-sm font-medium">
-          Contact Person Name : {{ tripInfo?.contactPerson }}
-        </p>
-      </label>
-    </div>
-    <div class="field col-12 md:col-12">
-      <hr />
-    </div>
+    <ng-container *ngIf="role != wellKnownUserRole.DRIVER">
+      <div class="field col-12 md:col-12">
+        <label class="text-xl font-semibold">
+          <p>
+            WhatsApp / Viber: {{ tripInfo?.phoneNumber }} - Email:
+            {{ tripInfo?.email }}
+          </p>
+          <p class="text-sm font-medium">
+            Contact Person Name : {{ tripInfo?.contactPerson }}
+          </p>
+        </label>
+      </div>
+      <div class="field col-12 md:col-12">
+        <hr />
+      </div>
+    </ng-container>
 
     <ng-container *ngIf="places?.length > 0">
       <div class="field col-12 md:col-12">
@@ -217,45 +234,47 @@
     <div class="field col-12 md:col-12">
       <hr />
     </div>
-    <div class="field col-12 md:col-12">
-      <label class="text-xl font-semibold">About the Total Cost</label>
-    </div>
-    <div class="field col-12 md:col-12">
-      <label class="text-xl"
-        >The tour cost is
-        <span class="text-red-500 font-semibold">{{
-          tripInfo?.totalCost | currency : "USD" : "symbol" : "1.2-2"
-        }}</span>
-        for
-        <span class="font-semibold"
-          >{{ tripInfo?.startDate | date : "MMMM d" }} to
-          {{ tripInfo?.endDate | date : "longDate" }}</span
-        >.</label
-      >
-      <div class="text-right">
-        <label for="">* After arrival you can pay.</label>
+    <ng-container *ngIf="role != wellKnownUserRole.DRIVER">
+      <div class="field col-12 md:col-12">
+        <label class="text-xl font-semibold">About the Total Cost</label>
       </div>
-      <div>
-        <label class="text-lg underline">About Payment</label>
-        <ul class="text-lg">
-          <li>We are accept cash</li>
-          <li class="text-red-500 font-semibold">
-            Multi altered or defaced currency notes or coins are not accepted.
-            (write, draw, stamp, cut or damage currency)
-          </li>
-        </ul>
+      <div class="field col-12 md:col-12">
+        <label class="text-xl"
+          >The tour cost is
+          <span class="text-red-500 font-semibold">{{
+            tripInfo?.totalCost | currency : "USD" : "symbol" : "1.2-2"
+          }}</span>
+          for
+          <span class="font-semibold"
+            >{{ tripInfo?.startDate | date : "MMMM d" }} to
+            {{ tripInfo?.endDate | date : "longDate" }}</span
+          >.</label
+        >
+        <div class="text-right">
+          <label for="">* After arrival you can pay.</label>
+        </div>
+        <div>
+          <label class="text-lg underline">About Payment</label>
+          <ul class="text-lg">
+            <li>We are accept cash</li>
+            <li class="text-red-500 font-semibold">
+              Multi altered or defaced currency notes or coins are not accepted.
+              (write, draw, stamp, cut or damage currency)
+            </li>
+          </ul>
+        </div>
+        <div>
+          <label class="text-lg underline">If Card Payment</label>
+          <ul class="text-red-500 text-lg font-semibold">
+            <li>On arrival you have to pay Total cost + tax 03%</li>
+            <li>If your Card fails, You should pay the total cost by cash</li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <label class="text-lg underline">If Card Payment</label>
-        <ul class="text-red-500 text-lg font-semibold">
-          <li>On arrival you have to pay Total cost + tax 03%</li>
-          <li>If your Card fails, You should pay the total cost by cash</li>
-        </ul>
+      <div class="field col-12 md:col-12">
+        <hr />
       </div>
-    </div>
-    <div class="field col-12 md:col-12">
-      <hr />
-    </div>
+    </ng-container>
     <ng-container *ngIf="activities?.length > 0">
       <div class="field col-12 md:col-12">
         <label class="text-xl font-semibold"
