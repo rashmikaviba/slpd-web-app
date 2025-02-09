@@ -42,7 +42,7 @@ export class TripManagementComponent implements OnInit {
     private datePipe: DatePipe,
     private tripService: TripService,
     private expenseService: ExpenseService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -50,7 +50,7 @@ export class TripManagementComponent implements OnInit {
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
       { field: "contact", header: "Contact Details" },
-      // { field: "contactPerson", header: "Contact Person" },
+      { field: "paymentMode", header: "Payment Mode" },
       { field: "status", header: "Status" },
       { field: "activeDriverName", header: "Driver Name" },
       { field: "activeRegistrationNumber", header: "Vehicle Name" },
@@ -320,7 +320,7 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  exportToExcel() { }
+  exportToExcel() {}
 
   onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
@@ -449,7 +449,6 @@ export class TripManagementComponent implements OnInit {
 
   async onClickExpenseManagement(rowData: any) {
     try {
-      ;
       let data = {
         tripInfo: rowData,
         userType: "admin",

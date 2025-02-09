@@ -1,3 +1,4 @@
+import { WellKnownNotificationType } from "./../../enums/well-known-notification-type.enum";
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.state";
@@ -15,6 +16,7 @@ import { ExpenseExtensionService } from "../../services/api-services/expense-ext
 })
 export class NotificationsComponent {
   notifications: any[] = [];
+  wellKnownNotificationType = WellKnownNotificationType;
   // private timerSubscription!: Subscription;
 
   constructor(

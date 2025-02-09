@@ -47,6 +47,7 @@ export class VehicleManagementComponent {
       { field: "capacity", header: "Capacity" },
       { field: "availableSeats", header: "Available Seats" },
       { field: "gpsTracker", header: "GPS Tracker" },
+      { field: "currentMileage", header: "Current Mileage" },
       { field: "status", header: "Status" },
     ];
 

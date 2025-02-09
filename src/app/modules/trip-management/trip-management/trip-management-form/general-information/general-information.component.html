@@ -2,31 +2,65 @@
   <div class="p-fluid grid formgrid align-items-start p-4">
     <div class="field col-12 md:col-4">
       <label class="required" for="startDate">Start Date</label>
-      <input pInputText type="date" formControlName="startDate" class="w-full" [min]="minStartDate"
-        (change)="onChangeDate()" />
+      <input
+        pInputText
+        type="date"
+        formControlName="startDate"
+        class="w-full"
+        [min]="minStartDate"
+        (change)="onChangeDate()"
+      />
     </div>
     <div class="field col-12 md:col-4">
       <label class="required" for="endDate">End Date</label>
-      <input pInputText type="date" formControlName="endDate" class="w-full" [min]="minEndDate"
-        (change)="onChangeDate()" />
+      <input
+        pInputText
+        type="date"
+        formControlName="endDate"
+        class="w-full"
+        [min]="minEndDate"
+        (change)="onChangeDate()"
+      />
     </div>
     <div class="field col-12 md:col-4">
       <label class="required" for="dateCount">Date Count</label>
-      <input pInputText type="text" formControlName="dateCount" class="w-full" />
+      <input
+        pInputText
+        type="text"
+        formControlName="dateCount"
+        class="w-full"
+      />
     </div>
     <div class="field col-12 md:col-4">
       <label class="required" for="email">Email</label>
-      <input pInputText type="text" formControlName="email" class="w-full" placeholder="text@gmail.com" />
+      <input
+        pInputText
+        type="text"
+        formControlName="email"
+        class="w-full"
+        placeholder="text@gmail.com"
+      />
     </div>
     <div class="field col-12 md:col-4">
       <label class="required" for="mobile">Mobile</label>
-      <input pInputText type="text" formControlName="mobile" class="w-full"
-        oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 15)" />
+      <input
+        pInputText
+        type="text"
+        formControlName="mobile"
+        class="w-full"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 15)"
+      />
     </div>
 
     <div class="field col-12 md:col-4">
       <label class="required" for="mobile">Contact Person</label>
-      <input pInputText type="text" formControlName="contactPerson" class="w-full" maxlength="100" />
+      <input
+        pInputText
+        type="text"
+        formControlName="contactPerson"
+        class="w-full"
+        maxlength="100"
+      />
     </div>
 
     <div class="field col-12 md:col-4">
@@ -34,8 +68,12 @@
 
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">USD</span>
-        <p-inputNumber formControlName="totalIncome" mode="decimal" [minFractionDigits]="2"
-          [maxFractionDigits]="2"></p-inputNumber>
+        <p-inputNumber
+          formControlName="totalIncome"
+          mode="decimal"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+        ></p-inputNumber>
       </div>
     </div>
 
@@ -44,24 +82,63 @@
 
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">LKR</span>
-        <p-inputNumber formControlName="totalIncomeLocalCurrency" mode="decimal" [minFractionDigits]="2"
-          [maxFractionDigits]="2"></p-inputNumber>
+        <p-inputNumber
+          formControlName="totalIncomeLocalCurrency"
+          mode="decimal"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+        ></p-inputNumber>
       </div>
     </div>
     <div class="field col-12 md:col-4">
       <label for="estimatedCost">Estimated Expenses</label>
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">LKR</span>
-        <p-inputNumber formControlName="estimatedCost" mode="decimal" [minFractionDigits]="2"
-          [maxFractionDigits]="2"></p-inputNumber>
+        <p-inputNumber
+          formControlName="estimatedCost"
+          mode="decimal"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+        ></p-inputNumber>
       </div>
     </div>
+
+    <div class="field col-12 md:col-4">
+      <!-- Payment Mode -->
+      <label class="required" for="paymentMode">Payment Mode</label>
+      <p-dropdown
+        id="paymentMode"
+        [options]="paymentMethodArr"
+        optionLabel="name"
+        optionValue="value"
+        formControlName="paymentMode"
+        appendTo="body"
+        [autoOptionFocus]="false"
+        placeholder="Select Payment Mode"
+      ></p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-8">
+      <label for="specialRequirement">Special Requirements</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="specialRequirement"
+        class="w-full"
+        maxlength="500"
+      />
+    </div>
+
     <div class="field col-12">
       <hr />
     </div>
     <div class="field col-12">
       <div class="flex gap-2 align-items-center">
-        <p-checkbox name="arrival" formControlName="isArrivalAdded" binary="true"></p-checkbox>
+        <p-checkbox
+          name="arrival"
+          formControlName="isArrivalAdded"
+          binary="true"
+        ></p-checkbox>
         <label class="text-xl font-bold">Arrival Information</label>
       </div>
     </div>
@@ -69,15 +146,30 @@
     <ng-container *ngIf="FV.getValue('isArrivalAdded')">
       <div class="field col-12 md:col-4">
         <label for="arrivalDate">Arrival Date</label>
-        <input pInputText type="date" formControlName="arrivalDate" class="w-full" />
+        <input
+          pInputText
+          type="date"
+          formControlName="arrivalDate"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="arrivalTime">Arrival Time</label>
-        <input pInputText type="time" formControlName="arrivalTime" class="w-full" />
+        <input
+          pInputText
+          type="time"
+          formControlName="arrivalTime"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="flightNumber">Flight Number</label>
-        <input pInputText type="text" formControlName="arrivalFlightNumber" class="w-full" />
+        <input
+          pInputText
+          type="text"
+          formControlName="arrivalFlightNumber"
+          class="w-full"
+        />
       </div>
       <div class="field col-12">
         <hr />
@@ -86,7 +178,11 @@
 
     <div class="field col-12">
       <div class="flex gap-2 align-items-center">
-        <p-checkbox name="departure" formControlName="isDepartureAdded" binary="true"></p-checkbox>
+        <p-checkbox
+          name="departure"
+          formControlName="isDepartureAdded"
+          binary="true"
+        ></p-checkbox>
         <label class="text-xl font-bold">Departure Information</label>
       </div>
     </div>
@@ -94,15 +190,32 @@
     <ng-container *ngIf="FV.getValue('isDepartureAdded')">
       <div class="field col-12 md:col-4">
         <label class="required" for="departureDate">Departure Date</label>
-        <input pInputText type="date" formControlName="departureDate" class="w-full" />
+        <input
+          pInputText
+          type="date"
+          formControlName="departureDate"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="departureTime">Departure Time</label>
-        <input pInputText type="time" formControlName="departureTime" class="w-full" />
+        <input
+          pInputText
+          type="time"
+          formControlName="departureTime"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
-        <label class="required" for="departureFlightNumber">Flight Number</label>
-        <input pInputText type="text" formControlName="departureFlightNumber" class="w-full" />
+        <label class="required" for="departureFlightNumber"
+          >Flight Number</label
+        >
+        <input
+          pInputText
+          type="text"
+          formControlName="departureFlightNumber"
+          class="w-full"
+        />
       </div>
       <div class="field col-12">
         <hr />
@@ -111,26 +224,50 @@
 
     <div class="field col-12">
       <div class="flex gap-2 align-items-center">
-        <p-checkbox name="isPickupAdded" formControlName="isPickupAdded" binary="true"></p-checkbox>
+        <p-checkbox
+          name="isPickupAdded"
+          formControlName="isPickupAdded"
+          binary="true"
+        ></p-checkbox>
         <label class="text-xl font-bold">Pickup Information</label>
       </div>
     </div>
     <ng-container *ngIf="FV.getValue('isPickupAdded')">
       <div class="field col-12 md:col-4">
         <label class="required" for="pickUpDate">Pickup Date</label>
-        <input pInputText type="date" formControlName="pickUpDate" class="w-full" />
+        <input
+          pInputText
+          type="date"
+          formControlName="pickUpDate"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="pickUpTime">Pickup Time</label>
-        <input pInputText type="time" formControlName="pickUpTime" class="w-full" />
+        <input
+          pInputText
+          type="time"
+          formControlName="pickUpTime"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="pickUpCity">Pickup City</label>
-        <input pInputText type="text" formControlName="pickUpCity" class="w-full" />
+        <input
+          pInputText
+          type="text"
+          formControlName="pickUpCity"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-12">
         <label class="required" for="pickUpAddress">Pickup Address</label>
-        <input pInputText type="text" formControlName="pickUpAddress" class="w-full" />
+        <input
+          pInputText
+          type="text"
+          formControlName="pickUpAddress"
+          class="w-full"
+        />
       </div>
       <div class="field col-12">
         <hr />
@@ -139,26 +276,50 @@
 
     <div class="field col-12">
       <div class="flex gap-2 align-items-center">
-        <p-checkbox name="isDropOffAdded" formControlName="isDropOffAdded" binary="true"></p-checkbox>
+        <p-checkbox
+          name="isDropOffAdded"
+          formControlName="isDropOffAdded"
+          binary="true"
+        ></p-checkbox>
         <label class="text-xl font-bold">Drop Off Information</label>
       </div>
     </div>
     <ng-container *ngIf="FV.getValue('isDropOffAdded')">
       <div class="field col-12 md:col-4">
         <label class="required" for="dropOffDate">Drop Off Date</label>
-        <input pInputText type="date" formControlName="dropOffDate" class="w-full" />
+        <input
+          pInputText
+          type="date"
+          formControlName="dropOffDate"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="dropOffTime">Drop Off Time</label>
-        <input pInputText type="time" formControlName="dropOffTime" class="w-full" />
+        <input
+          pInputText
+          type="time"
+          formControlName="dropOffTime"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-4">
         <label class="required" for="dropOffCity">Drop Off City</label>
-        <input pInputText type="text" formControlName="dropOffCity" class="w-full" />
+        <input
+          pInputText
+          type="text"
+          formControlName="dropOffCity"
+          class="w-full"
+        />
       </div>
       <div class="field col-12 md:col-12">
         <label class="required" for="dropOffAddress">Drop Off Address</label>
-        <input pInputText type="text" formControlName="dropOffAddress" class="w-full" />
+        <input
+          pInputText
+          type="text"
+          formControlName="dropOffAddress"
+          class="w-full"
+        />
       </div>
     </ng-container>
   </div>

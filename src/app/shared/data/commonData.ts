@@ -1,3 +1,22 @@
+export const paymentMethod = [
+  {
+    value: "Cash",
+    name: "Cash",
+  },
+  {
+    value: "Card",
+    name: "Card",
+  },
+  {
+    value: "Cheque",
+    name: "Cheque",
+  },
+  {
+    value: "Bank Transfer",
+    name: "Bank Transfer",
+  },
+];
+
 export const genders = [
   {
     name: "Male",

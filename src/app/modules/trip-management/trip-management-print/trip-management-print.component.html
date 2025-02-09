@@ -173,6 +173,20 @@
       </div>
     </ng-container>
 
+    <ng-container *ngIf="tripInfo?.specialRequirement">
+      <div class="field col-12 md:col-12">
+        <label class="text-xl font-semibold">
+          <p>Special Requirements</p>
+          <p class="text-base font-medium">
+            {{ tripInfo?.specialRequirement }}
+          </p>
+        </label>
+      </div>
+      <div class="field col-12 md:col-12">
+        <hr />
+      </div>
+    </ng-container>
+
     <ng-container *ngIf="places?.length > 0">
       <div class="field col-12 md:col-12">
         <label class="text-xl font-semibold">Clear Itinerary</label>

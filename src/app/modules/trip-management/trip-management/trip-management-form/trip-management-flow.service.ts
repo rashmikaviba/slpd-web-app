@@ -11,6 +11,8 @@ export class TripManagementFlowService {
     totalCost: null,
     totalCostLocalCurrency: null,
     contactPerson: null,
+    specialRequirement: null,
+    paymentMode: null,
     estimatedExpense: null,
     passengers: [],
     arrivalInfo: null,
@@ -30,7 +32,7 @@ export class TripManagementFlowService {
 
   isView: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   setData(data: any) {
     this.request = {
@@ -51,6 +53,8 @@ export class TripManagementFlowService {
       totalCost: null,
       totalCostLocalCurrency: null,
       contactPerson: null,
+      specialRequirement: null,
+      paymentMode: null,
       estimatedExpense: null,
       passengers: [],
       arrivalInfo: null,

@@ -45,7 +45,7 @@ export class TripManagementByDriverComponent implements OnInit {
     private datePipe: DatePipe,
     private tripService: TripService,
     private expenseService: ExpenseService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -53,7 +53,7 @@ export class TripManagementByDriverComponent implements OnInit {
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
       { field: "contact", header: "Contact Details" },
-      // { field: "contactPerson", header: "Contact Person" },
+      { field: "paymentMode", header: "Payment Mode" },
       { field: "status", header: "Status" },
       // { field: "activeDriverName", header: "Driver Name" },
       { field: "activeRegistrationNumber", header: "Vehicle Name" },
@@ -153,8 +153,6 @@ export class TripManagementByDriverComponent implements OnInit {
         this.filteredItems = this.filteredItems.concat(selectedItem2);
       }
     }
-    ;
-
     if (
       rowData.isCheckListDone &&
       (rowData.status == WellKnownTripStatus.START ||
@@ -234,7 +232,7 @@ export class TripManagementByDriverComponent implements OnInit {
     );
   }
 
-  exportToExcel() { }
+  exportToExcel() {}
 
   onClickDriverTaskForm(rowData: any) {
     let data = {
@@ -277,7 +275,6 @@ export class TripManagementByDriverComponent implements OnInit {
 
   async onClickExpenseManagement(rowData: any) {
     try {
-      ;
       let data = {
         tripInfo: rowData,
         userType: "driver",
