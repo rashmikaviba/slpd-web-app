@@ -104,10 +104,16 @@ export class GeneralInformationComponent {
   }
 
   calcDateCount(startDate: string, endDate: string): Number {
+    debugger;
     let sDate = new Date(startDate);
     let eDate = new Date(endDate);
     let timeDiff = eDate.getTime() - sDate.getTime();
     let dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    if (dayDiff == 0) {
+      dayDiff = 1;
+    }
+
     return dayDiff;
   }
 
