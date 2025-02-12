@@ -105,6 +105,7 @@
             pTooltip="Edit"
             tooltipPosition="bottom"
             (onClick)="AddOtherTips(rowData, true, false)"
+            [disabled]="rowData.isMonthEndDone"
           ></p-button>
 
           <p-button
@@ -113,6 +114,7 @@
             pTooltip="Delete"
             tooltipPosition="bottom"
             (onClick)="onClickDelete(rowData)"
+            [disabled]="rowData.isMonthEndDone"
           ></p-button>
         </div>
       </td>
