@@ -21,8 +21,8 @@
       </div>
     </div>
     <div class="flex justify-content-center align-items-center flex-column">
-      <span class="font-bold text-xl">Monthly Driver Salary Report</span>
-      <span>Month : {{ month | date : "yyyy-MM" }}</span>
+      <span class="font-bold text-xl">Destination Summary</span>
+      <span>Trip Number : {{ tripConfirmedNumber }}</span>
     </div>
     <div>
       <img
@@ -46,12 +46,9 @@
           *ngFor="let col of columns"
           [ngClass]="{
             'text-right':
-              col.field == 'salaryPerDay' ||
-              col.field == 'totalAddition' ||
-              col.field == 'totalDeduction' ||
-              col.field == 'remainingExpenses' ||
-              col.field == 'totalSalary',
-            'text-center': col.field == 'isRemainingToDriver'
+              col.field == 'startMilage' ||
+              col.field == 'endMilage' ||
+              col.field == 'calcDistance'
           }"
         >
           {{ col.header }}
@@ -64,36 +61,35 @@
           *ngFor="let col of columns"
           [ngClass]="{
             'text-right':
-              col.field == 'salaryPerDay' ||
-              col.field == 'totalAddition' ||
-              col.field == 'totalDeduction' ||
-              col.field == 'remainingExpenses' ||
-              col.field == 'totalSalary',
-            'text-center': col.field == 'isRemainingToDriver'
+              col.field == 'startMilage' ||
+              col.field == 'endMilage' ||
+              col.field == 'calcDistance'
           }"
         >
-          <!-- col.field == 'amount' -->
           <ng-container
             *ngIf="
-              [
-                'salaryPerDay',
-                'totalAddition',
-                'totalDeduction',
-                'remainingExpenses',
-                'totalSalary'
-              ].includes(col.field)
+              col.field == 'startMilage' ||
+              col.field == 'endMilage' ||
+              col.field == 'calcDistance'
             "
           >
-            {{ rowData[col.field] | currency : "" : "" }}
+            {{ rowData[col.field] | number : "1.2-2" }}
           </ng-container>
 
+          <ng-container *ngIf="col.field == 'reachedDate'">
+            {{ (rowData[col.field] | date : "dd-MM-yyyy h:mm a") || "-" }}
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'description'">
+            <span [innerHTML]="rowData.description"></span>
+          </ng-container>
           <ng-container
             *ngIf="
-              col.field != 'salaryPerDay' &&
-              col.field != 'totalAddition' &&
-              col.field != 'totalDeduction' &&
-              col.field != 'remainingExpenses' &&
-              col.field != 'totalSalary'
+              col.field != 'startMilage' &&
+              col.field != 'endMilage' &&
+              col.field != 'calcDistance' &&
+              col.field != 'reachedDate' &&
+              col.field != 'description'
             "
           >
             {{ rowData[col.field] }}
@@ -104,10 +100,8 @@
 
     <ng-template pTemplate="footer">
       <tr>
-        <td colspan="7" style="text-align: left">Total</td>
-        <td class="text-right">
-          {{ totalSalary | currency : "" : "" }}
-        </td>
+        <td colspan="4" style="text-align: left">Total Milage</td>
+        <td class="text-right">{{ totalDistance | number : "1.2-2" }} KM</td>
       </tr>
     </ng-template>
   </p-table>
@@ -123,14 +117,6 @@
       ngxPrint
     >
       <i class="pi pi-file-pdf mr-2" style="font-size: 1rem"></i> Export PDF
-    </button>
-    <!-- XLS -->
-    <button
-      id="print"
-      class="p-button-sm p-button p-component p-ripple p-button-success"
-      (click)="exportXls()"
-    >
-      <i class="pi pi-file-excel mr-2" style="font-size: 1rem"></i> Export XLS
     </button>
   </div>
 </ng-template>

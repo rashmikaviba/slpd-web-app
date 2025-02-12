@@ -3,7 +3,7 @@
     <!-- Expense extension notification -->
     <li
       class="flex-column card hover:shadow-2 hover:bg-gray-100 cursor-pointer"
-      *ngIf="item.type === 1"
+      *ngIf="item.type === wellKnownNotificationType.ExpenseExtensionRequest"
       pTooltip="Click to approve expense extension request"
       (click)="onClickExpenseExtension(item)"
     >
@@ -17,10 +17,98 @@
           >{{ item.requestedUserName }}
           <span class="text-700 font-normal"
             >has requested an expense extension of
-            <span class="text-primary font-medium"
+            <span class="text-primary font-semibold"
               >LKR {{ item?.requestedAmount | number : "1.2-2" }}</span
             >
             for Trip {{ item?.tripConfirmedNumber }}.
+          </span>
+        </span>
+      </div>
+
+      <div class="flex justify-content-end align-content-center mt-1">
+        <span class="text-500 text-sm">{{ item.createdAt | dateAgo }}</span>
+      </div>
+    </li>
+
+    <!-- Insurance notification -->
+    <li
+      class="flex-column card hover:shadow-2 hover:bg-gray-100 cursor-pointer"
+      *ngIf="
+        item.type === wellKnownNotificationType.VehicleInsuranceRenewal ||
+        item.type === wellKnownNotificationType.VehicleLicenseRenewal
+      "
+    >
+      <div class="flex align-items-center">
+        <div
+          class="w-3rem h-3rem flex align-items-center justify-content-center bg-yellow-100 border-circle mr-3 flex-shrink-0"
+        >
+          <i class="pi pi-history text-xl text-yellow-500"></i>
+        </div>
+        <span class="text-900 line-height-3 font-medium font-semibold"
+          >{{ item?.typeName }}
+          <span class="text-700 font-normal"
+            >for
+            <span class="text-yellow-500 font-semibold">{{
+              item?.vehicleName
+            }}</span>
+            is due on {{ item?.expiryDate | date : "MMMM d, y" }}.
+          </span>
+        </span>
+      </div>
+
+      <div class="flex justify-content-end align-content-center mt-1">
+        <span class="text-500 text-sm">{{ item.createdAt | dateAgo }}</span>
+      </div>
+    </li>
+
+    <!-- Pending Trip -->
+    <li
+      class="flex-column card hover:shadow-2 hover:bg-gray-100 cursor-pointer"
+      *ngIf="item.type === wellKnownNotificationType.PendingTrip"
+    >
+      <div class="flex align-items-center">
+        <div
+          class="w-3rem h-3rem flex align-items-center justify-content-center bg-indigo-100 border-circle mr-3 flex-shrink-0"
+        >
+          <i class="pi pi-exclamation-triangle text-xl text-indigo-500"></i>
+        </div>
+        <span class="text-900 line-height-3 font-medium font-semibold"
+          >{{ item?.typeName }}
+          <span class="text-700 font-normal"
+            >for Trip
+            <span class="text-indigo-500 font-semibold">
+              {{ item?.tripConfirmedNumber }}</span
+            >
+            required before {{ item?.startDate | date : "MMMM d, y" }}.
+          </span>
+        </span>
+      </div>
+
+      <div class="flex justify-content-end align-content-center mt-1">
+        <span class="text-500 text-sm">{{ item.createdAt | dateAgo }}</span>
+      </div>
+    </li>
+
+    <!-- Pending Leave -->
+    <li
+      class="flex-column card hover:shadow-2 hover:bg-gray-100 cursor-pointer"
+      *ngIf="item.type === wellKnownNotificationType.PendingLeave"
+    >
+      <div class="flex align-items-center">
+        <div
+          class="w-3rem h-3rem flex align-items-center justify-content-center bg-green-100 border-circle mr-3 flex-shrink-0"
+        >
+          <i class="pi pi-calendar-clock text-xl text-green-500"></i>
+        </div>
+        <span class="text-900 line-height-3 font-medium font-semibold"
+          >{{ item?.typeName }}
+          <span class="text-700 font-normal"
+            >for
+            <span class="text-green-500 font-semibold">
+              {{ item?.appliedBy }}</span
+            >
+            - Requires approval before
+            {{ item?.startDate | date : "MMMM d, y" }}.
           </span>
         </span>
       </div>

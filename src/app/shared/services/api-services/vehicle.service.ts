@@ -72,9 +72,16 @@ export class VehicleService {
       });
   }
 
-  GetByPassengerCount(passengerCount: number) {
+  GetByPassengerCountAndDate(
+    passengerCount: number,
+    startDate: string,
+    endDate: string
+  ) {
     return this.dataAccess
-      .GET(this.resource.vehicle.getAllVehiclesByCount + `/${passengerCount}`)
+      .GET(
+        this.resource.vehicle.getAllVehiclesByCount +
+          `/${passengerCount}?startDate=${startDate}&endDate=${endDate}`
+      )
       .pipe((response) => {
         return response;
       });

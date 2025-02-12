@@ -116,13 +116,12 @@ import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
-import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
-import { AddNewVehicleComponent } from "./modules/vehicle-management/add-new-vehicle/add-new-vehicle.component";
 import { NgxPrintModule } from "ngx-print";
 import { NotificationsComponent } from "./shared/components/notifications/notifications.component";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { reducers } from "./store/app.reducer";
+import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management/vehicle-management.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -244,9 +243,8 @@ import { reducers } from "./store/app.reducer";
     InactiveLoginComponent,
     DefaultLayoutNewComponent,
     DefaultDashboardComponent,
-    VehicleManagementComponent,
-    AddNewVehicleComponent,
     NotificationsComponent,
+    VehicleManagementComponent,
     // TripManagementComponent,
     // TripManagementFormComponent,
     // AddDriverAndVehicleFormComponent,

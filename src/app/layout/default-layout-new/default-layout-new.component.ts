@@ -62,6 +62,7 @@ export class DefaultLayoutNewComponent {
         label: "Dashboard",
         icon: "pi pi-home",
         routerLink: "/dashboard",
+        labelForRoute: "Dashboard",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminDashboard,
         ]),
@@ -71,6 +72,7 @@ export class DefaultLayoutNewComponent {
         label: "User",
         icon: "pi pi-user",
         routerLink: "/user",
+        labelForRoute: "User",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminUserManagement,
         ]),
@@ -80,6 +82,7 @@ export class DefaultLayoutNewComponent {
         label: "Leave Management",
         icon: "pi pi-user",
         routerLink: "/leave-management",
+        labelForRoute: "Leave Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminLeaveManagement,
           AppModule.AdminLeaveManagement,
@@ -91,6 +94,7 @@ export class DefaultLayoutNewComponent {
         label: "Trip Management",
         icon: "pi pi-map",
         routerLink: "/trip-management",
+        labelForRoute: "Trip Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminTripManagement,
           AppModule.SuperAdminTripManagement,
@@ -101,6 +105,7 @@ export class DefaultLayoutNewComponent {
         label: "Vehicle Management",
         icon: "pi pi-car",
         routerLink: "/vehicle-management",
+        labelForRoute: "Vehicle Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminVehicleManagement,
           AppModule.AdminVehicleManagement,
@@ -111,6 +116,7 @@ export class DefaultLayoutNewComponent {
         label: "Your Trips",
         icon: "pi pi-map",
         routerLink: "/trip-management",
+        labelForRoute: "Trip Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.DriverTripManagement,
         ]),
@@ -119,6 +125,7 @@ export class DefaultLayoutNewComponent {
         menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",
+        labelForRoute: "Month Audit",
         // routerLink: "/month-audit",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminMonthAudit,
@@ -132,6 +139,7 @@ export class DefaultLayoutNewComponent {
         label: "Vehicle Tracking",
         icon: "pi pi-map-marker",
         routerLink: "/vehicle-tracking",
+        labelForRoute: "Vehicle Tracking",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminVehicleTracking,
         ]),
@@ -141,6 +149,7 @@ export class DefaultLayoutNewComponent {
         label: "Reports",
         icon: "pi pi-file",
         routerLink: "/reports",
+        labelForRoute: "Reports",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminReportManagement,
           AppModule.SuperAdminReportManagement,
@@ -206,8 +215,11 @@ export class DefaultLayoutNewComponent {
   }
 
   ModuleActivate(routeModule: any) {
+    debugger;
     this.DynamicItems.forEach((element: any) => {
-      if (element.label.toLowerCase().replace(/\s+/g, "-") == routeModule) {
+      if (
+        element.labelForRoute.toLowerCase().replace(/\s+/g, "-") == routeModule
+      ) {
         this.activeTab = element.menuId;
       }
     });
@@ -297,7 +309,7 @@ export class DefaultLayoutNewComponent {
     );
 
     if (notificationResult.IsSuccessful) {
-      this.notificationService.setNotificationLoaded();
+      this.notificationService.setNotificationLoaded(true);
       this.store.dispatch(
         initiallySetState({ notifications: notificationResult.Result || [] })
       );

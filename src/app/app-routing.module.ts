@@ -4,7 +4,6 @@ import { SignInComponent } from "./modules/user/sign-in/sign-in.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { RouteGuardService } from "./shared/services/route-guard.service";
-import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
@@ -39,13 +38,10 @@ const routes: Routes = [
   },
   {
     path: "vehicle-management",
-    component: DefaultLayoutNewComponent,
-    children: [
-      {
-        path: "",
-        component: VehicleManagementComponent,
-      },
-    ],
+    loadChildren: () =>
+      import("./modules/vehicle-management/vehicle-management.module").then(
+        (m) => m.VehicleManagementModule
+      ),
     canActivate: [RouteGuardService],
   },
   {

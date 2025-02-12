@@ -1,6 +1,9 @@
+import { WellKnownUserRole } from "./../../../shared/enums/well-known-user-role.enum";
 import { DatePipe } from "@angular/common";
 import { Component, TemplateRef, ViewChild } from "@angular/core";
+import { CompanyInformation } from "src/app/shared/data/companyInformation";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
+import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
 
 @Component({
@@ -25,14 +28,18 @@ export class TripManagementPrintComponent {
   expensesDetails: any = null;
   activityCost: number = 0;
   tripInfo: any;
-
+  companyInformation: any = CompanyInformation;
+  role: number = 0;
+  wellKnownUserRole = WellKnownUserRole;
   constructor(
     private sidebarService: SidebarService,
     private messageService: AppMessageService,
-    private datePipe: DatePipe
-  ) { }
+    private datePipe: DatePipe,
+    private masterDataService: MasterDataService
+  ) {}
 
   ngOnInit(): void {
+    this.role = this.masterDataService.Role;
     this.sidebarService.setFooterTemplate(this.templateRef);
     let sideBarData = this.sidebarService.getData();
     this.tripInfo = sideBarData;

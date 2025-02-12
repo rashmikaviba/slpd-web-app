@@ -19,9 +19,9 @@ export class TripService {
       });
   }
 
-  GetAllTrips() {
+  GetAllTrips(status: number = -1) {
     return this.dataAccess
-      .GET(this.resource.trip.getAllTrips)
+      .GET(this.resource.trip.getAllTrips + `?status=${status}`)
       .pipe((response) => {
         return response;
       });
@@ -109,6 +109,14 @@ export class TripService {
   GetTripForPrintByTripId(tripId: string) {
     return this.dataAccess
       .GET(this.resource.trip.getTripForPrint + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  GetDestinationSummary(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getDestinationSummary + `/${tripId}`)
       .pipe((response) => {
         return response;
       });

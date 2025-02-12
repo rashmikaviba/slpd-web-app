@@ -12,7 +12,26 @@
         [filter]="true"
         appendTo="body"
         [autoOptionFocus]="false"
-      ></p-dropdown>
+      >
+        <ng-template let-driver pTemplate="item">
+          <div class="flex flex-column gap-2">
+            <div class="flex justify-content-between align-items-center">
+              <div class="font-semibold">{{ driver.fullName }}</div>
+              <div>{{ driver.phoneNumber1 }}</div>
+            </div>
+
+            <div class="text-sm">
+              {{ driver.languagesStr }}
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template let-driver pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2">
+            <div>{{ driver.fullName }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
     <div class="field col-12 md:col-6">
       <label for="vehicle">Vehicle</label>
@@ -26,7 +45,32 @@
         [filter]="true"
         appendTo="body"
         [autoOptionFocus]="false"
-      ></p-dropdown>
+      >
+        <ng-template let-vehicle pTemplate="item">
+          <div class="flex flex-column gap-2">
+            <div class="flex justify-content-between align-items-center">
+              <div>{{ vehicle.registrationNumber }}</div>
+              <div>{{ vehicle.typeName }}</div>
+            </div>
+
+            <div class="flex justify-content-between">
+              <div class="text-sm">
+                Seats: <b>{{ vehicle.availableSeats }}</b>
+              </div>
+              <div class="text-sm">Owner: {{ vehicle.vehicleOwner }}</div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template let-vehicle pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2">
+            <div>{{ vehicle.registrationNumber }}</div>
+            <div>
+              ({{ vehicle.typeName }} - Seats : {{ vehicle.availableSeats }})
+            </div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
     <div class="field col-12 md:col-6" *ngIf="isShowPreviousDrivers">
       <p-fieldset legend="Previous Drivers">

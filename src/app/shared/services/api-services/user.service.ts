@@ -90,4 +90,15 @@ export class UserService {
         return response;
       });
   }
+
+  GetAllDriversForTrip(statDate: string, endDate: string) {
+    return this.dataAccess
+      .GET(
+        this.resource.user.getDriversForTrip +
+          `?startDate=${statDate}&endDate=${endDate}`
+      )
+      .pipe((response) => {
+        return response;
+      });
+  }
 }
