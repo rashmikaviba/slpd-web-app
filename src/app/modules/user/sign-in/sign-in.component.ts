@@ -1,3 +1,4 @@
+import { NotificationService } from "./../../../shared/services/api-services/notification.service";
 import { PopupService } from "./../../../shared/services/popup.service";
 import { AppComponent } from "./../../../app.component";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
@@ -28,10 +29,10 @@ export class SignInComponent {
     private masterDataService: MasterDataService,
     private messageService: AppMessageService,
     private clientIpHandle: ClientIpHandleService,
-
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
-    private popupService: PopupService
+    private popupService: PopupService,
+    private notificationService: NotificationService
   ) {
     this.createForm();
   }
@@ -41,6 +42,7 @@ export class SignInComponent {
     this.appComponent.sidebarVisible = false;
     this.popupService.closeOpenDialogs();
     this.masterDataService.clearLoginData();
+    this.notificationService.setNotificationLoaded(false);
   }
 
   createForm() {

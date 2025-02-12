@@ -19,6 +19,8 @@ import { ExpenseManagementComponent } from "../expense-management/expense-manage
 import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
 import { DriverSalaryFormComponent } from "./driver-salary-form/driver-salary-form.component";
 import { DestinationSummaryPrintComponent } from "./destination-summary-print/destination-summary-print.component";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
+import { CommonForm } from "src/app/shared/services/app-common-form";
 
 @Component({
   selector: "app-trip-management",
@@ -26,12 +28,31 @@ import { DestinationSummaryPrintComponent } from "./destination-summary-print/de
   styleUrls: ["./trip-management.component.css"],
 })
 export class TripManagementComponent implements OnInit {
+  FV = new CommonForm();
   cols: any;
   recodes: any;
   template: TemplateRef<any>;
   items: any[];
   filteredItems: any[];
   WellKnownTripStatus: any = WellKnownTripStatus;
+  status: any[] = [
+    {
+      label: "All",
+      value: -1,
+    },
+    {
+      label: "Pending",
+      value: 1,
+    },
+    {
+      label: "Start",
+      value: 3,
+    },
+    {
+      label: "Finished",
+      value: 4,
+    },
+  ];
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -42,8 +63,11 @@ export class TripManagementComponent implements OnInit {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private tripService: TripService,
-    private expenseService: ExpenseService
-  ) {}
+    private expenseService: ExpenseService,
+    private formBuilder: UntypedFormBuilder
+  ) {
+    this.createForm();
+  }
 
   ngOnInit(): void {
     this.cols = [
@@ -153,6 +177,12 @@ export class TripManagementComponent implements OnInit {
     ];
   }
 
+  createForm() {
+    this.FV.formGroup = this.formBuilder.group({
+      status: [-1, [Validators.required]],
+    });
+  }
+
   toggleMenu(menu: any, event: any, rowData: any) {
     this.filteredItems = [];
 
@@ -203,7 +233,10 @@ export class TripManagementComponent implements OnInit {
 
   async loadInitialData() {
     try {
-      const tripResponse = await firstValueFrom(this.tripService.GetAllTrips());
+      let status = this.FV.getValue("status");
+      const tripResponse = await firstValueFrom(
+        this.tripService.GetAllTrips(status)
+      );
 
       if (tripResponse?.IsSuccessful) {
         this.recodes = tripResponse?.Result;

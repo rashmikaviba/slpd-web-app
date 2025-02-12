@@ -51,7 +51,7 @@ export class AddOtherTripComponent implements OnInit {
       startDate: ["", [Validators.required]],
       endDate: ["", [Validators.required]],
       dateCount: ["", [Validators.required]],
-      meterReading: ["", [Validators.required]],
+      meterReading: [""],
       driver: ["", [Validators.required]],
       reason: ["", [Validators.required]],
     });
@@ -83,7 +83,9 @@ export class AddOtherTripComponent implements OnInit {
     this.FV.setValue("driver", this.tripDetails?.driver);
     this.FV.setValue("reason", this.tripDetails?.reason);
 
-    this.FV.disableField("meterReading");
+    if (this.tripDetails?.meterReading > 0) {
+      this.FV.disableField("meterReading");
+    }
 
     if (this.isView) {
       this.FV.disableFormControlls();
@@ -144,12 +146,22 @@ export class AddOtherTripComponent implements OnInit {
       endDate: formData?.endDate,
       dateCount: formData?.dateCount,
       vehicle: this.tripDetails?.vehicle,
-      meterReading: formData?.meterReading,
+      meterReading: formData?.meterReading || 0,
       driver: formData?.driver,
       reason: formData?.reason,
     };
 
     if (this.isEdit) {
+      this.internalTripService
+        .UpdateInternalTrip(this.tripDetails?._id, request)
+        .subscribe((response) => {
+          if (response.IsSuccessful) {
+            this.messageService.showSuccessAlert(response.Message);
+            this.ref.close(true);
+          } else {
+            this.messageService.showErrorAlert(response.Message);
+          }
+        });
     } else {
       this.internalTripService
         .SaveInternalTrip(request)

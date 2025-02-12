@@ -46,6 +46,7 @@ export class ResourceService {
     updateUser: this.User,
     deleteUser: this.User,
     getUsersByRole: this.User + "/userByRole",
+    getDriversForTrip: this.User + "/getDriversForTrip",
   };
 
   leave = {

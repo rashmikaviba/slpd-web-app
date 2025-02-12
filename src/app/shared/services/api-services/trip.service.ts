@@ -19,9 +19,9 @@ export class TripService {
       });
   }
 
-  GetAllTrips() {
+  GetAllTrips(status: number = -1) {
     return this.dataAccess
-      .GET(this.resource.trip.getAllTrips)
+      .GET(this.resource.trip.getAllTrips + `?status=${status}`)
       .pipe((response) => {
         return response;
       });

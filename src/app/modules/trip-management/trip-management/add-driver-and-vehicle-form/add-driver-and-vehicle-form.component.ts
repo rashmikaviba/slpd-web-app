@@ -10,6 +10,7 @@ import { forkJoin, lastValueFrom } from "rxjs";
 import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enum";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { TripService } from "src/app/shared/services/api-services/trip.service";
+import { languages } from "src/app/shared/data/languages";
 
 @Component({
   selector: "app-add-driver-and-vehicle-form",
@@ -71,15 +72,32 @@ export class AddDriverAndVehicleFormComponent {
     try {
       const [driverResult, vehicleResult] = await lastValueFrom(
         forkJoin([
-          this.userService.GetAllUsersByRole(WellKnownUserRole.DRIVER),
-          this.vehicleService.GetByPassengerCount(
-            this.tripInformation?.passengersCount
+          this.userService.GetAllDriversForTrip(
+            this.tripInformation?.startDate,
+            this.tripInformation?.endDate
+          ),
+          this.vehicleService.GetByPassengerCountAndDate(
+            this.tripInformation?.passengersCount,
+            this.tripInformation?.startDate,
+            this.tripInformation?.endDate
           ),
         ])
       );
 
       if (driverResult?.IsSuccessful) {
         this.driversArr = driverResult.Result;
+        debugger;
+        this.driversArr.map((x) => {
+          let languagesStr = "";
+          if (x.languages.length > 0) {
+            languagesStr = x.languages
+              .map((x) => {
+                return languages.find((y) => y.id == x)?.englishName;
+              })
+              .join(", ");
+          }
+          x.languagesStr = languagesStr;
+        });
       }
 
       if (vehicleResult?.IsSuccessful) {
