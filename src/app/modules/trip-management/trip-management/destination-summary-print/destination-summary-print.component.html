@@ -1,0 +1,122 @@
+<div id="demo">
+  <div class="flex justify-content-between">
+    <div class="flex flex-column gap-1">
+      <div class="text-xl font-bold">{{ companyInformation?.companyName }}</div>
+
+      <div class="flex align-items-start gap-2">
+        <div class="flex flex-column">
+          <span>{{ companyInformation?.addressline1 }}</span>
+          <span>{{ companyInformation?.addressline2 }}</span>
+        </div>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-envelope"></i>
+        <span>{{ companyInformation?.email }}</span>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-phone"></i>
+        <span>{{ companyInformation?.phone }}</span>
+      </div>
+    </div>
+    <div class="flex justify-content-center align-items-center flex-column">
+      <span class="font-bold text-xl">Destination Summary</span>
+      <span>Trip Number : {{ tripConfirmedNumber }}</span>
+    </div>
+    <div>
+      <img
+        src="assets/signin-4.png"
+        alt="Image"
+        height="40"
+        class="mr-0 lg:mr-6"
+      />
+    </div>
+  </div>
+  <hr />
+
+  <p-table
+    [value]="reportDetails"
+    [columns]="cols"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th
+          *ngFor="let col of columns"
+          [ngClass]="{
+            'text-right':
+              col.field == 'startMilage' ||
+              col.field == 'endMilage' ||
+              col.field == 'calcDistance'
+          }"
+        >
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td
+          *ngFor="let col of columns"
+          [ngClass]="{
+            'text-right':
+              col.field == 'startMilage' ||
+              col.field == 'endMilage' ||
+              col.field == 'calcDistance'
+          }"
+        >
+          <ng-container
+            *ngIf="
+              col.field == 'startMilage' ||
+              col.field == 'endMilage' ||
+              col.field == 'calcDistance'
+            "
+          >
+            {{ rowData[col.field] | number : "1.2-2" }}
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'reachedDate'">
+            {{ (rowData[col.field] | date : "dd-MM-yyyy h:mm a") || "-" }}
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'description'">
+            <span [innerHTML]="rowData.description"></span>
+          </ng-container>
+          <ng-container
+            *ngIf="
+              col.field != 'startMilage' &&
+              col.field != 'endMilage' &&
+              col.field != 'calcDistance' &&
+              col.field != 'reachedDate' &&
+              col.field != 'description'
+            "
+          >
+            {{ rowData[col.field] }}
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <tr>
+        <td colspan="4" style="text-align: left">Total Milage</td>
+        <td class="text-right">{{ totalDistance | number : "1.2-2" }} KM</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<ng-template #templateRef>
+  <div class="flex justify-content-end align-items-center gap-2">
+    <button
+      id="print"
+      class="p-button-sm p-button p-component p-ripple"
+      printSectionId="demo"
+      [useExistingCss]="true"
+      ngxPrint
+    >
+      <i class="pi pi-file-pdf mr-2" style="font-size: 1rem"></i> Export PDF
+    </button>
+  </div>
+</ng-template>

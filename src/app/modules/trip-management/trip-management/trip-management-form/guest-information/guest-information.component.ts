@@ -69,7 +69,7 @@ export class GuestInformationComponent {
   }
 
   onClickSaveGuest() {
-    debugger;
+    ;
     let validateParams = "guestName,gender,nationality,age";
     if (this.FV.validateControllers(validateParams)) {
       return;

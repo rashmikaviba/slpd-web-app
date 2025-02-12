@@ -1,13 +1,24 @@
+import { firstValueFrom, Subscription } from "rxjs";
+import { NotificationService } from "./../../shared/services/api-services/notification.service";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { NotificationsComponent } from "../notifications/notifications.component";
+import { NotificationsComponent } from "../../shared/components/notifications/notifications.component";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { AppModule } from "src/app/shared/enums/app-module.enum";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { DatePipe } from "@angular/common";
 import { PopupService } from "src/app/shared/services/popup.service";
 import { ChangePasswordComponent } from "src/app/modules/user/change-password/change-password.component";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/app.state";
+import {
+  addNotification,
+  initiallySetState,
+  removeNotification,
+} from "src/app/store/action/notification.action";
+import { selectNotificationCount } from "src/app/store/selector/notification.selector";
+import { ExpenseExtensionService } from "src/app/shared/services/api-services/expense-extension.service";
 
 @Component({
   selector: "app-default-layout-new",
@@ -21,14 +32,19 @@ export class DefaultLayoutNewComponent {
   workingDate: string = "";
   showWorkingDate: string = "";
   items: any[];
+  notificationCount: number = 0;
+  private subscriptions: Subscription[] = [];
   constructor(
     private router: Router,
     private sidebarService: SidebarService,
     private masterDataService: MasterDataService,
     private messageService: AppMessageService,
     private datePipe: DatePipe,
-    private popupService: PopupService
-  ) { }
+    private popupService: PopupService,
+    private notificationService: NotificationService,
+    private store: Store<AppState>, // private webSocketService: WebSocketService
+    private expenseRequestService: ExpenseExtensionService
+  ) {}
 
   ngOnInit(): void {
     this.workingDate = this.masterDataService.WorkingDate;
@@ -46,6 +62,7 @@ export class DefaultLayoutNewComponent {
         label: "Dashboard",
         icon: "pi pi-home",
         routerLink: "/dashboard",
+        labelForRoute: "Dashboard",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminDashboard,
         ]),
@@ -55,6 +72,7 @@ export class DefaultLayoutNewComponent {
         label: "User",
         icon: "pi pi-user",
         routerLink: "/user",
+        labelForRoute: "User",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminUserManagement,
         ]),
@@ -64,6 +82,7 @@ export class DefaultLayoutNewComponent {
         label: "Leave Management",
         icon: "pi pi-user",
         routerLink: "/leave-management",
+        labelForRoute: "Leave Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminLeaveManagement,
           AppModule.AdminLeaveManagement,
@@ -75,6 +94,7 @@ export class DefaultLayoutNewComponent {
         label: "Trip Management",
         icon: "pi pi-map",
         routerLink: "/trip-management",
+        labelForRoute: "Trip Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminTripManagement,
           AppModule.SuperAdminTripManagement,
@@ -85,6 +105,7 @@ export class DefaultLayoutNewComponent {
         label: "Vehicle Management",
         icon: "pi pi-car",
         routerLink: "/vehicle-management",
+        labelForRoute: "Vehicle Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminVehicleManagement,
           AppModule.AdminVehicleManagement,
@@ -95,6 +116,7 @@ export class DefaultLayoutNewComponent {
         label: "Your Trips",
         icon: "pi pi-map",
         routerLink: "/trip-management",
+        labelForRoute: "Trip Management",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.DriverTripManagement,
         ]),
@@ -103,6 +125,7 @@ export class DefaultLayoutNewComponent {
         menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",
+        labelForRoute: "Month Audit",
         // routerLink: "/month-audit",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminMonthAudit,
@@ -116,6 +139,7 @@ export class DefaultLayoutNewComponent {
         label: "Vehicle Tracking",
         icon: "pi pi-map-marker",
         routerLink: "/vehicle-tracking",
+        labelForRoute: "Vehicle Tracking",
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminVehicleTracking,
         ]),
@@ -125,8 +149,10 @@ export class DefaultLayoutNewComponent {
         label: "Reports",
         icon: "pi pi-file",
         routerLink: "/reports",
+        labelForRoute: "Reports",
         isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.AdminReportManagement, AppModule.SuperAdminReportManagement
+          AppModule.AdminReportManagement,
+          AppModule.SuperAdminReportManagement,
         ]),
       },
     ];
@@ -138,24 +164,72 @@ export class DefaultLayoutNewComponent {
       },
     ];
     this.ModuleActivate(module);
+
+    // ngrx store
+    let isLoaded = this.notificationService.getNotificationLoaded();
+    if (!isLoaded) {
+      this.getAllNotifications();
+    }
+    this.store.select(selectNotificationCount).subscribe((count) => {
+      this.notificationCount = count;
+    });
+
+    this.subscriptions.push(
+      this.expenseRequestService.onNewExpenseRequest().subscribe({
+        next: (expense: any) => {
+          this.messageService.showNotificationAlert(expense?.message);
+          this.store.dispatch(addNotification({ notification: expense.data }));
+        },
+
+        error: (error) => {
+          console.error("Socket error:", error);
+        },
+      })
+    );
+
+    this.subscriptions.push(
+      this.expenseRequestService.onApproveExpenseRequest().subscribe({
+        next: (expense: any) => {
+          this.store.dispatch(
+            removeNotification({ notification: expense.data })
+          );
+        },
+        error: (error) => {
+          console.error("Socket error:", error);
+        },
+      })
+    );
+
+    this.subscriptions.push(
+      this.expenseRequestService.onRejectExpenseRequest().subscribe({
+        next: (expense: any) => {
+          this.store.dispatch(
+            removeNotification({ notification: expense.data })
+          );
+        },
+        error: (error) => {
+          console.error("Socket error:", error);
+        },
+      })
+    );
   }
 
   ModuleActivate(routeModule: any) {
-    // debugger;
+    debugger;
     this.DynamicItems.forEach((element: any) => {
-      if (element.label.toLowerCase().replace(/\s+/g, "-") == routeModule) {
+      if (
+        element.labelForRoute.toLowerCase().replace(/\s+/g, "-") == routeModule
+      ) {
         this.activeTab = element.menuId;
       }
     });
-
-    console.log(this.activeTab);
   }
 
   onClickNotification() {
     let data = {};
 
     let properties = {
-      width: "20vw",
+      width: "320px",
       position: "left",
     };
 
@@ -201,11 +275,10 @@ export class DefaultLayoutNewComponent {
         header: "CHANGE PASSWORD",
         width: "30vw",
       })
-      .subscribe((res) => { });
+      .subscribe((res) => {});
   }
 
   openMonthAudit() {
-    debugger;
     let systemMonth = this.masterDataService.WorkingMonth;
     let systemYear = this.masterDataService.WorkingYear;
 
@@ -225,5 +298,26 @@ export class DefaultLayoutNewComponent {
 
   moveToRouter(routerLink: string) {
     this.router.navigate([routerLink]);
+  }
+
+  // Handle Notification
+  async getAllNotifications() {
+    this.store.dispatch(initiallySetState({ notifications: [] }));
+
+    const notificationResult = await firstValueFrom(
+      this.notificationService.GetAllNotifications()
+    );
+
+    if (notificationResult.IsSuccessful) {
+      this.notificationService.setNotificationLoaded(true);
+      this.store.dispatch(
+        initiallySetState({ notifications: notificationResult.Result || [] })
+      );
+    }
+  }
+
+  ngOnDestroy() {
+    // Clean up all subscriptions
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }

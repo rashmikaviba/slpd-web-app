@@ -68,7 +68,7 @@ export class AppComponent {
 
   checkScreenWidth() {
     const width = window.innerWidth;
-    if (width < 1024) {
+    if (width < 850) {
       this.isSidebarFullSize = true;
     } else {
       this.isSidebarFullSize = false;
@@ -123,7 +123,6 @@ export class AppComponent {
 
     this.idle.onTimeoutWarning.subscribe((countdown) => {
       this.idleState = "You will time out in " + countdown + " seconds!";
-      console.log(this.idleState);
     });
 
     let timeOut = this.masterDataService.TimedOut;
@@ -156,7 +155,6 @@ export class AppComponent {
 
   reset() {
     this.idle.watch();
-    console.log("reset");
     this.timedOut = false;
     this.masterDataService.TimedOut = "false";
   }

@@ -3,7 +3,7 @@
     <div class="flex justify-content-between align-items-center mb-4">
       <div class="text-2xl font-semibold">Leave Management</div>
       <p-button
-        styleClass=" mr-2"
+        styleClass="p-button-sm mb:p-button"
         icon="pi pi-plus"
         label="Request Leave"
         (onClick)="onOpenApplyLeave(1, null)"
@@ -63,31 +63,39 @@
               </div> -->
         <!--**********************Second Style********************-->
         <div class="p-fluid grid formgrid">
-          <div class="field col-12 md:col-4">
-            <div class="card shadow-1">
-              <label for="pendingLeaves">Pending Leaves</label>
+          <div class="field col-4 md:col-4">
+            <div class="card shadow-1 text-center md:text-left">
+              <label
+                for="pendingLeaves"
+                class="text-sm md:text-base text-center"
+                >Pending Leaves</label
+              >
               <div class="text-center mt-3">
-                <label class="text-xl text-blue-500">{{
+                <label class="text-blue-500 text-base md:text-2xl">{{
                   leaveData?.pendingLeaveCount
                 }}</label>
               </div>
             </div>
           </div>
-          <div class="field col-12 md:col-4">
-            <div class="card shadow-1">
-              <label for="leavesTaken">Approved Leaves</label>
+          <div class="field col-4 md:col-4">
+            <div class="card shadow-1 text-center md:text-left">
+              <label for="leavesTaken" class="text-sm md:text-base"
+                >Approved Leaves</label
+              >
               <div class="text-center mt-3">
-                <label class="text-xl text-green-500">{{
+                <label class="text-green-500 text-base md:text-2xl">{{
                   leaveData?.approveLeaveCount
                 }}</label>
               </div>
             </div>
           </div>
-          <div class="field col-12 md:col-4">
-            <div class="card shadow-1">
-              <label for="rejectedLeaves">Rejected Leaves</label>
+          <div class="field col-4 md:col-4">
+            <div class="card shadow-1 text-center md:text-left">
+              <label for="rejectedLeaves" class="text-sm md:text-base"
+                >Rejected Leaves</label
+              >
               <div class="text-center mt-3">
-                <label class="text-xl text-red-500">{{
+                <label class="text-red-500 text-base md:text-2xl">{{
                   leaveData?.rejectLeaveCount
                 }}</label>
               </div>

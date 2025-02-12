@@ -35,6 +35,7 @@ export class DriverTaskFormComponent {
     this.FV.formGroup = this.formBuilder.group({
       isTermChecked1: [false, [Validators.required, Validators.requiredTrue]],
       isTermChecked2: [false, [Validators.required, Validators.requiredTrue]],
+      umbrellaCount: [null, [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -65,6 +66,7 @@ export class DriverTaskFormComponent {
     this.FV.formGroup.patchValue({
       isTermChecked1: this.checkListInfo.isTermsConditionsChecked1,
       isTermChecked2: this.checkListInfo.isTermsConditionsChecked2,
+      umbrellaCount: this.checkListInfo.umbrellaCount || 0,
     });
 
     this.FV.formGroup.disable();
@@ -95,7 +97,9 @@ export class DriverTaskFormComponent {
       return;
     }
 
-    if (this.FV.validateControllers("isTermChecked1,isTermChecked2")) {
+    if (
+      this.FV.validateControllers("isTermChecked1,isTermChecked2,umbrellaCount")
+    ) {
       return;
     }
 
@@ -113,6 +117,7 @@ export class DriverTaskFormComponent {
     let formData: any = this.FV.formGroup.value;
     requestObj["isTermsConditionsChecked1"] = formData.isTermChecked1 || false;
     requestObj["isTermsConditionsChecked2"] = formData.isTermChecked2 || false;
+    requestObj["umbrellaCount"] = formData.umbrellaCount || 0;
 
     this.tripService
       .SaveCheckList(this.tripInfo.id, requestObj)

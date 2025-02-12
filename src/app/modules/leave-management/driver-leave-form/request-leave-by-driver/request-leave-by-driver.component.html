@@ -169,7 +169,7 @@
       <p-button
         label="Cancel"
         icon="pi pi-times"
-        styleClass="p-button-secondary"
+        styleClass="p-button-secondary p-button-sm mb:p-button"
         (click)="handleCancel()"
       ></p-button>
 
@@ -177,6 +177,7 @@
         label="{{ isEdit ? 'Update' : 'Save' }}"
         icon="pi pi-save"
         iconPos="left"
+        styleClass="p-button-sm mb:p-button"
         (click)="handleSave()"
       ></p-button>
     </div>

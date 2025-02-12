@@ -6,9 +6,9 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class ResourceService {
-  constructor() { }
+  constructor() {}
 
-  private host: string = environment.apiURL;
+  private host: string = environment.apiURL + "/api/v1";
 
   private Auth = this.host + "/auth";
   private Store = this.host + "/store";
@@ -20,6 +20,9 @@ export class ResourceService {
   private Trip = this.host + "/trip";
   private Expenses = this.host + "/expense";
   private Report = this.host + "/report";
+  private ExpenseRequest = this.host + "/expenseRequest";
+  private Notification = this.host + "/notification";
+  private InternalTrip = this.host + "/internalTrip";
 
   auth = {
     login: this.Auth + "/login",
@@ -43,6 +46,7 @@ export class ResourceService {
     updateUser: this.User,
     deleteUser: this.User,
     getUsersByRole: this.User + "/userByRole",
+    getDriversForTrip: this.User + "/getDriversForTrip",
   };
 
   leave = {
@@ -101,6 +105,9 @@ export class ResourceService {
     // trip places
     getPlacesByTripId: this.Trip + "/places",
     updatePlaceAsMarked: this.Trip,
+
+    // summary report
+    getDestinationSummary: this.Trip + "/destinationSummary",
   };
 
   expense = {
@@ -114,9 +121,28 @@ export class ResourceService {
   };
 
   report = {
-    monthlyTripReport: this.Report + '/monthlyTripReport',
-    monthlyExpensesReport: this.Report + '/monthlyExpensesReport',
-    monthlyDriverSalary: this.Report + '/monthlyDriverSalary',
-    monthlyIncomeReport: this.Report + '/monthlyIncomeReport',
-  }
+    monthlyTripReport: this.Report + "/monthlyTripReport",
+    monthlyExpensesReport: this.Report + "/monthlyExpensesReport",
+    monthlyDriverSalary: this.Report + "/monthlyDriverSalary",
+    monthlyIncomeReport: this.Report + "/monthlyIncomeReport",
+  };
+
+  expenseRequest = {
+    save: this.ExpenseRequest,
+    approveExpense: this.ExpenseRequest + "/approve",
+    rejectExpense: this.ExpenseRequest + "/reject",
+    getExpenseExtensionById: this.ExpenseRequest,
+  };
+
+  notification = {
+    getAllNotifications: this.Notification,
+  };
+
+  internalTrip = {
+    save: this.InternalTrip,
+    getByVehicle: this.InternalTrip + "/getByVehicle",
+    getById: this.InternalTrip,
+    update: this.InternalTrip,
+    deleteById: this.InternalTrip,
+  };
 }

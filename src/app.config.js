@@ -1,1 +1,1 @@
-window["apiURL"] = "http://server-Url:9060/api";
+window["apiURL"] = "http://server-Url:9060";

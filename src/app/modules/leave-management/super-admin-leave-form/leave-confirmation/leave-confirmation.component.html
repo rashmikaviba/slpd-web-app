@@ -58,16 +58,18 @@
       </div>
     </div>
     <div class="field col-12 md:col-12">
-      <div class="flex gap-1" style="float: right">
+      <div class="flex gap-2" style="float: right">
         <p-button
-          styleClass="p-button-secondary mr-2"
+          styleClass="p-button-secondary p-button-sm mb:p-button"
           label="Cancel"
           icon="pi pi-times"
           (click)="onClickCancel()"
         ></p-button>
 
         <p-button
-          styleClass="{{ isApproved ? 'p-button-success' : 'p-button-danger' }}"
+          styleClass="{{
+            isApproved ? 'p-button-success' : 'p-button-danger'
+          }} p-button-sm mb:p-button"
           label="{{ isApproved ? 'Approve' : 'Reject' }}"
           icon="{{ isApproved ? 'pi pi-check' : 'pi pi-times' }}"
           (click)="onClickReject()"

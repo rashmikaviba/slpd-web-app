@@ -24,6 +24,16 @@ export const driverTaskData = {
   ],
   vehicleChecklist: [
     {
+      id: 10,
+      taskName: "Is the vehicle license up to date ?",
+      status: 1,
+    },
+    {
+      id: 11,
+      taskName: "Is the vehicle insurance up to date ?",
+      status: 1,
+    },
+    {
       id: 5,
       taskName:
         "Are all lights functioning properly ? (Headlights, Tail Lights, Indicators)",
@@ -48,6 +58,11 @@ export const driverTaskData = {
     {
       id: 9,
       taskName: "Is the fuel level sufficient for the trip ?",
+      status: 1,
+    },
+    {
+      id: 12,
+      taskName: "Is the spare wheel checked and in good condition ?",
       status: 1,
     },
   ],

@@ -83,7 +83,7 @@ export class PersonalDetailsComponent {
   }
 
   setValues() {
-    debugger;
+    ;
     this.FV.setValue("fullName", this.userDetail?.fullName);
     this.FV.setValue("userName", this.userDetail?.userName);
     this.FV.setValue("gender", this.userDetail?.gender);

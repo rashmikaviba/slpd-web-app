@@ -1,5 +1,6 @@
 import { DatePipe } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { firstValueFrom } from "rxjs";
 import { TripService } from "src/app/shared/services/api-services/trip.service";
 import { CommonForm } from "src/app/shared/services/app-common-form";
@@ -24,14 +25,23 @@ export class UpdateLocationFormComponent implements OnInit {
     private geolocationService: GeolocationService,
     private tripService: TripService,
     private sideBarService: SidebarService,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private formBuilder: UntypedFormBuilder
+  ) {
+    this.createForm();
+  }
 
   ngOnInit() {
     let sideBarData: any = this.sideBarService.getData();
     this.tripInfo = sideBarData.tripInfo;
     this.isView = sideBarData.isView;
     this.loadInitialData();
+  }
+
+  createForm() {
+    this.FV.formGroup = this.formBuilder.group({
+      currentMilage: [null, [Validators.required, Validators.min(0.1)]],
+    });
   }
 
   async loadInitialData() {
@@ -55,8 +65,6 @@ export class UpdateLocationFormComponent implements OnInit {
           );
         });
       }
-
-      console.log(this.places);
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }
@@ -64,6 +72,13 @@ export class UpdateLocationFormComponent implements OnInit {
 
   async markAsReached(item: any) {
     try {
+      debugger;
+      if (this.FV.validateControllers("currentMilage")) {
+        return;
+      }
+
+      let test = this.FV.getValue("currentMilage") || 0;
+
       let location = {
         lat: null,
         lng: null,
@@ -87,14 +102,17 @@ export class UpdateLocationFormComponent implements OnInit {
         confirmationConfig,
         (isConfirm: boolean) => {
           if (isConfirm) {
+            let currentMilage = this.FV.getValue("currentMilage") || 0;
             let request = {
               location: location,
+              currentMilage: currentMilage,
             };
             this.isChanged = true;
             this.tripService
               .UpdateTripPlaceAsMarked(this.tripInfo?.id, item._id, request)
               .subscribe((response) => {
                 if (response.IsSuccessful) {
+                  this.FV.clearValue("currentMilage");
                   this.messageService.showSuccessAlert(response.Message);
                   this.loadInitialData();
                 } else {
@@ -115,5 +133,9 @@ export class UpdateLocationFormComponent implements OnInit {
         action: "refresh",
       });
     }
+  }
+
+  onShowOverLayPanel() {
+    this.FV.clearValue("currentMilage");
   }
 }

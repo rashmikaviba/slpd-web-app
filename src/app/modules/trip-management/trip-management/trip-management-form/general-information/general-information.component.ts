@@ -5,6 +5,7 @@ import { CommonForm } from "src/app/shared/services/app-common-form";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { TripManagementFlowService } from "../trip-management-flow.service";
+import { paymentMethod } from "src/app/shared/data/commonData";
 
 @Component({
   selector: "app-general-information",
@@ -15,6 +16,7 @@ export class GeneralInformationComponent {
   FV = new CommonForm();
   minStartDate: string = "";
   minEndDate: string = "";
+  paymentMethodArr: any = paymentMethod;
   isView: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
@@ -45,6 +47,8 @@ export class GeneralInformationComponent {
       ],
       mobile: ["", [Validators.required]],
       contactPerson: ["", [Validators.required]],
+      specialRequirement: ["", [Validators.max(500)]],
+      paymentMode: [null, [Validators.required]],
 
       // arrival information
       isArrivalAdded: [false],
@@ -111,7 +115,6 @@ export class GeneralInformationComponent {
     let data: any = JSON.parse(
       JSON.stringify(this.tripMgtFlowService.getData())
     ); //this.tripMgtFlowService.getData();
-    console.log(data);
     if (data?.startDate) {
       this.FV.setValue(
         "startDate",
@@ -134,6 +137,13 @@ export class GeneralInformationComponent {
       this.FV.setValue("estimatedCost", data?.estimatedExpense);
     }
 
+    if (data?.specialRequirement) {
+      this.FV.setValue("specialRequirement", data?.specialRequirement);
+    }
+    if (data?.paymentMode) {
+      this.FV.setValue("paymentMode", data?.paymentMode);
+    }
+
     if (data?.contactPerson) {
       this.FV.setValue("contactPerson", data?.contactPerson);
     }
@@ -143,7 +153,10 @@ export class GeneralInformationComponent {
     }
 
     if (data?.totalCostLocalCurrency) {
-      this.FV.setValue("totalIncomeLocalCurrency", data?.totalCostLocalCurrency);
+      this.FV.setValue(
+        "totalIncomeLocalCurrency",
+        data?.totalCostLocalCurrency
+      );
     }
 
     if (data?.email) {
@@ -248,7 +261,7 @@ export class GeneralInformationComponent {
 
     // genaral information validation
     let validateParams =
-      "startDate,endDate,dateCount,estimatedCost,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson";
+      "startDate,endDate,dateCount,estimatedCost,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson,specialRequirement,paymentMode";
 
     // // add arrival departure pickup drop off validations
     if (isArrivalAdded) {
@@ -284,37 +297,39 @@ export class GeneralInformationComponent {
       estimatedExpense: formData?.estimatedCost || 0,
       arrivalInfo: isArrivalAdded
         ? {
-          arrivalDate: formData?.arrivalDate,
-          arrivalTime: formData?.arrivalDate + " " + formData?.arrivalTime,
-          arrivalFlightNumber: formData?.arrivalFlightNumber,
-        }
+            arrivalDate: formData?.arrivalDate,
+            arrivalTime: formData?.arrivalDate + " " + formData?.arrivalTime,
+            arrivalFlightNumber: formData?.arrivalFlightNumber,
+          }
         : null,
       departureInfo: isDepartureAdded
         ? {
-          departureDate: formData?.departureDate,
-          departureTime:
-            formData?.departureDate + " " + formData?.departureTime,
-          departureFlightNumber: formData?.departureFlightNumber,
-        }
+            departureDate: formData?.departureDate,
+            departureTime:
+              formData?.departureDate + " " + formData?.departureTime,
+            departureFlightNumber: formData?.departureFlightNumber,
+          }
         : null,
       pickUpInfo: isPickupAdded
         ? {
-          pickupDate: formData?.pickUpDate,
-          pickupTime: formData?.pickUpDate + " " + formData?.pickUpTime,
-          pickupCity: formData?.pickUpCity,
-          pickupAddress: formData?.pickUpAddress,
-        }
+            pickupDate: formData?.pickUpDate,
+            pickupTime: formData?.pickUpDate + " " + formData?.pickUpTime,
+            pickupCity: formData?.pickUpCity,
+            pickupAddress: formData?.pickUpAddress,
+          }
         : null,
       dropOffInfo: isDropOffAdded
         ? {
-          dropOffDate: formData?.dropOffDate,
-          dropOffTime: formData?.dropOffDate + " " + formData?.dropOffTime,
-          dropOffCity: formData?.dropOffCity,
-          dropOffAddress: formData?.dropOffAddress,
-        }
+            dropOffDate: formData?.dropOffDate,
+            dropOffTime: formData?.dropOffDate + " " + formData?.dropOffTime,
+            dropOffCity: formData?.dropOffCity,
+            dropOffAddress: formData?.dropOffAddress,
+          }
         : null,
       email: formData?.email,
       phoneNumber: formData?.mobile,
+      specialRequirement: formData?.specialRequirement || "",
+      paymentMode: formData?.paymentMode || "Cash",
     };
 
     return request;

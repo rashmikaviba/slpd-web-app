@@ -1,0 +1,135 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="flex justify-content-end">
+    <p-selectButton
+      [options]="stateOptions"
+      formControlName="selectedState"
+      optionLabel="label"
+      optionValue="value"
+      [allowEmpty]="false"
+      (onOptionClick)="onChangeState()"
+    />
+  </div>
+
+  <div class="grid pt-4">
+    <div class="col-12 md:col-6 p-2">
+      <div class="text-500 font-medium mb-1">Trip Confirmation No</div>
+      <div class="text-900">{{ expenseReqData?.tripConfirmedNumber }}</div>
+    </div>
+    <div class="col-12 md:col-6 p-2">
+      <div class="text-500 font-medium mb-1">Requested Driver</div>
+      <div class="text-900">{{ expenseReqData?.requestedUserName }}</div>
+    </div>
+    <div class="col-12 md:col-6 p-2">
+      <div class="text-500 font-medium mb-1">Requested Amount</div>
+      <div class="text-900">
+        LKR
+        {{ expenseReqData?.requestedAmount | currency : "" : "" }}
+      </div>
+    </div>
+    <div class="col-12 md:col-6 p-2">
+      <p-button
+        label="Driver Bank Details"
+        severity="info"
+        styleClass="p-button-outlined p-button-sm mb:p-button"
+        (onClick)="op.toggle($event)"
+        *ngIf="selectedState == 1"
+      ></p-button>
+    </div>
+    <div class="col-12 p-2">
+      <div class="text-500 font-medium mb-1">Description</div>
+      <div class="text-900 line-height-3">
+        {{ expenseReqData?.description }}
+      </div>
+    </div>
+  </div>
+
+  <div class="p-fluid grid formgrid mt-2">
+    <div class="field col-12 md:col-6" *ngIf="selectedState == 1">
+      <label for="amount" class="required">Approved Amount</label>
+
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">LKR</span>
+        <p-inputNumber
+          formControlName="approvedAmount"
+          mode="decimal"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+          [min]="0"
+        ></p-inputNumber>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-12" *ngIf="selectedState == 2">
+      <label for="description">Reject Reason</label>
+      <textarea
+        pInputText
+        name="description"
+        id="description"
+        formControlName="rejectReason"
+        class="w-full"
+        rows="2"
+        style="resize: none"
+        maxlength="500"
+      ></textarea>
+
+      <div style="float: right">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("description")?.length || 0 }} / 500</small
+        >
+      </div>
+    </div>
+    <div class="field col-12 md:col-12">
+      <div class="flex gap-1" style="float: right">
+        <p-button
+          styleClass="p-button-secondary p-button-sm mb:p-button"
+          label="Cancel"
+          icon="pi pi-times"
+          (onClick)="onClickCancel()"
+        ></p-button>
+
+        <p-button
+          styleClass="{{
+            selectedState == 1 ? 'p-button-primary' : 'p-button-danger'
+          }} p-button-sm mb:p-button"
+          label="{{ selectedState == 1 ? 'Approve' : 'Reject' }}"
+          icon="pi {{ selectedState == 1 ? 'pi-check' : 'pi-times' }}"
+          (onClick)="onClickSave()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<p-overlayPanel #op>
+  <div class="flex flex-column gap-3 w-22rem">
+    <div>
+      <div class="flex flex-column gap-2">
+        <div class="flex align-items-center gap-2">
+          <span class="font-semibold text-900">Holder Name :</span>
+          <span class="text-900">
+            {{ expenseReqData?.accountHolderName }}
+          </span>
+        </div>
+        <div class="flex align-items-center gap-2">
+          <span class="font-semibold text-900">Bank Name :</span>
+          <span class="text-900">
+            {{ expenseReqData?.bankName }}
+          </span>
+        </div>
+
+        <div class="flex align-items-center gap-2">
+          <span class="font-semibold text-900">Branch Name :</span>
+          <span class="text-900">
+            {{ expenseReqData?.branch }}
+          </span>
+        </div>
+        <div class="flex align-items-center gap-2">
+          <span class="font-semibold text-900">Account Number :</span>
+          <span class="text-900">
+            {{ expenseReqData?.accountNumber }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-overlayPanel>

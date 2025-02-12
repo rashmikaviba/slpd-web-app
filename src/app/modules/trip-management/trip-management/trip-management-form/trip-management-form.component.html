@@ -19,7 +19,7 @@
     <p-button
       label="Cancel"
       icon="pi pi-times"
-      styleClass="p-button-secondary"
+      styleClass="p-button-secondary p-button-sm mb:p-button"
       (click)="handleCancel()"
     ></p-button>
 
@@ -27,6 +27,7 @@
       label="Next"
       icon="pi pi-angle-double-right"
       iconPos="left"
+      styleClass="p-button-sm mb:p-button"
       *ngIf="showingIndex != 3"
       (click)="handleSave()"
     ></p-button>
@@ -35,6 +36,7 @@
       label="{{ isEdit ? 'Update' : 'Save' }}"
       icon="pi pi-save"
       iconPos="left"
+      styleClass="p-button-sm mb:p-button"
       *ngIf="showingIndex == 3 && !isView"
       (click)="handleSave()"
     ></p-button>

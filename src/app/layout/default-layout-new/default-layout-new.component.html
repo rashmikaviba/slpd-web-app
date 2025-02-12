@@ -7,7 +7,7 @@
         pRipple
         class="cursor-pointer inline-flex align-items-center justify-content-center lg:hidden text-700"
         pStyleClass="#app-sidebar-12"
-        enterClass="hidden"
+        enterFromClass="hidden"
         enterActiveClass="fadeinleft"
         leaveToClass="hidden"
         leaveActiveClass="fadeoutleft"
@@ -25,7 +25,7 @@
         pRipple
         class="cursor-pointer block lg:hidden text-700"
         pStyleClass="@next"
-        enterClass="hidden"
+        enterFromClass="hidden"
         leaveToClass="hidden"
         [hideOnOutsideClick]="true"
       >
@@ -154,7 +154,7 @@
                         : moveToRouter(item?.routerLink)
                     "
                     [ngClass]="activeTab === item.menuId ? 'bg-demo' : ''"
-                    class="flex align-items-center cursor-pointer p-3 text-700 hover:bg-purple-50"
+                    class="flex align-items-center cursor-pointer p-3 text-700 hover:bg-blue-50"
                   >
                     <i
                       class="{{ item.icon }} mr-2"
@@ -173,16 +173,31 @@
             <!-- </ul> -->
           </div>
           <div
-            class="mt-auto border-top-1 surface-border p-3 flex justify-content-between"
+            class="mt-auto border-top-1 surface-border p-3 flex justify-content-between md:mb-0 mb-8"
           >
-            <a
+            <!-- <a
               pRipple
               class="cursor-pointer inline-flex align-items-center justify-content-center border-2 surface-border hover:surface-100 text-600 transition-colors transition-duration-150 border-circle"
               style="width: 40px; height: 40px"
               (click)="onClickNotification()"
             >
               <i class="pi pi-bell text-xl"></i>
-            </a>
+            </a> -->
+
+            <div class="relative">
+              <a
+                pRipple
+                class="cursor-pointer inline-flex align-items-center justify-content-center border-2 surface-border hover:surface-100 text-600 transition-colors transition-duration-150 border-circle"
+                style="width: 40px; height: 40px"
+                (click)="onClickNotification()"
+              >
+                <i class="pi pi-bell text-xl"></i>
+              </a>
+              <span *ngIf="notificationCount > 0" class="badge">{{
+                notificationCount
+              }}</span>
+            </div>
+
             <a
               pRipple
               class="cursor-pointer inline-flex align-items-center justify-content-center border-2 surface-border hover:surface-100 text-600 transition-colors transition-duration-150 border-circle"
@@ -210,9 +225,19 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-column flex-auto" style="overflow: scroll">
+      <!-- <div class="flex flex-column flex-auto" style="overflow: scroll">
         <div
           class="shadow-2 card surface-card flex-auto lg:ml-5 p-4"
+          style="border-radius: 8px"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </div> -->
+
+      <!-- Mid Section -->
+      <div class="flex flex-column flex-auto overflow-y-auto">
+        <div
+          class="shadow-2 card surface-card flex-auto lg:ml-3 p-4"
           style="border-radius: 8px"
         >
           <router-outlet></router-outlet>

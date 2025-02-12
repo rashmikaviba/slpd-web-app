@@ -9,10 +9,9 @@ export class HelperService {
   constructor(
     private datePipe: DatePipe,
     private filterService: FilterService
-  ) {}
+  ) { }
 
   checkValidUrl(url: string) {
-    console.log(url);
     if (
       url.match(
         "^(?:http(s)?://)?[w.-]+(?:.[w.-]+)+:([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-6][0-5][0-5][0-3][0-5])$"
@@ -186,7 +185,7 @@ export class HelperService {
   mapObject<T, U>(target: any, source: U): T {
     try {
       Object.assign(target, source);
-    } catch (error) {}
+    } catch (error) { }
     return target;
   }
 

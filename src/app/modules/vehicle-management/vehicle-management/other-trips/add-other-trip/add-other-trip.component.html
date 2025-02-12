@@ -1,0 +1,116 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <!-- startDate: ["", [Validators.required]],
+    endDate: ["", [Validators.required]],
+    dateCount: ["", [Validators.required]],
+    meterReading: ["", [Validators.required]],
+    driver: ["", [Validators.required]],
+    reason: ["", [Validators.required]], -->
+
+    <div class="field col-12 md:col-6">
+      <!--driver  -->
+      <label class="required" for="driver">Driver</label>
+      <p-dropdown
+        id="driver"
+        [options]="driverArr"
+        optionLabel="fullName"
+        optionValue="_id"
+        formControlName="driver"
+        appendTo="body"
+        [autoOptionFocus]="false"
+        placeholder="Select Driver"
+      ></p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <!--startDate  -->
+      <label class="required" for="startDate">Start Date</label>
+      <p-calendar
+        formControlName="startDate"
+        dateFormat="dd-mm-yy"
+        [showTime]="false"
+        appendTo="body"
+        [readonlyInput]="true"
+        (onSelect)="onChangeStartDate()"
+      ></p-calendar>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <!--endDate  -->
+      <label class="required" for="endDate">End Date</label>
+      <p-calendar
+        formControlName="endDate"
+        dateFormat="dd-mm-yy"
+        [minDate]="minDate"
+        [showTime]="false"
+        [readonlyInput]="true"
+        appendTo="body"
+        (onSelect)="onChangeEndDate()"
+      ></p-calendar>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <!--dateCount  -->
+      <label class="required" for="dateCount">Date Count</label>
+      <p-inputNumber
+        formControlName="dateCount"
+        class="w-full"
+        [showButtons]="true"
+        [max]="100"
+      ></p-inputNumber>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <!--meterReading  -->
+      <label for="meterReading">Meter Reading</label>
+      <p-inputNumber
+        formControlName="meterReading"
+        mode="decimal"
+        class="w-full"
+        [showButtons]="true"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        suffix=" KM"
+      ></p-inputNumber>
+    </div>
+
+    <div class="field col-12 md:col-12">
+      <!--reason  -->
+      <label class="required" for="reason">Reason</label>
+      <textarea
+        id="reason"
+        pInputText
+        type="text"
+        class="w-full"
+        formControlName="reason"
+        rows="3"
+        style="resize: none"
+        maxlength="500"
+      ></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isView">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("reason")?.length || 0 }} / 500</small
+        >
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-12" *ngIf="!isView">
+      <div class="flex justify-content-end">
+        <p-button
+          styleClass="p-button-sm mb:p-button"
+          label="{{ isEdit ? 'UPDATE' : 'SAVE' }}"
+          icon="pi pi-save"
+          (onClick)="onClickSave()"
+        ></p-button>
+
+        <p-button
+          styleClass="p-button-secondary p-button-sm mb:p-button ml-2"
+          label="CANCEL"
+          icon="pi pi-times"
+          (onClick)="onClickCancel()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

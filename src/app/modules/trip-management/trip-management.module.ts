@@ -58,6 +58,9 @@ import { NgxPrintModule } from "ngx-print";
 import { ExpenseManagementComponent } from "./expense-management/expense-management.component";
 import { ExpenseManagementFormComponent } from "./expense-management/expense-management-form/expense-management-form.component";
 import { DriverSalaryFormComponent } from "./trip-management/driver-salary-form/driver-salary-form.component";
+import { ExpenseRequestFormComponent } from "./expense-management/expense-request-form/expense-request-form.component";
+import { ExpenseRequestActionFormComponent } from "./expense-management/expense-request-action-form/expense-request-action-form.component";
+import { DestinationSummaryPrintComponent } from "./trip-management/destination-summary-print/destination-summary-print.component";
 
 @NgModule({
   declarations: [
@@ -77,6 +80,9 @@ import { DriverSalaryFormComponent } from "./trip-management/driver-salary-form/
     ExpenseManagementComponent,
     ExpenseManagementFormComponent,
     DriverSalaryFormComponent,
+    ExpenseRequestFormComponent,
+    ExpenseRequestActionFormComponent,
+    DestinationSummaryPrintComponent,
   ],
   imports: [
     CommonModule,

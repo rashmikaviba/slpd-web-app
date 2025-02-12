@@ -59,10 +59,47 @@
                       <p-button
                         icon="pi pi-map-marker"
                         [outlined]="true"
+                        styleClass="p-button-sm mb:p-button"
                         *ngIf="!item.isReached && !isView"
                         label="Mark As Reached"
-                        (onClick)="markAsReached(item)"
+                        (onClick)="op.toggle($event)"
                       />
+                      <!-- markAsReached(item) -->
+                      <p-overlayPanel
+                        #op
+                        styleClass="over ml-5 mr-5"
+                        (onShow)="onShowOverLayPanel()"
+                      >
+                        <div class="w-18rem">
+                          <div class="grid formgrid p-fluid">
+                            <div class="field col-12 md:col-12">
+                              <label for="currenctMailadge" class="required"
+                                >Current Milage</label
+                              >
+                              <p-inputNumber
+                                formControlName="currentMilage"
+                                mode="decimal"
+                                [minFractionDigits]="2"
+                                [maxFractionDigits]="2"
+                                [min]="0"
+                                suffix="KM"
+                              ></p-inputNumber>
+                            </div>
+
+                            <div class="field col-12 md:col-12">
+                              <div class="flex justify-content-end">
+                                <p-button
+                                  label="UPDATE"
+                                  icon="pi pi-save"
+                                  styleClass="p-button-sm mb:p-button"
+                                  iconPos="left"
+                                  (click)="markAsReached(item)"
+                                ></p-button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </p-overlayPanel>
                       <div
                         class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2"
                         style="
