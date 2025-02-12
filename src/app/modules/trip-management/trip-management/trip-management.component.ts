@@ -18,6 +18,7 @@ import { UpdateLocationFormComponent } from "../trip-management-by-driver/update
 import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
 import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
 import { DriverSalaryFormComponent } from "./driver-salary-form/driver-salary-form.component";
+import { DestinationSummaryPrintComponent } from "./destination-summary-print/destination-summary-print.component";
 
 @Component({
   selector: "app-trip-management",
@@ -141,6 +142,14 @@ export class TripManagementComponent implements OnInit {
           this.onClickAddDriverSalary(event.item.data);
         },
       },
+      {
+        id: 10,
+        label: "Trip destination Summary",
+        icon: "pi pi-tags",
+        command: (event: any) => {
+          this.onClickDestinationSummary(event.item.data);
+        },
+      },
     ];
   }
 
@@ -159,12 +168,6 @@ export class TripManagementComponent implements OnInit {
       { ids: [5], condition: rowData?.status === WellKnownTripStatus.START },
       { ids: [6], condition: rowData?.status === WellKnownTripStatus.PENDING },
       {
-        ids: [7],
-        condition:
-          rowData?.status === WellKnownTripStatus.START ||
-          rowData?.status === WellKnownTripStatus.FINISHED,
-      },
-      {
         ids: [8],
         condition:
           rowData?.status === WellKnownTripStatus.START ||
@@ -175,6 +178,12 @@ export class TripManagementComponent implements OnInit {
         condition:
           rowData?.status === WellKnownTripStatus.FINISHED &&
           !rowData?.isMonthEndDone,
+      },
+      {
+        ids: [7, 10],
+        condition:
+          rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.FINISHED,
       },
     ];
 
@@ -503,6 +512,36 @@ export class TripManagementComponent implements OnInit {
             this.loadInitialData();
           }
         });
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async onClickDestinationSummary(rowData: any) {
+    try {
+      let properties = {
+        width: "60vw",
+        position: "right",
+      };
+      let data = {
+        places: rowData?.places,
+        tripConfirmedNumber: rowData?.tripConfirmedNumber,
+      };
+
+      const placesResult = await firstValueFrom(
+        this.tripService.GetDestinationSummary(rowData?.id)
+      );
+
+      if (placesResult.IsSuccessful) {
+        data.places = placesResult.Result;
+      }
+
+      this.sidebarService.addComponent(
+        "", //Monthly Trip Report
+        DestinationSummaryPrintComponent,
+        properties,
+        data
+      );
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }

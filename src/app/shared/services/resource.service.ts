@@ -104,6 +104,9 @@ export class ResourceService {
     // trip places
     getPlacesByTripId: this.Trip + "/places",
     updatePlaceAsMarked: this.Trip,
+
+    // summary report
+    getDestinationSummary: this.Trip + "/destinationSummary",
   };
 
   expense = {

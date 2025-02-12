@@ -113,4 +113,12 @@ export class TripService {
         return response;
       });
   }
+
+  GetDestinationSummary(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getDestinationSummary + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }
