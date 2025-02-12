@@ -22,6 +22,7 @@ export class ResourceService {
   private Report = this.host + "/report";
   private ExpenseRequest = this.host + "/expenseRequest";
   private Notification = this.host + "/notification";
+  private InternalTrip = this.host + "/internalTrip";
 
   auth = {
     login: this.Auth + "/login",
@@ -131,5 +132,13 @@ export class ResourceService {
 
   notification = {
     getAllNotifications: this.Notification,
+  };
+
+  internalTrip = {
+    save: this.InternalTrip,
+    getByVehicle: this.InternalTrip + "/getByVehicle",
+    getById: this.InternalTrip,
+    update: this.InternalTrip,
+    deleteById: this.InternalTrip,
   };
 }

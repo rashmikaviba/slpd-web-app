@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { AppComponent } from "src/app/app.component";
 import { PopupService } from "src/app/shared/services/popup.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { AddUserControlFlowService } from "../user/add-new-user/add-new-user-form/add-user-control-flow.service";
 import { UserService } from "src/app/shared/services/api-services/user.service";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
@@ -12,6 +11,7 @@ import { DatePipe } from "@angular/common";
 import { AddNewVehicleComponent } from "./add-new-vehicle/add-new-vehicle.component";
 import { VehicleService } from "src/app/shared/services/api-services/vehicle.service";
 import { firstValueFrom } from "rxjs";
+import { OtherTripsComponent } from "./other-trips/other-trips.component";
 
 @Component({
   selector: "app-vehicle-management",
@@ -31,7 +31,6 @@ export class VehicleManagementComponent {
     private appComponent: AppComponent,
     private popupService: PopupService,
     private router: Router,
-    private addUserControlFlowService: AddUserControlFlowService,
     private messageService: AppMessageService,
     private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
@@ -77,6 +76,14 @@ export class VehicleManagementComponent {
         icon: "pi pi-trash",
         command: (event: any) => {
           this.onClickDelete(event.item.data);
+        },
+      },
+      {
+        id: 3,
+        label: "Internal Trips",
+        icon: "pi pi-sitemap",
+        command: (event: any) => {
+          this.onClickOtherVehicles(event.item.data);
         },
       },
     ];
@@ -260,6 +267,25 @@ export class VehicleManagementComponent {
             });
         }
       }
+    );
+  }
+
+  onClickOtherVehicles(rowData: any) {
+    debugger;
+    let properties = {
+      width: "70vw",
+      position: "right",
+    };
+
+    let data = {
+      vehicle: rowData,
+    };
+
+    this.sidebarService.addComponent(
+      "Internal Trips",
+      OtherTripsComponent,
+      properties,
+      data
     );
   }
 }
