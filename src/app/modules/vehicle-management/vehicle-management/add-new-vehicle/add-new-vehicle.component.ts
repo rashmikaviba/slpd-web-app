@@ -19,6 +19,7 @@ export class AddNewVehicleComponent {
   isEdit: boolean = false;
   FV = new CommonForm();
   typeArr: any;
+  minDate: Date = new Date();
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -28,6 +29,8 @@ export class AddNewVehicleComponent {
     private vehicleService: VehicleService
   ) {
     this.createForm();
+
+    this.FV.disableField("currentMileage");
   }
 
   createForm() {
@@ -45,6 +48,14 @@ export class AddNewVehicleComponent {
         [Validators.required, Validators.min(1), Validators.max(60)],
       ],
       description: [""],
+
+      licenseRenewalDate: ["", [Validators.required]],
+      insuranceRenewalDate: ["", [Validators.required]],
+      gearOil: [""],
+      airFilter: [""],
+      oilFilter: [""],
+      initialMileage: ["", [Validators.min(0), Validators.required]],
+      currentMileage: [""],
     });
   }
 
@@ -84,6 +95,24 @@ export class AddNewVehicleComponent {
       this.FV.setValue("capacity", this.vehicleData.capacity);
       this.FV.setValue("noOFSeats", this.vehicleData.availableSeats);
       this.FV.setValue("description", this.vehicleData.description);
+
+      this.FV.setValue(
+        "licenseRenewalDate",
+        this.vehicleData.licenseRenewalDate
+          ? new Date(this.vehicleData.licenseRenewalDate)
+          : ""
+      );
+      this.FV.setValue(
+        "insuranceRenewalDate",
+        this.vehicleData.insuranceRenewalDate
+          ? new Date(this.vehicleData.insuranceRenewalDate)
+          : ""
+      );
+      this.FV.setValue("gearOil", this.vehicleData.gearOil);
+      this.FV.setValue("airFilter", this.vehicleData.airFilter);
+      this.FV.setValue("oilFilter", this.vehicleData.oilFilter);
+      this.FV.setValue("initialMileage", this.vehicleData.initialMileage);
+      this.FV.setValue("currentMileage", this.vehicleData.currentMileage);
     }
   }
 
@@ -101,6 +130,13 @@ export class AddNewVehicleComponent {
     let noOFSeats = this.FV.getValue("noOFSeats") || 0;
     let description = this.FV.getValue("description") || "";
 
+    let licenseRenewalDate = this.FV.getValue("licenseRenewalDate") || null;
+    let insuranceRenewalDate = this.FV.getValue("insuranceRenewalDate") || null;
+    let gearOil = this.FV.getValue("gearOil") || "";
+    let airFilter = this.FV.getValue("airFilter") || "";
+    let oilFilter = this.FV.getValue("oilFilter") || "";
+    let initialMileage = this.FV.getValue("initialMileage") || 0;
+
     let request = {
       vehicleType: vehicleType,
       vehicleOwner: ownerName,
@@ -109,6 +145,13 @@ export class AddNewVehicleComponent {
       capacity: capacity,
       availableSeats: noOFSeats,
       description: description,
+
+      licenseRenewalDate: licenseRenewalDate,
+      insuranceRenewalDate: insuranceRenewalDate,
+      gearOil: gearOil,
+      airFilter: airFilter,
+      oilFilter: oilFilter,
+      initialMileage: initialMileage,
     };
 
     if (this.isEdit) {
@@ -136,5 +179,9 @@ export class AddNewVehicleComponent {
 
   onClickCancel() {
     this.sidebarService.sidebarEvent.emit(false);
+  }
+
+  OnChangeMileage(e: any) {
+    this.FV.setValue("currentMileage", e.value);
   }
 }

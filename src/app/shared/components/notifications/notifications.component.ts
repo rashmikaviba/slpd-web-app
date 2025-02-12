@@ -1,3 +1,4 @@
+import { WellKnownNotificationType } from "./../../enums/well-known-notification-type.enum";
 import { Component } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.state";
@@ -5,7 +6,7 @@ import { selectNotifications } from "src/app/store/selector/notification.selecto
 import { PopupService } from "../../services/popup.service";
 import { ExpenseRequestActionFormComponent } from "src/app/modules/trip-management/expense-management/expense-request-action-form/expense-request-action-form.component";
 import { AppMessageService } from "../../services/app-message.service";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, interval, Subscription } from "rxjs";
 import { ExpenseExtensionService } from "../../services/api-services/expense-extension.service";
 
 @Component({
@@ -15,6 +16,8 @@ import { ExpenseExtensionService } from "../../services/api-services/expense-ext
 })
 export class NotificationsComponent {
   notifications: any[] = [];
+  wellKnownNotificationType = WellKnownNotificationType;
+  // private timerSubscription!: Subscription;
 
   constructor(
     private store: Store<AppState>,
@@ -27,6 +30,10 @@ export class NotificationsComponent {
     this.store.select(selectNotifications).subscribe((notifications: any) => {
       this.notifications = notifications;
     });
+
+    // this.timerSubscription = interval(20000).subscribe(() => {
+    //   this.notifications = [...this.notifications];
+    // });
   }
 
   async onClickExpenseExtension(rowData: any) {
@@ -52,4 +59,11 @@ export class NotificationsComponent {
       this.messageService.showErrorAlert(error.message || error);
     }
   }
+
+  // ngOnDestroy() {
+  //   // Unsubscribe from the timer to avoid memory leaks
+  //   if (this.timerSubscription) {
+  //     this.timerSubscription.unsubscribe();
+  //   }
+  // }
 }

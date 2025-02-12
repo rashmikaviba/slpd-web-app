@@ -22,6 +22,7 @@ export class ResourceService {
   private Report = this.host + "/report";
   private ExpenseRequest = this.host + "/expenseRequest";
   private Notification = this.host + "/notification";
+  private InternalTrip = this.host + "/internalTrip";
 
   auth = {
     login: this.Auth + "/login",
@@ -45,6 +46,7 @@ export class ResourceService {
     updateUser: this.User,
     deleteUser: this.User,
     getUsersByRole: this.User + "/userByRole",
+    getDriversForTrip: this.User + "/getDriversForTrip",
   };
 
   leave = {
@@ -103,6 +105,9 @@ export class ResourceService {
     // trip places
     getPlacesByTripId: this.Trip + "/places",
     updatePlaceAsMarked: this.Trip,
+
+    // summary report
+    getDestinationSummary: this.Trip + "/destinationSummary",
   };
 
   expense = {
@@ -131,5 +136,13 @@ export class ResourceService {
 
   notification = {
     getAllNotifications: this.Notification,
+  };
+
+  internalTrip = {
+    save: this.InternalTrip,
+    getByVehicle: this.InternalTrip + "/getByVehicle",
+    getById: this.InternalTrip,
+    update: this.InternalTrip,
+    deleteById: this.InternalTrip,
   };
 }

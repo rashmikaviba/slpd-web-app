@@ -20,8 +20,8 @@ export class NotificationService {
       });
   }
 
-  setNotificationLoaded() {
-    this.isNotificationsLoaded = true;
+  setNotificationLoaded(value: boolean) {
+    this.isNotificationsLoaded = value;
   }
 
   getNotificationLoaded() {

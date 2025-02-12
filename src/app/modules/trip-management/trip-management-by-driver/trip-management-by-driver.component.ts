@@ -17,6 +17,8 @@ import { UpdateLocationFormComponent } from "./update-location-form/update-locat
 import { ExpenseManagementComponent } from "../expense-management/expense-management.component";
 import { TripManagementPrintComponent } from "../trip-management-print/trip-management-print.component";
 import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
+import { CommonForm } from "src/app/shared/services/app-common-form";
+import { UntypedFormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -24,6 +26,7 @@ import { ExpenseService } from "src/app/shared/services/api-services/expense.ser
   styleUrls: ["./trip-management-by-driver.component.css"],
 })
 export class TripManagementByDriverComponent implements OnInit {
+  FV = new CommonForm();
   cols: any;
   recodes: any;
   loading: any;
@@ -32,6 +35,25 @@ export class TripManagementByDriverComponent implements OnInit {
   items: any[];
   filteredItems: any[];
   WellKnownTripStatus = WellKnownTripStatus;
+
+  status: any[] = [
+    {
+      label: "All",
+      value: -1,
+    },
+    {
+      label: "Pending",
+      value: 1,
+    },
+    {
+      label: "Start",
+      value: 3,
+    },
+    {
+      label: "Finished",
+      value: 4,
+    },
+  ];
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -44,8 +66,11 @@ export class TripManagementByDriverComponent implements OnInit {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private tripService: TripService,
-    private expenseService: ExpenseService
-  ) { }
+    private expenseService: ExpenseService,
+    private formBuilder: UntypedFormBuilder
+  ) {
+    this.createForm();
+  }
 
   ngOnInit(): void {
     this.cols = [
@@ -53,7 +78,7 @@ export class TripManagementByDriverComponent implements OnInit {
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
       { field: "contact", header: "Contact Details" },
-      // { field: "contactPerson", header: "Contact Person" },
+      { field: "paymentMode", header: "Payment Mode" },
       { field: "status", header: "Status" },
       // { field: "activeDriverName", header: "Driver Name" },
       { field: "activeRegistrationNumber", header: "Vehicle Name" },
@@ -115,6 +140,12 @@ export class TripManagementByDriverComponent implements OnInit {
     ];
   }
 
+  createForm() {
+    this.FV.formGroup = this.formBuilder.group({
+      status: [-1, [Validators.required]],
+    });
+  }
+
   toggleMenu(menu: any, event: any, rowData: any) {
     if (!rowData?.isActiveDriver) {
       this.messageService.showWarnAlert(
@@ -153,8 +184,6 @@ export class TripManagementByDriverComponent implements OnInit {
         this.filteredItems = this.filteredItems.concat(selectedItem2);
       }
     }
-    ;
-
     if (
       rowData.isCheckListDone &&
       (rowData.status == WellKnownTripStatus.START ||
@@ -172,7 +201,10 @@ export class TripManagementByDriverComponent implements OnInit {
 
   async loadInitialData() {
     try {
-      const tripResponse = await firstValueFrom(this.tripService.GetAllTrips());
+      let status = this.FV.getValue("status");
+      const tripResponse = await firstValueFrom(
+        this.tripService.GetAllTrips(status)
+      );
 
       if (tripResponse?.IsSuccessful) {
         this.recodes = tripResponse?.Result;
@@ -234,7 +266,7 @@ export class TripManagementByDriverComponent implements OnInit {
     );
   }
 
-  exportToExcel() { }
+  exportToExcel() {}
 
   onClickDriverTaskForm(rowData: any) {
     let data = {
@@ -277,7 +309,6 @@ export class TripManagementByDriverComponent implements OnInit {
 
   async onClickExpenseManagement(rowData: any) {
     try {
-      ;
       let data = {
         tripInfo: rowData,
         userType: "driver",

@@ -70,6 +70,95 @@
         />
       </div>
 
+      <div class="field col-12 md:col-3">
+        <label for="licenseRenewalDate" class="required"
+          >License Renewal Date</label
+        >
+        <p-calendar
+          formControlName="licenseRenewalDate"
+          dateFormat="dd-mm-yy"
+          [minDate]="minDate"
+          [showTime]="false"
+          appendTo="body"
+        ></p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="insuranceRenewalDate" class="required"
+          >Insurance Renewal Date</label
+        >
+        <p-calendar
+          formControlName="insuranceRenewalDate"
+          dateFormat="dd-mm-yy"
+          [minDate]="minDate"
+          [showTime]="false"
+          appendTo="body"
+        ></p-calendar>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="gearOil">Gear Oil</label>
+        <input
+          id="gearOil"
+          pInputText
+          type="text"
+          class="w-full"
+          formControlName="gearOil"
+          maxlength="200"
+        />
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="airFilter">Air Filter</label>
+        <input
+          id="airFilter"
+          pInputText
+          type="text"
+          class="w-full"
+          formControlName="airFilter"
+          maxlength="200"
+        />
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label for="oilFilter">Oil Filter</label>
+        <input
+          id="oilFilter"
+          pInputText
+          type="text"
+          class="w-full"
+          formControlName="oilFilter"
+          maxlength="200"
+        />
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <!-- initialMileage -->
+        <label for="initialMileage" class="required">Initial Mileage</label>
+        <p-inputNumber
+          formControlName="initialMileage"
+          mode="decimal"
+          inputId="mile"
+          suffix=" KM"
+          [maxFractionDigits]="2"
+          [minFractionDigits]="2"
+          [min]="0"
+          (onInput)="OnChangeMileage($event)"
+        />
+      </div>
+      <div class="field col-12 md:col-3">
+        <label for="currentMileage">Current Mileage</label>
+        <p-inputNumber
+          formControlName="currentMileage"
+          mode="decimal"
+          inputId="mile"
+          suffix=" KM"
+          [maxFractionDigits]="2"
+          [minFractionDigits]="2"
+          [min]="0"
+        />
+      </div>
+
       <div class="field col-12 md:col-12">
         <label for="description">Description</label>
         <textarea
