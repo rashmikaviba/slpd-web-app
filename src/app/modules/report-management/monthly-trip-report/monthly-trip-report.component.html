@@ -102,7 +102,7 @@
                   }}
                 </td>
                 <td>
-                  {{ reportData?.arrivalInfo?.arrivalTime | date : "HH:mm a" }}
+                  {{ reportData?.arrivalInfo?.arrivalTime | date : "hh:mm a" }}
                 </td>
                 <td>{{ reportData?.arrivalInfo?.arrivalFlightNumber }}</td>
               </tr>
@@ -116,7 +116,7 @@
                 </td>
                 <td>
                   {{
-                    reportData?.departureInfo?.departureTime | date : "HH:mm a"
+                    reportData?.departureInfo?.departureTime | date : "hh:mm a"
                   }}
                 </td>
                 <td>{{ reportData?.departureInfo?.departureFlightNumber }}</td>
@@ -164,7 +164,7 @@
               </td>
               <td>{{ reportData?.pickUpInfo?.pickupAddress }}</td>
               <td>
-                {{ reportData?.pickUpInfo?.pickupTime | date : "HH:mm a" }}
+                {{ reportData?.pickUpInfo?.pickupTime | date : "hh:mm a" }}
               </td>
               <td>{{ reportData?.pickUpInfo?.pickupCity }}</td>
             </tr>
@@ -175,7 +175,7 @@
               </td>
               <td>{{ reportData?.dropOffInfo?.dropOffAddress }}</td>
               <td>
-                {{ reportData?.dropOffInfo?.dropOffTime | date : "HH:mm a" }}
+                {{ reportData?.dropOffInfo?.dropOffTime | date : "hh:mm a" }}
               </td>
               <td>{{ reportData?.dropOffInfo?.dropOffCity }}</td>
             </tr>
