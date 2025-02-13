@@ -9,7 +9,7 @@ export class HelperService {
   constructor(
     private datePipe: DatePipe,
     private filterService: FilterService
-  ) { }
+  ) {}
 
   checkValidUrl(url: string) {
     if (
@@ -185,7 +185,7 @@ export class HelperService {
   mapObject<T, U>(target: any, source: U): T {
     try {
       Object.assign(target, source);
-    } catch (error) { }
+    } catch (error) {}
     return target;
   }
 
@@ -262,7 +262,7 @@ export class HelperService {
 
   private TransformDateTime(
     date: Date | string,
-    format = "yyyy-MM-dd HH:mm a"
+    format = "yyyy-MM-dd hh:mm a"
   ) {
     return this.datePipe.transform(date, format);
   }
