@@ -192,6 +192,14 @@
             </ng-template>
           </p-multiSelect>
         </div>
+
+        <div class="field col-12 md:col-6" *ngIf="showDriver">
+          <p-checkbox
+            [binary]="true"
+            label="Freelance Driver"
+            formControlName="isFreelanceDriver"
+          ></p-checkbox>
+        </div>
       </div>
     </div>
   </div>

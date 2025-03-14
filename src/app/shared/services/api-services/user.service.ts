@@ -91,11 +91,11 @@ export class UserService {
       });
   }
 
-  GetAllDriversForTrip(statDate: string, endDate: string) {
+  GetAllDriversForTrip(statDate: string, endDate: string, tripId: string) {
     return this.dataAccess
       .GET(
         this.resource.user.getDriversForTrip +
-          `?startDate=${statDate}&endDate=${endDate}`
+          `?startDate=${statDate}&endDate=${endDate}&tripId=${tripId}`
       )
       .pipe((response) => {
         return response;

@@ -33,6 +33,7 @@ export class AddUserControlFlowService {
     leaveCount: 0,
     languages: [],
     role: 0,
+    isFreelanceDriver: false,
   };
 
   uploadedImages: any = {
@@ -142,6 +143,7 @@ export class AddUserControlFlowService {
       leaveCount: null,
       languages: [],
       role: null,
+      isFreelanceDriver: false,
     };
 
     this.uploadedImages = {

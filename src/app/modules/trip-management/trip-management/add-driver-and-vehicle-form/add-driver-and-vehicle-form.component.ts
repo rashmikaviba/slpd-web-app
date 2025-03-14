@@ -74,12 +74,14 @@ export class AddDriverAndVehicleFormComponent {
         forkJoin([
           this.userService.GetAllDriversForTrip(
             this.tripInformation?.startDate,
-            this.tripInformation?.endDate
+            this.tripInformation?.endDate,
+            this.tripInformation?.id
           ),
           this.vehicleService.GetByPassengerCountAndDate(
             this.tripInformation?.passengersCount,
             this.tripInformation?.startDate,
-            this.tripInformation?.endDate
+            this.tripInformation?.endDate,
+            this.tripInformation?.id
           ),
         ])
       );

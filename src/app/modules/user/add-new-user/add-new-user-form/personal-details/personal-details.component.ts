@@ -6,6 +6,7 @@ import { userRoles } from "src/app/shared/data/useRoles";
 import { genders } from "src/app/shared/data/commonData";
 import { AddUserControlFlowService } from "../add-user-control-flow.service";
 import { DatePipe } from "@angular/common";
+import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enum";
 
 @Component({
   selector: "app-personal-details",
@@ -64,6 +65,7 @@ export class PersonalDetailsComponent {
       ],
       languages: [[], [Validators.required]],
       role: ["", [Validators.required]],
+      isFreelanceDriver: [false],
     });
   }
 
@@ -83,7 +85,6 @@ export class PersonalDetailsComponent {
   }
 
   setValues() {
-    ;
     this.FV.setValue("fullName", this.userDetail?.fullName);
     this.FV.setValue("userName", this.userDetail?.userName);
     this.FV.setValue("gender", this.userDetail?.gender);
@@ -108,7 +109,14 @@ export class PersonalDetailsComponent {
     }
     this.FV.setValue("languages", this.userDetail?.languages);
     this.FV.setValue("role", this.userDetail?.role);
+
     this.onRoleChange();
+
+    if (this.userDetail?.role == WellKnownUserRole.DRIVER) {
+      this.FV.setValue("isFreelanceDriver", this.userDetail?.isFreelanceDriver);
+    } else {
+      this.FV.setValue("isFreelanceDriver", false);
+    }
   }
 
   onRoleChange() {

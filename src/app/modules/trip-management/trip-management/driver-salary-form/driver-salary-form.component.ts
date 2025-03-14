@@ -18,6 +18,7 @@ export class DriverSalaryFormComponent implements OnInit {
   FV = new CommonForm();
   expensesInfo: any = null;
   tripInfo: any = null;
+  driverArr: any[] = [];
   salaryInfo: any = null;
   isShowToDriver: any = false;
   calculatedSalary: any = 0;
@@ -35,6 +36,7 @@ export class DriverSalaryFormComponent implements OnInit {
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
+      driver: ["", [Validators.required]],
       salaryPerDay: [0, [Validators.required, Validators.min(0.01)]],
       noOfDays: [0, [Validators.required]],
       totalAddition: [0],
@@ -48,13 +50,21 @@ export class DriverSalaryFormComponent implements OnInit {
     let dialogConfig = this.config.data;
     this.expensesInfo = dialogConfig.expensesInfo;
     this.tripInfo = dialogConfig.tripInformation;
-    this.salaryInfo = dialogConfig?.expensesInfo?.driverSalary;
+    this.driverArr = this.tripInfo?.drivers;
 
     this.setValues();
   }
 
   setValues() {
     // checkBox logic
+    debugger;
+    let selectedDriver = this.driverArr.find((x) => x.isActive == true);
+    this.FV.setValue("driver", selectedDriver ? selectedDriver : null);
+
+    let selectedSalary = this.expensesInfo.driverSalaries.find(
+      (x) => x.driver == selectedDriver.driver
+    );
+
     this.FV.setValue(
       "remainingExpenses",
       this.expensesInfo.remainingTripExpensesAmount
@@ -62,23 +72,24 @@ export class DriverSalaryFormComponent implements OnInit {
 
     this.FV.setValue("noOfDays", this.tripInfo?.dateCount);
 
-    if (this.expensesInfo.remainingTripExpensesAmount > 0) {
+    if (this.expensesInfo.remainingTripExpensesAmount > 0 && selectedDriver) {
       this.isShowToDriver = true;
     } else {
       this.isShowToDriver = false;
     }
 
-    if (this.salaryInfo) {
-      this.FV.setValue("salaryPerDay", this.salaryInfo.salaryPerDay);
-      this.FV.setValue("noOfDays", this.salaryInfo.noOfDays);
-      this.FV.setValue("totalAddition", this.salaryInfo.totalAddition);
-      this.FV.setValue("totalDeduction", this.salaryInfo.totalDeduction);
+    if (selectedSalary) {
+      this.salaryInfo = selectedSalary;
+      this.FV.setValue("salaryPerDay", selectedSalary.salaryPerDay);
+      this.FV.setValue("noOfDays", selectedSalary.noOfDays);
+      this.FV.setValue("totalAddition", selectedSalary.totalAddition);
+      this.FV.setValue("totalDeduction", selectedSalary.totalDeduction);
       this.FV.setValue(
         "isRemainingToDriver",
-        this.salaryInfo.isRemainingToDriver
+        selectedSalary.isRemainingToDriver
       );
 
-      this.calculatedSalary = this.salaryInfo.totalSalary;
+      this.calculatedSalary = selectedSalary.totalSalary;
     }
   }
 
@@ -120,7 +131,8 @@ export class DriverSalaryFormComponent implements OnInit {
   }
 
   onClickSave() {
-    let validateParams = "noOfDays,salaryPerDay,totalAddition,totalDeduction";
+    let validateParams =
+      "driver,noOfDays,salaryPerDay,totalAddition,totalDeduction";
 
     if (this.FV.validateControllers(validateParams)) {
       return;
@@ -131,8 +143,10 @@ export class DriverSalaryFormComponent implements OnInit {
     let totalAddition = this.FV.getValue("totalAddition") || 0;
     let totalDeduction = this.FV.getValue("totalDeduction") || 0;
     let isRemainingToDriver = this.FV.getValue("isRemainingToDriver") || false;
+    let driver = this.FV.getValue("driver").driver || 0;
 
     let request = {
+      driver: driver,
       salaryPerDay: salaryPerDay,
       noOfDays: noOfDays,
       totalAddition: totalAddition,
@@ -150,5 +164,42 @@ export class DriverSalaryFormComponent implements OnInit {
           this.messageService.showErrorAlert(response.Message);
         }
       });
+  }
+
+  onChangeDriver() {
+    let driver = this.FV.getValue("driver").driver || 0;
+    let activeDriverId =
+      this.driverArr.find((x) => x.isActive == true)?.driver || 0;
+
+    let selectedSalary = this.expensesInfo.driverSalaries.find(
+      (x) => x.driver == driver
+    );
+
+    this.FV.setValue("noOfDays", this.tripInfo?.dateCount);
+    this.FV.setValue("salaryPerDay", 0);
+    this.FV.setValue("totalAddition", 0);
+    this.FV.setValue("totalDeduction", 0);
+    this.FV.setValue("isRemainingToDriver", false);
+
+    if (selectedSalary) {
+      this.salaryInfo = selectedSalary;
+      this.FV.setValue("salaryPerDay", selectedSalary.salaryPerDay);
+      this.FV.setValue("noOfDays", selectedSalary.noOfDays);
+      this.FV.setValue("totalAddition", selectedSalary.totalAddition);
+      this.FV.setValue("totalDeduction", selectedSalary.totalDeduction);
+      this.FV.setValue(
+        "isRemainingToDriver",
+        selectedSalary.isRemainingToDriver
+      );
+    }
+
+    if (driver == activeDriverId) {
+      this.isShowToDriver = true;
+    } else {
+      this.isShowToDriver = false;
+      this.FV.setValue("isRemainingToDriver", false);
+    }
+
+    this.calculateSalary();
   }
 }

@@ -75,12 +75,13 @@ export class VehicleService {
   GetByPassengerCountAndDate(
     passengerCount: number,
     startDate: string,
-    endDate: string
+    endDate: string,
+    tripId: string
   ) {
     return this.dataAccess
       .GET(
         this.resource.vehicle.getAllVehiclesByCount +
-          `/${passengerCount}?startDate=${startDate}&endDate=${endDate}`
+          `/${passengerCount}?startDate=${startDate}&endDate=${endDate}&tripId=${tripId}`
       )
       .pipe((response) => {
         return response;

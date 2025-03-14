@@ -40,7 +40,7 @@ export class AddNewUserFormComponent {
     private messageService: AppMessageService,
     private storeService: StoreService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     let sideBarData = this.sidebarService.getData();
@@ -71,7 +71,6 @@ export class AddNewUserFormComponent {
   }
 
   handleClick(index: number): void {
-    ;
     let isStepCompleted = this.addUserControlFlowService.getStepValue(
       index
     ) as boolean;
@@ -86,7 +85,6 @@ export class AddNewUserFormComponent {
   }
 
   handleSave(index: number): void {
-    ;
     switch (index) {
       case 0:
         this.savePersonalDetails();
@@ -104,7 +102,6 @@ export class AddNewUserFormComponent {
 
   async savePersonalDetails() {
     try {
-      ;
       let data = this.pdc.FV.formGroup.value;
       this.userDetail = this.addUserControlFlowService.getUserDetail();
       let role = this.pdc.FV.getValue("role");
@@ -162,6 +159,7 @@ export class AddNewUserFormComponent {
         leaveCount: formData.leaveCount,
         languages: formData.languages,
         role: formData.role,
+        isFreelanceDriver: role === 3 ? formData.isFreelanceDriver : false,
       };
 
       this.addUserControlFlowService.setUserDetail(this.userDetail);
@@ -366,6 +364,7 @@ export class AddNewUserFormComponent {
         leaveCount: formData.leaveCount,
         languages: formData.languages,
         role: formData.role,
+        isFreelanceDriver: role == 3 ? formData.isFreelanceDriver : null,
       };
 
       this.addUserControlFlowService.setUserDetail(this.userDetail);
