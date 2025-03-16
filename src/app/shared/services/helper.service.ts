@@ -240,7 +240,7 @@ export class HelperService {
     return this.TransformDateTime(date, format);
   }
 
-  getDateTimeNow(format: string = "yyyy-MM-dd hh:mm a") {
+  getDateTimeNow(format: string = "yyyy-MM-dd HH:mm") {
     return this.TransformDateTime(new Date(), format);
   }
 
@@ -248,7 +248,7 @@ export class HelperService {
     return this.TransformDateTime(new Date(), format) ?? "";
   }
 
-  getTimeNow(format: string = "hh:mm a") {
+  getTimeNow(format: string = "HH:mm") {
     return this.TransformDateTime(new Date(), format) ?? "";
   }
 
@@ -260,10 +260,7 @@ export class HelperService {
     }
   }
 
-  private TransformDateTime(
-    date: Date | string,
-    format = "yyyy-MM-dd hh:mm a"
-  ) {
+  private TransformDateTime(date: Date | string, format = "yyyy-MM-dd HH:mm") {
     return this.datePipe.transform(date, format);
   }
 

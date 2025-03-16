@@ -47,11 +47,11 @@ export class MonthlyExpensesReportComponent {
         report.showDate = this.datePipe.transform(report.date, "yyyy-MM-dd");
         report.showCreatedDate = this.datePipe.transform(
           report.createdDate,
-          "yyyy-MM-dd h:mm a"
+          "yyyy-MM-dd HH:mm"
         );
         report.showUpdatedDate = this.datePipe.transform(
           report.updatedDate,
-          "yyyy-MM-dd h:mm a"
+          "yyyy-MM-dd HH:mm"
         );
       });
 

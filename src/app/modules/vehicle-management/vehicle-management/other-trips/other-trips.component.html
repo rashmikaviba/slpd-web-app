@@ -65,7 +65,7 @@
 
         <ng-container *ngIf="col.field == 'createdAt'">
           <span class="p-column-title font-bold">{{ col.header }}</span
-          >{{ rowData[col.field] | date : "dd-MM-yyyy h:mm a" }}
+          >{{ rowData[col.field] | date : "dd-MM-yyyy HH:mm" }}
         </ng-container>
 
         <!-- reason -->

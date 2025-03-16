@@ -97,6 +97,8 @@ export class ResourceService {
     assignDriver: this.Trip + "/assignDriver",
     updateTripStatus: this.Trip,
     getTripForPrint: this.Trip + "/tripForPrint",
+    getHotelsAndActivities: this.Trip + "/hotelsAndActivities",
+    updateHotelActivityPayment: this.Trip + "/updateHotelActivityPayment",
 
     // checkList routes
     saveCheckList: this.Trip + "/checkList",

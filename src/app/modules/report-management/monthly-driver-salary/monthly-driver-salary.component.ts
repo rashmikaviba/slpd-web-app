@@ -31,23 +31,7 @@ export class MonthlyDriverSalaryComponent {
     this.month = new Date(sideBarData.month);
     this.reportDetails = sideBarData?.reportDetails;
     this.preprocessData();
-    //   {
-    //     "tripId": "6744a0a1015702da076cf1e7",
-    //     "tripConfirmationNumber": "DK-005",
-    //     "driverId": "66bb93d03d93bbb6881f0467",
-    //     "driverName": "driver (Geoffrey Mosciski DDS)",
-    //     "salaryPerDay": 5000,
-    //     "remainingExpenses": 18119.25,
-    //     "totalDeduction": 0,
-    //     "totalAddition": 0,
-    //     "totalSalary": 20000,
-    //     "noOfDays": 4,
-    //     "isRemainingToDriver": false,
-    //     "createdDate": "2024-11-30T07:19:16.970Z",
-    //     "createdUser": "nimna (Lauren Crona)",
-    //     "updatedDate": "2024-11-30T07:19:16.970Z",
-    //     "updatedUser": "nimna (Lauren Crona)"
-    // },
+
     this.cols = [
       { field: "tripConfirmationNumber", header: "Trip No" },
       { field: "driverName", header: "Driver" },
@@ -65,11 +49,11 @@ export class MonthlyDriverSalaryComponent {
       this.reportDetails.map((report: any) => {
         report.showCreatedDate = this.datePipe.transform(
           report.createdDate,
-          "yyyy-MM-dd h:mm a"
+          "yyyy-MM-dd HH:mm"
         );
         report.showUpdatedDate = this.datePipe.transform(
           report.updatedDate,
-          "yyyy-MM-dd h:mm a"
+          "yyyy-MM-dd HH:mm"
         );
         report.showRemainingToDriver = report?.isRemainingToDriver
           ? "Yes"

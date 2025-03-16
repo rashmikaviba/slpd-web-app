@@ -123,7 +123,6 @@ export class DriverLeaveFormComponent {
         this._recodes = response.Result;
 
         let leaveType = this.FV.getValue("leaveType");
-        ;
         if (leaveType) {
           this.onLeaveTypeChange({ value: leaveType });
         }

@@ -77,7 +77,15 @@
                 />
               </div>
               <div class="field col-12 md:col-4">
-                <div class="flex gap-2">
+                <p-checkbox
+                  formControlName="isHotelPaymentByCompany"
+                  [binary]="true"
+                  label="Payment By Company"
+                  labelStyleClass="font-normal"
+                ></p-checkbox>
+              </div>
+              <div class="field col-12 md:col-5">
+                <div class="flex gap-2 justify-content-end">
                   <p-button
                     styleClass="p-button-sm p-button-success"
                     icon="pi pi-save"
@@ -98,7 +106,12 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th *ngFor="let col of columns">
+            <th
+              *ngFor="let col of columns"
+              [ngClass]="{
+                'text-center': col.field == 'isPaymentByCompany',
+              }"
+            >
               {{ col.header }}
             </th>
             <th class="text-center" *ngIf="!isView">Action</th>
@@ -115,6 +128,7 @@
               *ngFor="let col of columns"
               [ngClass]="{
         'bg-blue': rowIndex % 2 !== 0,
+        'text-center': col.field == 'isPaymentByCompany',
       }"
             >
               <ng-container *ngIf="col.field == 'dates'">
@@ -122,7 +136,21 @@
                 {{ rowData.showDates }}
               </ng-container>
 
-              <ng-container *ngIf="col.field != 'dates'">
+              <ng-container *ngIf="col.field == 'isPaymentByCompany'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                <p-checkbox
+                  [binary]="true"
+                  [(ngModel)]="rowData.isPaymentByCompany"
+                  [ngModelOptions]="{ standalone: true }"
+                  readonly="true"
+                ></p-checkbox>
+              </ng-container>
+
+              <ng-container
+                *ngIf="
+                  col.field != 'dates' && col.field != 'isPaymentByCompany'
+                "
+              >
                 <span class="p-column-title font-bold">{{ col.header }}</span>
 
                 {{ rowData[col.field] }}
@@ -267,7 +295,7 @@
                   ></p-inputNumber>
                 </div>
               </div>
-              <div class="field col-12 md:col-10">
+              <div class="field col-12 md:col-6">
                 <label class="required font-normal" for="description"
                   >Description</label
                 >
@@ -278,8 +306,16 @@
                   class="w-full"
                 />
               </div>
+              <div class="field col-12 md:col-4">
+                <p-checkbox
+                  formControlName="isActivityPaymentByCompany"
+                  [binary]="true"
+                  label="Payment By Company"
+                  labelStyleClass="font-normal"
+                ></p-checkbox>
+              </div>
               <div class="field col-12 md:col-2">
-                <div class="flex gap-2">
+                <div class="flex gap-2 justify-content-end">
                   <p-button
                     styleClass="p-button-sm p-button-success"
                     icon="pi pi-save"
@@ -304,7 +340,9 @@
               [ngClass]="{
                 'text-right': col.field == 'totalCost',
                 'text-center':
-                  col.field == 'adultCount' || col.field == 'childCount'
+                  col.field == 'adultCount' ||
+                  col.field == 'childCount' ||
+                  col.field == 'isPaymentByCompany'
               }"
             >
               {{ col.header }}
@@ -325,12 +363,24 @@
                 'bg-blue': rowIndex % 2 !== 0,
                 'text-right': col.field == 'totalCost',
                 'text-center':
-                  col.field == 'adultCount' || col.field == 'childCount'
+                  col.field == 'adultCount' ||
+                  col.field == 'childCount' ||
+                  col.field == 'isPaymentByCompany'
               }"
             >
               <ng-container *ngIf="col.field == 'date'">
                 <span class="p-column-title font-bold">Date</span>
                 {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'isPaymentByCompany'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                <p-checkbox
+                  [binary]="true"
+                  [(ngModel)]="rowData.isPaymentByCompany"
+                  [ngModelOptions]="{ standalone: true }"
+                  readonly="true"
+                ></p-checkbox>
               </ng-container>
 
               <ng-container *ngIf="col.field == 'totalCost'">
@@ -339,7 +389,11 @@
               </ng-container>
 
               <ng-container
-                *ngIf="col.field != 'date' && col.field != 'totalCost'"
+                *ngIf="
+                  col.field != 'date' &&
+                  col.field != 'totalCost' &&
+                  col.field != 'isPaymentByCompany'
+                "
               >
                 <span class="p-column-title font-bold">{{ col.header }}</span>
                 {{ rowData[col.field] }}

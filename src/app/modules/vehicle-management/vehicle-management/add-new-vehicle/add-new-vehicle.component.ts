@@ -56,6 +56,7 @@ export class AddNewVehicleComponent {
       oilFilter: [""],
       initialMileage: ["", [Validators.min(0), Validators.required]],
       currentMileage: [""],
+      isFreelanceVehicle: [false],
     });
   }
 
@@ -88,6 +89,11 @@ export class AddNewVehicleComponent {
 
   setValues() {
     if (this.vehicleData) {
+      debugger;
+      this.FV.setValue(
+        "isFreelanceVehicle",
+        this.vehicleData.isFreelanceVehicle
+      );
       this.FV.setValue("ownerName", this.vehicleData.vehicleOwner);
       this.FV.setValue("vehicleType", this.vehicleData.vehicleType);
       this.FV.setValue("regNumber", this.vehicleData.registrationNumber);
@@ -117,8 +123,16 @@ export class AddNewVehicleComponent {
   }
 
   onClickSave() {
-    if (this.FV.formGroup.invalid) {
-      this.FV.showErrors();
+    let isFreelanceVehicle = this.FV.getValue("isFreelanceVehicle") || false;
+
+    let validateParams = "ownerName,vehicleType,regNumber,noOFSeats";
+
+    if (!isFreelanceVehicle) {
+      validateParams +=
+        ",capacity,licenseRenewalDate,insuranceRenewalDate,initialMileage";
+    }
+
+    if (this.FV.validateControllers(validateParams)) {
       return;
     }
 
@@ -137,21 +151,22 @@ export class AddNewVehicleComponent {
     let oilFilter = this.FV.getValue("oilFilter") || "";
     let initialMileage = this.FV.getValue("initialMileage") || 0;
 
-    let request = {
+    let request: any = {
       vehicleType: vehicleType,
       vehicleOwner: ownerName,
       registrationNumber: regNumber,
-      gpsTracker: gpsTracker,
-      capacity: capacity,
       availableSeats: noOFSeats,
-      description: description,
+      isFreelanceVehicle: isFreelanceVehicle,
 
-      licenseRenewalDate: licenseRenewalDate,
-      insuranceRenewalDate: insuranceRenewalDate,
-      gearOil: gearOil,
-      airFilter: airFilter,
-      oilFilter: oilFilter,
-      initialMileage: initialMileage,
+      gpsTracker: isFreelanceVehicle ? "" : gpsTracker,
+      capacity: isFreelanceVehicle ? 0 : capacity,
+      description: description,
+      licenseRenewalDate: isFreelanceVehicle ? "" : licenseRenewalDate,
+      insuranceRenewalDate: isFreelanceVehicle ? "" : insuranceRenewalDate,
+      gearOil: isFreelanceVehicle ? "" : gearOil,
+      airFilter: isFreelanceVehicle ? "" : airFilter,
+      oilFilter: isFreelanceVehicle ? "" : oilFilter,
+      initialMileage: isFreelanceVehicle ? 0 : initialMileage,
     };
 
     if (this.isEdit) {

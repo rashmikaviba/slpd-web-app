@@ -166,7 +166,6 @@ export class SuperAdminLeaveFormComponent {
     ];
 
     let excelData: any[] = [];
-    ;
     this.recodes.forEach((item: any) => {
       let obj = {
         appliedUserName: item.appliedUserName,
@@ -180,13 +179,13 @@ export class SuperAdminLeaveFormComponent {
         approvedUser: item.approvedUser,
         approveDate: this.datePipe.transform(
           item.approveDate,
-          "dd/MM/yyyy HH:mm:ss"
+          "dd/MM/yyyy HH:mm"
         ),
         approveRemark: item.approveRemark,
         rejectedUser: item.rejectedUser,
         rejectDate: this.datePipe.transform(
           item.rejectDate,
-          "dd/MM/yyyy HH:mm:ss"
+          "dd/MM/yyyy HH:mm"
         ),
         rejectReason: item.rejectReason,
         isMonthEndDone: item.isMonthEndDone,

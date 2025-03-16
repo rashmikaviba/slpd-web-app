@@ -38,7 +38,7 @@
     </div>
     <div class="field col-12 md:col-12 text-center">
       <label class="text-xl font-semibold"
-        >DK-{{ tripInfo?.tripConfirmedNumber | number : "3.0-0" }} –
+        >{{ tripInfo?.tripConfirmedNumber }} –
         {{ tripInfo?.startDate | date : "MMMM d" }} to
         {{ tripInfo?.endDate | date : "longDate" }}</label
       >
@@ -90,7 +90,7 @@
             <tr *ngIf="arrivalDetails">
               <td>Arrival</td>
               <td>{{ arrivalDetails?.arrivalDate | date : "yyyy-MM-dd" }}</td>
-              <td>{{ arrivalDetails?.arrivalTime | date : "hh:mm a" }}</td>
+              <td>{{ arrivalDetails?.arrivalTime | date : "HH:mm" }}</td>
               <td>{{ arrivalDetails?.arrivalFlightNumber }}</td>
             </tr>
             <tr *ngIf="departureDetails">
@@ -98,7 +98,7 @@
               <td>
                 {{ departureDetails?.departureDate | date : "yyyy-MM-dd" }}
               </td>
-              <td>{{ departureDetails?.departureTime | date : "hh:mm a" }}</td>
+              <td>{{ departureDetails?.departureTime | date : "HH:mm" }}</td>
               <td>{{ departureDetails?.departureFlightNumber }}</td>
             </tr>
           </ng-container>
@@ -139,14 +139,14 @@
             <td>Pick up</td>
             <td>{{ pickUpInfo?.pickupDate | date : "yyyy-MM-dd" }}</td>
             <td>{{ pickUpInfo?.pickupAddress }}</td>
-            <td>{{ pickUpInfo?.pickupTime | date : "hh:mm a" }}</td>
+            <td>{{ pickUpInfo?.pickupTime | date : "HH:mm" }}</td>
             <td>{{ pickUpInfo?.pickupCity }}</td>
           </tr>
           <tr *ngIf="dropOffInfo">
             <td>Drop off</td>
             <td>{{ dropOffInfo?.dropOffDate | date : "yyyy-MM-dd" }}</td>
             <td>{{ dropOffInfo?.dropOffAddress }}</td>
-            <td>{{ dropOffInfo?.dropOffTime | date : "hh:mm a" }}</td>
+            <td>{{ dropOffInfo?.dropOffTime | date : "HH:mm" }}</td>
             <td>{{ dropOffInfo?.dropOffCity }}</td>
           </tr>
         </table>

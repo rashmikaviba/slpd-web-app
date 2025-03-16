@@ -77,7 +77,7 @@
           </ng-container>
 
           <ng-container *ngIf="col.field == 'reachedDate'">
-            {{ (rowData[col.field] | date : "dd-MM-yyyy h:mm a") || "-" }}
+            {{ (rowData[col.field] | date : "dd-MM-yyyy HH:mm") || "-" }}
           </ng-container>
 
           <ng-container *ngIf="col.field == 'description'">

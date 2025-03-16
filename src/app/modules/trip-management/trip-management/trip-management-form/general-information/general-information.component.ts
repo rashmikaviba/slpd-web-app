@@ -30,6 +30,7 @@ export class GeneralInformationComponent {
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
       // general information
+      tripConfirmedNumber: ["", [Validators.required]],
       startDate: ["", [Validators.required]],
       endDate: ["", [Validators.required]],
       dateCount: ["", [Validators.required]],
@@ -49,6 +50,7 @@ export class GeneralInformationComponent {
       contactPerson: ["", [Validators.required]],
       specialRequirement: ["", [Validators.max(500)]],
       paymentMode: [null, [Validators.required]],
+      isPaymentCollected: [false],
 
       // arrival information
       isArrivalAdded: [false],
@@ -121,6 +123,15 @@ export class GeneralInformationComponent {
     let data: any = JSON.parse(
       JSON.stringify(this.tripMgtFlowService.getData())
     ); //this.tripMgtFlowService.getData();
+
+    if (data?.tripConfirmedNumber) {
+      this.FV.setValue("tripConfirmedNumber", data?.tripConfirmedNumber);
+    }
+
+    if (data?.isPaymentCollected) {
+      this.FV.setValue("isPaymentCollected", data?.isPaymentCollected);
+    }
+
     if (data?.startDate) {
       this.FV.setValue(
         "startDate",
@@ -267,7 +278,7 @@ export class GeneralInformationComponent {
 
     // genaral information validation
     let validateParams =
-      "startDate,endDate,dateCount,estimatedCost,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson,specialRequirement,paymentMode";
+      "tripConfirmedNumber,startDate,endDate,dateCount,estimatedCost,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson,specialRequirement,paymentMode,isPaymentCollected";
 
     // // add arrival departure pickup drop off validations
     if (isArrivalAdded) {
@@ -294,6 +305,7 @@ export class GeneralInformationComponent {
     let formData = this.FV.formGroup.value;
     let dateCount = this.FV.getValue("dateCount");
     let request = {
+      tripConfirmedNumber: formData?.tripConfirmedNumber,
       startDate: formData?.startDate,
       endDate: formData?.endDate,
       dateCount: dateCount,
@@ -336,8 +348,10 @@ export class GeneralInformationComponent {
       phoneNumber: formData?.mobile,
       specialRequirement: formData?.specialRequirement || "",
       paymentMode: formData?.paymentMode || "Cash",
+      isPaymentCollected: formData?.isPaymentCollected || false,
     };
 
+    debugger;
     return request;
   }
 }

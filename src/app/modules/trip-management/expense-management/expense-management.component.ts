@@ -14,6 +14,7 @@ import { ExpenseService } from "src/app/shared/services/api-services/expense.ser
 import { firstValueFrom } from "rxjs";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { ExpenseRequestFormComponent } from "./expense-request-form/expense-request-form.component";
+import { UpdatePaymentReceiptFormComponent } from "./update-payment-receipt-form/update-payment-receipt-form.component";
 
 @Component({
   selector: "app-expense-management",
@@ -32,6 +33,14 @@ export class ExpenseManagementComponent {
   expensesInfo: any = null;
   isMonthEndDone: boolean = false;
   userRole: number = 0;
+  isAllowToAddExpense: boolean = false;
+
+  // Hotel and Activity payment records
+  hotelCols: any[] = [];
+  hotelRecords: any[] = [];
+
+  activityCols: any[] = [];
+  activityRecords: any[] = [];
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -55,10 +64,22 @@ export class ExpenseManagementComponent {
       this.expensesInfo = sidebarData?.expensesInfo;
       this.userType = sidebarData?.userType;
       this.recodes = sidebarData?.expensesInfo?.expenses || [];
-      this.isMonthEndDone =
-        this.tripInfo.status == WellKnownTripStatus.FINISHED
-          ? true
-          : sidebarData?.expensesInfo?.isMonthEndDone || false;
+      this.isMonthEndDone = sidebarData?.expensesInfo?.isMonthEndDone || false;
+
+      if (this.isMonthEndDone) {
+        this.isAllowToAddExpense = false;
+      } else if (this.userType == "admin") {
+        this.isAllowToAddExpense = true;
+      } else if (
+        this.userType == "driver" &&
+        this.tripInfo.status != WellKnownTripStatus.FINISHED
+      ) {
+        this.isAllowToAddExpense = true;
+      }
+
+      if (this.userType == "admin") {
+        this.getHotelsAndActivitiesPayments();
+      }
     }
 
     this.cols = [
@@ -66,6 +87,24 @@ export class ExpenseManagementComponent {
       { field: "amount", header: "Amount" },
       { field: "description", header: "Description" },
       { field: "date", header: "Date" },
+    ];
+
+    this.activityCols = [
+      { field: "date", header: "Date" },
+      { field: "adultCount", header: "Adult" },
+      { field: "childCount", header: "Child" },
+      { field: "description", header: "Description" },
+      { field: "totalCost", header: "Total Cost" },
+      { field: "paymentDate", header: "Payment Date" },
+      { field: "paymentAmount", header: "Amount" },
+    ];
+
+    this.hotelCols = [
+      { field: "dates", header: "Date" },
+      { field: "hotelName", header: "Hotel Name (Address)" },
+      { field: "city", header: "City" },
+      { field: "paymentDate", header: "Payment Date" },
+      { field: "paymentAmount", header: "Amount" },
     ];
 
     this.items = [
@@ -225,10 +264,10 @@ export class ExpenseManagementComponent {
     this.filteredItems = [];
 
     const conditions = [
-      { ids: [1, 2, 3], condition: !this.isMonthEndDone },
+      { ids: [1, 2, 3], condition: this.isAllowToAddExpense },
       {
         ids: [2],
-        condition: this.isMonthEndDone,
+        condition: !this.isAllowToAddExpense,
       },
     ];
 
@@ -256,5 +295,47 @@ export class ExpenseManagementComponent {
     this.popupService
       .OpenModel(ExpenseRequestFormComponent, { header, width, data })
       .subscribe((result) => {});
+  }
+
+  // Hotels and Activities Payments
+
+  getHotelsAndActivitiesPayments() {
+    this.tripService
+      .GetHotelsAndActivitiesById(this.tripInfo?.id)
+      .subscribe((response) => {
+        if (response.IsSuccessful) {
+          this.hotelRecords = response.Result.hotels || [];
+          this.activityRecords = response.Result.activities || [];
+        }
+      });
+  }
+
+  onClickUploadReceipt(type: string, rowData: any) {
+    let data = {
+      type: rowData.isPaymentDone ? "view" : "add",
+      tripInfo: this.tripInfo,
+      receiptInfo: rowData,
+      actionType: type == "hotel" ? 1 : 2,
+    };
+
+    let header = data.type == "view" ? "View Receipt" : "Upload Receipt";
+    let width = "40vw";
+
+    this.popupService
+      .OpenModel(UpdatePaymentReceiptFormComponent, { header, width, data })
+      .subscribe((result) => {
+        if (result) {
+          this.getHotelsAndActivitiesPayments();
+        }
+      });
+  }
+
+  formatDates(dateString: string): string {
+    if (!dateString) return "";
+    return dateString
+      .split(",")
+      .map((date) => new Date(date.trim())) // Convert string to Date object
+      .map((date) => this.datePipe.transform(date, "MMM dd")) // Format Date
+      .join(", "); // Join formatted dates
   }
 }

@@ -1,0 +1,123 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-6">
+      <label for="paymentMode" class="required">Payment Mode </label>
+      <p-dropdown
+        id="paymentMode"
+        class="w-full"
+        [options]="paymentMethodArr"
+        optionLabel="name"
+        formControlName="paymentMode"
+        [filter]="true"
+        appendTo="body"
+        [autoOptionFocus]="false"
+      ></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="amount" class="required">Amount</label>
+
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">LKR</span>
+        <p-inputNumber
+          formControlName="amount"
+          mode="decimal"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="2"
+          [min]="0"
+        ></p-inputNumber>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="postalCode" class="font-medium text-900">Receipt Image</label>
+      <div class="flex gap-4">
+        <div
+          class="surface-border border-2 border-round surface-card w-7rem h-7rem flex flex-column upload-btn-wrapper text-gray-400"
+          [ngClass]="
+            receiptImageUrl
+              ? 'border-2'
+              : 'border-dashed justify-content-center align-items-center'
+          "
+        >
+          <i class="pi pi-image text-2xl" *ngIf="!receiptImageUrl"></i>
+          <p-image
+            [src]="receiptImageUrl"
+            alt="Image"
+            [preview]="true"
+            *ngIf="receiptImageUrl"
+            [appendTo]="'body'"
+          />
+        </div>
+
+        <div
+          class="flex flex-column gap-2 align-items-center justify-content-center"
+          *ngIf="!isView"
+        >
+          <button
+            pButton
+            type="button"
+            label="Upload"
+            icon="pi pi-camera"
+            class="p-button-primary p-button-outlined"
+            (click)="openUploadDialog()"
+          ></button>
+          <button
+            pButton
+            [disabled]="!receiptImageUrl"
+            type="button"
+            label="Remove"
+            icon="pi pi-times"
+            class="p-button-danger p-button-outlined"
+            (click)="removeImage()"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label for="date" class="required">Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="date"
+        class="w-full"
+        [min]="minDate"
+        [max]="maxDate"
+      />
+    </div>
+    <div class="field col-12 md:col-12">
+      <label for="description">Description</label>
+      <textarea
+        pInputText
+        name="description"
+        id="description"
+        formControlName="description"
+        class="w-full"
+        rows="5"
+        style="resize: none"
+        maxlength="500"
+      ></textarea>
+
+      <div style="float: right" *ngIf="!isView">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("description")?.length || 0 }} / 500</small
+        >
+      </div>
+    </div>
+    <div class="field col-12 md:col-12" *ngIf="!isView">
+      <div class="flex gap-1" style="float: right">
+        <p-button
+          styleClass="p-button-secondary p-button-sm mb:p-button"
+          label="Cancel"
+          icon="pi pi-times"
+          (click)="onClickCancel()"
+        ></p-button>
+
+        <p-button
+          styleClass="p-button-success p-button-sm mb:p-button"
+          label="Save"
+          icon="pi pi-save"
+          (click)="onClickSave()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

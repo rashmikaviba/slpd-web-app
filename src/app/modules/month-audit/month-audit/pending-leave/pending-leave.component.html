@@ -70,7 +70,7 @@
 
         <ng-container *ngIf="col.field == 'createdAt'">
           <span class="p-column-title font-bold">Applied Date</span>
-          <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
+          <span>{{ rowData.createdAt | date : "dd-MM-yyyy HH:mm" }}</span>
         </ng-container>
 
         <ng-container *ngIf="col.field == 'startDate'">

@@ -37,7 +37,7 @@ export class AddNewUserComponent {
     private transactionService: TransactionHandlerService,
     private excelService: ExcelService,
     private datePipe: DatePipe
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cols = [
@@ -185,8 +185,9 @@ export class AddNewUserComponent {
 
   blockUnblockUser(type: number, rowData: any) {
     let confirmationConfig = {
-      message: `Are you sure you want to ${type == 1 ? "block" : "unblock"
-        } this user?`,
+      message: `Are you sure you want to ${
+        type == 1 ? "block" : "unblock"
+      } this user?`,
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
     };
@@ -302,7 +303,6 @@ export class AddNewUserComponent {
     ];
 
     let excelData: any[] = [];
-    ;
     this.recodes.forEach((item: any) => {
       let languageNames: string = "";
       if (item.languages?.length > 0) {
@@ -334,14 +334,8 @@ export class AddNewUserComponent {
         roleName: item.roleName,
         createdUser: item.createdUser,
         updatedUser: item.updatedUser,
-        createdAt: this.datePipe.transform(
-          item.createdAt,
-          "dd/MM/yyyy HH:mm:ss"
-        ),
-        updatedAt: this.datePipe.transform(
-          item.updatedAt,
-          "dd/MM/yyyy HH:mm:ss"
-        ),
+        createdAt: this.datePipe.transform(item.createdAt, "dd/MM/yyyy HH:mm"),
+        updatedAt: this.datePipe.transform(item.updatedAt, "dd/MM/yyyy HH:mm"),
       };
 
       excelData.push(obj);

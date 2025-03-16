@@ -78,7 +78,7 @@ export class TripManagementByDriverComponent implements OnInit {
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
       { field: "contact", header: "Contact Details" },
-      { field: "paymentMode", header: "Payment Mode" },
+      // { field: "paymentMode", header: "Payment Mode" },
       { field: "status", header: "Status" },
       // { field: "activeDriverName", header: "Driver Name" },
       { field: "activeRegistrationNumber", header: "Vehicle Name" },

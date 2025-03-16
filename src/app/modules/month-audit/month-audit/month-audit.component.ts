@@ -56,7 +56,7 @@ export class MonthAuditComponent implements OnInit {
 
         if (tripRecodes && tripRecodes.length > 0) {
           this.massageService.showInfoAlert(
-            "Complete all pending trip before move to create new month!"
+            "Complete all pending action for trips before move to create new month!"
           );
           return;
         } else {

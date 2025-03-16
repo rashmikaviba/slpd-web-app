@@ -112,7 +112,8 @@
         <th
           *ngFor="let col of columns"
           [ngClass]="{
-            'text-center': col.field == 'status',
+            'text-center':
+              col.field == 'status' || col.field == 'isPaymentCollected',
             'text-right': col.field == 'totalCost'
           }"
         >
@@ -131,8 +132,10 @@
         <td
           *ngFor="let col of columns"
           [ngClass]="{
-          'bg-blue': rowIndex % 2 !== 0,
-        }"
+            'bg-blue': rowIndex % 2 !== 0,
+            'text-center':
+              col.field == 'status' || col.field == 'isPaymentCollected',
+          }"
         >
           <ng-container *ngIf="col.field == 'startDate'">
             <span class="p-column-title font-bold">Start Date</span>
@@ -175,12 +178,23 @@
             </div>
           </ng-container>
 
+          <ng-container *ngIf="col.field == 'isPaymentCollected'">
+            <span class="p-column-title font-bold">Payment Collected</span>
+            <p-checkbox
+              [binary]="true"
+              [(ngModel)]="rowData.isPaymentCollected"
+              [ngModelOptions]="{ standalone: true }"
+              readonly="true"
+            ></p-checkbox>
+          </ng-container>
+
           <ng-container
             *ngIf="
               col.field != 'startDate' &&
               col.field != 'endDate' &&
               col.field != 'contact' &&
-              col.field != 'status'
+              col.field != 'status' &&
+              col.field != 'isPaymentCollected'
             "
           >
             <span class="p-column-title font-bold">{{ col.header }}</span>
@@ -218,6 +232,7 @@
               [model]="filteredItems"
               [popup]="true"
               appendTo="body"
+              styleClass="w-fit"
             ></p-tieredMenu>
           </div>
         </td>

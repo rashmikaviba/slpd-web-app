@@ -9,14 +9,17 @@
         optionLabel="fullName"
         optionValue="_id"
         formControlName="driverName"
+        [filterFields]="['fullName', 'userName']"
         [filter]="true"
         appendTo="body"
         [autoOptionFocus]="false"
       >
         <ng-template let-driver pTemplate="item">
           <div class="flex flex-column gap-2">
-            <div class="flex justify-content-between align-items-center">
-              <div class="font-semibold">{{ driver.fullName }}</div>
+            <div class="flex justify-content-between align-items-center gap-3">
+              <div class="font-semibold">
+                {{ driver.fullName + " (" + driver.userName + ")" }}
+              </div>
               <div>{{ driver.phoneNumber1 }}</div>
             </div>
 
@@ -34,7 +37,7 @@
 
         <ng-template let-driver pTemplate="selectedItem">
           <div class="flex align-items-center gap-2">
-            <div>{{ driver.fullName }}</div>
+            <div>{{ driver.fullName + " (" + driver.userName + ")" }}</div>
           </div>
         </ng-template>
       </p-dropdown>
@@ -55,7 +58,10 @@
         <ng-template let-vehicle pTemplate="item">
           <div class="flex flex-column gap-2">
             <div class="flex justify-content-between align-items-center">
-              <div>{{ vehicle.registrationNumber }}</div>
+              <div>
+                {{ vehicle.registrationNumber }}
+                {{ vehicle?.isFreelanceVehicle ? "(Freelance)" : "" }}
+              </div>
               <div>{{ vehicle.typeName }}</div>
             </div>
 

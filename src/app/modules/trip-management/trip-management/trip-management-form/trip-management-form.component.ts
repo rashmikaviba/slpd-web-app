@@ -40,7 +40,7 @@ export class TripManagementFormComponent {
     private messageService: AppMessageService,
     private tripMgtFlowService: TripManagementFlowService,
     private tripService: TripService
-  ) { }
+  ) {}
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
@@ -150,12 +150,11 @@ export class TripManagementFormComponent {
     // this.showingIndex = index;
   }
 
-  handleCancel() { }
+  handleCancel() {}
 
-  handleUpdate(e: any) { }
+  handleUpdate(e: any) {}
 
   handleSave() {
-    ;
     switch (this.showingIndex) {
       case 0:
         let generalInfo = this.generalInfoComponent.onSave();
@@ -217,15 +216,25 @@ export class TripManagementFormComponent {
                   });
                 }
               }
-            }
 
-            let request = this.tripMgtFlowService.getData();
+              let request = this.tripMgtFlowService.getData();
 
-            if (request) {
-              if (this.isEdit) {
-                this.tripService
-                  .UpdateTrip(this.tripId, request)
-                  .subscribe((response) => {
+              if (request) {
+                if (this.isEdit) {
+                  this.tripService
+                    .UpdateTrip(this.tripId, request)
+                    .subscribe((response) => {
+                      if (response.IsSuccessful) {
+                        this.messageService.showSuccessAlert(response.Message);
+                        this.sidebarService.sidebarEvent.emit({
+                          action: "refresh",
+                        });
+                      } else {
+                        this.messageService.showErrorAlert(response.Message);
+                      }
+                    });
+                } else {
+                  this.tripService.SaveTrip(request).subscribe((response) => {
                     if (response.IsSuccessful) {
                       this.messageService.showSuccessAlert(response.Message);
                       this.sidebarService.sidebarEvent.emit({
@@ -235,17 +244,7 @@ export class TripManagementFormComponent {
                       this.messageService.showErrorAlert(response.Message);
                     }
                   });
-              } else {
-                this.tripService.SaveTrip(request).subscribe((response) => {
-                  if (response.IsSuccessful) {
-                    this.messageService.showSuccessAlert(response.Message);
-                    this.sidebarService.sidebarEvent.emit({
-                      action: "refresh",
-                    });
-                  } else {
-                    this.messageService.showErrorAlert(response.Message);
-                  }
-                });
+                }
               }
             }
           }

@@ -21,6 +21,8 @@ import { DriverSalaryFormComponent } from "./driver-salary-form/driver-salary-fo
 import { DestinationSummaryPrintComponent } from "./destination-summary-print/destination-summary-print.component";
 import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { CommonForm } from "src/app/shared/services/app-common-form";
+import { MasterDataService } from "src/app/shared/services/master-data.service";
+import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enum";
 
 @Component({
   selector: "app-trip-management",
@@ -35,6 +37,7 @@ export class TripManagementComponent implements OnInit {
   items: any[];
   filteredItems: any[];
   WellKnownTripStatus: any = WellKnownTripStatus;
+  userRole: number = 0;
   status: any[] = [
     {
       label: "All",
@@ -64,18 +67,25 @@ export class TripManagementComponent implements OnInit {
     private datePipe: DatePipe,
     private tripService: TripService,
     private expenseService: ExpenseService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
+    private masterDataService: MasterDataService
   ) {
     this.createForm();
   }
 
   ngOnInit(): void {
+    this.userRole = this.masterDataService.Role;
+
+    if (this.userRole == WellKnownUserRole.DRIVER) {
+    } else {
+    }
     this.cols = [
       { field: "tripConfirmedNumber", header: "Trip Number" },
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
       { field: "contact", header: "Contact Details" },
       { field: "paymentMode", header: "Payment Mode" },
+      { field: "isPaymentCollected", header: "Payment Collected" },
       { field: "status", header: "Status" },
       { field: "activeDriverName", header: "Driver Name" },
       { field: "activeRegistrationNumber", header: "Vehicle Name" },
@@ -200,6 +210,8 @@ export class TripManagementComponent implements OnInit {
       {
         ids: [8],
         condition:
+          (rowData?.status === WellKnownTripStatus.PENDING &&
+            rowData?.paidByCompanyCount > 0) ||
           rowData?.status === WellKnownTripStatus.START ||
           rowData?.status === WellKnownTripStatus.FINISHED,
       },
@@ -256,7 +268,7 @@ export class TripManagementComponent implements OnInit {
     this.tripManagementFlowService.clearData();
 
     let properties = {
-      width: "50vw",
+      width: "60vw",
       position: "right",
     };
 
@@ -288,7 +300,7 @@ export class TripManagementComponent implements OnInit {
       }
 
       let properties = {
-        width: "50vw",
+        width: "60vw",
         position: "right",
       };
 
@@ -323,7 +335,7 @@ export class TripManagementComponent implements OnInit {
       }
 
       let properties = {
-        width: "50vw",
+        width: "60vw",
         position: "right",
       };
 

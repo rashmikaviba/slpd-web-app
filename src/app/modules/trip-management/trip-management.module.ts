@@ -61,6 +61,7 @@ import { DriverSalaryFormComponent } from "./trip-management/driver-salary-form/
 import { ExpenseRequestFormComponent } from "./expense-management/expense-request-form/expense-request-form.component";
 import { ExpenseRequestActionFormComponent } from "./expense-management/expense-request-action-form/expense-request-action-form.component";
 import { DestinationSummaryPrintComponent } from "./trip-management/destination-summary-print/destination-summary-print.component";
+import { UpdatePaymentReceiptFormComponent } from "./expense-management/update-payment-receipt-form/update-payment-receipt-form.component";
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { DestinationSummaryPrintComponent } from "./trip-management/destination-
     ExpenseRequestFormComponent,
     ExpenseRequestActionFormComponent,
     DestinationSummaryPrintComponent,
+    UpdatePaymentReceiptFormComponent,
   ],
   imports: [
     CommonModule,

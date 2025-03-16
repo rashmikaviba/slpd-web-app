@@ -121,4 +121,20 @@ export class TripService {
         return response;
       });
   }
+
+  GetHotelsAndActivitiesById(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getHotelsAndActivities + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  UpdateTripHotelsAndActivitiesPayment(tripId: string, body: any) {
+    return this.dataAccess
+      .PUT(this.resource.trip.updateHotelActivityPayment + `/${tripId}`, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

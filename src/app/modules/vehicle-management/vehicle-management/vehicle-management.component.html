@@ -64,7 +64,8 @@
       <th
         *ngFor="let col of columns"
         [ngClass]="{
-          'text-center': col.field == 'status'
+          'text-center':
+            col.field == 'status' || col.field == 'isFreelanceVehicle'
         }"
       >
         {{ col.header }}
@@ -83,7 +84,9 @@
         *ngFor="let col of columns"
         [ngClass]="{
           'bg-blue': rowIndex % 2 !== 0,
-          'line-through	': rowData.isBlackListed
+          'line-through	': rowData.isBlackListed,
+          'text-center':
+            col.field == 'status' || col.field == 'isFreelanceVehicle'
         }"
       >
         <ng-container *ngIf="col.field == 'capacity'">
@@ -109,7 +112,21 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="col.field != 'capacity' && col.field != 'status'">
+        <ng-container *ngIf="col.field == 'isFreelanceVehicle'">
+          <p-checkbox
+            [binary]="true"
+            [(ngModel)]="rowData.isFreelanceVehicle"
+            readonly="true"
+          ></p-checkbox>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            col.field != 'capacity' &&
+            col.field != 'status' &&
+            col.field != 'isFreelanceVehicle'
+          "
+        >
           <span class="p-column-title font-bold">{{ col.header }}</span>
           {{ rowData[col.field] || "-" }}
         </ng-container>

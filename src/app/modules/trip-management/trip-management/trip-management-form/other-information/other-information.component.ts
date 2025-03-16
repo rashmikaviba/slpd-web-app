@@ -41,10 +41,12 @@ export class OtherInformationComponent {
       totalCost: ["", [Validators.required]],
       childCount: [0, [Validators.required, Validators.min(0)]],
       description: ["", [Validators.required]],
+      isActivityPaymentByCompany: [false],
 
       hotelDate: ["", [Validators.required]],
       hotelName: ["", [Validators.required]],
       city: ["", [Validators.required]],
+      isHotelPaymentByCompany: [false],
     });
   }
 
@@ -57,12 +59,14 @@ export class OtherInformationComponent {
       { field: "childCount", header: "Child" },
       { field: "description", header: "Description" },
       { field: "totalCost", header: "Total Cost" },
+      { field: "isPaymentByCompany", header: "Payment By Company" },
     ];
 
     this.hotelCols = [
       { field: "dates", header: "Date" },
       { field: "hotelName", header: "Hotel Name (Address)" },
       { field: "city", header: "City" },
+      { field: "isPaymentByCompany", header: "Payment By Company" },
     ];
 
     let data: any = JSON.parse(
@@ -112,6 +116,7 @@ export class OtherInformationComponent {
       adultCount: formData.adultCount,
       childCount: formData.childCount,
       totalCost: formData.totalCost,
+      isPaymentByCompany: formData.isActivityPaymentByCompany,
     };
 
     this.activityRecodes.push(obj);
@@ -122,6 +127,7 @@ export class OtherInformationComponent {
     this.FV.clearValues("date,adultCount,childCount,totalCost,description");
     this.FV.setValue("adultCount", 0);
     this.FV.setValue("childCount", 0);
+    this.FV.setValue("isActivityPaymentByCompany", false);
     this.isAddNewActivity = false;
   }
 
@@ -132,10 +138,22 @@ export class OtherInformationComponent {
       icon: "pi pi-exclamation-triangle",
     };
 
+    let selectedActivity = this.activityRecodes.find((x) => x._id == id);
+
     this.messageService.ConfirmPopUp(
       confirmationConfig,
       (isConfirm: boolean) => {
         if (isConfirm) {
+          if (
+            selectedActivity?.isPaymentByCompany &&
+            selectedActivity?.isPaymentDone
+          ) {
+            this.messageService.showErrorAlert(
+              "Cannot delete this activity, because payment is already done!"
+            );
+            return;
+          }
+
           this.activityRecodes = this.activityRecodes.filter(
             (x) => x._id != id
           );
@@ -155,8 +173,6 @@ export class OtherInformationComponent {
     }
 
     let formData = this.FV.formGroup.value;
-    ;
-
     let dates = formData.hotelDate
       .map((x) => {
         return this.datePipe.transform(x, "yyyy-MM-dd");
@@ -175,6 +191,7 @@ export class OtherInformationComponent {
       hotelName: formData.hotelName,
       city: formData.city,
       showDates: showDates,
+      isPaymentByCompany: formData.isHotelPaymentByCompany,
     };
 
     this.hotelRecords.push(obj);
@@ -188,10 +205,22 @@ export class OtherInformationComponent {
       icon: "pi pi-exclamation-triangle",
     };
 
+    let selectedHotel = this.hotelRecords.find((x) => x._id == id);
+
     this.messageService.ConfirmPopUp(
       confirmationConfig,
       (isConfirm: boolean) => {
         if (isConfirm) {
+          if (
+            selectedHotel?.isPaymentByCompany &&
+            selectedHotel?.isPaymentDone
+          ) {
+            this.messageService.showErrorAlert(
+              "Cannot delete this hotel, because payment is already done!"
+            );
+            return;
+          }
+
           this.hotelRecords = this.hotelRecords.filter((x) => x._id != id);
         }
       }
@@ -199,7 +228,8 @@ export class OtherInformationComponent {
   }
 
   onClickCancelHotel() {
-    this.FV.clearValues("hotelDate,hotelName,city");
+    this.FV.clearValues("hotelDate,hotelName,city,isHotelPaymentByCompany");
+    this.FV.setValue("isHotelPaymentByCompany", false);
     this.isAddNewHotel = false;
   }
 
@@ -227,6 +257,7 @@ export class OtherInformationComponent {
           dates: x.dates,
           hotelName: x.hotelName,
           city: x.city,
+          isPaymentByCompany: x.isPaymentByCompany,
         };
       }) || [];
 

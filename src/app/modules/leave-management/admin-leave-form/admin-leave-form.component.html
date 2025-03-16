@@ -145,7 +145,7 @@
 
             <ng-container *ngIf="col.field == 'createdAt'">
               <span class="p-column-title font-bold">Applied Date</span>
-              <span>{{ rowData.createdAt | date : "dd-MM-yyyy h:mm a" }}</span>
+              <span>{{ rowData.createdAt | date : "dd-MM-yyyy HH:mm" }}</span>
             </ng-container>
 
             <ng-container *ngIf="col.field == 'dateCount'">
@@ -239,10 +239,10 @@
                             value="{{
                               rowData.status == 2
                                 ? (rowData.approveDate
-                                  | date : 'dd-MM-yyyy h:mm a')
+                                  | date : 'dd-MM-yyyy HH:mm')
                                 : rowData.status == 3
                                 ? (rowData.rejectDate
-                                  | date : 'dd-MM-yyyy h:mm a')
+                                  | date : 'dd-MM-yyyy HH:mm')
                                 : ''
                             }}"
                             readonly

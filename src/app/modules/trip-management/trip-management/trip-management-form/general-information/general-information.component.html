@@ -1,6 +1,16 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
   <div class="p-fluid grid formgrid align-items-start p-4">
-    <div class="field col-12 md:col-4">
+    <div class="field col-12 md:col-3">
+      <label class="required" for="startDate">Reference Number</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="tripConfirmedNumber"
+        class="w-full"
+        maxlength="20"
+      />
+    </div>
+    <div class="field col-12 md:col-3">
       <label class="required" for="startDate">Start Date</label>
       <input
         pInputText
@@ -11,7 +21,7 @@
         (change)="onChangeDate()"
       />
     </div>
-    <div class="field col-12 md:col-4">
+    <div class="field col-12 md:col-3">
       <label class="required" for="endDate">End Date</label>
       <input
         pInputText
@@ -22,7 +32,7 @@
         (change)="onChangeDate()"
       />
     </div>
-    <div class="field col-12 md:col-4">
+    <div class="field col-12 md:col-3">
       <label class="required" for="dateCount">Date Count</label>
       <input
         pInputText
@@ -126,6 +136,14 @@
         formControlName="specialRequirement"
         class="w-full"
         maxlength="500"
+      />
+    </div>
+
+    <div class="field col-12 md:col-4">
+      <p-checkbox
+        [binary]="true"
+        formControlName="isPaymentCollected"
+        label="Payment Collected"
       />
     </div>
 

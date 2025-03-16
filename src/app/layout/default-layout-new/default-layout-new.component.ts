@@ -19,6 +19,7 @@ import {
 } from "src/app/store/action/notification.action";
 import { selectNotificationCount } from "src/app/store/selector/notification.selector";
 import { ExpenseExtensionService } from "src/app/shared/services/api-services/expense-extension.service";
+import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enum";
 
 @Component({
   selector: "app-default-layout-new",
@@ -215,12 +216,25 @@ export class DefaultLayoutNewComponent {
   }
 
   ModuleActivate(routeModule: any) {
-    debugger;
     this.DynamicItems.forEach((element: any) => {
       if (
         element.labelForRoute.toLowerCase().replace(/\s+/g, "-") == routeModule
       ) {
         this.activeTab = element.menuId;
+      }
+
+      if (
+        routeModule == "trip-management" &&
+        this.masterDataService.Role == WellKnownUserRole.DRIVER
+      ) {
+        this.activeTab = 6;
+      }
+
+      if (
+        routeModule == "trip-management" &&
+        this.masterDataService.Role != WellKnownUserRole.DRIVER
+      ) {
+        this.activeTab = 4;
       }
     });
   }
