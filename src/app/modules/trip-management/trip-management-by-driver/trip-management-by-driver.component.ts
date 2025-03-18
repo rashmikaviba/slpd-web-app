@@ -19,6 +19,8 @@ import { TripManagementPrintComponent } from "../trip-management-print/trip-mana
 import { ExpenseService } from "src/app/shared/services/api-services/expense.service";
 import { CommonForm } from "src/app/shared/services/app-common-form";
 import { UntypedFormBuilder, Validators } from "@angular/forms";
+import { TripSummaryComponent } from "../trip-summary/trip-summary.component";
+import { TripSummaryService } from "src/app/shared/services/api-services/trip-summary.service";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -67,7 +69,8 @@ export class TripManagementByDriverComponent implements OnInit {
     private datePipe: DatePipe,
     private tripService: TripService,
     private expenseService: ExpenseService,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
+    private tripSummaryService: TripSummaryService
   ) {
     this.createForm();
   }
@@ -137,6 +140,14 @@ export class TripManagementByDriverComponent implements OnInit {
           this.onClickExpenseManagement(event.item.data);
         },
       },
+      {
+        id: 6,
+        label: "Trip Summary",
+        icon: "pi pi-flag",
+        command: (event: any) => {
+          this.onClickTripSummary(event.item.data);
+        },
+      },
     ];
   }
 
@@ -176,7 +187,7 @@ export class TripManagementByDriverComponent implements OnInit {
       rowData.isCheckListDone &&
       rowData.status == WellKnownTripStatus.START
     ) {
-      let selectedItem = this.items.filter((x) => x.id == 4);
+      let selectedItem = this.items.filter((x) => x.id == 4 || x.id == 6);
       this.filteredItems = this.filteredItems.concat(selectedItem);
 
       if (rowData?.canUndo) {
@@ -362,6 +373,37 @@ export class TripManagementByDriverComponent implements OnInit {
       } else {
         this.messageService.showErrorAlert(tripData.Message);
       }
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async onClickTripSummary(rowData: any) {
+    try {
+      let properties = {
+        width: "60vw",
+        position: "right",
+      };
+      let data = {
+        summaryData: null,
+        tripInfo: rowData,
+      };
+
+      const tripSummaryResult = await firstValueFrom(
+        this.tripSummaryService.GetAllByTrip(rowData?.id)
+      );
+
+      if (tripSummaryResult.IsSuccessful) {
+        data.summaryData = tripSummaryResult.Result.tripSummaries;
+        data.tripInfo = tripSummaryResult.Result.trip;
+      }
+
+      this.sidebarService.addComponent(
+        "Trip Summary",
+        TripSummaryComponent,
+        properties,
+        data
+      );
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }

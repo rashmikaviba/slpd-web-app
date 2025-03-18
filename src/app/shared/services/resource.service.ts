@@ -23,6 +23,7 @@ export class ResourceService {
   private ExpenseRequest = this.host + "/expenseRequest";
   private Notification = this.host + "/notification";
   private InternalTrip = this.host + "/internalTrip";
+  private TripSummary = this.host + "/tripSummary";
 
   auth = {
     login: this.Auth + "/login",
@@ -146,5 +147,13 @@ export class ResourceService {
     getById: this.InternalTrip,
     update: this.InternalTrip,
     deleteById: this.InternalTrip,
+  };
+
+  tripSummary = {
+    save: this.TripSummary,
+    getByTripId: this.TripSummary + "/trip",
+    update: this.TripSummary,
+    deleteById: this.TripSummary,
+    getById: this.TripSummary,
   };
 }

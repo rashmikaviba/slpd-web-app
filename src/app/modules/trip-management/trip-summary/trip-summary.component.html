@@ -1,0 +1,116 @@
+<p-table
+  #dt
+  styleClass=""
+  [columns]="cols"
+  [value]="recodes"
+  responsiveLayout="stack"
+  [breakpoint]="'960px'"
+  dataKey="_id"
+  [rows]="10"
+  [responsive]="true"
+  styleClass="p-datatable-gridlines"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [paginator]="true"
+  [rowHover]="true"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [globalFilterFields]="['tripConfirmedNumber', 'email', 'phoneNumber']"
+>
+  <ng-template pTemplate="caption" *ngIf="isAllowToAddTripSummary">
+    <div class="flex flex-wrap justify-content-end">
+      <p-button
+        styleClass="p-button-success p-button-sm mb:p-button"
+        icon="pi pi-plus"
+        label="Add New Summary"
+        (onClick)="onClickAddNew()"
+      ></p-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th
+        *ngFor="let col of columns"
+        [ngClass]="{
+          'text-center': col.field == 'status',
+          'text-right': col.field == 'startingKm' || col.field == 'endingKm' || col.field == 'totalKm'  || col.field == 'fuel',
+        }"
+      >
+        {{ col.header }}
+      </th>
+      <th class="text-center">Action</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
+    <tr>
+      <td
+        *ngFor="let col of columns"
+        [ngClass]="{
+           'bg-blue': rowIndex % 2 !== 0,
+           'text-right': col.field == 'startingKm' || col.field == 'endingKm' || col.field == 'totalKm'  || col.field == 'fuel',
+        }"
+      >
+        <ng-container *ngIf="col.field == 'date'">
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            col.field == 'startingKm' ||
+            col.field == 'endingKm' ||
+            col.field == 'totalKm'
+          "
+        >
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] | number : "1.2-2" }} KM
+        </ng-container>
+
+        <ng-container *ngIf="col.field == 'fuel'">
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] | number : "1.2-2" }}
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            col.field != 'date' &&
+            col.field != 'fuel' &&
+            col.field != 'startingKm' &&
+            col.field != 'endingKm' &&
+            col.field != 'totalKm'
+          "
+        >
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] }}
+        </ng-container>
+      </td>
+      <td
+        class="text-center w-2"
+        [ngClass]="{
+                        'bg-blue': rowIndex % 2 !== 0,
+                      }"
+      >
+        <div
+          class="flex flex-wrap justify-content-center align-content-center gap-1"
+        ></div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length + 1">
+        <div
+          class="flex flex-column justify-content-center align-items-center gap-2"
+          style="height: 300px; width: 100%"
+        >
+          <i class="pi pi-inbox text-5xl text-gray-400"></i>
+          <small class="">No Trip Summary Found</small>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
