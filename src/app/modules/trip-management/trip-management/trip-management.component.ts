@@ -576,12 +576,13 @@ export class TripManagementComponent implements OnInit {
   async onClickTripSummary(rowData: any) {
     try {
       let properties = {
-        width: "60vw",
+        width: "75vw",
         position: "right",
       };
       let data = {
         summaryData: null,
         tripInfo: rowData,
+        userType: "admin",
       };
 
       const tripSummaryResult = await firstValueFrom(
