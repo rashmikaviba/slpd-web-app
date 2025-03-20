@@ -1,0 +1,105 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-4">
+      <label for="date" class="required">Date</label>
+      <input
+        pInputText
+        type="date"
+        formControlName="date"
+        class="w-full"
+        [min]="minDate"
+        [max]="maxDate"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="startTime" class="required">Start Time</label>
+      <input
+        pInputText
+        type="time"
+        formControlName="startTime"
+        class="w-full"
+      />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="endTime">End Time</label>
+      <input pInputText type="time" formControlName="endTime" class="w-full" />
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="startingKm" class="required">Starting Km</label>
+      <p-inputNumber
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        formControlName="startingKm"
+        class="w-full"
+      ></p-inputNumber>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="endingKm">Ending Km</label>
+      <p-inputNumber
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        formControlName="endingKm"
+        class="w-full"
+      ></p-inputNumber>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="totalKm">Total Km</label>
+      <p-inputNumber
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        formControlName="totalKm"
+        class="w-full"
+      ></p-inputNumber>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label for="fuel">Fuel</label>
+      <p-inputNumber
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        formControlName="fuel"
+        class="w-full"
+      ></p-inputNumber>
+    </div>
+    <div class="field col-12">
+      <label for="description">Description</label>
+      <textarea
+        pInputText
+        name="description"
+        id="description"
+        formControlName="description"
+        class="w-full"
+        rows="5"
+        style="resize: none"
+        maxlength="500"
+      ></textarea>
+
+      <div style="float: right">
+        <small class="text-500 text-xs"
+          >{{ FV.getValue("description")?.length || 0 }} / 500</small
+        >
+      </div>
+    </div>
+
+    <div class="field col-12">
+      <div class="flex justify-content-end gap-1">
+        <p-button
+          styleClass="p-button-secondary p-button"
+          icon="pi pi-times"
+          label="Cancel"
+          (onClick)="onClickCancel()"
+        ></p-button>
+
+        <p-button
+          styleClass="p-button-success p-button"
+          icon="pi pi-check"
+          label="Save"
+          (onClick)="onClickSave()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,3 +1,4 @@
+import { TripSummaryComponent } from "./trip-summary/trip-summary.component";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
@@ -62,6 +63,7 @@ import { ExpenseRequestFormComponent } from "./expense-management/expense-reques
 import { ExpenseRequestActionFormComponent } from "./expense-management/expense-request-action-form/expense-request-action-form.component";
 import { DestinationSummaryPrintComponent } from "./trip-management/destination-summary-print/destination-summary-print.component";
 import { UpdatePaymentReceiptFormComponent } from "./expense-management/update-payment-receipt-form/update-payment-receipt-form.component";
+import { AddTripSummaryFormComponent } from "./trip-summary/add-trip-summary-form/add-trip-summary-form.component";
 
 @NgModule({
   declarations: [
@@ -85,6 +87,8 @@ import { UpdatePaymentReceiptFormComponent } from "./expense-management/update-p
     ExpenseRequestActionFormComponent,
     DestinationSummaryPrintComponent,
     UpdatePaymentReceiptFormComponent,
+    TripSummaryComponent,
+    AddTripSummaryFormComponent,
   ],
   imports: [
     CommonModule,
