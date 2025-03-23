@@ -52,11 +52,13 @@ export class MonthlyIncomeReportComponent implements OnInit {
       this.reportDetails.map((report: any) => {
         report.showStartDate = this.datePipe.transform(
           report.startDate,
-          "yyyy-MM-dd"
+          "yyyy-MM-dd",
+          "Asia/Colombo"
         );
         report.showEndDate = this.datePipe.transform(
           report.endDate,
-          "yyyy-MM-dd"
+          "yyyy-MM-dd",
+          "Asia/Colombo"
         );
         report.showRemainingToDriver = report?.isRemainingToDriver
           ? "Yes"
@@ -89,7 +91,8 @@ export class MonthlyIncomeReportComponent implements OnInit {
 
     let name = `Income Report (${this.datePipe.transform(
       this.month,
-      "yyyy-MM"
+      "yyyy-MM",
+      "Asia/Colombo"
     )})`;
     this.excelService.GenerateExcelFileWithCustomHeader(
       cols,

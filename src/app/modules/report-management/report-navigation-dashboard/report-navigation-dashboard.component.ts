@@ -52,7 +52,7 @@ export class ReportNavigationDashboardComponent implements OnInit {
 
   onClickGenerateReport(report) {
     let selectedDate = this.FV.getValue("month");
-    let date = this.datePipe.transform(selectedDate, "yyyy-MM");
+    let date = this.datePipe.transform(selectedDate, "yyyy-MM", "Asia/Colombo");
 
     switch (report.index) {
       case 0:

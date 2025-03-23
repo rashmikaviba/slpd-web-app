@@ -171,21 +171,31 @@ export class SuperAdminLeaveFormComponent {
         appliedUserName: item.appliedUserName,
         appliedUserRole: item.appliedUserRole,
         reason: item.reason,
-        startDate: this.datePipe.transform(item.startDate, "dd/MM/yyyy"),
-        endDate: this.datePipe.transform(item.endDate, "dd/MM/yyyy"),
+        startDate: this.datePipe.transform(
+          item.startDate,
+          "dd/MM/yyyy",
+          "Asia/Colombo"
+        ),
+        endDate: this.datePipe.transform(
+          item.endDate,
+          "dd/MM/yyyy",
+          "Asia/Colombo"
+        ),
         dateCount: item.dateCount,
         availableLeaveCount: item.availableLeaveCount,
         statusName: item.statusName,
         approvedUser: item.approvedUser,
         approveDate: this.datePipe.transform(
           item.approveDate,
-          "dd/MM/yyyy HH:mm"
+          "dd/MM/yyyy HH:mm",
+          "Asia/Colombo"
         ),
         approveRemark: item.approveRemark,
         rejectedUser: item.rejectedUser,
         rejectDate: this.datePipe.transform(
           item.rejectDate,
-          "dd/MM/yyyy HH:mm"
+          "dd/MM/yyyy HH:mm",
+          "Asia/Colombo"
         ),
         rejectReason: item.rejectReason,
         isMonthEndDone: item.isMonthEndDone,

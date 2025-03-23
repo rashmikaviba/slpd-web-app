@@ -52,13 +52,19 @@ export class LeaveConfirmationComponent {
       employeeName: this.leaveData.appliedUserName,
       leaveDates:
         this.leaveData.dateCount == 1
-          ? `${this.datePipe.transform(this.leaveData.startDate, "dd-MM-yyyy")}`
+          ? `${this.datePipe.transform(
+              this.leaveData.startDate,
+              "dd-MM-yyyy",
+              "Asia/Colombo"
+            )}`
           : `${this.datePipe.transform(
               this.leaveData.startDate,
-              "dd-MM-yyyy"
+              "dd-MM-yyyy",
+              "Asia/Colombo"
             )} - ${this.datePipe.transform(
               this.leaveData.endDate,
-              "dd-MM-yyyy"
+              "dd-MM-yyyy",
+              "Asia/Colombo"
             )}`,
       leaveReason: this.leaveData.reason,
     });

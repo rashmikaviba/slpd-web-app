@@ -90,7 +90,7 @@ export class OtherInformationComponent {
         let dates: any[] = item.dates.split(",");
         let showDates = dates
           .map((x) => {
-            return this.datePipe.transform(x, "MMM d");
+            return this.datePipe.transform(x, "MMM d", "Asia/Colombo");
           })
           .join(", ");
         item.showDates = showDates;
@@ -181,13 +181,13 @@ export class OtherInformationComponent {
     let formData = this.FV.formGroup.value;
     let dates = formData.hotelDate
       .map((x) => {
-        return this.datePipe.transform(x, "yyyy-MM-dd");
+        return this.datePipe.transform(x, "yyyy-MM-dd", "Asia/Colombo");
       })
       .join(",");
 
     let showDates = formData.hotelDate
       .map((x) => {
-        return this.datePipe.transform(x, "MMM d");
+        return this.datePipe.transform(x, "MMM d", "Asia/Colombo");
       })
       .join(", ");
 

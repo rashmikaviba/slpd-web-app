@@ -55,7 +55,7 @@ export class UpdateLocationFormComponent implements OnInit {
         this.places.map((x) => {
           x.showDate = x.dates
             .map((x) => {
-              return this.datePipe.transform(x, "yyyy-MM-dd");
+              return this.datePipe.transform(x, "yyyy-MM-dd", "Asia/Colombo");
             })
             .join(" / ");
           // replce <p> with n<p style="line-height: 1.2;">

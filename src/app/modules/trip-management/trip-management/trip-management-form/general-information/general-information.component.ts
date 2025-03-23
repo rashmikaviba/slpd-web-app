@@ -84,8 +84,16 @@ export class GeneralInformationComponent {
     this.FV.disableField("dateCount");
 
     let today = new Date();
-    this.minStartDate = this.datePipe.transform(today, "yyyy-MM-dd");
-    this.minEndDate = this.datePipe.transform(today, "yyyy-MM-dd");
+    this.minStartDate = this.datePipe.transform(
+      today,
+      "yyyy-MM-dd",
+      "Asia/Colombo"
+    );
+    this.minEndDate = this.datePipe.transform(
+      today,
+      "yyyy-MM-dd",
+      "Asia/Colombo"
+    );
 
     this.isView = this.tripMgtFlowService.getIsView();
 
@@ -100,7 +108,7 @@ export class GeneralInformationComponent {
       this.minEndDate = startDate;
     }
 
-    if (startDate && endDate && startDate < endDate) {
+    if (startDate && endDate && startDate <= endDate) {
       this.FV.setValue("dateCount", this.calcDateCount(startDate, endDate));
     } else {
       this.FV.setValue("dateCount", 0);
@@ -115,11 +123,11 @@ export class GeneralInformationComponent {
     let timeDiff = eDate.getTime() - sDate.getTime();
     let dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
-    if (dayDiff == 0) {
-      dayDiff = 1;
-    }
+    // if (dayDiff == 0) {
+    //   dayDiff = 1;
+    // }
 
-    return dayDiff;
+    return dayDiff + 1;
   }
 
   setValues() {
@@ -138,14 +146,22 @@ export class GeneralInformationComponent {
     if (data?.startDate) {
       this.FV.setValue(
         "startDate",
-        this.datePipe.transform(new Date(data?.startDate), "yyyy-MM-dd")
+        this.datePipe.transform(
+          new Date(data?.startDate),
+          "yyyy-MM-dd",
+          "Asia/Colombo"
+        )
       );
     }
 
     if (data?.endDate) {
       this.FV.setValue(
         "endDate",
-        this.datePipe.transform(new Date(data?.endDate), "yyyy-MM-dd")
+        this.datePipe.transform(
+          new Date(data?.endDate),
+          "yyyy-MM-dd",
+          "Asia/Colombo"
+        )
       );
     }
 
@@ -193,14 +209,16 @@ export class GeneralInformationComponent {
         "arrivalDate",
         this.datePipe.transform(
           new Date(data?.arrivalInfo?.arrivalDate),
-          "yyyy-MM-dd"
+          "yyyy-MM-dd",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue(
         "arrivalTime",
         this.datePipe.transform(
           new Date(data?.arrivalInfo?.arrivalTime),
-          "HH:mm"
+          "HH:mm",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue(
@@ -215,14 +233,16 @@ export class GeneralInformationComponent {
         "departureDate",
         this.datePipe.transform(
           new Date(data?.departureInfo?.departureDate),
-          "yyyy-MM-dd"
+          "yyyy-MM-dd",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue(
         "departureTime",
         this.datePipe.transform(
           new Date(data?.departureInfo?.departureTime),
-          "HH:mm"
+          "HH:mm",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue(
@@ -237,12 +257,17 @@ export class GeneralInformationComponent {
         "pickUpDate",
         this.datePipe.transform(
           new Date(data?.pickUpInfo?.pickupDate),
-          "yyyy-MM-dd"
+          "yyyy-MM-dd",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue(
         "pickUpTime",
-        this.datePipe.transform(new Date(data?.pickUpInfo?.pickupTime), "HH:mm")
+        this.datePipe.transform(
+          new Date(data?.pickUpInfo?.pickupTime),
+          "HH:mm",
+          "Asia/Colombo"
+        )
       );
       this.FV.setValue("pickUpCity", data?.pickUpInfo?.pickupCity);
       this.FV.setValue("pickUpAddress", data?.pickUpInfo?.pickupAddress);
@@ -254,14 +279,16 @@ export class GeneralInformationComponent {
         "dropOffDate",
         this.datePipe.transform(
           new Date(data?.dropOffInfo?.dropOffDate),
-          "yyyy-MM-dd"
+          "yyyy-MM-dd",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue(
         "dropOffTime",
         this.datePipe.transform(
           new Date(data?.dropOffInfo?.dropOffTime),
-          "HH:mm"
+          "HH:mm",
+          "Asia/Colombo"
         )
       );
       this.FV.setValue("dropOffCity", data?.dropOffInfo?.dropOffCity);
