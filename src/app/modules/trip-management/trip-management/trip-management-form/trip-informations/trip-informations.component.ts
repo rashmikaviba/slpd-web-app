@@ -26,7 +26,7 @@ export class TripInformationsComponent {
     private tripManagementFlowService: TripManagementFlowService,
     private popUpService: PopupService,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.isView = this.tripManagementFlowService.getIsView();
@@ -37,7 +37,7 @@ export class TripInformationsComponent {
     this.recodes.map((x) => {
       x.showDate = x.dates
         .map((x) => {
-          return this.datePipe.transform(x, "yyyy-MM-dd");
+          return this.datePipe.transform(x, "yyyy-MM-dd", "Asia/Colombo");
         })
         .join(" / ");
     });
@@ -56,7 +56,6 @@ export class TripInformationsComponent {
         data,
       })
       .subscribe((result) => {
-        ;
         if (result) {
           let obj = {
             _id: this.generateUniqueId(),
@@ -64,7 +63,7 @@ export class TripInformationsComponent {
             dates: result?.dates,
             showDate: result?.dates
               .map((x) => {
-                return this.datePipe.transform(x, "yyyy-MM-dd");
+                return this.datePipe.transform(x, "yyyy-MM-dd", "Asia/Colombo");
               })
               .join(" / "),
             isReached: false,

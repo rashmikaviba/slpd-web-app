@@ -49,11 +49,13 @@ export class MonthlyDriverSalaryComponent {
       this.reportDetails.map((report: any) => {
         report.showCreatedDate = this.datePipe.transform(
           report.createdDate,
-          "yyyy-MM-dd HH:mm"
+          "yyyy-MM-dd HH:mm",
+          "Asia/Colombo"
         );
         report.showUpdatedDate = this.datePipe.transform(
           report.updatedDate,
-          "yyyy-MM-dd HH:mm"
+          "yyyy-MM-dd HH:mm",
+          "Asia/Colombo"
         );
         report.showRemainingToDriver = report?.isRemainingToDriver
           ? "Yes"
@@ -87,7 +89,8 @@ export class MonthlyDriverSalaryComponent {
 
     let name = `Driver Salary Report (${this.datePipe.transform(
       this.month,
-      "yyyy-MM"
+      "yyyy-MM",
+      "Asia/Colombo"
     )})`;
     this.excelService.GenerateExcelFileWithCustomHeader(
       cols,

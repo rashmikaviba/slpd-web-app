@@ -64,14 +64,20 @@ export class UpdatePaymentReceiptFormComponent implements OnInit {
     if (this.type == "add") {
       this.minDate = this.datePipe.transform(
         new Date(this.tripInfo.startDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
       this.maxDate = this.datePipe.transform(
         new Date(this.tripInfo.endDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
 
-      let today = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+      let today = this.datePipe.transform(
+        new Date(),
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      );
 
       if (today > this.maxDate) {
         this.FV.setValue("date", this.maxDate);
@@ -94,7 +100,11 @@ export class UpdatePaymentReceiptFormComponent implements OnInit {
     this.FV.setValue("amount", this.receiptInfo.paymentAmount);
     this.FV.setValue(
       "date",
-      this.datePipe.transform(this.receiptInfo.paymentDate, "yyyy-MM-dd")
+      this.datePipe.transform(
+        this.receiptInfo.paymentDate,
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      )
     );
     this.FV.setValue("description", this.receiptInfo.paymentRemark);
 

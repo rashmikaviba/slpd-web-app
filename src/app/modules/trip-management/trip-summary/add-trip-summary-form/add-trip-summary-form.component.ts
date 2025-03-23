@@ -42,14 +42,20 @@ export class AddTripSummaryFormComponent implements OnInit {
     if (this.isAdd) {
       this.minDate = this.datePipe.transform(
         new Date(this.tripInfo.startDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
       this.maxDate = this.datePipe.transform(
         new Date(this.tripInfo.endDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
 
-      let today = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+      let today = this.datePipe.transform(
+        new Date(),
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      );
 
       if (today > this.maxDate) {
         this.FV.setValue("date", this.maxDate);
@@ -70,15 +76,27 @@ export class AddTripSummaryFormComponent implements OnInit {
     debugger;
     this.FV.setValue(
       "date",
-      this.datePipe.transform(this.tripSummaryData.date, "yyyy-MM-dd")
+      this.datePipe.transform(
+        this.tripSummaryData.date,
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      )
     );
     this.FV.setValue(
       "startTime",
-      this.datePipe.transform(this.tripSummaryData.startingTime, "HH:mm")
+      this.datePipe.transform(
+        this.tripSummaryData.startingTime,
+        "HH:mm",
+        "Asia/Colombo"
+      )
     );
     this.FV.setValue(
       "endTime",
-      this.datePipe.transform(this.tripSummaryData.endingTime, "HH:mm")
+      this.datePipe.transform(
+        this.tripSummaryData.endingTime,
+        "HH:mm",
+        "Asia/Colombo"
+      )
     );
     this.FV.setValue("startingKm", this.tripSummaryData.startingKm);
     this.FV.setValue("endingKm", this.tripSummaryData.endingKm);

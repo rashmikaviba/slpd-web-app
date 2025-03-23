@@ -261,7 +261,7 @@ export class HelperService {
   }
 
   private TransformDateTime(date: Date | string, format = "yyyy-MM-dd HH:mm") {
-    return this.datePipe.transform(date, format);
+    return this.datePipe.transform(date, format, "Asia/Colombo");
   }
 
   IsNullOrUndefined(value: any) {
