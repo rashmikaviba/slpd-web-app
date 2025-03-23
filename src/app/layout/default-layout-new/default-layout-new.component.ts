@@ -52,7 +52,8 @@ export class DefaultLayoutNewComponent {
 
     this.showWorkingDate = this.datePipe.transform(
       this.workingDate,
-      "y - MMMM"
+      "y - MMMM",
+      "Asia/Colombo"
     );
     this.moduleIds = this.masterDataService.MenuList;
     let module = this.router.url.split("/")[1];

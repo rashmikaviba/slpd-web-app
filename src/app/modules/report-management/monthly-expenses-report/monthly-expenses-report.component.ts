@@ -47,11 +47,13 @@ export class MonthlyExpensesReportComponent {
         report.showDate = this.datePipe.transform(report.date, "yyyy-MM-dd");
         report.showCreatedDate = this.datePipe.transform(
           report.createdDate,
-          "yyyy-MM-dd HH:mm"
+          "yyyy-MM-dd HH:mm",
+          "Asia/Colombo"
         );
         report.showUpdatedDate = this.datePipe.transform(
           report.updatedDate,
-          "yyyy-MM-dd HH:mm"
+          "yyyy-MM-dd HH:mm",
+          "Asia/Colombo"
         );
       });
 
@@ -79,7 +81,8 @@ export class MonthlyExpensesReportComponent {
 
     let name = `Expenses Report (${this.datePipe.transform(
       this.month,
-      "yyyy-MM"
+      "yyyy-MM",
+      "Asia/Colombo"
     )})`;
     this.excelService.GenerateExcelFileWithCustomHeader(
       cols,

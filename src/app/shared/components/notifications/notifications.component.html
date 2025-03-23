@@ -51,7 +51,8 @@
             <span class="text-yellow-500 font-semibold">{{
               item?.vehicleName
             }}</span>
-            is due on {{ item?.expiryDate | date : "MMMM d, y" }}.
+            is due on
+            {{ item?.expiryDate | date : "MMMM d, y" : "Asia/Colombo" }}.
           </span>
         </span>
       </div>
@@ -79,7 +80,8 @@
             <span class="text-indigo-500 font-semibold">
               {{ item?.tripConfirmedNumber }}</span
             >
-            required before {{ item?.startDate | date : "MMMM d, y" }}.
+            required before
+            {{ item?.startDate | date : "MMMM d, y" : "Asia/Colombo" }}.
           </span>
         </span>
       </div>
@@ -108,7 +110,7 @@
               {{ item?.appliedBy }}</span
             >
             - Requires approval before
-            {{ item?.startDate | date : "MMMM d, y" }}.
+            {{ item?.startDate | date : "MMMM d, y" : "Asia/Colombo" }}.
           </span>
         </span>
       </div>

@@ -334,8 +334,16 @@ export class AddNewUserComponent {
         roleName: item.roleName,
         createdUser: item.createdUser,
         updatedUser: item.updatedUser,
-        createdAt: this.datePipe.transform(item.createdAt, "dd/MM/yyyy HH:mm"),
-        updatedAt: this.datePipe.transform(item.updatedAt, "dd/MM/yyyy HH:mm"),
+        createdAt: this.datePipe.transform(
+          item.createdAt,
+          "dd/MM/yyyy HH:mm",
+          "Asia/Colombo"
+        ),
+        updatedAt: this.datePipe.transform(
+          item.updatedAt,
+          "dd/MM/yyyy HH:mm",
+          "Asia/Colombo"
+        ),
       };
 
       excelData.push(obj);

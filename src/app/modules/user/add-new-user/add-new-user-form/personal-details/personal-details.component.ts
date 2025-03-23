@@ -76,11 +76,13 @@ export class PersonalDetailsComponent {
     // set min and max date for date of birth to more than 18 years old - 60 years old
     this.minDate = this.datePipe.transform(
       new Date(new Date().setFullYear(new Date().getFullYear() - 60)),
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
     this.maxDate = this.datePipe.transform(
       new Date().setFullYear(new Date().getFullYear() - 18),
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
   }
 
@@ -90,7 +92,11 @@ export class PersonalDetailsComponent {
     this.FV.setValue("gender", this.userDetail?.gender);
     this.FV.setValue(
       "dateOfBirth",
-      this.datePipe.transform(this.userDetail?.dateOfBirth, "yyyy-MM-dd")
+      this.datePipe.transform(
+        this.userDetail?.dateOfBirth,
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      )
     );
     this.FV.setValue("address", this.userDetail?.address);
     this.FV.setValue("nicNo", this.userDetail?.nic);

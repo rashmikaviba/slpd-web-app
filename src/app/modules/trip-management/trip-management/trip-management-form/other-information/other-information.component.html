@@ -5,7 +5,7 @@
         <label class="text-xl font-bold">Hotel Details</label>
       </div>
       <p-table
-        #dt
+        #dt1
         styleClass=""
         [columns]="hotelCols"
         [value]="hotelRecords"
@@ -38,7 +38,9 @@
               <input
                 pInputText
                 type="text"
-                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                (input)="
+                  dt1.filterGlobal($any($event.target).value, 'contains')
+                "
                 placeholder="Search Hotel"
               />
             </p-iconField>
@@ -198,7 +200,7 @@
         <label class="text-xl font-bold">Activities</label>
       </div>
       <p-table
-        #dt
+        #dt2
         styleClass=""
         [columns]="cols"
         [value]="activityRecodes"
@@ -231,7 +233,9 @@
               <input
                 pInputText
                 type="text"
-                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                (input)="
+                  dt2.filterGlobal($any($event.target).value, 'contains')
+                "
                 placeholder="Search Activity"
               />
             </p-iconField>
@@ -370,7 +374,7 @@
             >
               <ng-container *ngIf="col.field == 'date'">
                 <span class="p-column-title font-bold">Date</span>
-                {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+                {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
               </ng-container>
 
               <ng-container *ngIf="col.field == 'isPaymentByCompany'">

@@ -145,7 +145,9 @@
 
             <ng-container *ngIf="col.field == 'createdAt'">
               <span class="p-column-title font-bold">Applied Date</span>
-              <span>{{ rowData.createdAt | date : "dd-MM-yyyy HH:mm" }}</span>
+              <span>{{
+                rowData.createdAt | date : "dd-MM-yyyy HH:mm" : "Asia/Colombo"
+              }}</span>
             </ng-container>
 
             <ng-container *ngIf="col.field == 'dateCount'">
@@ -158,11 +160,13 @@
             <ng-container *ngIf="col.field == 'startDate'">
               <span class="p-column-title font-bold">Requested Dates</span>
               <span *ngIf="rowData.dateCount == 1">{{
-                rowData.startDate | date : "dd/MM/yyyy"
+                rowData.startDate | date : "dd/MM/yyyy" : "Asia/Colombo"
               }}</span>
               <span *ngIf="rowData.dateCount > 1">
-                {{ rowData.startDate | date : "dd-MM-yyyy" }} -
-                {{ rowData.endDate | date : "dd-MM-yyyy" }}</span
+                {{ rowData.startDate | date : "dd-MM-yyyy" : "Asia/Colombo" }} -
+                {{
+                  rowData.endDate | date : "dd-MM-yyyy" : "Asia/Colombo"
+                }}</span
               >
             </ng-container>
             <ng-container *ngIf="col.field == 'reason'">
@@ -239,10 +243,10 @@
                             value="{{
                               rowData.status == 2
                                 ? (rowData.approveDate
-                                  | date : 'dd-MM-yyyy HH:mm')
+                                  | date : 'dd-MM-yyyy HH:mm' : 'Asia/Colombo')
                                 : rowData.status == 3
                                 ? (rowData.rejectDate
-                                  | date : 'dd-MM-yyyy HH:mm')
+                                  | date : 'dd-MM-yyyy HH:mm' : 'Asia/Colombo')
                                 : ''
                             }}"
                             readonly

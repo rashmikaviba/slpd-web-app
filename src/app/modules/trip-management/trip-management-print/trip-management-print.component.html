@@ -39,8 +39,8 @@
     <div class="field col-12 md:col-12 text-center">
       <label class="text-xl font-semibold"
         >{{ tripInfo?.tripConfirmedNumber }} –
-        {{ tripInfo?.startDate | date : "MMMM d" }} to
-        {{ tripInfo?.endDate | date : "longDate" }}</label
+        {{ tripInfo?.startDate | date : "MMMM d" : "Asia/Colombo" }} to
+        {{ tripInfo?.endDate | date : "longDate" : "Asia/Colombo" }}</label
       >
     </div>
     <div class="field col-12 md:col-12">
@@ -89,16 +89,33 @@
           <ng-container>
             <tr *ngIf="arrivalDetails">
               <td>Arrival</td>
-              <td>{{ arrivalDetails?.arrivalDate | date : "yyyy-MM-dd" }}</td>
-              <td>{{ arrivalDetails?.arrivalTime | date : "HH:mm" }}</td>
+              <td>
+                {{
+                  arrivalDetails?.arrivalDate
+                    | date : "yyyy-MM-dd" : "Asia/Colombo"
+                }}
+              </td>
+              <td>
+                {{
+                  arrivalDetails?.arrivalTime | date : "HH:mm" : "Asia/Colombo"
+                }}
+              </td>
               <td>{{ arrivalDetails?.arrivalFlightNumber }}</td>
             </tr>
             <tr *ngIf="departureDetails">
               <td>Departure</td>
               <td>
-                {{ departureDetails?.departureDate | date : "yyyy-MM-dd" }}
+                {{
+                  departureDetails?.departureDate
+                    | date : "yyyy-MM-dd" : "Asia/Colombo"
+                }}
               </td>
-              <td>{{ departureDetails?.departureTime | date : "HH:mm" }}</td>
+              <td>
+                {{
+                  departureDetails?.departureTime
+                    | date : "HH:mm" : "Asia/Colombo"
+                }}
+              </td>
               <td>{{ departureDetails?.departureFlightNumber }}</td>
             </tr>
           </ng-container>
@@ -137,16 +154,28 @@
 
           <tr *ngIf="pickUpInfo">
             <td>Pick up</td>
-            <td>{{ pickUpInfo?.pickupDate | date : "yyyy-MM-dd" }}</td>
+            <td>
+              {{
+                pickUpInfo?.pickupDate | date : "yyyy-MM-dd" : "Asia/Colombo"
+              }}
+            </td>
             <td>{{ pickUpInfo?.pickupAddress }}</td>
-            <td>{{ pickUpInfo?.pickupTime | date : "HH:mm" }}</td>
+            <td>
+              {{ pickUpInfo?.pickupTime | date : "HH:mm" : "Asia/Colombo" }}
+            </td>
             <td>{{ pickUpInfo?.pickupCity }}</td>
           </tr>
           <tr *ngIf="dropOffInfo">
             <td>Drop off</td>
-            <td>{{ dropOffInfo?.dropOffDate | date : "yyyy-MM-dd" }}</td>
+            <td>
+              {{
+                dropOffInfo?.dropOffDate | date : "yyyy-MM-dd" : "Asia/Colombo"
+              }}
+            </td>
             <td>{{ dropOffInfo?.dropOffAddress }}</td>
-            <td>{{ dropOffInfo?.dropOffTime | date : "HH:mm" }}</td>
+            <td>
+              {{ dropOffInfo?.dropOffTime | date : "HH:mm" : "Asia/Colombo" }}
+            </td>
             <td>{{ dropOffInfo?.dropOffCity }}</td>
           </tr>
         </table>
@@ -260,8 +289,8 @@
           }}</span>
           for
           <span class="font-semibold"
-            >{{ tripInfo?.startDate | date : "MMMM d" }} to
-            {{ tripInfo?.endDate | date : "longDate" }}</span
+            >{{ tripInfo?.startDate | date : "MMMM d" : "Asia/Colombo" }} to
+            {{ tripInfo?.endDate | date : "longDate" : "Asia/Colombo" }}</span
           >.</label
         >
         <div class="text-right">
@@ -322,7 +351,9 @@
                 </tr>
               </ng-container>
               <tr *ngFor="let activity of activities">
-                <td>{{ activity?.date | date : "yyyy-MM-dd" }}</td>
+                <td>
+                  {{ activity?.date | date : "yyyy-MM-dd" : "Asia/Colombo" }}
+                </td>
                 <td>{{ activity?.description }}</td>
                 <td>
                   {{
@@ -393,7 +424,7 @@
             </tr>
           </ng-container>
           <tr *ngFor="let expense of expensesDetails?.expenses">
-            <td>{{ expense?.date | date : "yyyy-MM-dd" }}</td>
+            <td>{{ expense?.date | date : "yyyy-MM-dd" : "Asia/Colombo" }}</td>
             <td>{{ expense?.typeName }}</td>
             <td class="text-right">
               {{ expense?.amount | currency : "" : "" }}

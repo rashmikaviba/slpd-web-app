@@ -67,10 +67,15 @@ export class RequestLeaveByDriverComponent {
 
     this.maxValidateDate = this.datePipe.transform(
       new Date(this.workingYear, 11, 31),
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
 
-    this.minValidateDate = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+    this.minValidateDate = this.datePipe.transform(
+      new Date(),
+      "yyyy-MM-dd",
+      "Asia/Colombo"
+    );
   }
 
   setData() {
@@ -78,22 +83,29 @@ export class RequestLeaveByDriverComponent {
     this.FV.formGroup.patchValue({
       startDate: this.datePipe.transform(
         this.leaveData.startDate,
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       ),
-      endDate: this.datePipe.transform(this.leaveData.endDate, "yyyy-MM-dd"),
+      endDate: this.datePipe.transform(
+        this.leaveData.endDate,
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      ),
       reason: this.leaveData.reason,
     });
 
     let startDate = new Date(this.FV.getValue("startDate"));
     this.endDateMinValidateDate = this.datePipe.transform(
       startDate,
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
 
     let tenDaysAfter = new Date(startDate.setDate(startDate.getDate() + 9));
     this.endDateMaxValidateDate = this.datePipe.transform(
       tenDaysAfter,
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
 
     if (this.isView) {
@@ -149,7 +161,8 @@ export class RequestLeaveByDriverComponent {
 
     this.endDateMinValidateDate = this.datePipe.transform(
       startDate,
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
 
     this.FV.setValue("endDate", this.endDateMinValidateDate);
@@ -157,7 +170,8 @@ export class RequestLeaveByDriverComponent {
     let tenDaysAfter = new Date(startDate.setDate(startDate.getDate() + 9));
     this.endDateMaxValidateDate = this.datePipe.transform(
       tenDaysAfter,
-      "yyyy-MM-dd"
+      "yyyy-MM-dd",
+      "Asia/Colombo"
     );
 
     this.calculateDateCount();

@@ -200,8 +200,16 @@ export class VehicleManagementComponent {
         description: item.description,
         status: item.status,
         vehicleOwner: item.vehicleOwner,
-        createdAt: this.datePipe.transform(item.createdAt, "dd/MM/yyyy"),
-        updatedAt: this.datePipe.transform(item.updatedAt, "dd/MM/yyyy"),
+        createdAt: this.datePipe.transform(
+          item.createdAt,
+          "dd/MM/yyyy",
+          "Asia/Colombo"
+        ),
+        updatedAt: this.datePipe.transform(
+          item.updatedAt,
+          "dd/MM/yyyy",
+          "Asia/Colombo"
+        ),
         statusName: item.statusName,
         createdUser: item.createdUser,
         updatedUser: item.updatedUser,

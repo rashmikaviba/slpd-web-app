@@ -38,7 +38,11 @@ export class MonthlyTripReportComponent {
           let dates = hotel.dates.split(",");
           hotel.showDates = dates
             .map((x: any) => {
-              return this.datePipe.transform(new Date(x), "MMM d");
+              return this.datePipe.transform(
+                new Date(x),
+                "MMM d",
+                "Asia/Colombo"
+              );
             })
             .join(", ");
         });
@@ -59,7 +63,11 @@ export class MonthlyTripReportComponent {
         report?.places.map((x: any) => {
           x.showDates = x.dates
             .map((x) => {
-              return this.datePipe.transform(new Date(x), "MMM d");
+              return this.datePipe.transform(
+                new Date(x),
+                "MMM d",
+                "Asia/Colombo"
+              );
             })
             .join(", ");
         });

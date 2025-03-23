@@ -26,7 +26,7 @@ export class CreateNewMonthComponent implements OnInit {
     private datePipe: DatePipe,
     private mothAuditService: MonthAditService,
     private messageService: AppMessageService,
-    private router : Router
+    private router: Router
   ) {
     this.createForm();
   }
@@ -34,13 +34,25 @@ export class CreateNewMonthComponent implements OnInit {
   ngOnInit(): void {
     this.workingDate = this.masterDataService.WorkingDate;
 
-    this.showWorkingDate = this.datePipe.transform(this.workingDate, "y MMMM");
+    this.showWorkingDate = this.datePipe.transform(
+      this.workingDate,
+      "y MMMM",
+      "Asia/Colombo"
+    );
 
     let nextMonth = new Date(this.workingDate);
     nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-    this.preventMinMonth = this.datePipe.transform(nextMonth, "y-MM");
-    this.preventMaxMonth = this.datePipe.transform(nextMonth, "y-MM");
+    this.preventMinMonth = this.datePipe.transform(
+      nextMonth,
+      "y-MM",
+      "Asia/Colombo"
+    );
+    this.preventMaxMonth = this.datePipe.transform(
+      nextMonth,
+      "y-MM",
+      "Asia/Colombo"
+    );
     this.FV.setValue("selectMonth", this.preventMaxMonth);
   }
   createForm() {
@@ -54,29 +66,29 @@ export class CreateNewMonthComponent implements OnInit {
       this.FV.showErrors();
       return;
     }
-    
+
     let month = this.FV.getValue("selectMonth");
     let monthConToDate = new Date(month);
 
     let request = {
       month: monthConToDate.getMonth() + 1,
-      year : monthConToDate.getFullYear()
-    }
+      year: monthConToDate.getFullYear(),
+    };
 
     this.mothAuditService.CreateNewMonth(request).subscribe((response) => {
-      if (response.IsSuccessful) { 
+      if (response.IsSuccessful) {
         this.messageService.showSuccessAlert(response.Message);
 
         this.mothAuditService.GetWorkingInformation().subscribe((response) => {
           if (response.IsSuccessful) {
             this.masterDataService.setWorkingInfo(response.Result);
 
-            this.router.navigate(['/dashboard'], {skipLocationChange: true});
+            this.router.navigate(["/dashboard"], { skipLocationChange: true });
           }
-        })
+        });
       } else {
         this.messageService.showErrorAlert(response.Message);
       }
-    })
+    });
   }
 }

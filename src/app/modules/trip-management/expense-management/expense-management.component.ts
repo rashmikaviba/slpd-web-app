@@ -335,7 +335,7 @@ export class ExpenseManagementComponent {
     return dateString
       .split(",")
       .map((date) => new Date(date.trim())) // Convert string to Date object
-      .map((date) => this.datePipe.transform(date, "MMM dd")) // Format Date
+      .map((date) => this.datePipe.transform(date, "MMM dd", "Asia/Colombo")) // Format Date
       .join(", "); // Join formatted dates
   }
 }

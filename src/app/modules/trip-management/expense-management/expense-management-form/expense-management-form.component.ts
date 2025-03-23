@@ -65,14 +65,20 @@ export class ExpenseManagementFormComponent {
     if (this.type == "add") {
       this.minDate = this.datePipe.transform(
         new Date(this.tripInfo.startDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
       this.maxDate = this.datePipe.transform(
         new Date(this.tripInfo.endDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
 
-      let today = this.datePipe.transform(new Date(), "yyyy-MM-dd");
+      let today = this.datePipe.transform(
+        new Date(),
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      );
 
       if (today > this.maxDate) {
         this.FV.setValue("date", this.maxDate);
@@ -85,11 +91,13 @@ export class ExpenseManagementFormComponent {
 
       this.minDate = this.datePipe.transform(
         new Date(this.tripInfo.startDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
       this.maxDate = this.datePipe.transform(
         new Date(this.tripInfo.endDate),
-        "yyyy-MM-dd"
+        "yyyy-MM-dd",
+        "Asia/Colombo"
       );
     } else if (this.type == "view") {
       this.expensesInfo = dialogConfig.expensesInfo;
@@ -112,7 +120,11 @@ export class ExpenseManagementFormComponent {
     this.FV.setValue("amount", this.expensesInfo.amount);
     this.FV.setValue(
       "date",
-      this.datePipe.transform(this.expensesInfo.date, "yyyy-MM-dd")
+      this.datePipe.transform(
+        this.expensesInfo.date,
+        "yyyy-MM-dd",
+        "Asia/Colombo"
+      )
     );
     this.FV.setValue("description", this.expensesInfo.description);
 

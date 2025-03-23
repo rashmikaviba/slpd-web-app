@@ -22,7 +22,7 @@
     </div>
     <div class="flex justify-content-center align-items-center flex-column">
       <span class="font-bold text-xl">Monthly Trip Report</span>
-      <span>Month : {{ month | date : "yyyy-MM" }}</span>
+      <span>Month : {{ month | date : "yyyy-MM" : "Asia/Colombo" }}</span>
     </div>
     <div>
       <img
@@ -42,8 +42,8 @@
       <div class="field col-12 md:col-12 text-center">
         <label class="text-xl font-semibold"
           >{{ reportData?.tripConfirmedNumber }} –
-          {{ reportData?.startDate | date : "MMMM d" }} to
-          {{ reportData?.endDate | date : "longDate" }}</label
+          {{ reportData?.startDate | date : "MMMM d" : "Asia/Colombo" }} to
+          {{ reportData?.endDate | date : "longDate" : "Asia/Colombo" }}</label
         >
       </div>
       <div class="field col-12 md:col-12">
@@ -98,11 +98,15 @@
                 <td>Arrival</td>
                 <td>
                   {{
-                    reportData?.arrivalInfo?.arrivalDate | date : "yyyy-MM-dd"
+                    reportData?.arrivalInfo?.arrivalDate
+                      | date : "yyyy-MM-dd" : "Asia/Colombo"
                   }}
                 </td>
                 <td>
-                  {{ reportData?.arrivalInfo?.arrivalTime | date : "HH:mm" }}
+                  {{
+                    reportData?.arrivalInfo?.arrivalTime
+                      | date : "HH:mm" : "Asia/Colombo"
+                  }}
                 </td>
                 <td>{{ reportData?.arrivalInfo?.arrivalFlightNumber }}</td>
               </tr>
@@ -111,12 +115,13 @@
                 <td>
                   {{
                     reportData?.departureInfo?.departureDate
-                      | date : "yyyy-MM-dd"
+                      | date : "yyyy-MM-dd" : "Asia/Colombo"
                   }}
                 </td>
                 <td>
                   {{
-                    reportData?.departureInfo?.departureTime | date : "HH:mm"
+                    reportData?.departureInfo?.departureTime
+                      | date : "HH:mm" : "Asia/Colombo"
                   }}
                 </td>
                 <td>{{ reportData?.departureInfo?.departureFlightNumber }}</td>
@@ -160,22 +165,34 @@
             <tr *ngIf="reportData?.pickUpInfo">
               <td>Pick up</td>
               <td>
-                {{ reportData?.pickUpInfo?.pickupDate | date : "yyyy-MM-dd" }}
+                {{
+                  reportData?.pickUpInfo?.pickupDate
+                    | date : "yyyy-MM-dd" : "Asia/Colombo"
+                }}
               </td>
               <td>{{ reportData?.pickUpInfo?.pickupAddress }}</td>
               <td>
-                {{ reportData?.pickUpInfo?.pickupTime | date : "HH:mm" }}
+                {{
+                  reportData?.pickUpInfo?.pickupTime
+                    | date : "HH:mm" : "Asia/Colombo"
+                }}
               </td>
               <td>{{ reportData?.pickUpInfo?.pickupCity }}</td>
             </tr>
             <tr *ngIf="reportData?.dropOffInfo">
               <td>Drop off</td>
               <td>
-                {{ reportData?.dropOffInfo?.dropOffDate | date : "yyyy-MM-dd" }}
+                {{
+                  reportData?.dropOffInfo?.dropOffDate
+                    | date : "yyyy-MM-dd" : "Asia/Colombo"
+                }}
               </td>
               <td>{{ reportData?.dropOffInfo?.dropOffAddress }}</td>
               <td>
-                {{ reportData?.dropOffInfo?.dropOffTime | date : "HH:mm" }}
+                {{
+                  reportData?.dropOffInfo?.dropOffTime
+                    | date : "HH:mm" : "Asia/Colombo"
+                }}
               </td>
               <td>{{ reportData?.dropOffInfo?.dropOffCity }}</td>
             </tr>
@@ -289,8 +306,8 @@
           }}</span>
           for
           <span class="font-semibold"
-            >{{ reportData?.startDate | date : "MMMM d" }} to
-            {{ reportData?.endDate | date : "longDate" }}</span
+            >{{ reportData?.startDate | date : "MMMM d" : "Asia/Colombo" }} to
+            {{ reportData?.endDate | date : "longDate" : "Asia/Colombo" }}</span
           >.</label
         >
         <div class="text-right">
@@ -354,7 +371,9 @@
                   </tr>
                 </ng-container>
                 <tr *ngFor="let activity of reportData?.activities">
-                  <td>{{ activity?.date | date : "yyyy-MM-dd" }}</td>
+                  <td>
+                    {{ activity?.date | date : "yyyy-MM-dd" : "Asia/Colombo" }}
+                  </td>
                   <td>{{ activity?.description }}</td>
                   <td>
                     {{
@@ -426,7 +445,9 @@
               </tr>
             </ng-container>
             <tr *ngFor="let expense of reportData?.expenses?.expenses">
-              <td>{{ expense?.date | date : "yyyy-MM-dd" }}</td>
+              <td>
+                {{ expense?.date | date : "yyyy-MM-dd" : "Asia/Colombo" }}
+              </td>
               <td>{{ expense?.typeName }}</td>
               <td class="text-right">
                 {{ expense?.amount | currency : "" : "" }}

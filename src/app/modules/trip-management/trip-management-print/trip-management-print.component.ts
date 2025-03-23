@@ -58,7 +58,7 @@ export class TripManagementPrintComponent {
       let dates = hotel.dates.split(",");
       hotel.showDates = dates
         .map((x) => {
-          return this.datePipe.transform(new Date(x), "MMM d");
+          return this.datePipe.transform(new Date(x), "MMM d", "Asia/Colombo");
         })
         .join(", ");
     });
@@ -75,7 +75,7 @@ export class TripManagementPrintComponent {
     this.places.map((x) => {
       x.showDates = x.dates
         .map((x) => {
-          return this.datePipe.transform(new Date(x), "MMM d");
+          return this.datePipe.transform(new Date(x), "MMM d", "Asia/Colombo");
         })
         .join(", ");
     });

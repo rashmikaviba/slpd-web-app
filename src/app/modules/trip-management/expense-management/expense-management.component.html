@@ -139,7 +139,7 @@
           </ng-container>
           <ng-container *ngIf="col.field == 'date'">
             <span class="p-column-title font-bold">Date</span>
-            {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+            {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
           </ng-container>
         </td>
         <td
@@ -259,7 +259,7 @@
 
               <ng-container *ngIf="col.field == 'paymentDate'">
                 <span class="p-column-title font-bold">{{ col.header }}</span>
-                {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+                {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
               </ng-container>
 
               <ng-container
@@ -365,7 +365,7 @@
                 *ngIf="col.field == 'date' || col.field == 'paymentDate'"
               >
                 <span class="p-column-title font-bold">Date</span>
-                {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+                {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
               </ng-container>
 
               <ng-container *ngIf="col.field == 'totalCost'">
