@@ -100,8 +100,11 @@ export class GeneralInformationComponent {
       this.minEndDate = startDate;
     }
 
-    if (startDate && endDate) {
+    if (startDate && endDate && startDate < endDate) {
       this.FV.setValue("dateCount", this.calcDateCount(startDate, endDate));
+    } else {
+      this.FV.setValue("dateCount", 0);
+      this.FV.setValue("endDate", "");
     }
   }
 

@@ -1,10 +1,11 @@
 import { DatePipe } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CommonForm } from "src/app/shared/services/app-common-form";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { TripManagementFlowService } from "../trip-management-flow.service";
+import { Table } from "primeng/table";
 
 @Component({
   selector: "app-other-information",
@@ -12,6 +13,8 @@ import { TripManagementFlowService } from "../trip-management-flow.service";
   styleUrls: ["./other-information.component.scss"],
 })
 export class OtherInformationComponent {
+  @ViewChild("dt1") hotelTable!: Table;
+  @ViewChild("dt12") activityTable!: Table;
   FV = new CommonForm();
   isEdit: any;
   cols: any;
@@ -121,6 +124,7 @@ export class OtherInformationComponent {
 
     this.activityRecodes.push(obj);
     this.onClickCancelActivity();
+    this.activityTable.reset();
   }
 
   onClickCancelActivity() {
@@ -157,6 +161,8 @@ export class OtherInformationComponent {
           this.activityRecodes = this.activityRecodes.filter(
             (x) => x._id != id
           );
+
+          this.activityTable.reset();
         }
       }
     );
@@ -196,6 +202,7 @@ export class OtherInformationComponent {
 
     this.hotelRecords.push(obj);
     this.onClickCancelHotel();
+    this.hotelTable.reset();
   }
 
   onClickDeleteHotel(id: any) {
@@ -222,6 +229,7 @@ export class OtherInformationComponent {
           }
 
           this.hotelRecords = this.hotelRecords.filter((x) => x._id != id);
+          this.hotelTable.reset();
         }
       }
     );

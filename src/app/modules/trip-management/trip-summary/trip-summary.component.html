@@ -73,14 +73,14 @@
       >
         <ng-container *ngIf="col.field == 'date'">
           <span class="p-column-title font-bold">{{ col.header }}</span>
-          {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+          {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
         </ng-container>
 
         <ng-container
           *ngIf="col.field == 'startTime' || col.field == 'endTime'"
         >
           <span class="p-column-title font-bold">{{ col.header }}</span>
-          {{ rowData[col.field] | date : "HH:mm" }}
+          {{ rowData[col.field] | date : "HH:mm" : "Asia/Colombo" }}
         </ng-container>
 
         <ng-container
@@ -251,14 +251,14 @@
           >
             <ng-container *ngIf="col.field == 'date'">
               <span class="p-column-title font-bold">{{ col.header }}</span>
-              {{ rowData[col.field] | date : "dd-MM-yyyy" }}
+              {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
             </ng-container>
 
             <ng-container
               *ngIf="col.field == 'startTime' || col.field == 'endTime'"
             >
               <span class="p-column-title font-bold">{{ col.header }}</span>
-              {{ rowData[col.field] | date : "HH:mm" }}
+              {{ rowData[col.field] | date : "HH:mm" : "Asia/Colombo" }}
             </ng-container>
 
             <ng-container

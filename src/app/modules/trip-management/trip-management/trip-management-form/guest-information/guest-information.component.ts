@@ -8,6 +8,7 @@ import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { genders, nationalities } from "src/app/shared/data/commonData";
 import { TripManagementFlowService } from "../trip-management-flow.service";
+import { Table } from "primeng/table";
 
 @Component({
   selector: "app-guest-information",
@@ -15,6 +16,7 @@ import { TripManagementFlowService } from "../trip-management-flow.service";
   styleUrls: ["./guest-information.component.scss"],
 })
 export class GuestInformationComponent {
+  @ViewChild("dt") guestTable!: Table;
   FV = new CommonForm();
   cols: any;
   recodes: any[] = [];
@@ -69,7 +71,6 @@ export class GuestInformationComponent {
   }
 
   onClickSaveGuest() {
-    ;
     let validateParams = "guestName,gender,nationality,age";
     if (this.FV.validateControllers(validateParams)) {
       return;
@@ -88,6 +89,7 @@ export class GuestInformationComponent {
     this.recodes.push(obj);
     this.FV.formGroup.reset();
     this.isAddNewGuest = !this.isAddNewGuest;
+    this.guestTable.reset();
   }
 
   onClickDeleteGuest(id: string) {
@@ -102,6 +104,7 @@ export class GuestInformationComponent {
       (isConfirm: boolean) => {
         if (isConfirm) {
           this.recodes = this.recodes.filter((x) => x._id != id);
+          this.guestTable.reset();
         }
       }
     );

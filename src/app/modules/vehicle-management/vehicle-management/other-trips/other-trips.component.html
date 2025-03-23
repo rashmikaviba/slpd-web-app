@@ -60,12 +60,12 @@
           *ngIf="col.field == 'startDate' || col.field == 'endDate'"
         >
           <span class="p-column-title font-bold">{{ col.header }}</span
-          >{{ rowData[col.field] | date : "dd-MM-yyyy" }}
+          >{{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
         </ng-container>
 
         <ng-container *ngIf="col.field == 'createdAt'">
           <span class="p-column-title font-bold">{{ col.header }}</span
-          >{{ rowData[col.field] | date : "dd-MM-yyyy HH:mm" }}
+          >{{ rowData[col.field] | date : "dd-MM-yyyy HH:mm" : "Asia/Colombo" }}
         </ng-container>
 
         <!-- reason -->
