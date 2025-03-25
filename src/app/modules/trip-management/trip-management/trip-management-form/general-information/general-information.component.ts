@@ -346,22 +346,27 @@ export class GeneralInformationComponent {
       arrivalInfo: isArrivalAdded
         ? {
             arrivalDate: formData?.arrivalDate,
-            arrivalTime: formData?.arrivalDate + " " + formData?.arrivalTime,
+            arrivalTime: new Date(
+              formData?.arrivalDate + " " + formData?.arrivalTime
+            ),
             arrivalFlightNumber: formData?.arrivalFlightNumber,
           }
         : null,
       departureInfo: isDepartureAdded
         ? {
             departureDate: formData?.departureDate,
-            departureTime:
-              formData?.departureDate + " " + formData?.departureTime,
+            departureTime: new Date(
+              formData?.departureDate + " " + formData?.departureTime
+            ),
             departureFlightNumber: formData?.departureFlightNumber,
           }
         : null,
       pickUpInfo: isPickupAdded
         ? {
             pickupDate: formData?.pickUpDate,
-            pickupTime: formData?.pickUpDate + " " + formData?.pickUpTime,
+            pickupTime: new Date(
+              formData?.pickUpDate + " " + formData?.pickUpTime
+            ),
             pickupCity: formData?.pickUpCity,
             pickupAddress: formData?.pickUpAddress,
           }
@@ -369,7 +374,9 @@ export class GeneralInformationComponent {
       dropOffInfo: isDropOffAdded
         ? {
             dropOffDate: formData?.dropOffDate,
-            dropOffTime: formData?.dropOffDate + " " + formData?.dropOffTime,
+            dropOffTime: new Date(
+              formData?.dropOffDate + " " + formData?.dropOffTime
+            ),
             dropOffCity: formData?.dropOffCity,
             dropOffAddress: formData?.dropOffAddress,
           }
