@@ -1,5 +1,5 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
-  <div class="p-fluid grid formgrid align-items-start p-4">
+  <div class="p-fluid grid formgrid align-items-end p-4">
     <div class="field col-12 md:col-3">
       <label class="required" for="startDate">Reference Number</label>
       <input
@@ -114,6 +114,28 @@
     </div>
 
     <div class="field col-12 md:col-4">
+      <label for="vehicleType">Requested Vehicle</label>
+      <input
+        pInputText
+        type="text"
+        class="w-full"
+        formControlName="requestedVehicle"
+        maxlength="50"
+      />
+    </div>
+
+    <div class="field col-12 md:col-8">
+      <label for="specialRequirement">Special Requirements</label>
+      <input
+        pInputText
+        type="text"
+        formControlName="specialRequirement"
+        class="w-full"
+        maxlength="500"
+      />
+    </div>
+
+    <div class="field col-12 md:col-4">
       <!-- Payment Mode -->
       <label class="required" for="paymentMode">Payment Mode</label>
       <p-dropdown
@@ -126,17 +148,6 @@
         [autoOptionFocus]="false"
         placeholder="Select Payment Mode"
       ></p-dropdown>
-    </div>
-
-    <div class="field col-12 md:col-8">
-      <label for="specialRequirement">Special Requirements</label>
-      <input
-        pInputText
-        type="text"
-        formControlName="specialRequirement"
-        class="w-full"
-        maxlength="500"
-      />
     </div>
 
     <div class="field col-12 md:col-4">

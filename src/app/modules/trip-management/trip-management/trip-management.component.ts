@@ -86,7 +86,8 @@ export class TripManagementComponent implements OnInit {
       { field: "tripConfirmedNumber", header: "Trip Number" },
       { field: "startDate", header: "Start Date" },
       { field: "endDate", header: "End Date" },
-      { field: "contact", header: "Contact Details" },
+      // { field: "contact", header: "Contact Details" },
+      { field: "requestedVehicle", header: "Requested Vehicle" },
       { field: "paymentMode", header: "Payment Mode" },
       { field: "isPaymentCollected", header: "Payment Collected" },
       { field: "status", header: "Status" },
@@ -94,6 +95,19 @@ export class TripManagementComponent implements OnInit {
       { field: "activeRegistrationNumber", header: "Vehicle Name" },
     ];
 
+    let thisMonthFirstDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      1
+    );
+
+    let lastDateOfNextMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 2,
+      0
+    );
+
+    this.FV.setValue("dateRange", [thisMonthFirstDate, lastDateOfNextMonth]);
     this.loadInitialData();
 
     this.sidebarService.sidebarEvent.subscribe((response) => {
@@ -201,6 +215,7 @@ export class TripManagementComponent implements OnInit {
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
       status: [-1, [Validators.required]],
+      dateRange: [[], [Validators.required]],
     });
   }
 
@@ -256,9 +271,16 @@ export class TripManagementComponent implements OnInit {
 
   async loadInitialData() {
     try {
+      let dateRange = this.FV.getValue("dateRange");
       let status = this.FV.getValue("status");
+
+      let startDate = this.datePipe.transform(dateRange[0], "yyyy-MM-dd");
+      let endDate = this.datePipe.transform(dateRange[1], "yyyy-MM-dd");
+
+      if (!startDate || !endDate) return;
+
       const tripResponse = await firstValueFrom(
-        this.tripService.GetAllTrips(status)
+        this.tripService.GetAllTrips(status, startDate, endDate)
       );
 
       if (tripResponse?.IsSuccessful) {

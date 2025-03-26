@@ -27,43 +27,6 @@
     [globalFilterFields]="['tripConfirmedNumber', 'email', 'phoneNumber']"
   >
     <ng-template pTemplate="caption">
-      <!-- <div class="flex flex-wrap justify-content-between gap-2">
-      <button
-        type="button"
-        pButton
-        pRipple
-        icon="pi pi-file-excel"
-        class="p-button-success p-button-sm mb:p-button"
-        pTooltip="Export to XLS"
-        tooltipPosition="right"
-        (click)="exportToExcel()"
-      ></button>
-
-      <div class="flex felx-wrap align-items-center gap-2">
-        <p-dropdown
-          id="tripStatus"
-          styleClass="w-full md:w-10rem"
-          [options]="status"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Status"
-        ></p-dropdown>
-
-        <p-iconField iconPosition="left" class="ml-auto">
-          <p-inputIcon>
-            <i class="pi pi-search"></i>
-          </p-inputIcon>
-          <input
-            pInputText
-            type="text"
-            (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-            placeholder="Search Trip"
-            styleClass="w-full md:w-12rem"
-          />
-        </p-iconField>
-      </div>
-    </div> -->
-
       <div class="grid formgrid p-fluid">
         <div class="field col-12 md:col-3">
           <div class="flex justify-content-end md:justify-content-start">
@@ -79,7 +42,15 @@
             ></button>
           </div>
         </div>
-        <div class="field hidden md:col-4 md:flex"></div>
+        <div class="field hidden md:col-1 md:flex"></div>
+        <div class="field col-12 md:col-3">
+          <p-calendar
+            selectionMode="range"
+            [readonlyInput]="true"
+            formControlName="dateRange"
+            (onSelect)="loadInitialData()"
+          />
+        </div>
         <div class="field col-5 md:col-2">
           <p-dropdown
             id="tripStatus"
@@ -145,7 +116,7 @@
             <span class="p-column-title font-bold">Applied Date</span>
             {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
           </ng-container>
-          <ng-container *ngIf="col.field == 'contact'">
+          <!-- <ng-container *ngIf="col.field == 'contact'">
             <span class="p-column-title font-bold">Contact Details</span>
             <div class="flex flex-column gap-1">
               <span>
@@ -158,7 +129,7 @@
                 {{ rowData.contactPerson ? rowData.contactPerson : "" }}
               </span>
             </div>
-          </ng-container>
+          </ng-container> -->
           <ng-container *ngIf="col.field == 'status'">
             <span class="p-column-title font-bold">Status</span>
             <div class="text-center">

@@ -51,6 +51,7 @@ export class GeneralInformationComponent {
       specialRequirement: ["", [Validators.max(500)]],
       paymentMode: [null, [Validators.required]],
       isPaymentCollected: [false],
+      requestedVehicle: [""],
 
       // arrival information
       isArrivalAdded: [false],
@@ -195,6 +196,10 @@ export class GeneralInformationComponent {
       );
     }
 
+    if (data?.requestedVehicle) {
+      this.FV.setValue("requestedVehicle", data?.requestedVehicle);
+    }
+
     if (data?.email) {
       this.FV.setValue("email", data?.email);
     }
@@ -308,7 +313,7 @@ export class GeneralInformationComponent {
 
     // genaral information validation
     let validateParams =
-      "tripConfirmedNumber,startDate,endDate,dateCount,estimatedCost,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson,specialRequirement,paymentMode,isPaymentCollected";
+      "tripConfirmedNumber,startDate,endDate,dateCount,estimatedCost,requestedVehicle,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson,specialRequirement,paymentMode,isPaymentCollected";
 
     // // add arrival departure pickup drop off validations
     if (isArrivalAdded) {
@@ -384,6 +389,7 @@ export class GeneralInformationComponent {
       email: formData?.email,
       phoneNumber: formData?.mobile,
       specialRequirement: formData?.specialRequirement || "",
+      requestedVehicle: formData?.requestedVehicle,
       paymentMode: formData?.paymentMode || "Cash",
       isPaymentCollected: formData?.isPaymentCollected || false,
     };

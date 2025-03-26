@@ -19,9 +19,16 @@ export class TripService {
       });
   }
 
-  GetAllTrips(status: number = -1) {
+  GetAllTrips(
+    status: number = -1,
+    startDate: string = "",
+    endDate: string = ""
+  ) {
     return this.dataAccess
-      .GET(this.resource.trip.getAllTrips + `?status=${status}`)
+      .GET(
+        this.resource.trip.getAllTrips +
+          `?status=${status}&startDate=${startDate}&endDate=${endDate}`
+      )
       .pipe((response) => {
         return response;
       });
