@@ -169,6 +169,12 @@
                 class="flex flex-wrap justify-content-center align-content-center gap-1"
               >
                 <p-button
+                  styleClass="p-button-sm p-button-success p-button-outlined"
+                  icon="pi pi-pencil"
+                  (onClick)="onClickEditHotel(rowData._id)"
+                ></p-button>
+
+                <p-button
                   styleClass="p-button-sm p-button-danger p-button-outlined"
                   icon="pi pi-trash"
                   (onClick)="onClickDeleteHotel(rowData._id)"
@@ -413,6 +419,12 @@
               <div
                 class="flex flex-wrap justify-content-center align-content-center gap-1"
               >
+                <p-button
+                  styleClass="p-button-sm p-button-success p-button-outlined"
+                  icon="pi pi-pencil"
+                  (onClick)="onClickEditActivity(rowData._id)"
+                ></p-button>
+
                 <p-button
                   styleClass="p-button-sm p-button-danger p-button-outlined"
                   icon="pi pi-trash"

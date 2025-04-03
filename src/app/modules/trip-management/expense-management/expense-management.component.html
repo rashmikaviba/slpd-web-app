@@ -259,14 +259,27 @@
 
               <ng-container *ngIf="col.field == 'paymentDate'">
                 <span class="p-column-title font-bold">{{ col.header }}</span>
-                {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
+                {{
+                  (rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo") ||
+                    "-"
+                }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'paymentAmount'">
+                <span class="p-column-title font-bold">Payment Amount</span>
+                {{
+                  rowData[col.field] > 0
+                    ? (rowData[col.field] | currency : "" : "" : "1.2-2")
+                    : "-"
+                }}
               </ng-container>
 
               <ng-container
                 *ngIf="
                   col.field != 'dates' &&
                   col.field != 'isPaymentByCompany' &&
-                  col.field != 'paymentDate'
+                  col.field != 'paymentDate' &&
+                  col.field != 'paymentAmount'
                 "
               >
                 <span class="p-column-title font-bold">{{ col.header }}</span>
@@ -365,19 +378,22 @@
                 *ngIf="col.field == 'date' || col.field == 'paymentDate'"
               >
                 <span class="p-column-title font-bold">Date</span>
-                {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
+                {{
+                  (rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo") ||
+                    "-"
+                }}
               </ng-container>
 
               <ng-container *ngIf="col.field == 'totalCost'">
                 <span class="p-column-title font-bold">Total Cost</span>
-                {{ rowData[col.field] | currency : "USD" : "symbol" : "1.0-2" }}
+                {{ rowData[col.field] | currency : "USD" : "symbol" : "1.2-2" }}
               </ng-container>
 
               <ng-container *ngIf="col.field == 'paymentAmount'">
                 <span class="p-column-title font-bold">Payment Amount</span>
                 {{
                   rowData[col.field] > 0
-                    ? (rowData[col.field] | currency : "" : "" : "1.0-2")
+                    ? (rowData[col.field] | currency : "" : "" : "1.2-2")
                     : "-"
                 }}
               </ng-container>

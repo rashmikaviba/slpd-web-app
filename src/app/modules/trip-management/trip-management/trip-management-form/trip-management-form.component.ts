@@ -193,6 +193,7 @@ export class TripManagementFormComponent {
           confirmationConfig,
           (isConfirm: boolean) => {
             if (isConfirm) {
+              debugger;
               let otherInfo: any = this.otherInfoComponent.onSave();
 
               if (otherInfo) {

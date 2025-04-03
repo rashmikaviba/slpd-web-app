@@ -27,6 +27,10 @@ export class OtherInformationComponent {
   maxDate: Date = new Date();
   isView: boolean = false;
 
+  // FOr hotel Update
+  selectedHotel: any = null;
+  selectedActivity: any = null;
+
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -105,6 +109,11 @@ export class OtherInformationComponent {
   }
 
   onClickSaveActivity() {
+    if (this.selectedActivity != null) {
+      this.onClickUpdateActivity();
+      return;
+    }
+
     let validateParams = "date,adultCount,childCount,totalCost,description";
     if (this.FV.validateControllers(validateParams)) {
       return;
@@ -124,6 +133,47 @@ export class OtherInformationComponent {
 
     this.activityRecodes.push(obj);
     this.onClickCancelActivity();
+    this.reArrangeActivityRecords();
+    this.activityTable.reset();
+  }
+
+  onClickEditActivity(id: any) {
+    this.isAddNewActivity = true;
+    let selectedActivity = this.activityRecodes.find((x) => x._id == id);
+    this.selectedActivity = selectedActivity;
+    this.FV.setValue("date", new Date(selectedActivity.date));
+    this.FV.setValue("adultCount", selectedActivity.adultCount);
+    this.FV.setValue("childCount", selectedActivity?.childCount);
+    this.FV.setValue("totalCost", selectedActivity?.totalCost);
+    this.FV.setValue("description", selectedActivity.description);
+    this.FV.setValue(
+      "isActivityPaymentByCompany",
+      selectedActivity.isPaymentByCompany
+    );
+  }
+
+  onClickUpdateActivity() {
+    let validateParams = "date,adultCount,childCount,totalCost,description";
+    if (this.FV.validateControllers(validateParams)) {
+      return;
+    }
+
+    let selectedActivity = this.activityRecodes.find(
+      (x) => x._id == this.selectedActivity._id
+    );
+
+    let formData = this.FV.formGroup.value;
+
+    selectedActivity.date = formData.date;
+    selectedActivity.description = formData.description;
+    selectedActivity.adultCount = formData.adultCount;
+    selectedActivity.childCount = formData.childCount;
+    selectedActivity.totalCost = formData.totalCost;
+    selectedActivity.isPaymentByCompany = formData.isActivityPaymentByCompany;
+
+    this.isAddNewActivity = false;
+    this.selectedActivity = null;
+    this.reArrangeActivityRecords();
     this.activityTable.reset();
   }
 
@@ -133,6 +183,7 @@ export class OtherInformationComponent {
     this.FV.setValue("childCount", 0);
     this.FV.setValue("isActivityPaymentByCompany", false);
     this.isAddNewActivity = false;
+    this.selectedActivity = null;
   }
 
   onClickDeleteActivity(id: any) {
@@ -162,6 +213,7 @@ export class OtherInformationComponent {
             (x) => x._id != id
           );
 
+          this.reArrangeActivityRecords();
           this.activityTable.reset();
         }
       }
@@ -173,6 +225,11 @@ export class OtherInformationComponent {
   }
 
   onClickSaveHotel() {
+    if (this.selectedHotel != null) {
+      this.updateHotel();
+      return;
+    }
+
     let validateParams = "hotelDate,hotelName,city";
     if (this.FV.validateControllers(validateParams)) {
       return;
@@ -202,6 +259,7 @@ export class OtherInformationComponent {
 
     this.hotelRecords.push(obj);
     this.onClickCancelHotel();
+    this.reArrangeHotelRecords();
     this.hotelTable.reset();
   }
 
@@ -229,16 +287,70 @@ export class OtherInformationComponent {
           }
 
           this.hotelRecords = this.hotelRecords.filter((x) => x._id != id);
+          this.reArrangeHotelRecords();
+
           this.hotelTable.reset();
         }
       }
     );
   }
 
+  onClickEditHotel(id: any) {
+    this.isAddNewHotel = true;
+    let selectedHotel = this.hotelRecords.find((x) => x._id == id);
+    this.selectedHotel = selectedHotel;
+    this.FV.setValue(
+      "hotelDate",
+      selectedHotel.dates.split(",").map((x) => new Date(x))
+    );
+    this.FV.setValue("hotelName", selectedHotel.hotelName);
+    this.FV.setValue("city", selectedHotel.city);
+    this.FV.setValue(
+      "isHotelPaymentByCompany",
+      selectedHotel.isPaymentByCompany
+    );
+  }
+
+  updateHotel() {
+    let validateParams = "hotelDate,hotelName,city";
+    if (this.FV.validateControllers(validateParams)) {
+      return;
+    }
+
+    let selectedHotel = this.hotelRecords.find(
+      (x) => x._id == this.selectedHotel._id
+    );
+
+    let formData = this.FV.formGroup.value;
+    let dates = formData.hotelDate
+      .map((x) => {
+        return this.datePipe.transform(x, "yyyy-MM-dd", "Asia/Colombo");
+      })
+      .join(",");
+
+    let showDates = formData.hotelDate
+      .map((x) => {
+        return this.datePipe.transform(x, "MMM d", "Asia/Colombo");
+      })
+      .join(", ");
+
+    selectedHotel.dates = formData.hotelDate.length > 1 ? dates : dates;
+    selectedHotel.hotelName = formData.hotelName;
+    selectedHotel.city = formData.city;
+    selectedHotel.showDates = showDates;
+    selectedHotel.isPaymentByCompany = formData.isHotelPaymentByCompany;
+    this.isAddNewHotel = false;
+    this.selectedHotel = null;
+    this.hotelTable.reset();
+
+    this.reArrangeHotelRecords();
+  }
+
   onClickCancelHotel() {
     this.FV.clearValues("hotelDate,hotelName,city,isHotelPaymentByCompany");
     this.FV.setValue("isHotelPaymentByCompany", false);
     this.isAddNewHotel = false;
+    this.selectedHotel = null;
   }
 
   generateUniqueId(recodes: any[]) {
@@ -258,6 +370,7 @@ export class OtherInformationComponent {
   onSave(): object {
     this.onClickCancelActivity();
     this.onClickCancelHotel();
+    debugger;
     let hotelRecordsRemovingShowDates: any[] =
       this.hotelRecords.map((x) => {
         return {
@@ -273,5 +386,32 @@ export class OtherInformationComponent {
       activities: this.activityRecodes,
       hotels: hotelRecordsRemovingShowDates,
     };
+  }
+
+  reArrangeHotelRecords() {
+    this.hotelRecords.sort((a, b) => {
+      let earliestDateA: any = new Date(
+        a.dates
+          .split(",")
+          .map((date) => date.trim())
+          .sort()[0]
+      );
+      let earliestDateB: any = new Date(
+        b.dates
+          .split(",")
+          .map((date) => date.trim())
+          .sort()[0]
+      );
+
+      return earliestDateA - earliestDateB; // Sort in ascending order
+    });
+  }
+
+  reArrangeActivityRecords() {
+    this.activityRecodes.sort((a, b) => {
+      let earliestDateA: any = new Date(a.date);
+      let earliestDateB: any = new Date(b.date);
+      return earliestDateA - earliestDateB; // Sort in ascending order
+    });
   }
 }
