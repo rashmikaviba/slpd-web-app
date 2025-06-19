@@ -9,7 +9,7 @@ export class CommonService {
   constructor(
     private dataAccess: DataAccessService,
     private resource: ResourceService
-  ) {}
+  ) { }
 
   GetCommonDataByType(type: string) {
     return this.dataAccess
@@ -22,6 +22,14 @@ export class CommonService {
   GetGenderList() {
     return this.dataAccess
       .GET(this.resource.common.getGenders)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  GetMeasureUnits() {
+    return this.dataAccess
+      .GET(this.resource.common.getMeasureUnits)
       .pipe((response) => {
         return response;
       });

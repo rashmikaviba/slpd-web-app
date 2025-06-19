@@ -76,6 +76,14 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   },
+  {
+    path: "inventory-management",
+    loadChildren: () =>
+      import("./modules/inventory-management/inventory-management.module").then(
+        (m) => m.InventoryManagementModule
+      ),
+    canActivate: [RouteGuardService],
+  }
 ];
 
 @NgModule({
@@ -94,4 +102,4 @@ const routes: Routes = [
   // ],
   // exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

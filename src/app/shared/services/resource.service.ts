@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class ResourceService {
-  constructor() {}
+  constructor() { }
 
   private host: string = environment.apiURL + "/api/v1";
 
@@ -24,6 +24,9 @@ export class ResourceService {
   private Notification = this.host + "/notification";
   private InternalTrip = this.host + "/internalTrip";
   private TripSummary = this.host + "/tripSummary";
+  private Inventory = this.host + "/inventory";
+  private Product = "/product";
+  private GRN = "/grn";
 
   auth = {
     login: this.Auth + "/login",
@@ -77,6 +80,7 @@ export class ResourceService {
   common = {
     getDataByType: this.Common + "/data",
     getGenders: this.Common + "/gender",
+    getMeasureUnits: this.Common + "/measureUnits",
   };
 
   vehicle = {
@@ -156,4 +160,27 @@ export class ResourceService {
     deleteById: this.TripSummary,
     getById: this.TripSummary,
   };
+
+  inventoryProduct = {
+    save: this.Inventory + this.Product,
+    getAll: this.Inventory + this.Product,
+    getById: this.Inventory + this.Product,
+    update: this.Inventory + this.Product,
+    deleteById: this.Inventory + this.Product,
+    activeInactive: this.Inventory + this.Product + "/activeInactive",
+    getAuditLog: this.Inventory + this.Product + "/productAuditLog",
+  }
+
+  grn = {
+    save: this.Inventory + this.GRN,
+    advanceSearch: this.Inventory + this.GRN + "/advanceSearch",
+    getById: this.Inventory + this.GRN,
+    update: this.Inventory + this.GRN,
+    deleteById: this.Inventory + this.GRN,
+    approveGrn: this.Inventory + this.GRN + "/approve",
+    rejectGrn: this.Inventory + this.GRN + "/reject",
+    getGrnById: this.Inventory + this.GRN,
+    getNextGrnNumber: this.Inventory + this.GRN + "/getNextGrnNumber",
+    cancelById: this.Inventory + this.GRN,
+  }
 }

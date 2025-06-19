@@ -1,0 +1,61 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+    <div class="p-fluid grid formgrid">
+        <div class="field col-12 md:col-3">
+            <label for="productShortCode" class="required">Short Code</label>
+            <input id="productShortCode" pInputText type="text" class="w-full" formControlName="productShortCode"
+                maxlength="40" />
+        </div>
+
+        <div class="field col-12 md:col-9">
+            <label for="productName" class="required">Product Name</label>
+            <input id="productName" pInputText type="text" class="w-full" formControlName="productName"
+                maxlength="200" />
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label for="productType" class="required">Product Type</label>
+            <p-dropdown id="productType" class="w-full" [options]="productTypes" optionLabel="label" optionValue="value"
+                formControlName="isReturnableProduct" [appendTo]="'body'"></p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-4">
+            <label for="measureUnit" class="required">Measure Unit</label>
+            <!-- <p-dropdown id="measureUnit" class="w-full" [options]="measureUnits" optionLabel="label"
+                optionValue="unitId" formControlName="measureUnit" [appendTo]="'body'" [filter]="true"></p-dropdown> -->
+
+            <p-dropdown [options]="measureUnits" formControlName="measureUnit" [group]="true" [appendTo]="'body'"
+                [filter]="true">
+                <ng-template let-group pTemplate="group">
+                    <div class="flex align-items-center">
+                        <span>{{ group.label }}</span>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="field col-12 md:col-4">
+            <label for="unitPrice" class="required">Unit Price</label>
+            <p-inputNumber formControlName="unitPrice" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+                class="w-full"></p-inputNumber>
+        </div>
+
+        <div class="field col-12 md:col-12">
+            <label for="productDescription" class="required">Product Description</label>
+            <textarea pInputText name="productDescription" id="productDescription" formControlName="productDescription"
+                class="w-full" rows="4" style="resize: none" maxlength="500"></textarea>
+
+            <div class="flex justify-content-end">
+                <small class="text-500 text-xs">{{ FV.getValue("productDescription")?.length || 0 }} / 500</small>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-2">
+        <p-button label="{{ isEdit ? 'Update' : 'Save' }}" icon="pi pi-save" iconPos="left"
+            (onClick)="onSave()"></p-button>
+        <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" (onClick)="onCancel()"></p-button>
+    </div>
+</ng-template>

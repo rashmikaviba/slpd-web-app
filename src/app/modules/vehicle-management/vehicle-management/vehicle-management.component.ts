@@ -36,7 +36,7 @@ export class VehicleManagementComponent {
     private excelService: ExcelService,
     private datePipe: DatePipe,
     private vehicleService: VehicleService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cols = [
@@ -153,25 +153,6 @@ export class VehicleManagementComponent {
   }
 
   exportToExcel() {
-    //   {
-    //     "_id": "66eb0876a32f757e16a652a2",
-    //     "vehicleType": 2,
-    //     "vehicleTypeName": "Van",
-    //     "registrationNumber": "FG-5154",
-    //     "gpsTracker": "59568889",
-    //     "capacity": 2000,
-    //     "availableSeats": 12,
-    //     "description": "Tets",
-    //     "status": 1,
-    //     "statusName": "ACTIVE",
-    //     "vehicleOwner": "Lahiru Kumara",
-    //     "createdBy": "66a28453f9a1a1e40f644962",
-    //     "createdUser": "Lauren Crona",
-    //     "updatedBy": "66a28453f9a1a1e40f644962",
-    //     "updatedUser": "Lauren Crona",
-    //     "createdAt": "2024-09-18T17:06:02.226Z",
-    //     "updatedAt": "2024-09-18T17:06:02.226Z"
-    // }
     let reportCols = [
       { field: "vehicleType", header: "Vehicle Type" },
       { field: "vehicleTypeName", header: "Vehicle TypeName" },
@@ -227,9 +208,8 @@ export class VehicleManagementComponent {
 
   onStatusChange(rowData: any) {
     let confirmationConfig = {
-      message: `Are you sure you want to ${
-        rowData?.status == 1 ? "Deactivate" : "Activate"
-      } this vehicle?`,
+      message: `Are you sure you want to ${rowData?.status == 1 ? "Deactivate" : "Activate"
+        } this vehicle?`,
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
     };
