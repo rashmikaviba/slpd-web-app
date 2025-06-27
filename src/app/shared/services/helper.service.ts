@@ -9,7 +9,7 @@ export class HelperService {
   constructor(
     private datePipe: DatePipe,
     private filterService: FilterService
-  ) {}
+  ) { }
 
   checkValidUrl(url: string) {
     if (
@@ -185,7 +185,7 @@ export class HelperService {
   mapObject<T, U>(target: any, source: U): T {
     try {
       Object.assign(target, source);
-    } catch (error) {}
+    } catch (error) { }
     return target;
   }
 
@@ -349,4 +349,20 @@ export class HelperService {
     }
     return equal;
   }
+
+  generateUniqueId(prefix = '') {
+    const now = new Date();
+
+    const formattedTime = now
+      .toISOString()
+      .replace(/[-:T]/g, '')
+      .substring(0, 15);
+
+    const base36Time = now.getTime().toString(36);
+
+    const randomStr = Math.random().toString(36).substring(2, 8);
+
+    return `${prefix}${formattedTime}-${base36Time}-${randomStr}`;
+  }
+
 }

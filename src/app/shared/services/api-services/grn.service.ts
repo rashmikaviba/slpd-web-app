@@ -76,7 +76,7 @@ export class GrnService {
 
   CancelGrn(id: string) {
     return this.dataAccess
-      .PUT(this.resource.grn.cancelById + `/${id}`, null)
+      .DELETE(this.resource.grn.cancelById + `/${id}`, null)
       .pipe((response) => {
         return response;
       });

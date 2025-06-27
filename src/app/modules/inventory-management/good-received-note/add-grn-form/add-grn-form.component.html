@@ -1,0 +1,182 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-3">
+      <label for="grnNumber" class="required">GRN Number</label>
+      <input id="grnNumber" pInputText type="text" class="w-full" formControlName="grnNumber" maxlength="50" />
+    </div>
+    <div class="field col-12 md:col-3">
+      <label for="grnDate" class="required">GRN Date</label>
+      <input type="text" id="grnDate" pInputText formControlName="grnDate" inputId="grnDate" class="w-full" />
+    </div>
+
+    <div class="field col-12 md:col-12">
+      <label for="grnRemarks">GRN Remark</label>
+      <textarea pInputText name="grnRemarks" id="grnRemarks" formControlName="grnRemarks" class="w-full" rows="3"
+        style="resize: none" maxlength="500"></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isViewOnly">
+        <small class="text-500 text-xs">{{ FV.getValue("grnRemarks")?.length || 0 }} / 500</small>
+      </div>
+    </div>
+
+
+    <div class="field col-12 md:col-12">
+      <p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
+        dataKey="_id" [responsive]="true" styleClass="p-datatable-gridlines" [rowHover]="true"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['productName', 'productShortCode']">
+
+        <ng-template pTemplate="caption" *ngIf="!isApproved && !isRejected && !isViewOnly">
+          <div class="flex justify-content-end" *ngIf="!isAddNewProduct">
+            <p-button styleClass="p-button-sm" icon="pi pi-plus" label="Add Product"
+              (onClick)="onClickAddProduct()"></p-button>
+
+          </div>
+
+          <div class="p-fluid grid formgrid align-items-end p-1" *ngIf="isAddNewProduct">
+            <div class="field col-12 md:col-4">
+              <label class="required font-normal" for="date">Product</label>
+
+              <p-dropdown id="product" class="w-full" [options]="products" optionLabel="productName" optionValue="_id"
+                formControlName="product" [appendTo]="'body'" [filter]="true"
+                (onChange)="onChangeProduct()"></p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label class="required font-normal" for="measureUnit">Product Measure Unit</label>
+              <p-dropdown id="measureUnit" class="w-full" [options]="selectedProduct?.measureUnits || []"
+                optionLabel="label" optionValue="unitId" formControlName="productMeasureUnit"
+                [appendTo]="'body'"></p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label class="required font-normal" for="inventory">Quantity</label>
+
+              <div class="p-inputgroup">
+                <p-inputNumber formControlName="quantity" mode="decimal"
+                  [minFractionDigits]="selectedProduct?.measureUnitDetails?.isAllowDecimal ? 2 : 0"
+                  [maxFractionDigits]="selectedProduct?.measureUnitDetails?.isAllowDecimal ? 2 : 0"
+                  class="w-full"></p-inputNumber>
+
+                <p-dropdown [options]="selectedProduct?.measureUnits || []" id="measureUnit" class="w-14rem"
+                  optionLabel="code" optionValue="unitId" formControlName="measureUnit"
+                  [appendTo]="'body'"></p-dropdown>
+              </div>
+            </div>
+
+            <div class="field col-12 md:col-10">
+              <label for="remarks">Remarks</label>
+              <input type="text" id="remarks" pInputText formControlName="remarks" class="w-full" maxlength="500" />
+              <div class="flex justify-content-end">
+              </div>
+            </div>
+
+            <div class="field col-12 md:col-2">
+              <div class="flex gap-2 justify-content-end">
+                <p-button styleClass="p-button-sm p-button-success" icon="pi pi-save" pTooltip="Save"
+                  (onClick)="onClickSaveProduct()"></p-button>
+                <p-button styleClass="p-button-sm p-button-secondary" icon="pi pi-times" pTooltip="Cancel"
+                  (onClick)="onClickCancelProduct()"></p-button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [ngClass]="{
+                    'text-center':
+                      col.field == 'status'
+                  }">
+              {{ col.header }}
+            </th>
+            <th class="text-center" *ngIf="!isApproved && !isRejected && !isViewOnly">Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr>
+            <td *ngFor="let col of columns" [ngClass]="{
+          'bg-blue': rowIndex % 2 !== 0
+        }">
+              <ng-container *ngIf="col.field == 'measureUnit'">
+                <span class="p-column-title font-bold"> {{ col.header }}</span>
+                {{ rowData?.measureUnit?.name + ' (' + rowData?.measureUnit?.code + ')' }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'quantity'">
+                <span class="p-column-title font-bold"> {{ col.header }}</span>
+                {{
+                rowData?.measureUnit?.isAllowDecimal == true ?
+                (rowData?.quantity | number : '2.2-2') +' '+ rowData?.measureUnit?.code
+                : rowData?.quantity +' '+ rowData?.measureUnit?.code
+                }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field != 'measureUnit' && col.field != 'quantity'">
+                <span class="p-column-title font-bold">
+                  {{ col.header }}
+                </span>{{ rowData[col.field] || '-' }}
+              </ng-container>
+            </td>
+
+            <td class="text-center" [ngClass]="{'bg-blue': rowIndex % 2 !== 0,}"
+              *ngIf="!isApproved && !isRejected && !isViewOnly">
+              <div class="flex justify-content-center gap-1">
+                <p-button icon="pi pi-trash" styleClass="p-button-danger"
+                  (onClick)="onDeleteProduct(rowData)"></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length + 2">
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 300px; width: 100%">
+                <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                <small class="">No Products Found</small>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="field col-12 md:col-12" *ngIf="isApproved || grnData?.status == 2">
+      <label for="approveRemarks">Approve Remark</label>
+      <textarea pInputText name="approveRemarks" id="approveRemarks" formControlName="approveRemarks" class="w-full"
+        rows="3" style="resize: none" maxlength="500"></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isViewOnly">
+        <small class="text-500 text-xs">{{ FV.getValue("approveRemarks")?.length || 0 }} / 500</small>
+      </div>
+    </div>
+
+
+    <div class="field col-12 md:col-12" *ngIf="isRejected || grnData?.status == 3">
+      <label for="rejectRemarks">Reject Remark</label>
+      <textarea pInputText name="rejectRemarks" id="rejectRemarks" formControlName="rejectRemarks" class="w-full"
+        rows="3" style="resize: none" maxlength="500"></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isViewOnly">
+        <small class="text-500 text-xs">{{ FV.getValue("rejectRemarks")?.length || 0 }} / 500</small>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<ng-template #templateRef>
+  <div class="flex justify-content-end align-items-center gap-2">
+    <!-- (onClick)="onSave()"  (onClick)="onCancel()"-->
+    <p-button label="{{ isEdit ? 'Update' : 'Save' }}" icon="pi pi-save" iconPos="left" (onClick)="onSave()"
+      *ngIf="!isApproved && !isRejected && !isViewOnly"></p-button>
+    <p-button label="Approve" icon="pi pi-check" styleClass="p-button-success" *ngIf="isApproved && !isViewOnly"
+      (onClick)="onApprove()"></p-button>
+    <p-button label="Reject" icon="pi pi-times" styleClass="p-button-danger" *ngIf="isRejected && !isViewOnly"
+      (onClick)="onReject()"></p-button>
+    <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" (onClick)="onCancel()"></p-button>
+
+
+  </div>
+</ng-template>

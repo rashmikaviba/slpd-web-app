@@ -37,13 +37,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StepsModule } from 'primeng/steps';
 import { ToastModule } from 'primeng/toast';
 import { AddProductFormComponent } from './product-management/add-product-form/add-product-form.component';
+import { AddGrnFormComponent } from './good-received-note/add-grn-form/add-grn-form.component';
 
 
 @NgModule({
   declarations: [
     ProductManagementComponent,
     GoodReceivedNoteComponent,
-    AddProductFormComponent
+    AddProductFormComponent,
+    AddGrnFormComponent
   ],
   imports: [
     CommonModule,

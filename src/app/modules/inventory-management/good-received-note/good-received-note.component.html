@@ -19,14 +19,12 @@
                 </div>
                 <div class="field hidden md:col-1 md:flex"></div>
                 <div class="field col-12 md:col-3">
-                    <p-calendar selectionMode="range" [readonlyInput]="true" formControlName="dateRange" />
-
-                    <!-- (onSelect)="loadInitialData()" -->
+                    <p-calendar selectionMode="range" [readonlyInput]="true" formControlName="dateRange"
+                        (onSelect)="loadInitialData()" />
                 </div>
                 <div class="field col-5 md:col-2">
                     <p-dropdown id="tripStatus" [options]="status" optionLabel="label" optionValue="value"
-                        placeholder="Status" formControlName="status"></p-dropdown>
-                    <!-- (onChange)="loadInitialData()" -->
+                        placeholder="Status" formControlName="status" (onChange)="loadInitialData()"></p-dropdown>
                 </div>
                 <div class="field col-7 md:col-3">
                     <p-iconField iconPosition="left" class="ml-auto">
@@ -56,56 +54,57 @@
           'bg-blue': rowIndex % 2 !== 0
         }">
 
-                    <!-- <ng-container *ngIf="col.field == 'status'">
-                    <span class="p-column-title font-bold"> {{ col.header }}</span>
-                    <div class="text-center">
-                        <p-button [severity]="
-                            rowData.status == 1
-                            ? 'success'
-                            : rowData.status == 2
-                            ? 'warning'
-                            : 'danger'
-                        " outlined="true" label="{{ rowData.statusName }}"
-                            (onClick)="onStatusChange(rowData)"></p-button>
-                    </div>
-                </ng-container>
+                    <ng-container *ngIf="col.field == 'status'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        <div class="text-center">
+                            <p-button [severity]="getButtonColor(rowData.status)" outlined="true"
+                                label="{{ rowData.statusName }}" (onClick)="onStatusChange(rowData)"></p-button>
+                        </div>
+                    </ng-container>
 
-                <ng-container *ngIf="col.field == 'measureUnit'">
-                    <span class="p-column-title font-bold"> {{ col.header }}</span>
-                    {{ rowData?.measureUnitDetails?.name + ' (' + rowData?.measureUnitDetails?.code + ')' }}
-                </ng-container>
+                    <ng-container *ngIf="col.field == 'measureUnit'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        {{ rowData?.measureUnitDetails?.name + ' (' + rowData?.measureUnitDetails?.code + ')' }}
+                    </ng-container>
 
-                <ng-container *ngIf="col.field == 'inventory'">
-                    <span class="p-column-title font-bold"> {{ col.header }}</span>
-                    {{
-                    rowData?.measureUnitDetails?.isAllowDecimal == true ?
-                    (rowData?.inventory | number : '2.2-2') +' '+ rowData?.measureUnitDetails?.code
-                    : rowData?.inventory +' '+ rowData?.measureUnitDetails?.code
-                    }}
-                </ng-container>
+                    <ng-container *ngIf="col.field == 'inventory'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        {{
+                        rowData?.measureUnitDetails?.isAllowDecimal == true ?
+                        (rowData?.inventory | number : '2.2-2') +' '+ rowData?.measureUnitDetails?.code
+                        : rowData?.inventory +' '+ rowData?.measureUnitDetails?.code
+                        }}
+                    </ng-container>
 
-                <ng-container *ngIf="col.field == 'createdAt'">
-                    <span class="p-column-title font-bold"> {{ col.header }}</span>
-                    {{ (rowData?.createdAt | date : 'dd-MM-yyyy hh:mm a') + ' by ' + rowData.createdUser }}
-                </ng-container>
+                    <ng-container *ngIf="col.field == 'createdByName'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        {{ (rowData?.grnDate | date : 'dd-MM-yyyy hh:mm a') + ' by ' + rowData.createdByName }}
+                    </ng-container>
 
-                <ng-container *ngIf="col.field == 'updatedAt'">
-                    <span class="p-column-title font-bold"> {{ col.header }}</span>
-                    {{ (rowData?.updatedAt | date : 'dd-MM-yyyy hh:mm a') + ' by ' + rowData.updatedByUser }}
-                </ng-container>
+                    <ng-container *ngIf="col.field == 'updatedAt'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        {{ (rowData?.updatedAt | date : 'dd-MM-yyyy hh:mm a') + ' by ' + rowData.updatedByUser }}
+                    </ng-container>
 
-                <ng-container
-                    *ngIf="col.field != 'status' && col.field != 'inventory' && col.field != 'createdAt' && col.field != 'updatedAt' && col.field != 'measureUnit'">
-                    <span class="p-column-title font-bold">
-                        {{ col.header }}
-                    </span>{{ rowData[col.field] }}
-                </ng-container>
-            </td>
-            <td class="text-center" [ngClass]="{'bg-blue': rowIndex % 2 !== 0,}">
-                <button #btn type="button" pButton icon="pi pi-ellipsis-v"
-                    (click)="toggleMenu(menu, $event, rowData)"></button>
-                <p-tieredMenu #menu [model]="items" [popup]="true" appendTo="body"></p-tieredMenu>
-            </td> -->
+                    <ng-container *ngIf="col.field == 'approvedOrRejectedByName'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        {{ rowData?.approvedOrRejectedDate == null ? '-' : (rowData?.approvedOrRejectedDate | date :
+                        'dd-MM-yyyy hh:mm a') + ' by ' +
+                        rowData.approvedOrRejectedByName }}
+                    </ng-container>
+                    <ng-container
+                        *ngIf="col.field != 'status' && col.field != 'inventory' && col.field != 'createdByName' && col.field != 'updatedAt' && col.field != 'measureUnit' && col.field != 'approvedOrRejectedByName'">
+                        <span class="p-column-title font-bold">
+                            {{ col.header }}
+                        </span>{{ rowData[col.field] || '-' }}
+                    </ng-container>
+                </td>
+
+                <td class="text-center" [ngClass]="{'bg-blue': rowIndex % 2 !== 0,}">
+                    <button #btn type="button" pButton icon="pi pi-ellipsis-v"
+                        (click)="toggleMenu(menu, $event, rowData)"></button>
+                    <p-tieredMenu #menu [model]="items" [popup]="true" appendTo="body"></p-tieredMenu>
+                </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
@@ -114,7 +113,7 @@
                     <div class="flex flex-column justify-content-center align-items-center gap-2"
                         style="height: 300px; width: 100%">
                         <i class="pi pi-inbox text-5xl text-gray-400"></i>
-                        <small class="">No Users Found</small>
+                        <small class="">No Grn Found</small>
                     </div>
                 </td>
             </tr>

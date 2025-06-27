@@ -174,7 +174,7 @@ export class ProductManagementComponent {
 
   onClickDelete(rowData: any) {
     let confirmationConfig = {
-      message: "Are you sure you want to delete this vehicle?",
+      message: "Are you sure you want to delete this product?",
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
     };
