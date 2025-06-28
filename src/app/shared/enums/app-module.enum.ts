@@ -10,6 +10,8 @@ export enum AppModule {
   SuperAdminInventoryManagement = 9,
   SuperAdminProductManagement = 10,
   SuperAdminGrnManagement = 11,
+  SUperAdminMonthlyExpensesManagement = 12,
+
 
   AdminLeaveManagement = 30,
   AdminVehicleManagement = 31,
@@ -18,6 +20,7 @@ export enum AppModule {
   AdminInventoryManagement = 34,
   AdminProductManagement = 35,
   AdminGrnManagement = 36,
+  AdminMonthlyExpensesManagement = 37,
 
   DriverLeaveManagement = 60,
   DriverTripManagement = 61,

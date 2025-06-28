@@ -27,6 +27,7 @@ export class ResourceService {
   private Inventory = this.host + "/inventory";
   private Product = "/product";
   private GRN = "/grn";
+  private MonthlyExpenses = this.host + "/monthlyExpenses";
 
   auth = {
     login: this.Auth + "/login",
@@ -182,5 +183,13 @@ export class ResourceService {
     getGrnById: this.Inventory + this.GRN,
     getNextGrnNumber: this.Inventory + this.GRN + "/getNextGrnNumber",
     cancelById: this.Inventory + this.GRN,
+  }
+
+  monthlyExpenses = {
+    save: this.MonthlyExpenses + "/save",
+    advanceSearch: this.MonthlyExpenses + "/advanceSearch",
+    update: this.MonthlyExpenses + "/update",
+    deleteById: this.MonthlyExpenses + "/delete",
+    getById: this.MonthlyExpenses,
   }
 }

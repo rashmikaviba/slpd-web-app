@@ -1,0 +1,155 @@
+<form [formGroup]="FV.formGroup">
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12 md:col-3">
+      <label for="month">Month</label>
+      <input id="month" pInputText type="text" class="w-full" formControlName="month" />
+    </div>
+
+    <div class="field col-12">
+      <p-table #dt styleClass="" [columns]="cols" [value]="recodes" dataKey="_id" [rows]="10" [responsive]="true"
+        responsiveLayout="scroll" styleClass="p-datatable-gridlines" [rowsPerPageOptions]="[10, 25, 50]"
+        [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['expenseTypeName', 'description']">
+        <ng-template pTemplate="caption">
+          <div class="flex {{ isEdit ? 'justify-content-between' : 'justify-content-end'}} align-items-center">
+            <p-button styleClass="p-button-sm" icon="pi pi-plus" label="Add Expense" (onClick)="onClickAddExpense()"
+              *ngIf="isEdit"></p-button>
+
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Expense" styleClass="w-full md:w-10rem" />
+            </p-iconField>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of cols" [ngClass]="{
+                    'text-center':
+                      col.field == 'action',
+                      'text-right': col.field == 'amount'
+                  }" [ngStyle]="{ width: col.width || 'auto' }">
+              {{ col.header }}
+            </th>
+          </tr>
+
+          <tr *ngIf="isAddNew">
+            <th>
+              <p-calendar formControlName="date" inputId="date" [minDate]="minValue" [maxDate]="maxValue"
+                [appendTo]="'body'"></p-calendar>
+            </th>
+            <th>
+              <p-dropdown formControlName="expenseType" [options]="expenseType" optionLabel="name" [filter]="true"
+                [appendTo]="'body'" placeholder="Select Expense Type"></p-dropdown>
+            </th>
+            <th>
+              <input pInputText type="text" class="w-full" formControlName="description" placeholder="Description"
+                maxlength="500" />
+            </th>
+            <th>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">LKR</span>
+                <p-inputNumber formControlName="amount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+                  [min]="0" styleClass="w-5rem md:w-full"></p-inputNumber>
+              </div>
+            </th>
+            <th>
+              <div class="flex justify-content-center gap-1">
+                <p-button icon="pi pi-save" styleClass="p-button-primary" (onClick)="onSave()"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-danger" (onClick)="onClickCancel()"></p-button>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr *ngIf="editExpenseId != rowData._id">
+            <td *ngFor="let col of columns" [ngClass]="{
+          'bg-blue': rowIndex % 2 !== 0,
+          'text-right': col.field == 'amount'
+        }">
+
+              <ng-container *ngIf="col.field == 'amount'">
+                {{ 'LKR '+ (rowData[col.field] | currency : "":"" ) }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'date'">
+                {{ rowData[col.field] | date : 'yyyy-MM-dd' : 'Asia/Colombo' }}
+              </ng-container>
+
+
+              <ng-container *ngIf="col.field == 'action'">
+                <div class="flex justify-content-center gap-1">
+                  <p-button icon="pi pi-pencil" styleClass="p-button-primary" pTooltip="Edit"
+                    (onClick)="onHandleEditClick(rowData)"></p-button>
+                  <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Delete"
+                    (onClick)="onDelete(rowData)"></p-button>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="col.field != 'amount' && col.field != 'date' && col.field != 'action'">
+                {{ rowData[col.field] || '-' }}
+              </ng-container>
+            </td>
+
+
+          </tr>
+
+
+          <tr *ngIf="editExpenseId == rowData._id">
+            <td>
+              <p-calendar formControlName="date" inputId="date" [minDate]="minValue" [maxDate]="maxValue"
+                [appendTo]="'body'"></p-calendar>
+            </td>
+            <td>
+              <p-dropdown formControlName="expenseType" [options]="expenseType" optionLabel="name" [filter]="true"
+                [appendTo]="'body'" placeholder="Select Expense Type"></p-dropdown>
+            </td>
+            <td>
+              <input pInputText type="text" class="w-full" formControlName="description" placeholder="Description"
+                maxlengtd="500" />
+            </td>
+            <td>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">LKR</span>
+                <p-inputNumber formControlName="amount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+                  [min]="0" styleClass="w-5rem md:w-full"></p-inputNumber>
+              </div>
+            </td>
+            <td>
+              <div class="flex justify-content-center gap-1">
+                <p-button icon="pi pi-save" styleClass="p-button-primary" (onClick)="onHandleEditSave()"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-danger" (onClick)="onClickCancel()"></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length + 2">
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 300px; width: 100%">
+                <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                <small class="">No Monthly Expenses Found</small>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <!-- Footer -->
+        <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="3" class="font-bold">
+              Total Expenses
+            </td>
+            <td colspan="2" class="font-bold text-right">
+              LKR {{monthlyExpenseData?.totalExpenses | currency : "":"" }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</form>

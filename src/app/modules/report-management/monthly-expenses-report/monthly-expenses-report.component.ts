@@ -23,7 +23,7 @@ export class MonthlyExpensesReportComponent {
     private messageService: AppMessageService,
     private datePipe: DatePipe,
     private excelService: ExcelService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sidebarService.setFooterTemplate(this.templateRef);
@@ -56,6 +56,9 @@ export class MonthlyExpensesReportComponent {
           "Asia/Colombo"
         );
       });
+
+      // Sort in ascending order of date
+      this.reportDetails = this.reportDetails.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
       this.totalExpenses = this.reportDetails.reduce(
         (total: number, report: any) => {

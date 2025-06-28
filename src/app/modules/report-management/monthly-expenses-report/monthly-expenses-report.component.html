@@ -25,47 +25,32 @@
       <span>Month : {{ month | date : "yyyy-MM" : "Asia/Colombo" }}</span>
     </div>
     <div>
-      <img
-        src="assets/signin-4.png"
-        alt="Image"
-        height="40"
-        class="mr-0 lg:mr-6"
-      />
+      <img src="assets/signin-4.png" alt="Image" height="40" class="mr-0 lg:mr-6" />
     </div>
   </div>
   <hr />
 
-  <p-table
-    [value]="reportDetails"
-    [columns]="cols"
-    styleClass="p-datatable-gridlines p-datatable-sm"
-  >
+  <!-- <p-table [value]="reportDetails" [columns]="cols" styleClass="p-datatable-gridlines p-datatable-sm">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th
-          *ngFor="let col of columns"
-          [ngClass]="{
+        <th *ngFor="let col of columns" [ngClass]="{
             'text-right': col.field == 'amount'
-          }"
-        >
+          }">
           {{ col.header }}
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
-        <td
-          *ngFor="let col of columns"
-          [ngClass]="{
+        <td *ngFor="let col of columns" [ngClass]="{
             'text-right': col.field == 'amount'
-          }"
-        >
+          }">
           <ng-container *ngIf="col.field == 'amount'">
             {{ rowData[col.field] | currency : "" : "" }}
           </ng-container>
 
           <ng-container *ngIf="col.field != 'amount'">
-            {{ rowData[col.field] }}
+            {{ rowData[col.field] || '-'}}
           </ng-container>
         </td>
       </tr>
@@ -79,26 +64,59 @@
         </td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
+
+  <!--  this.cols = [
+      { field: "confirmationNumber", header: "Trip No" },
+      { field: "typeName", header: "Type" },
+      { field: "showDate", header: "Date" },
+      { field: "description", header: "Description" },
+      { field: "createdUser", header: "User" },
+      { field: "amount", header: "Amount (LKR)" },
+    ]; -->
+  <table>
+    <thead>
+      <tr>
+        <th>Trip No</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>User</th>
+        <th class="text-right">Amount (LKR)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let recode of reportDetails">
+        <tr>
+          <td>{{ recode?.confirmationNumber || "-" }}</td>
+          <td>{{ recode?.typeName || "-" }}</td>
+          <td>{{ recode?.showDate }}</td>
+          <td>{{ recode?.description }}</td>
+          <td>{{ recode?.createdUser }}</td>
+          <td class="numeric">
+            {{ recode?.amount | currency : "" : "" }}
+          </td>
+        </tr>
+      </ng-container>
+
+      <tr *ngIf="reportDetails.length > 0">
+        <td class="font-bold" colspan="5">Grand Total</td>
+        <td class="font-bold numeric">
+          {{ totalExpenses | currency : "" : "" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <ng-template #templateRef>
   <div class="flex justify-content-end align-items-center gap-2">
-    <button
-      id="print"
-      class="p-button-sm p-button p-component p-ripple"
-      printSectionId="demo"
-      [useExistingCss]="true"
-      ngxPrint
-    >
+    <button id="print" class="p-button-sm p-button p-component p-ripple" printSectionId="demo" [useExistingCss]="true"
+      ngxPrint>
       <i class="pi pi-file-pdf mr-2" style="font-size: 1rem"></i> Export PDF
     </button>
     <!-- XLS -->
-    <button
-      id="print"
-      class="p-button-sm p-button p-component p-ripple p-button-success"
-      (click)="exportXls()"
-    >
+    <button id="print" class="p-button-sm p-button p-component p-ripple p-button-success" (click)="exportXls()">
       <i class="pi pi-file-excel mr-2" style="font-size: 1rem"></i> Export XLS
     </button>
   </div>

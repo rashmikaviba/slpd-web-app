@@ -83,6 +83,14 @@ const routes: Routes = [
         (m) => m.InventoryManagementModule
       ),
     canActivate: [RouteGuardService],
+  },
+  {
+    path: "monthly-expenses",
+    loadChildren: () =>
+      import("./modules/monthly-expenses/monthly-expenses.module").then(
+        (m) => m.MonthlyExpensesModule
+      ),
+    canActivate: [RouteGuardService],
   }
 ];
 

@@ -25,17 +25,12 @@
       <span>Month : {{ month | date : "yyyy-MM" : "Asia/Colombo" }}</span>
     </div>
     <div>
-      <img
-        src="assets/signin-4.png"
-        alt="Image"
-        height="40"
-        class="mr-0 lg:mr-6"
-      />
+      <img src="assets/signin-4.png" alt="Image" height="40" class="mr-0 lg:mr-6" />
     </div>
   </div>
   <hr />
 
-  <p-table
+  <!-- <p-table
     [value]="reportDetails"
     [columns]="cols"
     styleClass="p-datatable-gridlines p-datatable-sm"
@@ -72,7 +67,6 @@
             'text-center': col.field == 'isRemainingToDriver'
           }"
         >
-          <!-- col.field == 'amount' -->
           <ng-container
             *ngIf="
               [
@@ -110,26 +104,76 @@
         </td>
       </tr>
     </ng-template>
-  </p-table>
+  </p-table> -->
+
+  <!-- this.cols = [
+      { field: "tripConfirmationNumber", header: "Trip No" },
+      { field: "driverName", header: "Driver" },
+      { field: "salaryPerDay", header: "Salary Per Day" },
+      { field: "totalAddition", header: "Addition" },
+      { field: "totalDeduction", header: "Deduction" },
+      { field: "remainingExpenses", header: "Rem. Expenses" },
+      { field: "showRemainingToDriver", header: "Rem. To Driver" },
+      { field: "totalSalary", header: "Salary (LKR)" },
+    ]; -->
+
+  <table>
+    <thead>
+      <tr>
+        <th>Trip No</th>
+        <th>Driver</th>
+        <th class="text-right">Salary Per Day</th>
+        <th class="text-right">Addition</th>
+        <th class="text-right">Deduction</th>
+        <th class="text-right">Rem. Expenses</th>
+        <th class="text-center">Rem. To Driver</th>
+        <th class="text-right">Salary (LKR)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let recode of reportDetails">
+        <tr>
+          <td>{{ recode?.tripConfirmationNumber }}</td>
+          <td>{{ recode?.driverName || "-" }}</td>
+          <td class="numeric">
+            {{ recode?.salaryPerDay | currency : "" : "" }}
+          </td>
+          <td class="numeric">
+            {{ recode?.totalAddition | currency : "" : "" }}
+          </td>
+          <td class="numeric">
+            {{ recode?.totalDeduction | currency : "" : "" }}
+          </td>
+          <td class="numeric">
+            {{ recode?.remainingExpenses | currency : "" : "" }}
+          </td>
+          <td class="text-center">
+            {{ recode?.showRemainingToDriver }}
+          </td>
+          <td class="numeric">
+            {{ recode?.totalSalary | currency : "" : "" }}
+          </td>
+        </tr>
+      </ng-container>
+
+      <tr *ngIf="reportDetails.length > 0">
+        <td class="font-bold" colspan="7">Grand Total</td>
+        <td class="font-bold numeric">
+          {{ totalSalary | currency : "" : "" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <ng-template #templateRef>
   <div class="flex justify-content-end align-items-center gap-2">
-    <button
-      id="print"
-      class="p-button-sm p-button p-component p-ripple"
-      printSectionId="demo"
-      [useExistingCss]="true"
-      ngxPrint
-    >
+    <button id="print" class="p-button-sm p-button p-component p-ripple" printSectionId="demo" [useExistingCss]="true"
+      ngxPrint>
       <i class="pi pi-file-pdf mr-2" style="font-size: 1rem"></i> Export PDF
     </button>
     <!-- XLS -->
-    <button
-      id="print"
-      class="p-button-sm p-button p-component p-ripple p-button-success"
-      (click)="exportXls()"
-    >
+    <button id="print" class="p-button-sm p-button p-component p-ripple p-button-success" (click)="exportXls()">
       <i class="pi pi-file-excel mr-2" style="font-size: 1rem"></i> Export XLS
     </button>
   </div>

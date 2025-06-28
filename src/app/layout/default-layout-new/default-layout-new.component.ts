@@ -143,6 +143,18 @@ export class DefaultLayoutNewComponent {
         ]),
       },
       {
+        menuId: 13,
+        label: "Monthly Expense Management",
+        icon: "pi pi-money-bill",
+        routerLink: "/monthly-expenses",
+        labelForRoute: "Monthly Expenses",
+        isExpanded: false,
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.AdminMonthlyExpensesManagement,
+          AppModule.SUperAdminMonthlyExpensesManagement,
+        ]),
+      },
+      {
         menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",
@@ -156,17 +168,17 @@ export class DefaultLayoutNewComponent {
           this.openMonthAudit();
         },
       },
-      {
-        menuId: 8,
-        label: "Vehicle Tracking",
-        icon: "pi pi-map-marker",
-        routerLink: "/vehicle-tracking",
-        labelForRoute: "Vehicle Tracking",
-        isExpanded: false,
-        isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminVehicleTracking,
-        ]),
-      },
+      // {
+      //   menuId: 8,
+      //   label: "Vehicle Tracking",
+      //   icon: "pi pi-map-marker",
+      //   routerLink: "/vehicle-tracking",
+      //   labelForRoute: "Vehicle Tracking",
+      //   isExpanded: false,
+      //   isVisible: this.checkUserAuthorizedToAccess([
+      //     AppModule.SuperAdminVehicleTracking,
+      //   ]),
+      // },
       {
         menuId: 10,
         label: "Inventory Management",
