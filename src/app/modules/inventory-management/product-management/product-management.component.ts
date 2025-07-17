@@ -8,6 +8,7 @@ import { AppMessageService } from 'src/app/shared/services/app-message.service';
 import { firstValueFrom } from 'rxjs';
 import { ExcelService } from 'src/app/shared/services/excel.service';
 import { DatePipe } from '@angular/common';
+import { ProductAuditTrailComponent } from './product-audit-trail/product-audit-trail.component';
 
 @Component({
   selector: 'app-product-management',
@@ -64,7 +65,7 @@ export class ProductManagementComponent {
         label: "Audit Log",
         icon: "pi pi-briefcase",
         command: (event: any) => {
-          // this.onClickOtherVehicles(event.item.data);
+          this.onClickProductAudit(event.item.data);
         },
       },
     ];
@@ -196,6 +197,37 @@ export class ProductManagementComponent {
         }
       }
     );
+  }
+
+  async onClickProductAudit(rowData: any) {
+    try {
+      debugger
+      let data = {
+        auditData: null,
+        isEdit: true,
+      }
+      const productAuditResult = await firstValueFrom(
+        this.productService.GetProductAuditLog(rowData?._id)
+      )
+
+      if (productAuditResult.IsSuccessful) {
+        data.auditData = productAuditResult.Result;
+      }
+
+      let properties = {
+        width: "55vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "Product Audit Trail",
+        ProductAuditTrailComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error);
+    }
   }
 
   exportToExcel() {
