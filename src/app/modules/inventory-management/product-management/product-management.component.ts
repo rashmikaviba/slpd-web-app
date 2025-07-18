@@ -215,7 +215,7 @@ export class ProductManagementComponent {
       }
 
       let properties = {
-        width: "55vw",
+        width: "65vw",
         position: "right",
       };
 

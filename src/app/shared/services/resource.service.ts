@@ -28,6 +28,7 @@ export class ResourceService {
   private Product = "/product";
   private GRN = "/grn";
   private MonthlyExpenses = this.host + "/monthlyExpenses";
+  private Pos = this.host + "/pos";
 
   auth = {
     login: this.Auth + "/login",
@@ -191,5 +192,12 @@ export class ResourceService {
     update: this.MonthlyExpenses + "/update",
     deleteById: this.MonthlyExpenses + "/delete",
     getById: this.MonthlyExpenses,
+  }
+
+  posTransaction = {
+    save: this.Pos + "/savePosProduct",
+    voidProduct: this.Pos + "/voidPosProduct",
+    tripEndAudit: this.Pos + "/tripEndAudit",
+    getPosByTrip: this.Pos + "/getPosByTrip"
   }
 }
