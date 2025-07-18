@@ -36,6 +36,9 @@ export class ProductAuditTrailComponent implements OnInit {
         log = 'POS Transaction';
         break;
       case 3:
+        log = 'POS Audit Return';
+        break;
+      default:
         log = 'Unknown';
         break;
     }

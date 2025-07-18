@@ -34,9 +34,9 @@ export class PosService {
       });
   }
 
-  TripEndAudit(tripId: string, body: any) {
+  TripEndAudit(body: any) {
     return this.dataAccess
-      .PUT(this.resource.posTransaction.tripEndAudit + `/${tripId}`, body)
+      .PUT(this.resource.posTransaction.tripEndAudit, body)
       .pipe((response) => {
         return response;
       });

@@ -11,6 +11,7 @@ import { firstValueFrom, forkJoin, of } from 'rxjs';
 import { ProductService } from 'src/app/shared/services/api-services/product.service';
 import { CommonService } from 'src/app/shared/services/api-services/common.service';
 import { TripEndPosAuditComponent } from './trip-end-pos-audit/trip-end-pos-audit.component';
+import { WellKnownTripStatus } from 'src/app/shared/enums/well-known-trip-status.enum';
 
 @Component({
   selector: 'app-pos-transaction',
@@ -28,6 +29,8 @@ export class PosTransactionComponent implements OnInit {
   isAddNewTransaction: boolean = false;
   selectedProduct: any = null;
   measureUnits: any[] = [];
+
+  isCanEdit: boolean = false;
 
   constructor(
     private sidebarService: SidebarService,
@@ -49,6 +52,7 @@ export class PosTransactionComponent implements OnInit {
     let sideBarData = this.sidebarService.getData();
 
     this.tripInfo = sideBarData.tripInfo;
+
     this.cols = [
       { field: "createdAt", header: "Date" },
       { field: "productName", header: "Product Name" },
@@ -81,6 +85,10 @@ export class PosTransactionComponent implements OnInit {
       if (posResult.IsSuccessful) {
         this.posDetails = posResult.Result;
         this.recodes = this.posDetails?.products;
+
+        this.isCanEdit = this.tripInfo.status == WellKnownTripStatus.START && !this.posDetails.isTripEndAuditDone;
+
+        console.log(this.isCanEdit);
       }
 
       if (measureUnitResult.IsSuccessful) {

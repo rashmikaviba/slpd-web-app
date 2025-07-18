@@ -165,11 +165,11 @@ export class TripEndPosAuditComponent implements OnInit {
     })
 
     let request = {
-      id: this.posDetails.tripId,
+      tripId: this.posDetails.tripId,
       auditRecords: requestArray
     }
 
-    this.posService.TripEndAudit(this.posDetails.tripId, request).subscribe((response) => {
+    this.posService.TripEndAudit(request).subscribe((response) => {
       if (response.IsSuccessful) {
         this.messageService.showSuccessAlert(response.Message);
         this.ref.close(true);

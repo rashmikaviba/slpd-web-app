@@ -6,11 +6,22 @@
       <p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
         dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines"
         [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['productName']">
+
         <ng-template pTemplate="caption">
-          <div class="flex justify-content-end" *ngIf="!isAddNewTransaction">
-            <p-button styleClass="p-button-sm" icon="pi pi-plus" label="Add Product"
-              (onClick)="onClickAddTransaction()"></p-button>
+          <div class="flex {{ isCanEdit ? 'justify-content-between' : 'justify-content-end'}} align-items-center"
+            *ngIf="!isAddNewTransaction">
+            <p-button styleClass="p-button-sm" icon="pi pi-plus" label="Add Product" (onClick)="onClickAddTransaction()"
+              *ngIf="isCanEdit"></p-button>
+
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Expense" styleClass="w-full md:w-10rem" />
+            </p-iconField>
 
           </div>
 
@@ -70,7 +81,7 @@
           }">
               {{ col.header }}
             </th>
-            <th class="text-center">Action</th>
+            <th class="text-center" *ngIf="isCanEdit">Action</th>
           </tr>
         </ng-template>
 
@@ -107,7 +118,7 @@
             </td>
             <td class="text-center w-2" [ngClass]="{
                 'bg-blue': rowIndex % 2 !== 0,
-              }">
+              }" *ngIf="isCanEdit">
               <div class="flex flex-wrap justify-content-center align-content-center gap-2">
                 <p-button pTooltip="Void Transaction" tooltipPosition="bottom" styleClass="p-button-danger"
                   icon="pi pi-times-circle" (onClick)="onVoidTransaction(rowData)"></p-button>
@@ -131,7 +142,7 @@
   </div>
 </form>
 <ng-template #templateRef>
-  <div class="flex justify-content-end align-items-center gap-2">
+  <div class="flex justify-content-end align-items-center gap-2" *ngIf="isCanEdit">
     <p-button label="Trip End Audit" icon="pi pi-briefcase" styleClass="p-button-sm p-button-info mb:p-button"
       (onClick)="onClickTripEndAudit()"></p-button>
   </div>
