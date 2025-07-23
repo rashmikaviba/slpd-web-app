@@ -140,11 +140,11 @@
       </p-table>
     </div>
 
-    <div class="field col-12" *ngIf="this.posDetails.isTripEndAuditDone">
+    <div class="field col-12" *ngIf="this.posDetails?.isTripEndAuditDone">
       <span class="text-2xl font-bold mt-3">Trip End Audit Summary</span>
     </div>
 
-    <div class="field col-12" *ngIf="this.posDetails.isTripEndAuditDone">
+    <div class="field col-12" *ngIf="this.posDetails?.isTripEndAuditDone">
       <p-table #dt styleClass="" [columns]="auditEndCols" [value]="recodes" responsiveLayout="stack"
         [breakpoint]="'960px'" dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines"
         [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
