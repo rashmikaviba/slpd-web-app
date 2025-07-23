@@ -1,0 +1,114 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <p-table #dt styleClass="" [columns]="cols" [value]="recodes" dataKey="_id" [rows]="10" [responsive]="true"
+    responsiveLayout="scroll" styleClass="p-datatable-gridlines" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    [rowHover]="true" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['productName', 'description']">
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-end align-items-center">
+        <p-button label="Complete End Trip Audit" icon="pi pi-briefcase" styleClass="p-button-success"
+          (onClick)="onClickCompleteTripAudit()"></p-button>
+
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of cols" [ngClass]="{
+                    'text-center': col.field == 'action' || col.field == 'isReturnableProduct' || col.field == 'isReturned',
+                      'text-right': col.field == 'amount'
+                  }" [ngStyle]="{ width: col.width || 'auto' }">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <tr *ngIf="editRecordId != rowData.id">
+        <td *ngFor="let col of columns" [ngClass]="{
+          'bg-blue': rowIndex % 2 !== 0,
+          'text-right': col.field == 'amount',
+          'text-center': col.field == 'isReturnableProduct' || col.field == 'isReturned'
+        }">
+
+          <ng-container *ngIf="col.field == 'enteredQuantity'">
+            {{ rowData[col.field] + ' ' + rowData.enteredUnitOfMeasureCode }}
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'isReturnableProduct'">
+            {{ rowData[col.field] ? 'Yes' : 'No' }}
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'returnQuantity'">
+            {{ rowData[col.field] + ' ' + rowData.returnUnitOfMeasureCode }}
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'isReturned'">
+            <p-checkbox [binary]="true" [(ngModel)]="rowData.isReturned" [ngModelOptions]="{ standalone: true }"
+              readonly="true"></p-checkbox>
+          </ng-container>
+
+          <ng-container *ngIf="col.field == 'action'">
+            <div class="flex justify-content-center gap-1">
+              <p-button icon="pi pi-pencil" styleClass="p-button-primary" pTooltip="Edit"
+                (onClick)="onHandleEditClick(rowData)">
+              </p-button>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="col.field != 'isReturnableProduct' && col.field != 'enteredQuantity' && col.field != 'action' && col.field != 'returnQuantity' && col.field != 'isReturned'">
+            {{ rowData[col.field] || '-' }}
+          </ng-container>
+        </td>
+      </tr>
+
+
+      <tr *ngIf="editRecordId == rowData.id">
+        <td>
+          {{ rowData.productName }}
+        </td>
+        <td>
+          {{ rowData.enteredQuantity + ' ' + rowData.enteredUnitOfMeasureCode }}
+        </td>
+        <td class="text-center">
+          {{ rowData.isReturnableProduct ? 'Yes' : 'No' }}
+        </td>
+        <td class="text-center">
+          <p-checkbox [binary]="true" formControlName="isReturned" [readonly]="true"></p-checkbox>
+        </td>
+
+        <td>
+          <div class="p-inputgroup">
+            <p-inputNumber formControlName="returnQuantity" mode="decimal"
+              [minFractionDigits]="rowData?.productMeasureUnitDetails?.isAllowDecimal ? 2 : 0"
+              [maxFractionDigits]="rowData?.productMeasureUnitDetails?.isAllowDecimal ? 2 : 0"
+              class="w-12rem"></p-inputNumber>
+
+            <p-dropdown [options]="rowData?.measureUnits || []" id="measureUnit" class="w-10rem" optionLabel="code"
+              optionValue="unitId" formControlName="returnUnitOfMeasure" [appendTo]="'body'"></p-dropdown>
+          </div>
+        </td>
+        <td>
+          <input pInputText type="text" class="w-full" formControlName="notReturnedReason" maxlengtd="500"
+            [readonly]="!rowData?.isReturnableProduct" />
+        </td>
+        <td>
+          <div class="flex justify-content-center gap-1">
+            <p-button icon="pi pi-save" styleClass="p-button-primary" (onClick)="onSave(rowData)"></p-button>
+            <p-button icon="pi pi-times" styleClass="p-button-danger" (onClick)="onCancel()"></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length + 2">
+          <div class="flex flex-column justify-content-center align-items-center gap-2"
+            style="height: 300px; width: 100%">
+            <i class="pi pi-inbox text-5xl text-gray-400"></i>
+            <small class="">No Pos Transaction Found</small>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</form>

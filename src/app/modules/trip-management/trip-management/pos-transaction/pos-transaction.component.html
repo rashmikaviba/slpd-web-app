@@ -1,0 +1,244 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+
+  <div class="p-fluid grid formgrid">
+    <div class="field col-12">
+      <!-- Pos Transaction Table -->
+      <p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
+        dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines"
+        [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['productName']">
+
+        <ng-template pTemplate="caption">
+          <div class="flex {{ isCanEdit ? 'justify-content-between' : 'justify-content-end'}} align-items-center"
+            *ngIf="!isAddNewTransaction">
+            <p-button styleClass="p-button-sm" icon="pi pi-plus" label="Add Product" (onClick)="onClickAddTransaction()"
+              *ngIf="isCanEdit"></p-button>
+
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Transaction" styleClass="w-full md:w-10rem" />
+            </p-iconField>
+
+          </div>
+
+          <div class="p-fluid grid formgrid align-items-end p-1" *ngIf="isAddNewTransaction">
+            <div class="field col-12 md:col-4">
+              <label class="required font-normal" for="date">Product</label>
+
+              <p-dropdown id="product" class="w-full" [options]="products" optionLabel="productName" optionValue="_id"
+                formControlName="product" [appendTo]="'body'" [filter]="true"
+                (onChange)="onChangeProduct()"></p-dropdown>
+            </div>
+
+            <div class="field col-12 md:col-3">
+              <label class="font-normal" for="measureUnit">Inventory</label>
+              <input pInputText type="text" formControlName="inventory" class="w-full" readonly />
+            </div>
+
+            <div class="field col-12 md:col-5">
+              <label class="required font-normal" for="inventory">Quantity</label>
+
+              <div class="flex gap-2">
+                <div class="p-inputgroup">
+                  <p-inputNumber formControlName="quantity" mode="decimal"
+                    [minFractionDigits]="selectedProduct?.measureUnitDetails?.isAllowDecimal ? 2 : 0"
+                    [maxFractionDigits]="selectedProduct?.measureUnitDetails?.isAllowDecimal ? 2 : 0"
+                    class="w-full"></p-inputNumber>
+
+                  <p-dropdown [options]="selectedProduct?.measureUnits || []" id="measureUnit" class="w-14rem"
+                    optionLabel="code" optionValue="unitId" formControlName="measureUnit"
+                    [appendTo]="'body'"></p-dropdown>
+                </div>
+
+                <div class="flex gap-2 justify-content-end">
+                  <p-button styleClass="p-button-sm p-button-success" icon="pi pi-save" pTooltip="Save"
+                    (onClick)="onSave()"></p-button>
+                  <p-button styleClass="p-button-sm p-button-secondary" icon="pi pi-times" pTooltip="Cancel"
+                    (onClick)="onCancle()"></p-button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- <div class="field col-12 md:col-2">
+              <div class="flex gap-2 justify-content-end">
+                <p-button styleClass="p-button-sm p-button-success" icon="pi pi-save" pTooltip="Save"></p-button>
+                <p-button styleClass="p-button-sm p-button-secondary" icon="pi pi-times" pTooltip="Cancel"></p-button>
+              </div>
+            </div> -->
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [ngClass]="{
+            'text-center': col.field == 'isReturnableProduct',
+            'text-right': col.field == 'totalCost'
+          }">
+              {{ col.header }}
+            </th>
+            <th class="text-center" *ngIf="isCanEdit">Action</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr>
+            <td *ngFor="let col of columns" [ngClass]="{
+            'bg-blue': rowIndex % 2 !== 0,
+            'text-center': col.field == 'isReturnableProduct',
+          }">
+              <ng-container *ngIf="col.field == 'createdAt'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] | date : "dd-MM-yyyy HH:mm" : "Asia/Colombo" }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'isReturnableProduct'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                <p-checkbox [binary]="true" [(ngModel)]="rowData.isReturnableProduct"
+                  [ngModelOptions]="{ standalone: true }" readonly="true"></p-checkbox>
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'enteredQuantity'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] + ' ' + rowData.enteredUnitOfMeasureCode }}
+              </ng-container>
+
+              <ng-container *ngIf="
+              col.field != 'createdAt' &&
+              col.field != 'enteredQuantity' &&
+              col.field != 'isReturnableProduct'
+            ">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] }}
+              </ng-container>
+            </td>
+            <td class="text-center w-2" [ngClass]="{
+                'bg-blue': rowIndex % 2 !== 0,
+              }" *ngIf="isCanEdit">
+              <div class="flex flex-wrap justify-content-center align-content-center gap-2">
+                <p-button pTooltip="Void Transaction" tooltipPosition="bottom" styleClass="p-button-danger"
+                  icon="pi pi-times-circle" (onClick)="onVoidTransaction(rowData)"></p-button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length + 2">
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 300px; width: 100%">
+                <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                <small class="">No Pos Transaction Found</small>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="field col-12" *ngIf="this.posDetails.isTripEndAuditDone">
+      <span class="text-2xl font-bold mt-3">Trip End Audit Summary</span>
+    </div>
+
+    <div class="field col-12" *ngIf="this.posDetails.isTripEndAuditDone">
+      <p-table #dt styleClass="" [columns]="auditEndCols" [value]="recodes" responsiveLayout="stack"
+        [breakpoint]="'960px'" dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines"
+        [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['productName']">
+
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-end align-items-center">
+            <p-iconField iconPosition="left" class="ml-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Search Transaction" styleClass="w-full md:w-10rem" />
+            </p-iconField>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [ngClass]="{
+            'text-center': col.field == 'isReturnableProduct',
+            'text-right': col.field == 'totalCost'
+          }">
+              {{ col.header }}
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr>
+            <td *ngFor="let col of columns" [ngClass]="{
+            'bg-blue': rowIndex % 2 !== 0,
+            'text-center': col.field == 'isReturnableProduct',
+          }">
+              <ng-container *ngIf="col.field == 'createdAt'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'isReturnableProduct'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                <p-checkbox [binary]="true" [(ngModel)]="rowData.isReturnableProduct"
+                  [ngModelOptions]="{ standalone: true }" readonly="true"></p-checkbox>
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'enteredQuantity'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] + ' ' + rowData.enteredUnitOfMeasureCode }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'returnedQuantity'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] + ' ' + rowData.returnedUnitOfMeasureCode }}
+              </ng-container>
+
+              <ng-container *ngIf="col.field == 'consiumedQuantity'">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] + ' ' + rowData.enteredUnitOfMeasureCode }}
+              </ng-container>
+
+              <ng-container *ngIf="
+              col.field != 'createdAt' &&
+              col.field != 'enteredQuantity' &&
+              col.field != 'isReturnableProduct' && col.field != 'returnedQuantity' && col.field != 'consiumedQuantity'
+            ">
+                <span class="p-column-title font-bold">{{ col.header }}</span>
+                {{ rowData[col.field] || '-' }}
+              </ng-container>
+            </td>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length + 2">
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 300px; width: 100%">
+                <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                <small class="">No Trip End Audit Transaction Found</small>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</form>
+
+
+
+<ng-template #templateRef>
+  <div class="flex justify-content-end align-items-center gap-2" *ngIf="isCanEdit">
+    <p-button label="Trip End Audit" icon="pi pi-briefcase" styleClass="p-button-sm p-button-info mb:p-button"
+      (onClick)="onClickTripEndAudit()"></p-button>
+  </div>
+</ng-template>
