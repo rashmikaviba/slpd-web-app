@@ -25,6 +25,7 @@ export class PosTransactionComponent implements OnInit {
   tripInfo: any = null;
   cols: any[] = [];
   recodes: any[] = [];
+  auditEndCols: any[] = [];
   products: any[] = [];
   isAddNewTransaction: boolean = false;
   selectedProduct: any = null;
@@ -60,6 +61,15 @@ export class PosTransactionComponent implements OnInit {
       { field: "isReturnableProduct", header: "Is Returnable" },
     ]
 
+    this.auditEndCols = [
+      { field: "createdAt", header: "Date" },
+      { field: "productName", header: "Product Name" },
+      { field: "enteredQuantity", header: "Quantity" },
+      { field: "isReturnableProduct", header: "Is Returnable" },
+      { field: "returnedQuantity", header: "Returned Quantity" },
+      { field: "consiumedQuantity", header: "Consiumed Quantity" },
+      { field: "notReturnedReason", header: "Not Returned Reason" },
+    ]
     this.loadInitialData();
   }
 
@@ -87,8 +97,6 @@ export class PosTransactionComponent implements OnInit {
         this.recodes = this.posDetails?.products;
 
         this.isCanEdit = this.tripInfo.status == WellKnownTripStatus.START && !this.posDetails.isTripEndAuditDone;
-
-        console.log(this.isCanEdit);
       }
 
       if (measureUnitResult.IsSuccessful) {
