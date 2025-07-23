@@ -1,3 +1,4 @@
+import { ProductAuditTrailComponent } from './product-management/product-audit-trail/product-audit-trail.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -45,7 +46,8 @@ import { AddGrnFormComponent } from './good-received-note/add-grn-form/add-grn-f
     ProductManagementComponent,
     GoodReceivedNoteComponent,
     AddProductFormComponent,
-    AddGrnFormComponent
+    AddGrnFormComponent,
+    ProductAuditTrailComponent
   ],
   imports: [
     CommonModule,

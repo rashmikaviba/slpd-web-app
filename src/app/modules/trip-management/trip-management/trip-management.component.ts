@@ -25,6 +25,8 @@ import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enum";
 import { TripSummaryComponent } from "../trip-summary/trip-summary.component";
 import { TripSummaryService } from "src/app/shared/services/api-services/trip-summary.service";
+import { PosService } from "src/app/shared/services/api-services/pos.service";
+import { PosTransactionComponent } from "./pos-transaction/pos-transaction.component";
 
 @Component({
   selector: "app-trip-management",
@@ -71,7 +73,8 @@ export class TripManagementComponent implements OnInit {
     private expenseService: ExpenseService,
     private formBuilder: UntypedFormBuilder,
     private masterDataService: MasterDataService,
-    private tripSummaryService: TripSummaryService
+    private tripSummaryService: TripSummaryService,
+    private posService: PosService
   ) {
     this.createForm();
   }
@@ -209,6 +212,14 @@ export class TripManagementComponent implements OnInit {
           this.onClickDestinationSummary(event.item.data);
         },
       },
+      {
+        id: 12,
+        label: "Pos Transaction",
+        icon: "pi pi-calculator",
+        command: (event: any) => {
+          this.onClickPosTransaction(event.item.data);
+        },
+      },
     ];
   }
 
@@ -248,7 +259,7 @@ export class TripManagementComponent implements OnInit {
           !rowData?.isMonthEndDone,
       },
       {
-        ids: [7, 11, 10],
+        ids: [7, 11, 10, 12],
         condition:
           rowData?.status === WellKnownTripStatus.START ||
           rowData?.status === WellKnownTripStatus.FINISHED,
@@ -407,7 +418,7 @@ export class TripManagementComponent implements OnInit {
     );
   }
 
-  exportToExcel() {}
+  exportToExcel() { }
 
   onClickAssignDriverAndVehicle(rowData: any) {
     let header = "Additional Information";
@@ -649,6 +660,28 @@ export class TripManagementComponent implements OnInit {
       this.sidebarService.addComponent(
         "", //Monthly Trip Report
         DestinationSummaryPrintComponent,
+        properties,
+        data
+      );
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async onClickPosTransaction(rowData: any) {
+    try {
+      let properties = {
+        width: "70vw",
+        position: "right",
+      };
+
+      let data = {
+        tripInfo: rowData,
+      };
+
+      this.sidebarService.addComponent(
+        `POS Transaction - ${rowData?.tripConfirmedNumber} `,
+        PosTransactionComponent,
         properties,
         data
       );
