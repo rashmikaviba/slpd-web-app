@@ -64,6 +64,8 @@ import { ExpenseRequestActionFormComponent } from "./expense-management/expense-
 import { DestinationSummaryPrintComponent } from "./trip-management/destination-summary-print/destination-summary-print.component";
 import { UpdatePaymentReceiptFormComponent } from "./expense-management/update-payment-receipt-form/update-payment-receipt-form.component";
 import { AddTripSummaryFormComponent } from "./trip-summary/add-trip-summary-form/add-trip-summary-form.component";
+import { PosTransactionComponent } from "./trip-management/pos-transaction/pos-transaction.component";
+import { TripEndPosAuditComponent } from "./trip-management/pos-transaction/trip-end-pos-audit/trip-end-pos-audit.component";
 
 @NgModule({
   declarations: [
@@ -89,6 +91,8 @@ import { AddTripSummaryFormComponent } from "./trip-summary/add-trip-summary-for
     UpdatePaymentReceiptFormComponent,
     TripSummaryComponent,
     AddTripSummaryFormComponent,
+    PosTransactionComponent,
+    TripEndPosAuditComponent
   ],
   imports: [
     CommonModule,
@@ -136,4 +140,4 @@ import { AddTripSummaryFormComponent } from "./trip-summary/add-trip-summary-for
     ImageModule,
   ],
 })
-export class TripManagementModule {}
+export class TripManagementModule { }
