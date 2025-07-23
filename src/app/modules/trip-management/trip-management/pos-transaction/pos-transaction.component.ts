@@ -96,7 +96,7 @@ export class PosTransactionComponent implements OnInit {
         this.posDetails = posResult.Result;
         this.recodes = this.posDetails?.products;
 
-        this.isCanEdit = this.tripInfo.status == WellKnownTripStatus.START && !this.posDetails.isTripEndAuditDone;
+        this.isCanEdit = this.tripInfo.status == WellKnownTripStatus.START && !this.posDetails?.isTripEndAuditDone;
       }
 
       if (measureUnitResult.IsSuccessful) {
