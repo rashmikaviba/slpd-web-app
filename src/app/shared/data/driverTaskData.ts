@@ -65,5 +65,17 @@ export const driverTaskData = {
       taskName: "Is the spare wheel checked and in good condition ?",
       status: 1,
     },
+    {
+      id: 13,
+      taskName: "Is a jack and tools available in the vehicle ?",
+      status: 1,
+    },
+    {
+      id: 14,
+      taskName: "Is a pressure motor available in the vehicle ?",
+      status: 1,
+    },
+
+
   ],
 };

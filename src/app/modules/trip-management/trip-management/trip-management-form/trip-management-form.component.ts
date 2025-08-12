@@ -40,7 +40,7 @@ export class TripManagementFormComponent {
     private messageService: AppMessageService,
     private tripMgtFlowService: TripManagementFlowService,
     private tripService: TripService
-  ) {}
+  ) { }
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
@@ -150,9 +150,14 @@ export class TripManagementFormComponent {
     // this.showingIndex = index;
   }
 
-  handleCancel() {}
+  handleCancel() {
+    this.tripMgtFlowService.clearData();
+    this.sidebarService.sidebarEvent.emit({
+      action: "clear",
+    });
+  }
 
-  handleUpdate(e: any) {}
+  handleUpdate(e: any) { }
 
   handleSave() {
     switch (this.showingIndex) {
@@ -253,5 +258,90 @@ export class TripManagementFormComponent {
 
         break;
     }
+  }
+
+
+  handleSaveEdit() {
+
+    let confirmationConfig = {
+      message:
+        "Are you sure you want to save the edited changes?",
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+    };
+
+    this.messageService.ConfirmPopUp(
+      confirmationConfig,
+      (isConfirm: boolean) => {
+        if (isConfirm) {
+
+          switch (this.showingIndex) {
+            case 0:
+              let generalInfo = this.generalInfoComponent.onSave();
+              if (generalInfo) {
+                this.tripMgtFlowService.setData(generalInfo);
+              }
+              break;
+            case 1:
+              let guestInfo = this.guestInfoComponent.onSaveAndMoveToNext();
+
+              if (guestInfo) {
+                this.tripMgtFlowService.setData({ passengers: guestInfo });
+              }
+              break;
+            case 2:
+              let tripInfo = this.tripInfoComponent.onSave();
+              if (tripInfo) {
+                this.tripMgtFlowService.setData({ places: tripInfo });
+              }
+              break;
+            case 3:
+              let otherInfo: any = this.otherInfoComponent.onSave();
+
+              if (otherInfo) {
+                if (otherInfo?.activities.length > 0) {
+                  this.tripMgtFlowService.setData({
+                    activities: otherInfo?.activities,
+                  });
+                } else {
+                  this.tripMgtFlowService.setData({
+                    activities: [],
+                  });
+                }
+
+                if (otherInfo?.hotels.length > 0) {
+                  this.tripMgtFlowService.setData({
+                    hotels: otherInfo?.hotels,
+                  });
+                } else {
+                  this.tripMgtFlowService.setData({
+                    hotels: [],
+                  });
+                }
+              }
+              break;
+          }
+
+          let request = this.tripMgtFlowService.getData();
+
+          if (request) {
+            if (this.isEdit) {
+              this.tripService
+                .UpdateTrip(this.tripId, request)
+                .subscribe((response) => {
+                  if (response.IsSuccessful) {
+                    this.messageService.showSuccessAlert(response.Message);
+                    this.sidebarService.sidebarEvent.emit({
+                      action: "refresh",
+                    });
+                  } else {
+                    this.messageService.showErrorAlert(response.Message);
+                  }
+                });
+            }
+          }
+        }
+      }
+    );
   }
 }

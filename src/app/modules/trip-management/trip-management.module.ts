@@ -40,6 +40,7 @@ import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
 import { DataViewModule } from "primeng/dataview";
 import { ImageModule } from "primeng/image";
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -137,6 +138,7 @@ import { TripEndPosAuditComponent } from "./trip-management/pos-transaction/trip
     SharedModule,
     NgxPrintModule,
     NgxPrintModule,
+    FloatLabelModule,
     ImageModule,
   ],
 })

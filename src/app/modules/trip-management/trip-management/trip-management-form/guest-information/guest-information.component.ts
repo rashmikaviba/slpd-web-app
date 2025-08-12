@@ -40,7 +40,7 @@ export class GuestInformationComponent {
     this.FV.formGroup = this.formBuilder.group({
       gender: ["", [Validators.required]],
       nationality: ["", [Validators.required]],
-      age: ["", [Validators.required, Validators.min(1), Validators.max(100)]],
+      age: ["", [Validators.required, Validators.min(0), Validators.max(100)]],
       guestName: ["", [Validators.required]],
     });
   }

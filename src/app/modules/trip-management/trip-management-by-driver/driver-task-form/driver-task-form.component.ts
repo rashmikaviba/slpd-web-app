@@ -20,6 +20,7 @@ export class DriverTaskFormComponent {
   tripInfo: any;
   isView: boolean = false;
   checkListInfo: any = null;
+  selectedVehicle: any = null;
   constructor(
     private apiConfigService: ApiConfigService,
     private messageService: AppMessageService,
@@ -40,9 +41,13 @@ export class DriverTaskFormComponent {
   }
 
   ngOnInit(): void {
+    debugger;
     let sideBarData = this.sidebarService.getData();
     this.tripInfo = sideBarData.tripInfo;
     this.checkListInfo = sideBarData.checkListInfo;
+    this.selectedVehicle = this.tripInfo.vehicles.find(
+      (x) => x.isActive
+    )
     this.isView = sideBarData.isView;
     // status 1 = pending, 2 = responded as yes and 3 = responded as no
     this.tasks = JSON.parse(JSON.stringify(driverTaskData));
