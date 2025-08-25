@@ -25,6 +25,9 @@ export class GuestInformationComponent {
   nationalities: any[] = nationalities;
   isView: boolean = false;
 
+  isEditGuest: boolean = false;
+  selectedGuestData: any = null;
+
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -67,6 +70,8 @@ export class GuestInformationComponent {
 
   onClickAddNewGuest() {
     this.FV.formGroup.reset();
+    this.isEditGuest = false;
+    this.selectedGuestData = null;
     this.isAddNewGuest = !this.isAddNewGuest;
   }
 
@@ -78,18 +83,35 @@ export class GuestInformationComponent {
 
     let formData = this.FV.formGroup.value;
 
-    let obj = {
-      _id: this.generateUniqueId(),
-      name: formData.guestName,
-      nationality: formData.nationality,
-      age: formData.age,
-      gender: formData.gender,
-    };
+    if (this.isAddNewGuest) {
+      let obj = {
+        _id: this.generateUniqueId(),
+        name: formData.guestName,
+        nationality: formData.nationality,
+        age: formData.age,
+        gender: formData.gender,
+      };
 
-    this.recodes.push(obj);
-    this.FV.formGroup.reset();
-    this.isAddNewGuest = !this.isAddNewGuest;
-    this.guestTable.reset();
+      this.recodes.push(obj);
+      this.FV.formGroup.reset();
+      this.isAddNewGuest = !this.isAddNewGuest;
+      this.guestTable.reset();
+    } else if (this.isEditGuest && this.selectedGuestData) {
+      let index = this.recodes.findIndex(
+        (x) => x._id == this.selectedGuestData._id
+      );
+
+      if (index != -1 && index < this.recodes.length) {
+        this.recodes[index].name = formData.guestName;
+        this.recodes[index].nationality = formData.nationality;
+        this.recodes[index].age = formData.age;
+        this.recodes[index].gender = formData.gender;
+      }
+      this.FV.formGroup.reset();
+      this.isEditGuest = !this.isEditGuest;
+      this.selectedGuestData = null;
+      this.guestTable.reset();
+    }
   }
 
   onClickDeleteGuest(id: string) {
@@ -113,6 +135,8 @@ export class GuestInformationComponent {
   onClickCancelGuest() {
     this.FV.formGroup.reset();
     this.isAddNewGuest = false;
+    this.isEditGuest = false;
+    this.selectedGuestData = null;
   }
 
   generateUniqueId() {
@@ -139,5 +163,19 @@ export class GuestInformationComponent {
     }
 
     return this.recodes;
+  }
+
+  onClickEditGuest(rowData: any) {
+    this.FV.formGroup.reset();
+    this.isEditGuest = true;
+    this.isAddNewGuest = false;
+    this.selectedGuestData = rowData;
+
+    this.FV.formGroup.patchValue({
+      guestName: rowData.name,
+      gender: rowData.gender,
+      nationality: rowData.nationality,
+      age: rowData.age,
+    });
   }
 }

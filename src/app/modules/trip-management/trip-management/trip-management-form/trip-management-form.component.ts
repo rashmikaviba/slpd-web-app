@@ -290,6 +290,7 @@ export class TripManagementFormComponent {
               }
               break;
             case 2:
+              debugger
               let tripInfo = this.tripInfoComponent.onSave();
               if (tripInfo) {
                 this.tripMgtFlowService.setData({ places: tripInfo });
@@ -322,6 +323,7 @@ export class TripManagementFormComponent {
               break;
           }
 
+          debugger;
           let request = this.tripMgtFlowService.getData();
 
           if (request) {
