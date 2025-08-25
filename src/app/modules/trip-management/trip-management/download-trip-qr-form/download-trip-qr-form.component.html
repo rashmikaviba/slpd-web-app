@@ -1,0 +1,15 @@
+<div class="flex flex-column gap-4">
+  <div class="qrcodeImage" #qrCanvas>
+    <qrcode [qrdata]="tripInfo" [allowEmptyString]="true" [cssClass]="'demoBorderRadius'" [colorDark]="'#000000'"
+      [colorLight]="'#ffffff'" [elementType]="'canvas'" [errorCorrectionLevel]="'M'"
+      [imageSrc]="'./assets/images/signin/qr-logo.png'" [imageHeight]="100" [imageWidth]="100" [margin]="3"
+      [scale]="128" [width]="300">
+    </qrcode>
+  </div>
+
+  <div class="flex justify-content-end align-items-end w-full">
+    <p-button (click)="downloadQRCode()" styleClass="p-button-success p-button-outlined" icon="pi pi-download"
+      label="Download QR">
+    </p-button>
+  </div>
+</div>

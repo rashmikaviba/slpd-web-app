@@ -281,4 +281,4 @@ import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

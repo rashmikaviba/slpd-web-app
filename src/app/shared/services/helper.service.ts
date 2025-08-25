@@ -1,6 +1,7 @@
 import { DatePipe } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { FilterService } from "primeng/api";
+import { gzip, ungzip } from 'pako';
 
 @Injectable({
   providedIn: "root",
@@ -363,6 +364,32 @@ export class HelperService {
     const randomStr = Math.random().toString(36).substring(2, 8);
 
     return `${prefix}${formattedTime}-${base36Time}-${randomStr}`;
+  }
+
+
+
+  jsonToBase64GzipCompress(obj: any): string {
+    const json = JSON.stringify(obj);
+    const input = new TextEncoder().encode(json);     // Uint8Array
+    const compressed: Uint8Array = gzip(input);       // gzip bytes
+
+    // Uint8Array -> base64 (chunked to avoid call stack issues)
+    let binary = '';
+    const chunk = 0x8000;
+    for (let i = 0; i < compressed.length; i += chunk) {
+      binary += String.fromCharCode(...compressed.subarray(i, i + chunk));
+    }
+    return btoa(binary);
+  }
+
+  base64GzipToJson<T = any>(b64: string): T {
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+    const decompressed: Uint8Array = ungzip(bytes);
+    const jsonStr = new TextDecoder().decode(decompressed);
+    return JSON.parse(jsonStr) as T;
   }
 
 }

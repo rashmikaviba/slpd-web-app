@@ -28,7 +28,12 @@
               "src/assets",
               "src/favicon.ico",
               "src/upload.php",
-              { "glob": "app.config.js", "input": "src/", "output": "./" }
+              { "glob": "app.config.js", "input": "src/", "output": "./" },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-scanner-qrcode/wasm/",
+                "output": "./assets/wasm/"
+              }
             ],
             "styles": [
               "src/styles.scss",

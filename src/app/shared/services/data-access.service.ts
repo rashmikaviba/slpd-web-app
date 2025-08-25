@@ -14,7 +14,12 @@ export class DataAccessService {
   constructor(
     private http: HttpClient,
     private masterData: MasterDataService
-  ) {}
+  ) { }
+
+
+  generateCorrilationId = (): string => {
+    return Array.from({ length: 20 }, () => Math.floor(Math.random() * 10)).join("");
+  }
 
   GET(url: string, spinner = true): Observable<AppResponse> {
     let responseModel = new AppResponse();
@@ -26,6 +31,8 @@ export class DataAccessService {
       "Authorization",
       this.masterData.SessionKey
     );
+
+    headers = headers.set("X-Correlation-ID", this.generateCorrilationId());
     return this.http.get<AppResponse>(url, { headers }).pipe(
       map((response) => {
         if (spinner) {
@@ -53,7 +60,7 @@ export class DataAccessService {
       "Authorization",
       this.masterData.SessionKey
     );
-
+    headers = headers.set("X-Correlation-ID", this.generateCorrilationId());
     return this.http.post<AppResponse>(url, body, { headers }).pipe(
       map((response) => {
         if (spinner) {
@@ -82,6 +89,7 @@ export class DataAccessService {
       "Authorization",
       this.masterData.SessionKey
     );
+    headers = headers.set("X-Correlation-ID", this.generateCorrilationId());
     return this.http.patch<AppResponse>(url, body, { headers }).pipe(
       map((response) => {
         if (spinner) {
@@ -110,6 +118,7 @@ export class DataAccessService {
       "Authorization",
       this.masterData.SessionKey
     );
+    headers = headers.set("X-Correlation-ID", this.generateCorrilationId());
     return this.http.put<AppResponse>(url, body, { headers }).pipe(
       map((response) => {
         if (spinner) {
@@ -137,6 +146,7 @@ export class DataAccessService {
       "Authorization",
       this.masterData.SessionKey
     );
+    headers = headers.set("X-Correlation-ID", this.generateCorrilationId());
     return this.http.delete<AppResponse>(url, { headers }).pipe(
       map((response) => {
         if (spinner) {
@@ -209,7 +219,7 @@ export class DataAccessService {
       "Authorization",
       this.masterData.SessionKey
     );
-
+    headers = headers.set("X-Correlation-ID", this.generateCorrilationId());
     return this.http.post<AppResponse>(url, params, { headers }).pipe(
       map((response) => {
         if (spinner) {
