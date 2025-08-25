@@ -1,0 +1,68 @@
+<!-- Scanner Header -->
+<div class="bg-primary-gradient p-1 text-white">
+  <!-- Camera View -->
+  <div class="relative bg-black-alpha-90" style="min-height: 400px;">
+    <!-- ngx-scanner-qrcode Component -->
+    <ngx-scanner-qrcode #action="scanner" [config]="config" (event)="onEvent($event, action)" class="w-full h-full">
+    </ngx-scanner-qrcode>
+
+    <!-- Control Buttons Overlay -->
+    <div class="absolute bottom-0 left-0 right-0 p-4 z-3">
+      <div class="flex align-items-center justify-content-center gap-3">
+
+        <!-- Play/Pause Button -->
+        <p-button [icon]="action.isPause ? 'pi pi-play' : 'pi pi-pause'"
+          [severity]="!action.isStart ? 'secondary' : action.isPause ? 'success' : 'warning'"
+          [disabled]="!action.isStart" (click)="handle(action, action.isPause ? 'play' : 'pause')"
+          class="p-button-rounded p-button-lg shadow-4"
+          [pTooltip]="action.isPause ? 'Resume scanning' : 'Pause scanning'" tooltipPosition="top">
+        </p-button>
+
+        <!-- Start/Stop Scanner -->
+        <p-button [icon]="action.isStart ? 'pi pi-stop-circle' : 'pi pi-play-circle'"
+          [severity]="action.isStart ? 'danger' : 'success'" (click)="action.isStart ? action.stop() : action.start()"
+          class="p-button-rounded p-button-lg p-button-outlined shadow-4" size="large"
+          [pTooltip]="action.isStart ? 'Stop scanner' : 'Start scanner'" tooltipPosition="top">
+        </p-button>
+
+        <!-- Torch Button -->
+        <p-button [icon]="action.isTorch ? 'pi pi-sun' : 'pi pi-moon'"
+          [severity]="!action.isStart ? 'secondary' : action.isTorch ? 'warning' : 'info'" [disabled]="!action.isStart"
+          (click)="action.isTorch = !action.isTorch; handle(action, 'torcher')"
+          class="p-button-rounded p-button-lg shadow-4" [pTooltip]="action.isTorch ? 'Turn off flash' : 'Turn on flash'"
+          tooltipPosition="top">
+        </p-button>
+      </div>
+    </div>
+
+    <!-- Device Switch Buttons (Alternative position - top left) -->
+    <div class="absolute top-0 left-0 p-3 z-2">
+      <div class="bg-black-alpha-60 border-round px-3 py-2">
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-video text-white text-sm"></i>
+          <div class="flex gap-1">
+            <p-button *ngFor="let device of action.devices.value; let i = index" [icon]="'pi pi-' + (i + 1)"
+              [severity]="i === action.deviceIndexActive ? 'info' : 'secondary'" size="small"
+              [outlined]="i !== action.deviceIndexActive" (click)="action.playDevice(device.deviceId)"
+              [pTooltip]="device.label" tooltipPosition="bottom" class="p-button-rounded text-xs">
+            </p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div class="absolute top-0 right-0 p-3 z-2">
+      <div class="bg-black-alpha-60 border-round px-3 py-2">
+        <div class="flex align-items-center gap-2 text-white text-sm">
+          <i class="pi pi-circle text-green-400 text-xs" *ngIf="action.isStart && !action.isPause"></i>
+          <i class="pi pi-circle text-yellow-400 text-xs" *ngIf="action.isStart && action.isPause"></i>
+          <i class="pi pi-circle text-gray-400 text-xs" *ngIf="!action.isStart"></i>
+          <span class="font-medium">
+            {{ action.isStart ? (action.isPause ? 'PAUSED' : 'LIVE') : 'OFFLINE' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

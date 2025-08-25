@@ -40,6 +40,9 @@ import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
 import { DataViewModule } from "primeng/dataview";
 import { ImageModule } from "primeng/image";
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { TripManagementFormComponent } from "./trip-management/trip-management-form/trip-management-form.component";
 import { GeneralInformationComponent } from "./trip-management/trip-management-form/general-information/general-information.component";
@@ -66,6 +69,12 @@ import { UpdatePaymentReceiptFormComponent } from "./expense-management/update-p
 import { AddTripSummaryFormComponent } from "./trip-summary/add-trip-summary-form/add-trip-summary-form.component";
 import { PosTransactionComponent } from "./trip-management/pos-transaction/pos-transaction.component";
 import { TripEndPosAuditComponent } from "./trip-management/pos-transaction/trip-end-pos-audit/trip-end-pos-audit.component";
+import { TripIdentifierComponent } from "./trip-management-by-driver/trip-identifier/trip-identifier.component";
+import { BadgeModule } from "primeng/badge";
+import { DownloadTripQrFormComponent } from "./trip-management/download-trip-qr-form/download-trip-qr-form.component";
+
+// Necessary to solve the problem of losing internet connection
+LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe();
 
 @NgModule({
   declarations: [
@@ -92,7 +101,9 @@ import { TripEndPosAuditComponent } from "./trip-management/pos-transaction/trip
     TripSummaryComponent,
     AddTripSummaryFormComponent,
     PosTransactionComponent,
-    TripEndPosAuditComponent
+    TripEndPosAuditComponent,
+    DownloadTripQrFormComponent,
+    TripIdentifierComponent
   ],
   imports: [
     CommonModule,
@@ -137,7 +148,11 @@ import { TripEndPosAuditComponent } from "./trip-management/pos-transaction/trip
     SharedModule,
     NgxPrintModule,
     NgxPrintModule,
+    FloatLabelModule,
     ImageModule,
+    BadgeModule,
+    QRCodeModule,
+    NgxScannerQrcodeModule
   ],
 })
 export class TripManagementModule { }

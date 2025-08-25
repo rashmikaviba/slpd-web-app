@@ -27,6 +27,7 @@ import { TripSummaryComponent } from "../trip-summary/trip-summary.component";
 import { TripSummaryService } from "src/app/shared/services/api-services/trip-summary.service";
 import { PosService } from "src/app/shared/services/api-services/pos.service";
 import { PosTransactionComponent } from "./pos-transaction/pos-transaction.component";
+import { DownloadTripQrFormComponent } from "./download-trip-qr-form/download-trip-qr-form.component";
 
 @Component({
   selector: "app-trip-management",
@@ -220,6 +221,14 @@ export class TripManagementComponent implements OnInit {
           this.onClickPosTransaction(event.item.data);
         },
       },
+      {
+        id: 13,
+        label: "Generate Trip QR",
+        icon: "pi pi-qrcode",
+        command: (event: any) => {
+          this.onClickGenerateTripQR(event.item.data);
+        },
+      },
     ];
   }
 
@@ -236,7 +245,7 @@ export class TripManagementComponent implements OnInit {
     const conditions = [
       { ids: [2], condition: true },
       {
-        ids: [1, 3],
+        ids: [1, 3, 13],
         condition:
           rowData?.status === WellKnownTripStatus.START ||
           rowData?.status === WellKnownTripStatus.PENDING,
@@ -688,5 +697,16 @@ export class TripManagementComponent implements OnInit {
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }
+  }
+
+  onClickGenerateTripQR(rowData: any) {
+    let data = {
+      tripInfo: rowData,
+    }
+
+    this.popupService
+      .OpenModel(DownloadTripQrFormComponent, { header: `Trip QR Code - (${rowData?.tripConfirmedNumber})`, width: '30vw', data })
+      .subscribe((result) => {
+      });
   }
 }

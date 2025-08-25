@@ -21,6 +21,7 @@ import { CommonForm } from "src/app/shared/services/app-common-form";
 import { UntypedFormBuilder, Validators } from "@angular/forms";
 import { TripSummaryComponent } from "../trip-summary/trip-summary.component";
 import { TripSummaryService } from "src/app/shared/services/api-services/trip-summary.service";
+import { TripIdentifierComponent } from "./trip-identifier/trip-identifier.component";
 
 @Component({
   selector: "app-trip-management-by-driver",
@@ -277,7 +278,7 @@ export class TripManagementByDriverComponent implements OnInit {
     );
   }
 
-  exportToExcel() {}
+  exportToExcel() { }
 
   onClickDriverTaskForm(rowData: any) {
     let data = {
@@ -408,5 +409,19 @@ export class TripManagementByDriverComponent implements OnInit {
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }
+  }
+
+  openTripIdentifierModel() {
+    this.popupService.OpenModel(
+      TripIdentifierComponent,
+      {
+        width: '40vw',
+        header: 'Trip Identifier',
+        data: null
+      }
+    ).subscribe((result) => {
+      if (result) {
+      }
+    });
   }
 }
