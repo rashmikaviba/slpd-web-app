@@ -80,7 +80,7 @@ export class DefaultLayoutNewComponent {
         labelForRoute: "Dashboard",
         isExpanded: false,
         isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminDashboard,
+          AppModule.SuperAdminDashboard, AppModule.AdminDashboard
         ]),
       },
       {

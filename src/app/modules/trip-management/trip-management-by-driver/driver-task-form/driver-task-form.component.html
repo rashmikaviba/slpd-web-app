@@ -133,16 +133,62 @@
         </ul>
       </div>
     </div>
-    <!-- <div class="col-12 mt-2">
-      <label class="text-xl font-bold">Umbrella Count:</label>
-      <p-inputNumber
-        [min]="0"
-        [max]="100"
-        formControlName="umbrellaCount"
-      ></p-inputNumber>
-    </div> -->
 
-    <div class="col-12 mt-2">
+    <div class="field col-12" *ngIf="(isView && vehicleImages.length > 0 || !isView)">
+      <hr />
+      <div class="mt-3">
+        <div class="flex justify-content-between align-items-center">
+          <label class="text-xl font-bold">Vehicle Damage</label>
+          <p-button icon="pi pi-camera" styleClass="p-button-primary p-button-outlined" *ngIf="!isView"
+            pTooltip="Upload Damage" tooltipPosition="right" (onClick)="openCameraView()"></p-button>
+        </div>
+
+        <div class="text-500 mb-3"></div>
+
+        <div *ngIf="!isView && vehicleImages.length == 0"
+          class="flex lg:align-items-start flex-column lg:flex-row p-4 bg-blue-100 border-round border-1 border-blue-300">
+          <div class="flex align-items-start">
+            <i class="pi pi-cloud-upload text-blue-900 text-2xl mr-3"></i>
+            <div class="mr-3 flex lg:align-items-start flex-column lg:flex-row">
+              <p class="m-0 p-0 text-blue-700 line-height-3">Vehicle damage images will be uploaded here (e.g.,
+                scratches, dents, broken lights, cracked windshield).</p>
+            </div>
+          </div>
+          <a pRipple (click)="openCameraView()"
+            class="flex align-items-center ml-auto no-underline text-blue-900 font-medium mt-3 lg:mt-0 cursor-pointer">
+            <span>Upload Damage</span>
+            <i class="pi pi-arrow-circle-down text-blue-900 ml-2"></i>
+          </a>
+        </div>
+
+        <ng-container *ngIf="vehicleImages.length > 0">
+          <div class="flex flex-wrap gap-3">
+            <ng-container *ngFor="let image of vehicleImages">
+              <div
+                class="surface-border border-2 border-round surface-card w-9rem h-9rem flex flex-column upload-btn-wrapper text-gray-400"
+                [ngClass]="
+                image.url
+                  ? 'border-2'
+                  : 'border-dashed justify-content-center align-items-center'
+              ">
+                <i class="pi pi-image text-2xl" *ngIf="!image.url"></i>
+                <div class="image-container">
+                  <p-image [src]="image.url" alt="Image" [preview]="true" *ngIf="image.url"></p-image>
+                  <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-danger remove-btn"
+                    pTooltip="Remove" tooltipPosition="right" *ngIf="!isView" (click)="removeImage(image.id)">
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mt-4">
       <label class="text-xl font-bold">Terms and Conditions:</label>
       <div class="flex gap-2 justify-content-start align-items-start mt-2">
         <p-checkbox [binary]="true" formControlName="isTermChecked1"></p-checkbox>

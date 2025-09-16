@@ -9,7 +9,7 @@ export class StoreService {
   constructor(
     private dataAccess: DataAccessService,
     private resource: ResourceService
-  ) {}
+  ) { }
 
   UploadImage(body: any, type: number) {
     var formData = new FormData();
@@ -24,7 +24,7 @@ export class StoreService {
   UploadMultipleImages(body: any[], type: number) {
     var formData = new FormData();
     body.forEach((element) => {
-      formData.append("file", element);
+      formData.append("files", element);
     });
 
     return this.dataAccess

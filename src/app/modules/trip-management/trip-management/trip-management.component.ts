@@ -60,6 +60,10 @@ export class TripManagementComponent implements OnInit {
       label: "Finished",
       value: 4,
     },
+    {
+      label: "Finalized Trips (Completed)",
+      value: 5,
+    }
   ];
   constructor(
     private sidebarService: SidebarService,

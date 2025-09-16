@@ -11,6 +11,7 @@ import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { ClientIpHandleService } from "src/app/shared/services/client-ip-handle.service";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
+import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enum";
 
 @Component({
   selector: "app-sign-in",
@@ -78,8 +79,16 @@ export class SignInComponent {
     this.transactionService.userLogin(request).subscribe((response) => {
       if (response.IsSuccessful) {
         this.messageService.showSuccessAlert(response.Message);
-        this.masterDataService.setUserData(response.Result);
-        this.router.navigate(["/dashboard"]);
+        let data: any = response.Result;
+        this.masterDataService.setUserData(data);
+
+        debugger;
+        if (data?.role === WellKnownUserRole.SUPERADMIN || data?.role === WellKnownUserRole.ADMIN) {
+          this.router.navigate(["/dashboard"]);
+        } else {
+          this.router.navigate(["/trip-management"]);
+        }
+
       } else {
         this.messageService.showErrorAlert(response.Message);
       }
