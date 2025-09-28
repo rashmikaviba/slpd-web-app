@@ -1,5 +1,5 @@
 import { firstValueFrom, Subscription } from "rxjs";
-import { NotificationService } from "./../../shared/services/api-services/notification.service";
+import { NotificationService } from "../../shared/services/api-services/notification.service";
 import { Component } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { SidebarService } from "src/app/shared/services/sidebar.service";

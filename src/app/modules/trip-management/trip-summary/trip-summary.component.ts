@@ -1,6 +1,6 @@
 import { CompanyInformation } from "src/app/shared/data/companyInformation";
-import { PopupService } from "./../../../shared/services/popup.service";
-import { SidebarService } from "./../../../shared/services/sidebar.service";
+import { PopupService } from "../../../shared/services/popup.service";
+import { SidebarService } from "../../../shared/services/sidebar.service";
 import { Component, OnInit } from "@angular/core";
 import { AddTripSummaryFormComponent } from "./add-trip-summary-form/add-trip-summary-form.component";
 import { TripSummaryService } from "src/app/shared/services/api-services/trip-summary.service";
@@ -27,7 +27,7 @@ export class TripSummaryComponent implements OnInit {
     private tripSummaryService: TripSummaryService,
     private messageService: AppMessageService,
     private masterDataService: MasterDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     let sidebarData = this.sidebarService.getData();

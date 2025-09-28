@@ -1,0 +1,193 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="flex justify-content-center">
+    <div class="p-3">
+      <!-- Header -->
+      <div class="bg-white border-round-xl shadow-2 mb-4 p-4">
+        <div class="flex justify-content-between align-items-center mb-3">
+          <div class="flex align-items-center gap-3">
+            <div class="bg-primary border-round-lg p-2">
+              <i class="pi pi-qrcode text-white text-xl"></i>
+            </div>
+            <div>
+              <h2 class="text-primary text-xl font-bold m-0">QR Scanned</h2>
+              <p class="text-500 text-sm m-0">Travel Agent Information</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-purple-50 to-blue-50 border-round-lg p-4">
+          <div class="grid">
+            <div class="col-12 md:col-8">
+              <div class="flex align-items-center gap-4 mb-4">
+                <!-- <div class="bg-purple-500 border-circle flex align-items-center justify-content-center"
+              style="width: 60px; height: 60px;">
+              <span class="text-white font-bold text-xl">SLPD</span>
+            </div> -->
+                <img src="assets/images/signin/qr-logo.png" alt="SLPD Logo" width="60" height="60"
+                  class="shadow-4 border-round-3xl" />
+                <div>
+                  <h4 class="font-bold text-900 text-xl m-0">{{ companyInformation.companyFullName }}</h4>
+                  <p class="text-600 text-sm m-0 mt-1">Professional Travel Services</p>
+                </div>
+              </div>
+
+              <div class="grid">
+                <div class="col-12 md:col-6">
+                  <div class="mb-3">
+                    <p class="text-600 text-sm mb-1">Business Address</p>
+                    <p class="text-900 font-semibold text-sm line-height-3 m-0">
+                      {{ companyInformation.addressline1 }}<br>
+                      {{ companyInformation.addressline2 }}<br>
+                    </p>
+                  </div>
+                </div>
+                <div class="col-12 md:col-6">
+                  <div class="mb-3">
+                    <p class="text-600 text-sm mb-1">Contact Information</p>
+                    <div class="flex align-items-center gap-2 mb-1">
+                      <i class="pi pi-phone text-purple-600"></i>
+                      <span class="text-900 font-semibold text-sm">{{ companyInformation?.phone }}</span>
+                    </div>
+                    <div class="flex align-items-center gap-2">
+                      <i class="pi pi-envelope text-purple-600"></i>
+                      <span class="text-900 font-semibold text-sm">{{ companyInformation?.email }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 md:col-4">
+              <div class="text-center">
+                <i class="pi pi-verified text-green-500 text-3xl mb-2"></i>
+                <p class="text-900 font-bold text-sm mb-1">VERIFIED AGENT</p>
+                <p class="text-600 text-xs m-0">Licensed Travel Services</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour Details Card -->
+      <div class="bg-white border-round-xl shadow-2 mb-4 p-4">
+        <div class="flex align-items-center gap-3 mb-4">
+          <div class="bg-blue-100 border-round-lg p-2">
+            <i class="pi pi-calendar text-blue-600 text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-900 font-bold text-lg m-0">TOUR CONFIRMATION</h3>
+            <p class="text-600 text-sm m-0">Booking Reference</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <div class="bg-primary-50 border-round-lg p-3">
+              <p class="text-primary font-semibold text-sm mb-1">TOUR ID</p>
+              <p class="text-900 font-bold text-xl m-0">{{ tripInfo?.tripConfirmedNumber }}</p>
+            </div>
+          </div>
+          <div class="col-12 md:col-6">
+            <div class="bg-orange-50 border-round-lg p-3">
+              <p class="text-orange-600 font-semibold text-sm mb-1">DURATION</p>
+              <p class="text-900 font-bold text-xl m-0">{{ tripInfo?.startDate | date : "MMMM d" : "Asia/Colombo" }} -
+                {{ tripInfo?.endDate | date : "longDate" : "Asia/Colombo" }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passenger Names Card -->
+      <div class="bg-white border-round-xl shadow-2 mb-4" *ngIf="tripInfo?.passengers?.length > 0">
+        <div class="p-4 border-bottom-1 border-200">
+          <div class="flex align-items-center gap-3">
+            <div class="bg-indigo-100 border-round-lg p-2">
+              <i class="pi pi-users text-indigo-600 text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-900 font-bold text-lg m-0">PASSENGERS</h3>
+              <p class="text-600 text-sm m-0">Guest Names</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="grid">
+
+            <ng-container *ngFor="let item of tripInfo?.passengers; let i=index">
+              <div class="col-12 md:col-6">
+                <div class="flex align-items-center gap-3 p-3 border-round-lg bg-green-50">
+                  <div class="bg-green-500 border-circle flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px;">
+                    <span class="text-white font-bold">
+                      <i class="pi pi-user"></i>
+                    </span>
+                  </div>
+                  <div>
+                    <p class="font-bold text-900 text-lg m-0">{{ item.name }}</p>
+                    <p class="text-green-600 text-sm mt-1">Guest {{ i + 1 }} ({{ item.nationality }})</p>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Contact Information Card -->
+      <div class="bg-white border-round-xl shadow-2 mb-4">
+        <div class="p-4 border-bottom-1 border-200">
+          <div class="flex align-items-center gap-3">
+            <div class="bg-green-100 border-round-lg p-2">
+              <i class="pi pi-phone text-green-600 text-lg"></i>
+            </div>
+            <div>
+              <h3 class="text-900 font-bold text-lg m-0">CONTACT PERSON</h3>
+              <p class="text-600 text-sm m-0">Emergency Contact Details</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="bg-gradient-to-r from-green-50 to-blue-50 border-round-lg p-4">
+            <div class="grid">
+              <div class="col-12 md:col-4 mb-3 md:mb-0">
+                <div class="text-center md:text-left">
+                  <p class="text-600 text-sm mb-2">Contact Name</p>
+                  <p class="font-bold text-900 text-lg m-0">{{ tripInfo?.contactPerson }}</p>
+                </div>
+              </div>
+              <!-- <div class="col-12 md:col-4 mb-3 md:mb-0" *ngIf="tripInfo?.phoneNumber">
+                <div class="text-center md:text-left">
+                  <p class="text-600 text-sm mb-2">WhatsApp / Viber</p>
+                  <div class="flex align-items-center justify-content-center md:justify-content-start gap-2">
+                    <i class="pi pi-whatsapp text-green-600"></i>
+                    <span class="font-semibold text-900">{{ tripInfo?.phoneNumber }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 md:col-4" *ngIf="tripInfo?.email">
+                <div class="text-center md:text-left">
+                  <p class="text-600 text-sm mb-2">Email</p>
+                  <div class="flex align-items-center justify-content-center md:justify-content-start gap-2">
+                    <i class="pi pi-envelope text-blue-600"></i>
+                    <span class="font-semibold text-900">{{ tripInfo?.email }}</span>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="text-center p-4">
+        <p class="text-500 text-sm m-0">
+          <i class="pi pi-shield-check mr-2"></i>
+          Scanned at {{ currentTime | date:'medium' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>

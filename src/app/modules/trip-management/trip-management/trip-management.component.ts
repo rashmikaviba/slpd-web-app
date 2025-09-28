@@ -53,7 +53,7 @@ export class TripManagementComponent implements OnInit {
       value: 1,
     },
     {
-      label: "Start",
+      label: "Started",
       value: 3,
     },
     {

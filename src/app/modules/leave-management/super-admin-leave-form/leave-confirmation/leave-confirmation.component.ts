@@ -44,7 +44,7 @@ export class LeaveConfirmationComponent {
     this.setData();
   }
 
-  onSubmit() {}
+  onSubmit() { }
 
   setData() {
     this.dateCount = this.leaveData.dateCount;
@@ -53,19 +53,19 @@ export class LeaveConfirmationComponent {
       leaveDates:
         this.leaveData.dateCount == 1
           ? `${this.datePipe.transform(
-              this.leaveData.startDate,
-              "dd-MM-yyyy",
-              "Asia/Colombo"
-            )}`
+            this.leaveData.startDate,
+            "dd-MM-yyyy",
+            "Asia/Colombo"
+          )}`
           : `${this.datePipe.transform(
-              this.leaveData.startDate,
-              "dd-MM-yyyy",
-              "Asia/Colombo"
-            )} - ${this.datePipe.transform(
-              this.leaveData.endDate,
-              "dd-MM-yyyy",
-              "Asia/Colombo"
-            )}`,
+            this.leaveData.startDate,
+            "dd-MM-yyyy",
+            "Asia/Colombo"
+          )} - ${this.datePipe.transform(
+            this.leaveData.endDate,
+            "dd-MM-yyyy",
+            "Asia/Colombo"
+          )}`,
       leaveReason: this.leaveData.reason,
     });
 

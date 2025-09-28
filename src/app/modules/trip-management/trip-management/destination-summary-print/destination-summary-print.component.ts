@@ -22,7 +22,7 @@ export class DestinationSummaryPrintComponent implements OnInit {
     private messageService: AppMessageService,
     private datePipe: DatePipe,
     private excelService: ExcelService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sidebarService.setFooterTemplate(this.templateRef);

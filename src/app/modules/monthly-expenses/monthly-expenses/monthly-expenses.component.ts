@@ -1,4 +1,4 @@
-import { MonthlyExpensesService } from './../../../shared/services/api-services/monthly-expenses.service';
+import { MonthlyExpensesService } from '../../../shared/services/api-services/monthly-expenses.service';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';

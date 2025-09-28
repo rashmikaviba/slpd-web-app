@@ -1,5 +1,5 @@
-import { PopupService } from './../../../../shared/services/popup.service';
-import { PosService } from './../../../../shared/services/api-services/pos.service';
+import { PopupService } from '../../../../shared/services/popup.service';
+import { PosService } from '../../../../shared/services/api-services/pos.service';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AppMessageService } from 'src/app/shared/services/app-message.service';

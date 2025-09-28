@@ -29,6 +29,7 @@ export class ResourceService {
   private GRN = "/grn";
   private MonthlyExpenses = this.host + "/monthlyExpenses";
   private Pos = this.host + "/pos";
+  private Dashboard = this.host + "/dashboard";
 
   auth = {
     login: this.Auth + "/login",
@@ -104,6 +105,7 @@ export class ResourceService {
     assignDriver: this.Trip + "/assignDriver",
     updateTripStatus: this.Trip,
     getTripForPrint: this.Trip + "/tripForPrint",
+    getTripForQR: this.Trip + "/tripForQrCode",
     getHotelsAndActivities: this.Trip + "/hotelsAndActivities",
     updateHotelActivityPayment: this.Trip + "/updateHotelActivityPayment",
 
@@ -199,5 +201,11 @@ export class ResourceService {
     voidProduct: this.Pos + "/voidPosProduct",
     tripEndAudit: this.Pos + "/tripEndAudit",
     getPosByTrip: this.Pos + "/getPosByTrip"
+  }
+
+  dashboard = {
+    getInventorySummary: this.Dashboard + "/inventorySummary",
+    getDashboardstats: this.Dashboard + "/getDashboardstats",
+    getMonthlyIncomeExpense: this.Dashboard + "/monthlyIncomeExpense",
   }
 }

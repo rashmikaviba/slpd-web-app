@@ -19,7 +19,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     private masterData: MasterDataService,
     private router: Router,
     private messageService: AppMessageService
-  ) {}
+  ) { }
 
   intercept(
     request: HttpRequest<any>,

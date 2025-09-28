@@ -113,7 +113,7 @@ export class UpdatePaymentReceiptFormComponent implements OnInit {
     }
   }
 
-  onChangeDate() {}
+  onChangeDate() { }
 
   openUploadDialog() {
     let header = "Capture ";

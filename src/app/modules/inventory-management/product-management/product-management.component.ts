@@ -1,5 +1,5 @@
 import { AppComponent } from 'src/app/app.component';
-import { PopupService } from './../../../shared/services/popup.service';
+import { PopupService } from '../../../shared/services/popup.service';
 import { Component } from '@angular/core';
 import { AddProductFormComponent } from './add-product-form/add-product-form.component';
 import { SidebarService } from 'src/app/shared/services/sidebar.service';

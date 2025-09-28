@@ -13,6 +13,7 @@ import { SidebarService } from "src/app/shared/services/sidebar.service";
 })
 export class TripManagementPrintComponent {
   @ViewChild("templateRef", { static: true }) templateRef: TemplateRef<any>;
+  isAuditReport: boolean = false;
   hotelName: any;
   poPrintDetails: any;
   ResName: any;
@@ -36,7 +37,7 @@ export class TripManagementPrintComponent {
     private messageService: AppMessageService,
     private datePipe: DatePipe,
     private masterDataService: MasterDataService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.role = this.masterDataService.Role;

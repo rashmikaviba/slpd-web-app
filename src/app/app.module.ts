@@ -122,6 +122,7 @@ import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { reducers } from "./store/app.reducer";
 import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management/vehicle-management.component";
+import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -245,6 +246,7 @@ import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle
     DefaultDashboardComponent,
     NotificationsComponent,
     VehicleManagementComponent,
+    QrInfoComponent,
     // TripManagementComponent,
     // TripManagementFormComponent,
     // AddDriverAndVehicleFormComponent,

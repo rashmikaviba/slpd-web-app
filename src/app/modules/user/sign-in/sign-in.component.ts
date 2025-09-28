@@ -1,5 +1,5 @@
-import { NotificationService } from "./../../../shared/services/api-services/notification.service";
-import { PopupService } from "./../../../shared/services/popup.service";
+import { NotificationService } from "../../../shared/services/api-services/notification.service";
+import { PopupService } from "../../../shared/services/popup.service";
 import { AppComponent } from "./../../../app.component";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { Component, OnInit } from "@angular/core";

@@ -8,7 +8,7 @@ import { Keepalive } from "@ng-idle/keepalive";
 import { MasterDataService } from "./shared/services/master-data.service";
 import { PopupService } from "./shared/services/popup.service";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
-import { Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -39,7 +39,8 @@ export class AppComponent {
     private keepalive: Keepalive,
     private masterDataService: MasterDataService,
     private popupService: PopupService,
-    private router: Router
+    private router: Router,
+    private activateRoute: ActivatedRoute
   ) {
     this.configureIdle();
   }
@@ -59,6 +60,8 @@ export class AppComponent {
     });
 
     this.checkScreenWidth();
+
+
   }
 
   @HostListener("window:resize", ["$event"])
@@ -127,12 +130,23 @@ export class AppComponent {
 
     let timeOut = this.masterDataService.TimedOut;
     let token = this.masterDataService.SessionKey;
+    let inQrRoute = false;
 
-    if (token && timeOut == "true") {
-      this.promptLogin();
-    } else {
-      this.reset();
-    }
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (event.urlAfterRedirects.startsWith('/qr-invoice')) {
+          inQrRoute = true;
+        }
+
+        if (token && timeOut == "true" && !inQrRoute) {
+          this.promptLogin();
+        } else {
+          this.reset();
+        }
+      }
+    });
+
+
   }
 
   promptLogin() {

@@ -21,7 +21,7 @@ export class PendingLeaveComponent implements OnInit {
     private monthAditService: MonthAditService,
     private popupService: PopupService,
     private leaveService: LeaveService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cols = [

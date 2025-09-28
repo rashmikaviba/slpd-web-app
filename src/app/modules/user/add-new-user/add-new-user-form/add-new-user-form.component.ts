@@ -40,7 +40,7 @@ export class AddNewUserFormComponent {
     private messageService: AppMessageService,
     private storeService: StoreService,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     let sideBarData = this.sidebarService.getData();
