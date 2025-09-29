@@ -24,7 +24,7 @@ export class PendingTripComponent implements OnInit {
     private tripService: TripService,
     private expenseService: ExpenseService,
     private popupService: PopupService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cols = [

@@ -53,13 +53,17 @@ export class TripManagementComponent implements OnInit {
       value: 1,
     },
     {
-      label: "Start",
+      label: "Started",
       value: 3,
     },
     {
       label: "Finished",
       value: 4,
     },
+    {
+      label: "Finalized Trips (Completed)",
+      value: 5,
+    }
   ];
   constructor(
     private sidebarService: SidebarService,

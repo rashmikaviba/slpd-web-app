@@ -53,7 +53,7 @@ export class ExpenseManagementComponent {
     private tripService: TripService,
     private expenseService: ExpenseService,
     private masterDataService: MasterDataService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userRole = this.masterDataService.Role;
@@ -294,7 +294,7 @@ export class ExpenseManagementComponent {
 
     this.popupService
       .OpenModel(ExpenseRequestFormComponent, { header, width, data })
-      .subscribe((result) => {});
+      .subscribe((result) => { });
   }
 
   // Hotels and Activities Payments

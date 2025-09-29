@@ -1,5 +1,280 @@
-<div class="text-2xl font-semibold">Dashboard</div>
-<div
+<form [formGroup]="FV.formGroup">
+  <div class="flex flex-wrap justify-content-between align-items-center mb-4">
+    <div class="text-2xl font-semibold">Dashboard</div>
+    <p-calendar selectionMode="range" [readonlyInput]="true" formControlName="dateRange"
+      (onSelect)="onChangeDateRange()" />
+  </div>
+
+  <div class="grid formgrid p-fluid">
+    <!-- <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Pending Trips</span>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.finishedTripsCount || 0) }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-hourglass text-blue-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Started Trips</span>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.finishedTripsCount || 0) }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-forward text-blue-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Finished Trips</span>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.finishedTripsCount || 0) }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-check-circle text-blue-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Available Drivers / Vehicles</span>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.availableDriversCount || 0)
+              }}/{{(dashboardStats?.availableVehiclesCount || 0) }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-user text-orange-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Revenue (Income)</span>
+            <div class="text-900 font-bold text-2xl"> LKR {{ (dashboardStats?.totalIncome || 0) | currency : "":""}}
+            </div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-wallet text-cyan-500 text-xl"></i>
+          </div>
+        </div>
+
+        <!-- <span class="text-500">Revenue = </span>
+        <span class="text-green-500 font-medium">Total of trip revenues </span> -->
+      </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Expenses</span>
+            <div class="text-900 font-bold text-2xl">LKR {{ (dashboardStats?.totalExpenses || 0) | currency : "":""}}
+            </div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-money-bill text-purple-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- 
+        <span class="text-500">Expenses = </span>
+        <span class="text-green-500 font-medium">Trip Expenses + Monthly Expenses + Driver Salaries </span> -->
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Net Profit</span>
+            <div class="text-900 font-bold text-2xl">LKR {{ (netProfit || 0) | currency : "":""}}
+            </div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-green-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-chart-line text-green-500 text-xl"></i>
+          </div>
+        </div>
+
+        <!-- <span class="text-500">Net Profit = </span>
+        <span class="text-green-500 font-medium">Total Income - Total Expenses </span> -->
+
+      </div>
+    </div>
+
+
+    <div class="col-12 md:col-6 mb-3">
+      <div class="surface-card shadow-2 border-round p-4 h-full">
+        <div class="flex align-items-center justify-content-between mb-4">
+          <div class="text-900 font-medium text-xl">Trip Summary</div>
+
+          <p-dropdown id="tripStatus" [options]="status" optionLabel="name" optionValue="value" placeholder="Status"
+            formControlName="status" styleClass="w-12rem" (onChange)="getTripSummary()"></p-dropdown>
+        </div>
+
+        <ul class="list-none p-0 m-0 h-25rem overflow-y-auto">
+          <ng-container
+            *ngIf="tripSummary.length == 0 || tripSummary == undefined || tripSummary == null || tripSummary.length == undefined">
+            <div class="flex flex-column justify-content-center align-items-center gap-2"
+              style="height: 300px; width: 100%">
+              <i class="pi pi-inbox text-7xl text-gray-400"></i>
+              <small class="">No {{FV.getValue('status') == 1 ? 'Pending' : 'Started'}} Trip Found</small>
+            </div>
+          </ng-container>
+
+
+          <ng-container *ngFor="let item of tripSummary">
+            <ng-container *ngIf="item.status == 1">
+              <li
+                class="flex flex-column md:flex-row md:align-items-center md:justify-content-between p-3 border-1 mb-3 bg-gray-50 border-gray-500 hover:shadow-2 cursor-pointer"
+                style="border-radius: 10px;">
+                <div>
+                  <div>
+                    <span
+                      class="inline-flex justify-content-center align-items-center w-2rem h-2rem border-circle border-1 border-gray-200">
+                      <i class="pi pi-hourglass text-gray-700"></i>
+                    </span>
+                    <span class="text-gray-700 font-bold ml-2">{{ item?.tripConfirmedNumber }}
+                      ({{ item?.contactPerson }})</span>
+                  </div>
+                  <p class="text-gray-700 mt-2 mb-0"> Date : <span class="font-medium">{{ item?.startDate | date :
+                      'dd-MM-yyyy'
+                      }} - {{ item?.endDate | date : 'dd-MM-yyyy' }}</span></p>
+                </div>
+                <div class="flex align-items-center justify-content-between md:justify-content-end mt-3 md:mt-0">
+                  <span class="bg-gray-400 text-gray-900 font-bold text-sm py-1 px-2 md:hidden"
+                    style="border-radius: 10px">PENDING</span>
+                  <div class="text-right ml-3">
+                    <span class="text-gray-700 font-bold">{{ item?.drivers[0]?.driverName || 'N/A' }} &nbsp; <span
+                        class="font-medium pi pi-user"></span></span>
+                    <p class="mt-1 mb-0 text-gray-700">{{ item?.vehicles[0]?.registrationNumber || 'N/A' }} &nbsp; <span
+                        class="font-medium pi pi-car"></span></p>
+                  </div>
+                </div>
+              </li>
+            </ng-container>
+
+            <ng-container *ngIf="item.status == 3">
+              <li
+                class="flex flex-column md:flex-row md:align-items-center md:justify-content-between p-3 border-1 mb-3 bg-cyan-50 border-cyan-500 hover:shadow-2 cursor-pointer"
+                style="border-radius: 10px;">
+                <div>
+                  <div>
+                    <span
+                      class="inline-flex justify-content-center align-items-center w-2rem h-2rem border-circle border-1 border-cyan-200">
+                      <i class="pi pi-car text-cyan-600"></i>
+                    </span>
+                    <span class="text-cyan-700 font-bold ml-2">{{ item?.tripConfirmedNumber }}
+                      ({{ item?.contactPerson }})</span>
+                  </div>
+                  <p class="text-cyan-700 mt-2 mb-0"> Date : <span class="font-medium">{{ item?.startDate | date :
+                      'dd-MM-yyyy'
+                      }} - {{ item?.endDate | date : 'dd-MM-yyyy' }}</span></p>
+                </div>
+                <div class="flex align-items-center justify-content-between md:justify-content-end mt-3 md:mt-0">
+                  <span class="bg-cyan-400 text-cyan-900 font-bold text-sm py-1 px-2 md:hidden"
+                    style="border-radius: 10px">STARTED</span>
+                  <div class="text-right ml-3">
+                    <span class="text-cyan-700 font-bold">{{ item?.drivers[0]?.driverName || 'N/A' }} &nbsp; <span
+                        class="font-medium pi pi-user"></span></span>
+                    <p class="mt-1 mb-0 text-cyan-700">{{ item?.vehicles[0]?.registrationNumber || 'N/A' }} &nbsp; <span
+                        class="font-medium pi pi-car"></span></p>
+                  </div>
+                </div>
+              </li>
+            </ng-container>
+          </ng-container>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 mb-3">
+      <div class="surface-card shadow-2 border-round p-4">
+        <div class="flex align-items-center justify-content-between mb-4">
+          <div class="text-900 font-medium text-xl">Inventory Summary ({{ today | date: 'dd-MM-yyyy' }})</div>
+        </div>
+
+        <ul class="list-none p-0 m-0 flex flex-column gap-3 h-26rem overflow-y-auto">
+
+          <ng-container *ngFor="let item of inventorySummary">
+            <ng-container
+              *ngIf="inventorySummary.length == 0 || inventorySummary == undefined || inventorySummary == null || inventorySummary.length == undefined">
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 300px; width: 100%">
+                <i class="pi pi-inbox text-7xl text-gray-400"></i>
+                <small class="">No Inventory Found</small>
+              </div>
+            </ng-container>
+
+            <li class="flex justify-content-between align-items-center border-bottom-1 surface-border pb-2">
+              <span class="text-lg font-medium text-700">
+                ({{ item?.productShortCode }}) - {{ item?.productName }}
+              </span>
+              <span class="text-2xl font-bold text-primary">{{ item?.inventory }} <span
+                  class="text-sm text-600 font-normal">{{ item?.measureUnitDetails?.name }}</span></span>
+            </li>
+          </ng-container>
+        </ul>
+        <div class="grid formgrid p-fluid">
+          <ng-container *ngFor="let item of inventorySummary">
+
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Daily Income expense -->
+    <div class="col-12 md:col-6 mb-3">
+      <div class="surface-card shadow-2 border-round p-4">
+        <div class="flex align-items-center justify-content-between mb-4">
+          <div class="text-900 font-medium text-xl">Monthly Income & Expenses</div>
+
+          <p-calendar formControlName="yearPickerIncomeExpense" view="year" dateFormat="yy"
+            (onSelect)="onChangeIncomeExpenseYear()" />
+        </div>
+
+        <p-chart type="bar" [data]="monthlyIEData" [options]="monthlyIEOptions" height="400px" />
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 mb-3">
+      <div class="surface-card shadow-2 border-round p-4">
+        <div class="flex align-items-center justify-content-between mb-4">
+          <div class="text-900 font-medium text-xl">Monthly Profit</div>
+
+          <p-calendar formControlName="yearPickerProfit" view="year" dateFormat="yy"
+            (onSelect)="onChangeProfitYear()" />
+        </div>
+
+        <p-chart type="line" [data]="monthlyProfitData" [options]="monthlyProfitOptions" height="400px" />
+      </div>
+    </div>
+  </div>
+</form>
+<!-- <div
   class="surface-section flex align-items-center justify-content-center w-full mb:w-full mmin-h-screen"
 >
   <video
@@ -15,4 +290,4 @@
       type="video/webm"
     />
   </video>
-</div>
+</div> -->

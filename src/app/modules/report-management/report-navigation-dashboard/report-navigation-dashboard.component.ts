@@ -1,4 +1,4 @@
-import { CommonForm } from "./../../../shared/services/app-common-form";
+import { CommonForm } from "../../../shared/services/app-common-form";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { reportData } from "src/app/shared/data/reportData";

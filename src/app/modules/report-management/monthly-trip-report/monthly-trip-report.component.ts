@@ -19,7 +19,7 @@ export class MonthlyTripReportComponent {
     private sidebarService: SidebarService,
     private messageService: AppMessageService,
     private datePipe: DatePipe
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.sidebarService.setFooterTemplate(this.templateRef);

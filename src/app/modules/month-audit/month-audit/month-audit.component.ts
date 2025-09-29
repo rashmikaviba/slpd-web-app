@@ -15,7 +15,7 @@ export class MonthAuditComponent implements OnInit {
   private pendingLeaveComponent!: PendingLeaveComponent;
   @ViewChild(PendingTripComponent)
   private PendingTripComponent!: PendingTripComponent;
-  constructor(private massageService: AppMessageService) {}
+  constructor(private massageService: AppMessageService) { }
 
   ngOnInit() {
     this.tabNavItems = [

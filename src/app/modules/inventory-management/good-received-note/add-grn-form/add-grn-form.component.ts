@@ -1,6 +1,6 @@
-import { HelperService } from './../../../../shared/services/helper.service';
+import { HelperService } from '../../../../shared/services/helper.service';
 import { DatePipe } from '@angular/common';
-import { GrnService } from './../../../../shared/services/api-services/grn.service';
+import { GrnService } from '../../../../shared/services/api-services/grn.service';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { firstValueFrom, forkJoin, of } from 'rxjs';

@@ -350,41 +350,41 @@ export class GeneralInformationComponent {
       estimatedExpense: formData?.estimatedCost || 0,
       arrivalInfo: isArrivalAdded
         ? {
-            arrivalDate: formData?.arrivalDate,
-            arrivalTime: new Date(
-              formData?.arrivalDate + " " + formData?.arrivalTime
-            ),
-            arrivalFlightNumber: formData?.arrivalFlightNumber,
-          }
+          arrivalDate: formData?.arrivalDate,
+          arrivalTime: new Date(
+            formData?.arrivalDate + " " + formData?.arrivalTime
+          ),
+          arrivalFlightNumber: formData?.arrivalFlightNumber,
+        }
         : null,
       departureInfo: isDepartureAdded
         ? {
-            departureDate: formData?.departureDate,
-            departureTime: new Date(
-              formData?.departureDate + " " + formData?.departureTime
-            ),
-            departureFlightNumber: formData?.departureFlightNumber,
-          }
+          departureDate: formData?.departureDate,
+          departureTime: new Date(
+            formData?.departureDate + " " + formData?.departureTime
+          ),
+          departureFlightNumber: formData?.departureFlightNumber,
+        }
         : null,
       pickUpInfo: isPickupAdded
         ? {
-            pickupDate: formData?.pickUpDate,
-            pickupTime: new Date(
-              formData?.pickUpDate + " " + formData?.pickUpTime
-            ),
-            pickupCity: formData?.pickUpCity,
-            pickupAddress: formData?.pickUpAddress,
-          }
+          pickupDate: formData?.pickUpDate,
+          pickupTime: new Date(
+            formData?.pickUpDate + " " + formData?.pickUpTime
+          ),
+          pickupCity: formData?.pickUpCity,
+          pickupAddress: formData?.pickUpAddress,
+        }
         : null,
       dropOffInfo: isDropOffAdded
         ? {
-            dropOffDate: formData?.dropOffDate,
-            dropOffTime: new Date(
-              formData?.dropOffDate + " " + formData?.dropOffTime
-            ),
-            dropOffCity: formData?.dropOffCity,
-            dropOffAddress: formData?.dropOffAddress,
-          }
+          dropOffDate: formData?.dropOffDate,
+          dropOffTime: new Date(
+            formData?.dropOffDate + " " + formData?.dropOffTime
+          ),
+          dropOffCity: formData?.dropOffCity,
+          dropOffAddress: formData?.dropOffAddress,
+        }
         : null,
       email: formData?.email,
       phoneNumber: formData?.mobile,

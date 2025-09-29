@@ -1,5 +1,5 @@
 import { firstValueFrom, Subscription } from "rxjs";
-import { NotificationService } from "./../../shared/services/api-services/notification.service";
+import { NotificationService } from "../../shared/services/api-services/notification.service";
 import { Component } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
@@ -80,7 +80,7 @@ export class DefaultLayoutNewComponent {
         labelForRoute: "Dashboard",
         isExpanded: false,
         isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminDashboard,
+          AppModule.SuperAdminDashboard, AppModule.AdminDashboard
         ]),
       },
       {
@@ -305,7 +305,7 @@ export class DefaultLayoutNewComponent {
         });
       }
 
-      console.log(element.labelForRoute.toLowerCase().replace(/\s+/g, "-"));
+      // console.log(element.labelForRoute.toLowerCase().replace(/\s+/g, "-"));
       if (
         routeModule == "trip-management" &&
         this.masterDataService.Role == WellKnownUserRole.DRIVER

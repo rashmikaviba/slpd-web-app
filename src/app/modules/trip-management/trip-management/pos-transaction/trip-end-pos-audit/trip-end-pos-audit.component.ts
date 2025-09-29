@@ -1,7 +1,7 @@
-import { PosService } from './../../../../../shared/services/api-services/pos.service';
+import { PosService } from '../../../../../shared/services/api-services/pos.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AppMessageService } from 'src/app/shared/services/app-message.service';
-import { PopupService } from './../../../../../shared/services/popup.service';
+import { PopupService } from '../../../../../shared/services/popup.service';
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CommonForm } from 'src/app/shared/services/app-common-form';

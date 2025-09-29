@@ -9,7 +9,7 @@ export class TripService {
   constructor(
     private dataAccess: DataAccessService,
     private resource: ResourceService
-  ) {}
+  ) { }
 
   SaveTrip(body: any) {
     return this.dataAccess
@@ -27,7 +27,7 @@ export class TripService {
     return this.dataAccess
       .GET(
         this.resource.trip.getAllTrips +
-          `?status=${status}&startDate=${startDate}&endDate=${endDate}`
+        `?status=${status}&startDate=${startDate}&endDate=${endDate}`
       )
       .pipe((response) => {
         return response;
@@ -105,7 +105,7 @@ export class TripService {
     return this.dataAccess
       .PUT(
         this.resource.trip.updatePlaceAsMarked +
-          `/${tripId}/markAsReached/${placeId}`,
+        `/${tripId}/markAsReached/${placeId}`,
         body
       )
       .pipe((response) => {
@@ -116,6 +116,14 @@ export class TripService {
   GetTripForPrintByTripId(tripId: string) {
     return this.dataAccess
       .GET(this.resource.trip.getTripForPrint + `/${tripId}`)
+      .pipe((response) => {
+        return response;
+      });
+  }
+
+  GetTripForQRByTripId(tripId: string) {
+    return this.dataAccess
+      .GET(this.resource.trip.getTripForQR + `/${tripId}`)
       .pipe((response) => {
         return response;
       });

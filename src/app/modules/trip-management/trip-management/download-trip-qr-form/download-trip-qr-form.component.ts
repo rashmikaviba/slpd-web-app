@@ -1,7 +1,8 @@
-import { HelperService } from './../../../../shared/services/helper.service';
+import { HelperService } from '../../../../shared/services/helper.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-download-trip-qr-form',
@@ -19,11 +20,9 @@ export class DownloadTripQrFormComponent implements OnInit {
 
   ngOnInit() {
     this.tripNo = this.config.data?.tripInfo?.tripConfirmedNumber || '';
-    let tripData = {
-      id: this.config.data.tripInfo.id
-    }
 
-    this.tripInfo = this.helperService.jsonToBase64GzipCompress(tripData);
+    let encriptedTripId = this.helperService.jsonToBase64GzipCompress(this.config.data.tripInfo.id);
+    this.tripInfo = `${environment.appDomain}/#/qr-invoice/${encriptedTripId}`;
   }
 
   downloadQRCode() {

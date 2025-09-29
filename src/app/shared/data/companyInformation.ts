@@ -7,6 +7,7 @@
 
 export const CompanyInformation = {
   companyName: "SLPD PVT LTD",
+  companyFullName: "Sri Lankan Personal Drivers (PVT) LTD",
   addressline1: "No. 284,Level 2, Orex City Shopping Complex,",
   addressline2: "Ekala Sri Lanka.",
   phone: "+94715213123",

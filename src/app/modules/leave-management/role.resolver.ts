@@ -19,7 +19,7 @@ export class RoleResolver implements Resolve<any> {
   constructor(
     private router: Router,
     private masterDataService: MasterDataService
-  ) {}
+  ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,

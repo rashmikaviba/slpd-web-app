@@ -1,4 +1,4 @@
-import { HelperService } from './../../../../shared/services/helper.service';
+import { HelperService } from '../../../../shared/services/helper.service';
 import { AfterViewInit, Component, OnInit, Output, ViewChild } from '@angular/core';
 import { NgxScannerQrcodeComponent, NgxScannerQrcodeService, ScannerQRCodeConfig, ScannerQRCodeDevice, ScannerQRCodeResult, ScannerQRCodeSelectedFiles } from 'ngx-scanner-qrcode';
 import { EventEmitter } from '@angular/core';
@@ -58,15 +58,19 @@ export class TripIdentifierComponent implements AfterViewInit {
       return str;
     }
 
+    debugger
     try {
-      this.qrResultString = this.helperService.base64GzipToJson(binArrayToString(e[0].data));
+
+      let encryptedId = binArrayToString(e[0].data).split('/qr-invoice/')[1];
+
+      this.qrResultString = this.helperService.base64GzipToJson(encryptedId);
     } catch (error) {
       this.qrResultString = null;
       this.messageService.showErrorAlert('Invalid QR Code');
       return;
     }
 
-    if (this.qrResultString?.id && this.checkMongoDBId(this.qrResultString.id)) {
+    if (this.qrResultString && this.checkMongoDBId(this.qrResultString)) {
       this.ref.close();
       this.onClickPrint(this.qrResultString);
     } else {
@@ -101,9 +105,9 @@ export class TripIdentifierComponent implements AfterViewInit {
     }
   }
 
-  onClickPrint(rowData: any) {
+  onClickPrint(id: string) {
     try {
-      this.tripService.GetTripForPrintByTripId(rowData?.id).subscribe((response) => {
+      this.tripService.GetTripForPrintByTripId(id).subscribe((response) => {
         if (response.IsSuccessful) {
           let data = response.Result;
 

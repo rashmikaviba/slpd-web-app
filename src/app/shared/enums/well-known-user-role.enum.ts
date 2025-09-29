@@ -4,4 +4,6 @@ export enum WellKnownUserRole {
   DRIVER = 3,
   FINANCEOFFICER = 4,
   TRIPMANAGER = 5,
+  DRIVERASSISTANT = 6,
+  TRIPASSISTANT = 7,
 }

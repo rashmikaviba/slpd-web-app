@@ -6,4 +6,5 @@
 export const environment = {
   production: false,
   apiURL: "http://server-url",
+  appDomain: "http://app-domain",
 };

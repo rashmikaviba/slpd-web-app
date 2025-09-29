@@ -4,6 +4,7 @@ import { SignInComponent } from "./modules/user/sign-in/sign-in.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { RouteGuardService } from "./shared/services/route-guard.service";
+import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
@@ -12,6 +13,7 @@ import { RouteGuardService } from "./shared/services/route-guard.service";
 const routes: Routes = [
   { path: "", component: SignInComponent, pathMatch: "full" },
   { path: "login", component: SignInComponent },
+  { path: "qr-invoice/:qrData", component: QrInfoComponent },
   {
     path: "dashboard",
     component: DefaultLayoutNewComponent,
@@ -92,22 +94,11 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  // imports: [
-  //     RouterModule.forRoot([
-  //         {
-  //             path: '', component: AppMainComponent,
-  //             // children: [
-  //             //     {path: 'blocks', component: BlocksComponent},
-  //             // ]
-  //         },
-  //         {path: '**', redirectTo: '/notfound'},
-  //     ], {scrollPositionRestoration: 'enabled'})
-  // ],
-  // exports: [RouterModule]
 })
 export class AppRoutingModule { }
