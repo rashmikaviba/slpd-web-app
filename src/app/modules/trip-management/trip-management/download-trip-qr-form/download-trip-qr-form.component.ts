@@ -23,8 +23,6 @@ export class DownloadTripQrFormComponent implements OnInit {
 
     let encriptedTripId = this.helperService.jsonToBase64GzipCompress(this.config.data.tripInfo.id);
     this.tripInfo = `${environment.appDomain}/#/qr-invoice/${encriptedTripId}`;
-
-    console.log(this.tripInfo);
   }
 
   downloadQRCode() {

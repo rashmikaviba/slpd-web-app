@@ -305,7 +305,7 @@ export class DefaultLayoutNewComponent {
         });
       }
 
-      console.log(element.labelForRoute.toLowerCase().replace(/\s+/g, "-"));
+      // console.log(element.labelForRoute.toLowerCase().replace(/\s+/g, "-"));
       if (
         routeModule == "trip-management" &&
         this.masterDataService.Role == WellKnownUserRole.DRIVER
