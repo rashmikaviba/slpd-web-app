@@ -6,6 +6,36 @@
   </div>
 
   <div class="grid formgrid p-fluid">
+    <!-- <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Pending Trips</span>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.finishedTripsCount || 0) }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-hourglass text-blue-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Started Trips</span>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.finishedTripsCount || 0) }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-forward text-blue-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
     <div class="col-12 md:col-6 lg:col-3 mb-3">
       <div class="surface-card shadow-2 p-3 border-round">
         <div class="flex justify-content-between mb-3">
@@ -20,13 +50,13 @@
         </div>
       </div>
     </div>
-    <div class="col-12 md:col-6 lg:col-3 mb-3">
+    <!-- <div class="col-12 md:col-6 lg:col-3 mb-3">
       <div class="surface-card shadow-2 p-3 border-round">
         <div class="flex justify-content-between mb-3">
           <div>
             <span class="block text-500 font-semibold mb-3 text-lg">Available Drivers / Vehicles</span>
-            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.availableDriversCount || 0) }}/{{
-              (dashboardStats?.availableVehiclesCount || 0) }}</div>
+            <div class="text-900 font-bold text-2xl">{{ (dashboardStats?.availableDriversCount || 0)
+              }}/{{(dashboardStats?.availableVehiclesCount || 0) }}</div>
           </div>
           <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
             style="width:2.5rem;height:2.5rem">
@@ -34,12 +64,13 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+
     <div class="col-12 md:col-6 lg:col-3 mb-3">
       <div class="surface-card shadow-2 p-3 border-round">
         <div class="flex justify-content-between mb-3">
           <div>
-            <span class="block text-500 font-semibold mb-3 text-lg">Income</span>
+            <span class="block text-500 font-semibold mb-3 text-lg">Revenue (Income)</span>
             <div class="text-900 font-bold text-2xl"> LKR {{ (dashboardStats?.totalIncome || 0) | currency : "":""}}
             </div>
           </div>
@@ -48,6 +79,9 @@
             <i class="pi pi-wallet text-cyan-500 text-xl"></i>
           </div>
         </div>
+
+        <!-- <span class="text-500">Revenue = </span>
+        <span class="text-green-500 font-medium">Total of trip revenues </span> -->
       </div>
     </div>
     <div class="col-12 md:col-6 lg:col-3 mb-3">
@@ -63,6 +97,29 @@
             <i class="pi pi-money-bill text-purple-500 text-xl"></i>
           </div>
         </div>
+        <!-- 
+        <span class="text-500">Expenses = </span>
+        <span class="text-green-500 font-medium">Trip Expenses + Monthly Expenses + Driver Salaries </span> -->
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3 mb-3">
+      <div class="surface-card shadow-2 p-3 border-round">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-semibold mb-3 text-lg">Net Profit</span>
+            <div class="text-900 font-bold text-2xl">LKR {{ (netProfit || 0) | currency : "":""}}
+            </div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-green-100 border-round"
+            style="width:2.5rem;height:2.5rem">
+            <i class="pi pi-chart-line text-green-500 text-xl"></i>
+          </div>
+        </div>
+
+        <!-- <span class="text-500">Net Profit = </span>
+        <span class="text-green-500 font-medium">Total Income - Total Expenses </span> -->
+
       </div>
     </div>
 
@@ -82,7 +139,7 @@
             <div class="flex flex-column justify-content-center align-items-center gap-2"
               style="height: 300px; width: 100%">
               <i class="pi pi-inbox text-7xl text-gray-400"></i>
-              <small class="">No Trip Found</small>
+              <small class="">No {{FV.getValue('status') == 1 ? 'Pending' : 'Started'}} Trip Found</small>
             </div>
           </ng-container>
 
@@ -190,15 +247,29 @@
     </div>
 
     <!-- Daily Income expense -->
-    <div class="col-12 mb-3">
+    <div class="col-12 md:col-6 mb-3">
       <div class="surface-card shadow-2 border-round p-4">
         <div class="flex align-items-center justify-content-between mb-4">
           <div class="text-900 font-medium text-xl">Monthly Income & Expenses</div>
 
-          <p-calendar formControlName="yearPicker" view="year" dateFormat="yy" (onSelect)="onChangeYear()" />
+          <p-calendar formControlName="yearPickerIncomeExpense" view="year" dateFormat="yy"
+            (onSelect)="onChangeIncomeExpenseYear()" />
         </div>
 
-        <p-chart type="bar" [data]="monthlyIEData" [options]="monthlyIEOptions" />
+        <p-chart type="bar" [data]="monthlyIEData" [options]="monthlyIEOptions" height="400px" />
+      </div>
+    </div>
+
+    <div class="col-12 md:col-6 mb-3">
+      <div class="surface-card shadow-2 border-round p-4">
+        <div class="flex align-items-center justify-content-between mb-4">
+          <div class="text-900 font-medium text-xl">Monthly Profit</div>
+
+          <p-calendar formControlName="yearPickerProfit" view="year" dateFormat="yy"
+            (onSelect)="onChangeProfitYear()" />
+        </div>
+
+        <p-chart type="line" [data]="monthlyProfitData" [options]="monthlyProfitOptions" height="400px" />
       </div>
     </div>
   </div>

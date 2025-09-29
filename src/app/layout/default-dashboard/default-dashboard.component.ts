@@ -23,8 +23,13 @@ export class DefaultDashboardComponent {
   today = new Date();
   dashboardStats: any = null;
   monthlyIncomeExpense: any[] = [];
+  monthlyProfit: any[] = [];
   monthlyIEData: any;
   monthlyIEOptions: any;
+  netProfit: number = 0;
+
+  monthlyProfitData: any;
+  monthlyProfitOptions: any;
 
   documentStyle = getComputedStyle(document.documentElement);
   textColor = this.documentStyle.getPropertyValue('--text-color');
@@ -73,9 +78,10 @@ export class DefaultDashboardComponent {
     this.getTripSummary();
     this.getInventorySummary();
     this.getDashboardStats();
-    this.getMonthlyIncomeExpense();
+    this.getMonthlyIncomeExpense(true);
 
     this.monthlyIEOptions = {
+      responsive: false,
       maintainAspectRatio: false,
       aspectRatio: 0.8,
       plugins: {
@@ -110,13 +116,46 @@ export class DefaultDashboardComponent {
 
       }
     };
+
+
+    this.monthlyProfitOptions = {
+      responsive: false,
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+      plugins: {
+        legend: {
+          labels: {
+            color: this.textColor
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: this.textColorSecondary
+          },
+          grid: {
+            color: this.surfaceBorder
+          }
+        },
+        y: {
+          ticks: {
+            color: this.textColorSecondary
+          },
+          grid: {
+            color: this.surfaceBorder
+          }
+        }
+      }
+    };
   }
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
       dateRange: [[], [Validators.required]],
-      status: [1, [Validators.required]],
-      yearPicker: [this.today, [Validators.required]],
+      status: [3, [Validators.required]],
+      yearPickerIncomeExpense: [this.today, [Validators.required]],
+      yearPickerProfit: [this.today, [Validators.required]],
     });
   }
 
@@ -189,59 +228,153 @@ export class DefaultDashboardComponent {
       if (dashboardStatsResponse?.IsSuccessful) {
         this.dashboardStats = dashboardStatsResponse?.Result;
 
-        console.log(this.dashboardStats);
+        this.netProfit = (this.dashboardStats?.totalIncome || 0) - (this.dashboardStats?.totalExpenses || 0);
+
       }
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }
   }
 
-  async getMonthlyIncomeExpense() {
+  async getMonthlyIncomeExpense(isInitialLoad: boolean = false, type: number = 1) {
     try {
-      debugger
-      let year = this.FV.getValue("yearPicker").getFullYear();
 
-      if (!year) return;
+      if (isInitialLoad) {
+        let year = this.FV.getValue("yearPickerIncomeExpense").getFullYear();
 
-      const dashboardStatsResponse = await firstValueFrom(
-        this.dashboardService.GetMonthlyIncomeExpense(year)
-      );
-
-      if (dashboardStatsResponse?.IsSuccessful) {
-        this.monthlyIncomeExpense = dashboardStatsResponse?.Result;
-
-        let lables = this.monthlyIncomeExpense.map(x => x.month);
-        let incomeData = this.monthlyIncomeExpense.map(x => x.income);
-        let expenseData = this.monthlyIncomeExpense.map(x => x.expenses);
+        if (!year) return;
 
 
-        this.monthlyIEData = {
-          labels: lables,
-          datasets: [
-            {
-              label: 'Income',
-              backgroundColor: 'rgba(54, 162, 235, 0.2)',
-              borderColor: 'rgb(54, 162, 235)',
-              data: incomeData,
-              borderWidth: 1
-            },
-            {
-              label: 'Expenses',
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
-              borderColor: 'rgb(255, 99, 132)',
-              data: expenseData,
-              borderWidth: 1
-            }
-          ]
-        };
+        const dashboardStatsResponse = await firstValueFrom(
+          this.dashboardService.GetMonthlyIncomeExpense(year)
+        );
+
+        if (dashboardStatsResponse?.IsSuccessful) {
+          this.monthlyIncomeExpense = dashboardStatsResponse?.Result;
+          this.monthlyProfit = dashboardStatsResponse?.Result;
+
+          let lables = this.monthlyIncomeExpense.map(x => x.month);
+          let incomeData = this.monthlyIncomeExpense.map(x => x.income);
+          let expenseData = this.monthlyIncomeExpense.map(x => x.expenses);
+
+
+          this.monthlyIEData = {
+            labels: lables,
+            datasets: [
+              {
+                label: 'Income',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                data: incomeData,
+                borderWidth: 1
+              },
+              {
+                label: 'Expenses',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: expenseData,
+                borderWidth: 1
+              }
+            ]
+          };
+
+
+          let profitLables = this.monthlyProfit.map(x => x.month);
+          let profitData = this.monthlyProfit.map(x => (x.income || 0) - (x.expenses || 0));
+          this.monthlyProfitData = {
+            labels: profitLables,
+            datasets: [
+              {
+                label: 'Net Profit',
+                data: profitData,
+                fill: true,
+                borderColor: 'rgb(54, 162, 235)',
+                tension: 0.4,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)'
+              }
+            ]
+          };
+        }
+      } else if (type === 1) {
+        let year = this.FV.getValue("yearPickerIncomeExpense").getFullYear();
+
+        if (!year) return;
+
+
+        const dashboardStatsResponse = await firstValueFrom(
+          this.dashboardService.GetMonthlyIncomeExpense(year)
+        );
+
+        if (dashboardStatsResponse?.IsSuccessful) {
+          this.monthlyIncomeExpense = dashboardStatsResponse?.Result;
+
+          let lables = this.monthlyIncomeExpense.map(x => x.month);
+          let incomeData = this.monthlyIncomeExpense.map(x => x.income);
+          let expenseData = this.monthlyIncomeExpense.map(x => x.expenses);
+
+
+          this.monthlyIEData = {
+            labels: lables,
+            datasets: [
+              {
+                label: 'Income',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                data: incomeData,
+                borderWidth: 1
+              },
+              {
+                label: 'Expenses',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: expenseData,
+                borderWidth: 1
+              }
+            ]
+          };
+        }
+      } else if (type === 2) {
+        let year = this.FV.getValue("yearPickerProfit").getFullYear();
+
+        if (!year) return;
+
+
+        const dashboardStatsResponse = await firstValueFrom(
+          this.dashboardService.GetMonthlyIncomeExpense(year)
+        );
+
+        if (dashboardStatsResponse?.IsSuccessful) {
+          this.monthlyProfit = dashboardStatsResponse?.Result;
+
+          let profitLables = this.monthlyProfit.map(x => x.month);
+          let profitData = this.monthlyProfit.map(x => (x.income || 0) - (x.expenses || 0));
+          this.monthlyProfitData = {
+            labels: profitLables,
+            datasets: [
+              {
+                label: 'Net Profit',
+                data: profitData,
+                fill: true,
+                borderColor: 'rgb(54, 162, 235)',
+                tension: 0.4,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)'
+              }
+            ]
+          };
+        }
       }
+
 
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
     }
   }
 
-  onChangeYear() {
-    this.getMonthlyIncomeExpense();
+  onChangeIncomeExpenseYear() {
+    this.getMonthlyIncomeExpense(false, 1);
+  }
+
+  onChangeProfitYear() {
+    this.getMonthlyIncomeExpense(false, 2);
   }
 }
