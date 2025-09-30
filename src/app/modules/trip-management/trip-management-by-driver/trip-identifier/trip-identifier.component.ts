@@ -63,7 +63,8 @@ export class TripIdentifierComponent implements AfterViewInit {
 
       let encryptedId = binArrayToString(e[0].data).split('/qr-invoice/')[1];
 
-      this.qrResultString = this.helperService.base64GzipToJson(encryptedId);
+      this.qrResultString = encryptedId;
+      // this.qrResultString = this.helperService.base64GzipToJson(encryptedId);
     } catch (error) {
       this.qrResultString = null;
       this.messageService.showErrorAlert('Invalid QR Code');

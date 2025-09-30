@@ -21,8 +21,8 @@ export class DownloadTripQrFormComponent implements OnInit {
   ngOnInit() {
     this.tripNo = this.config.data?.tripInfo?.tripConfirmedNumber || '';
 
-    let encriptedTripId = this.helperService.jsonToBase64GzipCompress(this.config.data.tripInfo.id);
-    this.tripInfo = `${environment.appDomain}/#/qr-invoice/${encriptedTripId}`;
+    // let encriptedTripId = this.helperService.jsonToBase64GzipCompress(this.config.data.tripInfo.id);
+    this.tripInfo = `${environment.appDomain}/#/qr-invoice/${this.config.data.tripInfo.id}`;
   }
 
   downloadQRCode() {

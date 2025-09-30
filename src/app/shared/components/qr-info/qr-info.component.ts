@@ -28,10 +28,8 @@ export class QrInfoComponent implements OnInit {
       let currentUrl = this.router.url;
       let qrData = currentUrl.split('/qr-invoice/')[1];
 
-      debugger
-      qrData = decodeURIComponent(qrData || '');
-
-      let decodedId = this.helperService.base64GzipToJson(qrData);
+      // let decodedId = this.helperService.base64GzipToJson(qrData);
+      let decodedId = qrData;
 
       if (decodedId) {
         this.onClickPrint(decodedId);
