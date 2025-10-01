@@ -18,8 +18,8 @@ export class AddProductFormComponent {
   isEdit: boolean = false;
   measureUnits: any[] = [];
   productTypes: any[] = [
-    { label: "Consumable Product", value: false },
-    { label: "Returnable Product", value: true },
+    { label: "Consumable Product", value: 0 },
+    { label: "Returnable Product", value: 1 },
   ];
   productData: any;
 
@@ -52,8 +52,8 @@ export class AddProductFormComponent {
       productName: ["", [Validators.required]],
       productShortCode: ["", [Validators.required]],
       measureUnit: ["", [Validators.required]],
-      isReturnableProduct: [null, []],
-      unitPrice: [0, [Validators.min(0)]],
+      isReturnableProduct: ["", [Validators.required]],
+      unitPrice: [0, [Validators.min(0), Validators.required]],
       inventory: [""],
       productDescription: ["", [Validators.max(500)]],
     });
@@ -87,18 +87,16 @@ export class AddProductFormComponent {
     this.FV.setValue("productName", this.productData.productName);
     this.FV.setValue("productShortCode", this.productData.productShortCode);
     this.FV.setValue("measureUnit", this.productData.measureUnit);
-    this.FV.setValue("isReturnableProduct", this.productData.isReturnableProduct);
+    this.FV.setValue("isReturnableProduct", this.productData.isReturnableProduct ? 1 : 0);
     this.FV.setValue("unitPrice", this.productData.unitPrice);
     this.FV.setValue("productDescription", this.productData.description);
   }
 
 
   onSave() {
-    if (this.FV.validateControllers("productName,productShortCode,measureUnit,unitPrice,productDescription")) {
+    if (this.FV.validateControllers("productName,productShortCode,measureUnit,unitPrice,productDescription,isReturnableProduct")) {
       return;
     }
-
-    debugger;
 
     let formValue = this.FV.formGroup.value;
 
@@ -106,7 +104,7 @@ export class AddProductFormComponent {
       "productName": formValue.productName,
       "productShortCode": formValue.productShortCode,
       "measureUnit": formValue.measureUnit,
-      "isReturnableProduct": formValue.isReturnableProduct,
+      "isReturnableProduct": formValue.isReturnableProduct == 1 ? true : false,
       "unitPrice": formValue.unitPrice,
       "description": formValue.productDescription
     }
