@@ -166,9 +166,9 @@
                   <span class="bg-gray-400 text-gray-900 font-bold text-sm py-1 px-2 md:hidden"
                     style="border-radius: 10px">PENDING</span>
                   <div class="text-right ml-3">
-                    <span class="text-gray-700 font-bold">{{ item?.drivers[0]?.driverName || 'N/A' }} &nbsp; <span
+                    <span class="text-gray-700 font-bold">{{ item?.activeDriverName || 'N/A' }} &nbsp; <span
                         class="font-medium pi pi-user"></span></span>
-                    <p class="mt-1 mb-0 text-gray-700">{{ item?.vehicles[0]?.registrationNumber || 'N/A' }} &nbsp; <span
+                    <p class="mt-1 mb-0 text-gray-700">{{ item?.activeRegistrationNumber || 'N/A' }} &nbsp; <span
                         class="font-medium pi pi-car"></span></p>
                   </div>
                 </div>
@@ -196,9 +196,9 @@
                   <span class="bg-cyan-400 text-cyan-900 font-bold text-sm py-1 px-2 md:hidden"
                     style="border-radius: 10px">STARTED</span>
                   <div class="text-right ml-3">
-                    <span class="text-cyan-700 font-bold">{{ item?.drivers[0]?.driverName || 'N/A' }} &nbsp; <span
+                    <span class="text-cyan-700 font-bold">{{ item?.activeDriverName || 'N/A' }} &nbsp; <span
                         class="font-medium pi pi-user"></span></span>
-                    <p class="mt-1 mb-0 text-cyan-700">{{ item?.vehicles[0]?.registrationNumber || 'N/A' }} &nbsp; <span
+                    <p class="mt-1 mb-0 text-cyan-700">{{ item?.activeRegistrationNumber || 'N/A' }} &nbsp; <span
                         class="font-medium pi pi-car"></span></p>
                   </div>
                 </div>
