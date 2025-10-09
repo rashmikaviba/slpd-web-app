@@ -272,10 +272,14 @@ export class TripManagementComponent implements OnInit {
           !rowData?.isMonthEndDone,
       },
       {
-        ids: [7, 11, 10, 12],
+        ids: [7, 11, 10],
         condition:
           rowData?.status === WellKnownTripStatus.START ||
           rowData?.status === WellKnownTripStatus.FINISHED,
+      },
+      {
+        ids: [12], condition: rowData?.status === WellKnownTripStatus.START ||
+          rowData?.status === WellKnownTripStatus.FINISHED || rowData?.status === WellKnownTripStatus.PENDING,
       },
     ];
 
