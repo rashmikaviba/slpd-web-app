@@ -32,6 +32,7 @@ export class PosTransactionComponent implements OnInit {
   measureUnits: any[] = [];
 
   isCanEdit: boolean = false;
+  isCanDoAudit: boolean = false;
 
   constructor(
     private sidebarService: SidebarService,
@@ -96,6 +97,7 @@ export class PosTransactionComponent implements OnInit {
         this.posDetails = posResult.Result;
         this.recodes = this.posDetails?.products;
 
+        this.isCanDoAudit = this.tripInfo.status == WellKnownTripStatus.START && !this.posDetails?.isTripEndAuditDone;
         this.isCanEdit = (this.tripInfo.status == WellKnownTripStatus.START || this.tripInfo.status == WellKnownTripStatus.PENDING) && !this.posDetails?.isTripEndAuditDone;
       }
 
