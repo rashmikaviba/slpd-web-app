@@ -10,6 +10,8 @@ import { WellKnownUserRole } from "src/app/shared/enums/well-known-user-role.enu
 import { MasterDataService } from "src/app/shared/services/master-data.service";
 import { TripManagementComponent } from "./trip-management/trip-management.component";
 import { TripManagementByDriverComponent } from "./trip-management-by-driver/trip-management-by-driver.component";
+import { TripManagementByTripAssistantComponent } from "./trip-management-by-trip-assistant/trip-management-by-trip-assistant.component";
+import { TripManagementByDriverAssistantComponent } from "./trip-management-by-driver-assistant/trip-management-by-driver-assistant.component";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +20,7 @@ export class RoleResolver implements Resolve<any> {
   constructor(
     private router: Router,
     private masterDataService: MasterDataService
-  ) {}
+  ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -35,6 +37,10 @@ export class RoleResolver implements Resolve<any> {
       return of(TripManagementComponent);
     } else if (Number(roleId) === WellKnownUserRole.DRIVER) {
       return of(TripManagementByDriverComponent);
+    } else if (Number(roleId) === WellKnownUserRole.TRIPASSISTANT) {
+      return of(TripManagementByTripAssistantComponent);
+    } else if (Number(roleId) === WellKnownUserRole.DRIVERASSISTANT) {
+      return of(TripManagementByDriverAssistantComponent);
     } else {
       this.router.navigate(["/not-authorized"]);
       return of(null);

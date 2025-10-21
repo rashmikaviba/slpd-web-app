@@ -28,5 +28,16 @@ export enum AppModule {
 
   DriverLeaveManagement = 60,
   DriverTripManagement = 61,
-  DriverRecomendedGarage = 62
+  DriverRecomendedGarage = 62,
+
+
+  TripAssistantLeaveManagement = 100,
+  TripAssistantMasterConfiguration = 101,
+  TripAssistantGarageManagement = 102,
+  TripAssistantTripManagement = 103,
+
+  DriverAssistantLeaveManagement = 150,
+  DriverAssistantMasterConfiguration = 151,
+  DriverAssistantGarageManagement = 152,
+  DriverAssistantTripManagement = 153,
 }

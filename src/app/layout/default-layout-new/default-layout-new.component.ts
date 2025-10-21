@@ -105,6 +105,8 @@ export class DefaultLayoutNewComponent {
           AppModule.SuperAdminLeaveManagement,
           AppModule.AdminLeaveManagement,
           AppModule.DriverLeaveManagement,
+          AppModule.DriverAssistantLeaveManagement,
+          AppModule.TripAssistantLeaveManagement
         ]),
       },
       {
@@ -117,6 +119,8 @@ export class DefaultLayoutNewComponent {
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminTripManagement,
           AppModule.SuperAdminTripManagement,
+          AppModule.DriverAssistantTripManagement,
+          AppModule.TripAssistantTripManagement
         ]),
       },
       {
@@ -195,7 +199,7 @@ export class DefaultLayoutNewComponent {
         icon: "pi pi-cog",
         labelForRoute: "Master Configuration",
         isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminMasterConfiguration, AppModule.AdminMasterConfiguration
+          AppModule.SuperAdminMasterConfiguration, AppModule.AdminMasterConfiguration, AppModule.DriverAssistantMasterConfiguration, AppModule.TripAssistantMasterConfiguration
         ]),
         isExpanded: true,
         items: [
@@ -218,7 +222,8 @@ export class DefaultLayoutNewComponent {
             routerLink: "/master-configuration/garage-management",
             labelForRoute: "Garage Management",
             isVisible: this.checkUserAuthorizedToAccess([
-              AppModule.SuperAdminGarageManagement, AppModule.AdminGarageManagement
+              AppModule.SuperAdminGarageManagement, AppModule.AdminGarageManagement,
+              AppModule.DriverAssistantGarageManagement, AppModule.TripAssistantGarageManagement
             ]),
           },
         ],

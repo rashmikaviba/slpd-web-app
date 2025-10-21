@@ -134,6 +134,9 @@ export class PersonalDetailsComponent {
     } else if (role === 3) {
       this.showDriver = true;
       this.showAdmin = false;
+    } else if (role === 6 || role === 7) {
+      this.showAdmin = true;
+      this.showDriver = false;
     } else {
       this.showAdmin = false;
       this.showDriver = false;

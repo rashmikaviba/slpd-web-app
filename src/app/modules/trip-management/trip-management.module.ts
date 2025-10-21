@@ -73,6 +73,8 @@ import { TripIdentifierComponent } from "./trip-management-by-driver/trip-identi
 import { BadgeModule } from "primeng/badge";
 import { DownloadTripQrFormComponent } from "./trip-management/download-trip-qr-form/download-trip-qr-form.component";
 import { FileUploadModule } from 'primeng/fileupload';
+import { TripManagementByDriverAssistantComponent } from "./trip-management-by-driver-assistant/trip-management-by-driver-assistant.component";
+import { TripManagementByTripAssistantComponent } from "./trip-management-by-trip-assistant/trip-management-by-trip-assistant.component";
 // Necessary to solve the problem of losing internet connection
 LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe();
 
@@ -103,7 +105,9 @@ LOAD_WASM('assets/wasm/ngx-scanner-qrcode.wasm').subscribe();
     PosTransactionComponent,
     TripEndPosAuditComponent,
     DownloadTripQrFormComponent,
-    TripIdentifierComponent
+    TripIdentifierComponent,
+    TripManagementByDriverAssistantComponent,
+    TripManagementByTripAssistantComponent
   ],
   imports: [
     CommonModule,
