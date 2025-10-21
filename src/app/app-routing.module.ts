@@ -5,6 +5,7 @@ import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-l
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { RouteGuardService } from "./shared/services/route-guard.service";
 import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
+import { RecommendedGarageComponent } from "./modules/recommended-garage/recommended-garage.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
@@ -25,6 +26,17 @@ const routes: Routes = [
     ],
   },
   {
+    path: "recommended-garage",
+    component: DefaultLayoutNewComponent,
+    children: [
+      {
+        path: "",
+        component: RecommendedGarageComponent,
+      },
+    ],
+    canActivate: [RouteGuardService],
+  },
+  {
     path: "user",
     loadChildren: () =>
       import("./modules/user/user.module").then((m) => m.UserModule),
@@ -38,14 +50,14 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   },
-  {
-    path: "vehicle-management",
-    loadChildren: () =>
-      import("./modules/vehicle-management/vehicle-management.module").then(
-        (m) => m.VehicleManagementModule
-      ),
-    canActivate: [RouteGuardService],
-  },
+  // {
+  //   path: "vehicle-management",
+  //   loadChildren: () =>
+  //     import("./modules/vehicle-management/vehicle-management.module").then(
+  //       (m) => m.VehicleManagementModule
+  //     ),
+  //   canActivate: [RouteGuardService],
+  // },
   {
     path: "trip-management",
     loadChildren: () =>
@@ -83,6 +95,14 @@ const routes: Routes = [
     loadChildren: () =>
       import("./modules/inventory-management/inventory-management.module").then(
         (m) => m.InventoryManagementModule
+      ),
+    canActivate: [RouteGuardService],
+  },
+  {
+    path: 'master-configuration',
+    loadChildren: () =>
+      import("./modules/master-configuration/master-configuration.module").then(
+        (m) => m.MasterConfigurationModule
       ),
     canActivate: [RouteGuardService],
   },

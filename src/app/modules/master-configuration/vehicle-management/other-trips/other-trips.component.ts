@@ -1,5 +1,5 @@
-import { InternalTripService } from "./../../../../shared/services/api-services/internal-trip.service";
-import { SidebarService } from "./../../../../shared/services/sidebar.service";
+import { InternalTripService } from "../../../../shared/services/api-services/internal-trip.service";
+import { SidebarService } from "../../../../shared/services/sidebar.service";
 import { Component, OnInit } from "@angular/core";
 import { ExcelService } from "src/app/shared/services/excel.service";
 import { PopupService } from "src/app/shared/services/popup.service";
@@ -24,7 +24,7 @@ export class OtherTripsComponent implements OnInit {
     private sidebarService: SidebarService,
     private internalTripService: InternalTripService,
     private messageService: AppMessageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     let sideBarData = this.sidebarService.getData();

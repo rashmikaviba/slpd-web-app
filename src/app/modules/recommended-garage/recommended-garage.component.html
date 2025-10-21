@@ -1,0 +1,60 @@
+<!-- <div class="card"> -->
+<div class="flex justify-content-between align-items-center mb-4">
+  <div class="text-2xl font-semibold">Recommended Garage</div>
+</div>
+<p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
+  dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines" [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading" [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [globalFilterFields]="[
+    'city',
+    'specializations',
+    'address', 'name'
+  ]">
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-between">
+      <p-iconField iconPosition="left" class="ml-auto">
+        <p-inputIcon>
+          <i class="pi pi-search"></i>
+        </p-inputIcon>
+        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Search Garage" />
+      </p-iconField>
+
+      <!-- </div> -->
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [ngClass]="{'text-center': col.field == 'status'}">
+        {{ col.header }}
+      </th>
+      <th class="text-center">Action</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr>
+      <td *ngFor="let col of columns" [ngClass]="{'bg-blue': rowIndex % 2 !== 0, 'text-center': col.field == 'status'
+        }">
+        <ng-container>
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] || "-" }}
+        </ng-container>
+      </td>
+      <td class="text-center">
+        <button #btn type="button" pButton icon="pi pi-eye" (click)="onClickView(rowData)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length + 2">
+        <div class="flex flex-column justify-content-center align-items-center gap-2"
+          style="height: 300px; width: 100%">
+          <i class="pi pi-inbox text-5xl text-gray-400"></i>
+          <small class="">No Garages Found</small>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<!-- </div> -->

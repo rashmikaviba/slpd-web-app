@@ -1,0 +1,73 @@
+<form [formGroup]="FV.formGroup" autocomplete="off">
+  <!-- <div class="card"> -->
+  <div class="p-fluid grid formgrid align-items-end">
+    <div class="field col-12 md:col-4">
+      <label for="name" class="required">Name</label>
+      <input id="name" pInputText type="text" class="w-full" formControlName="name" maxlength="100" />
+    </div>
+    <div class="field col-12 md:col-5">
+      <label for="address">Address</label>
+      <input id="address" pInputText type="text" class="w-full" formControlName="address" maxlength="300" />
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label for="city">City</label>
+      <input id="city" pInputText type="text" class="w-full" formControlName="city" maxlength="100" />
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label for="contactNumber1">Contact Number 01</label>
+      <input id="contactNumber1" pInputText type="text" class="w-full" formControlName="contactNumber1"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 14)" maxlength="14" />
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label for="contactNumber2">Contact Number 02</label>
+      <input id="contactNumber2" pInputText type="text" class="w-full" formControlName="contactNumber2"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 14)" maxlength="14" maxlength="14" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label for="googleMapUrl">Google Map URL</label>
+      <p-inputGroup>
+        <p-inputGroupAddon>
+          <i class="pi pi-map"></i>
+        </p-inputGroupAddon>
+        <input pInputText type="text" class="w-full" formControlName="googleMapUrl" maxlength="500" />
+        <button type="button" pButton icon="pi pi-map-marker" class="p-button-success" pTooltip="Open in Map"
+          tooltipPosition="bottom" (click)="onClickOpenGoogleMap()"
+          [disabled]="!FV.getTrimValue('googleMapUrl')"></button>
+      </p-inputGroup>
+    </div>
+    <div class="field col-12 md:col-8" *ngIf="!isView">
+      <label for="specializations" class="required">Garage Specializations</label>
+      <p-multiSelect id="specializations" class="w-full" formControlName="specializations"
+        [options]="garageSpecializations" optionLabel="name" display="chip"></p-multiSelect>
+    </div>
+
+    <div class="field col-12 md:col-12" *ngIf="isView">
+      <label for="specializations" class="required">Garage Specializations</label>
+      <textarea id="specializationNames" pInputText type="text" class="w-full" formControlName="specializationNames"
+        rows="3" style="resize: none"></textarea>
+    </div>
+
+    <div class="field col-12 md:col-12">
+      <label for="description">Description</label>
+      <textarea id="description" pInputText type="text" class="w-full" formControlName="description" rows="3"
+        style="resize: none"></textarea>
+
+      <div class="flex justify-content-end" *ngIf="!isView">
+        <small class="text-500 text-xs">{{ FV.getValue("description")?.length || 0 }} / 500</small>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-2" *ngIf="!isView">
+      <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary p-button-sm mb:p-button"
+        (onClick)="onClickCancel()"></p-button>
+      <p-button label="Save" icon="pi pi-save" iconPos="left" styleClass="p-button-sm mb:p-button"
+        (onClick)="onClickSave()"></p-button>
+    </div>
+  </ng-template>
+</form>

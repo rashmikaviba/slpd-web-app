@@ -121,8 +121,9 @@ import { NotificationsComponent } from "./shared/components/notifications/notifi
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { reducers } from "./store/app.reducer";
-import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management/vehicle-management.component";
+// import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management/vehicle-management.component";
 import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
+import { RecommendedGarageComponent } from "./modules/recommended-garage/recommended-garage.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -245,7 +246,8 @@ import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
     DefaultLayoutNewComponent,
     DefaultDashboardComponent,
     NotificationsComponent,
-    VehicleManagementComponent,
+    RecommendedGarageComponent,
+    // VehicleManagementComponent,
     QrInfoComponent,
     // TripManagementComponent,
     // TripManagementFormComponent,

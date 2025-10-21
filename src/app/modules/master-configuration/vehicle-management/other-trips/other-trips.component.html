@@ -1,0 +1,86 @@
+<div class="flex justify-content-end align-items-center mb-4">
+  <p-button styleClass="p-button-sm mb:p-button" icon="pi pi-plus" label="Add Internal Trips"
+    (onClick)="AddOtherTips(null, false)"></p-button>
+</div>
+<p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
+  dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines" [rowsPerPageOptions]="[10, 25, 50]"
+  [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+  <!--  [globalFilterFields]="[
+    'vehicleTypeName',
+    'registrationNumber',
+    'vehicleOwner'
+  ]" -->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [ngClass]="{
+          'text-center': col.field == 'status'
+        }">
+        {{ col.header }}
+      </th>
+      <th class="text-center">Action</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr>
+      <td *ngFor="let col of columns" [ngClass]="{
+          'bg-blue': rowIndex % 2 !== 0,
+          'line-through	': rowData.isBlackListed
+        }">
+        <ng-container *ngIf="col.field == 'startDate' || col.field == 'endDate'">
+          <span class="p-column-title font-bold">{{ col.header }}</span>{{ rowData[col.field] | date : "dd-MM-yyyy" :
+          "Asia/Colombo" }}
+        </ng-container>
+
+        <ng-container *ngIf="col.field == 'createdAt'">
+          <span class="p-column-title font-bold">{{ col.header }}</span>{{ rowData[col.field] | date : "dd-MM-yyyy
+          HH:mm" : "Asia/Colombo" }}
+        </ng-container>
+
+        <!-- reason -->
+        <ng-container *ngIf="col.field == 'reason'">
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          <span pTooltip="{{ rowData[col.field] }}" tooltipPosition="bottom">
+            {{ rowData[col.field] | truncate : 40 }}
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="
+            col.field != 'startDate' &&
+            col.field != 'endDate' &&
+            col.field != 'createdAt' &&
+            col.field != 'reason'
+          ">
+          <span class="p-column-title font-bold">{{ col.header }}</span>
+          {{ rowData[col.field] || "-" }}
+        </ng-container>
+      </td>
+      <td class="text-center">
+        <!-- View, edit, delete -->
+        <div class="flex gap-1 justify-content-center align-items-center">
+          <p-button styleClass="p-button-info" icon="pi pi-eye" pTooltip="View" tooltipPosition="bottom"
+            (onClick)="AddOtherTips(rowData, false, true)"></p-button>
+
+          <p-button styleClass="p-button-primary" icon="pi pi-pencil" pTooltip="Edit" tooltipPosition="bottom"
+            (onClick)="AddOtherTips(rowData, true, false)" [disabled]="rowData.isMonthEndDone"></p-button>
+
+          <p-button styleClass="p-button-danger" icon="pi pi-trash" pTooltip="Delete" tooltipPosition="bottom"
+            (onClick)="onClickDelete(rowData)" [disabled]="rowData.isMonthEndDone"></p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length + 2">
+        <div class="flex flex-column justify-content-center align-items-center gap-2"
+          style="height: 300px; width: 100%">
+          <i class="pi pi-inbox text-5xl text-gray-400"></i>
+          <small class="">No Other Trips Found</small>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

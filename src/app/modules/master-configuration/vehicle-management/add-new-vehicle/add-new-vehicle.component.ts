@@ -57,6 +57,7 @@ export class AddNewVehicleComponent {
       initialMileage: ["", [Validators.min(0), Validators.required]],
       currentMileage: [""],
       isFreelanceVehicle: [false],
+      isRentalVehicle: [false],
     });
   }
 
@@ -94,6 +95,7 @@ export class AddNewVehicleComponent {
         "isFreelanceVehicle",
         this.vehicleData.isFreelanceVehicle
       );
+      this.FV.setValue("isRentalVehicle", this.vehicleData.isRentalVehicle);
       this.FV.setValue("ownerName", this.vehicleData.vehicleOwner);
       this.FV.setValue("vehicleType", this.vehicleData.vehicleType);
       this.FV.setValue("regNumber", this.vehicleData.registrationNumber);
@@ -119,15 +121,18 @@ export class AddNewVehicleComponent {
       this.FV.setValue("oilFilter", this.vehicleData.oilFilter);
       this.FV.setValue("initialMileage", this.vehicleData.initialMileage);
       this.FV.setValue("currentMileage", this.vehicleData.currentMileage);
+
+      this.onChangeCheckbox();
     }
   }
 
   onClickSave() {
     let isFreelanceVehicle = this.FV.getValue("isFreelanceVehicle") || false;
+    let isRentalVehicle = this.FV.getValue("isRentalVehicle") || false;
 
     let validateParams = "ownerName,vehicleType,regNumber,noOFSeats";
 
-    if (!isFreelanceVehicle) {
+    if (!isFreelanceVehicle && !isRentalVehicle) {
       validateParams +=
         ",capacity,licenseRenewalDate,insuranceRenewalDate,initialMileage";
     }
@@ -151,22 +156,25 @@ export class AddNewVehicleComponent {
     let oilFilter = this.FV.getValue("oilFilter") || "";
     let initialMileage = this.FV.getValue("initialMileage") || 0;
 
+    let freelanceOrRentalVehicle = isFreelanceVehicle || isRentalVehicle;
+
     let request: any = {
       vehicleType: vehicleType,
       vehicleOwner: ownerName,
       registrationNumber: regNumber,
       availableSeats: noOFSeats,
       isFreelanceVehicle: isFreelanceVehicle,
+      isRentalVehicle: isRentalVehicle,
 
-      gpsTracker: isFreelanceVehicle ? "" : gpsTracker,
-      capacity: isFreelanceVehicle ? 0 : capacity,
+      gpsTracker: freelanceOrRentalVehicle ? "" : gpsTracker,
+      capacity: freelanceOrRentalVehicle ? 0 : capacity,
       description: description,
-      licenseRenewalDate: isFreelanceVehicle ? "" : licenseRenewalDate,
-      insuranceRenewalDate: isFreelanceVehicle ? "" : insuranceRenewalDate,
-      gearOil: isFreelanceVehicle ? "" : gearOil,
-      airFilter: isFreelanceVehicle ? "" : airFilter,
-      oilFilter: isFreelanceVehicle ? "" : oilFilter,
-      initialMileage: isFreelanceVehicle ? 0 : initialMileage,
+      licenseRenewalDate: freelanceOrRentalVehicle ? "" : licenseRenewalDate,
+      insuranceRenewalDate: freelanceOrRentalVehicle ? "" : insuranceRenewalDate,
+      gearOil: freelanceOrRentalVehicle ? "" : gearOil,
+      airFilter: freelanceOrRentalVehicle ? "" : airFilter,
+      oilFilter: freelanceOrRentalVehicle ? "" : oilFilter,
+      initialMileage: freelanceOrRentalVehicle ? 0 : initialMileage,
     };
 
     if (this.isEdit) {
@@ -198,5 +206,22 @@ export class AddNewVehicleComponent {
 
   OnChangeMileage(e: any) {
     this.FV.setValue("currentMileage", e.value);
+  }
+
+  onChangeCheckbox() {
+    let isFreelanceVehicle = this.FV.getValue("isFreelanceVehicle");
+    let isRentalVehicle = this.FV.getValue("isRentalVehicle");
+
+    if (isFreelanceVehicle) {
+      this.FV.disableField("isRentalVehicle");
+    } else {
+      this.FV.enableField("isRentalVehicle");
+    }
+
+    if (isRentalVehicle) {
+      this.FV.disableField("isFreelanceVehicle");
+    } else {
+      this.FV.enableField("isFreelanceVehicle");
+    }
   }
 }

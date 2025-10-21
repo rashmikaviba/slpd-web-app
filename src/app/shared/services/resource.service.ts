@@ -30,6 +30,7 @@ export class ResourceService {
   private MonthlyExpenses = this.host + "/monthlyExpenses";
   private Pos = this.host + "/pos";
   private Dashboard = this.host + "/dashboard";
+  private Garage = this.host + "/garage";
 
   auth = {
     login: this.Auth + "/login",
@@ -207,5 +208,14 @@ export class ResourceService {
     getInventorySummary: this.Dashboard + "/inventorySummary",
     getDashboardstats: this.Dashboard + "/getDashboardstats",
     getMonthlyIncomeExpense: this.Dashboard + "/monthlyIncomeExpense",
+  }
+
+  garage = {
+    save: this.Garage,
+    getAll: this.Garage,
+    getById: this.Garage,
+    update: this.Garage,
+    deleteById: this.Garage,
+    activeInactiveGarages: this.Garage + "/activeInactiveGarage",
   }
 }

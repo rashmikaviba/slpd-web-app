@@ -44,6 +44,7 @@ export class VehicleManagementComponent {
       { field: "vehicleOwner", header: "Owner Name" },
       { field: "vehicleTypeName", header: "Vehicle Type" },
       { field: "isFreelanceVehicle", header: "Freelance" },
+      { field: "isRentalVehicle", header: "Rental" },
       { field: "capacity", header: "Capacity" },
       { field: "availableSeats", header: "Available Seats" },
       { field: "gpsTracker", header: "GPS Tracker" },
