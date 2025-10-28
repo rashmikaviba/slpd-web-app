@@ -111,7 +111,6 @@ import { WebcamModule } from "ngx-webcam";
 import { AuthorizationInterceptor } from "./core/interceptor/authorization.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SharedModule } from "./shared.module";
-import { UserModule } from "./modules/user/user.module";
 import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
 import { InactiveLoginComponent } from "./shared/components/inactive-login/inactive-login.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
@@ -124,6 +123,8 @@ import { reducers } from "./store/app.reducer";
 // import { VehicleManagementComponent } from "./modules/vehicle-management/vehicle-management/vehicle-management.component";
 import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
 import { RecommendedGarageComponent } from "./modules/recommended-garage/recommended-garage.component";
+import { SignInComponent } from "./shared/components/sign-in/sign-in.component";
+import { ChangePasswordComponent } from "./shared/components/change-password/change-password.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { TripManagementFormComponent } from "./modules/trip-management/trip-management-form/trip-management-form.component";
 // import { AddDriverAndVehicleFormComponent } from "./modules/trip-management/add-driver-and-vehicle-form/add-driver-and-vehicle-form.component";
@@ -234,7 +235,6 @@ import { RecommendedGarageComponent } from "./modules/recommended-garage/recomme
     IconFieldModule,
     InputIconModule,
     NgIdleKeepaliveModule.forRoot(),
-    UserModule,
     NgxPrintModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
@@ -247,6 +247,8 @@ import { RecommendedGarageComponent } from "./modules/recommended-garage/recomme
     DefaultDashboardComponent,
     NotificationsComponent,
     RecommendedGarageComponent,
+    ChangePasswordComponent,
+    SignInComponent,
     // VehicleManagementComponent,
     QrInfoComponent,
     // TripManagementComponent,

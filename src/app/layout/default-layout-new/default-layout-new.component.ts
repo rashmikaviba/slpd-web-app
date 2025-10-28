@@ -9,7 +9,7 @@ import { AppModule } from "src/app/shared/enums/app-module.enum";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { DatePipe } from "@angular/common";
 import { PopupService } from "src/app/shared/services/popup.service";
-import { ChangePasswordComponent } from "src/app/modules/user/change-password/change-password.component";
+import { ChangePasswordComponent } from "src/app/shared/components/change-password/change-password.component";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.state";
 import {
@@ -81,17 +81,6 @@ export class DefaultLayoutNewComponent {
         isExpanded: false,
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.SuperAdminDashboard, AppModule.AdminDashboard
-        ]),
-      },
-      {
-        menuId: 2,
-        label: "User",
-        icon: "pi pi-user",
-        routerLink: "/user",
-        labelForRoute: "User",
-        isExpanded: false,
-        isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminUserManagement,
         ]),
       },
       {
@@ -203,6 +192,17 @@ export class DefaultLayoutNewComponent {
         ]),
         isExpanded: true,
         items: [
+          {
+            menuId: 2,
+            label: "User Management",
+            icon: "pi pi-user",
+            routerLink: "/master-configuration/user-management",
+            labelForRoute: "User Management",
+            isExpanded: false,
+            isVisible: this.checkUserAuthorizedToAccess([
+              AppModule.SuperAdminUserManagement,
+            ]),
+          },
           {
             menuId: 5,
             label: "Vehicle Management",

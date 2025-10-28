@@ -1,11 +1,11 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
-import { SignInComponent } from "./modules/user/sign-in/sign-in.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { RouteGuardService } from "./shared/services/route-guard.service";
 import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
 import { RecommendedGarageComponent } from "./modules/recommended-garage/recommended-garage.component";
+import { SignInComponent } from "./shared/components/sign-in/sign-in.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
@@ -36,12 +36,12 @@ const routes: Routes = [
     ],
     canActivate: [RouteGuardService],
   },
-  {
-    path: "user",
-    loadChildren: () =>
-      import("./modules/user/user.module").then((m) => m.UserModule),
-    canActivate: [RouteGuardService],
-  },
+  // {
+  //   path: "user",
+  //   loadChildren: () =>
+  //     import("./modules/user/user.module").then((m) => m.UserModule),
+  //   canActivate: [RouteGuardService],
+  // },
   {
     path: "leave-management",
     loadChildren: () =>

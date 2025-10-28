@@ -5,6 +5,7 @@ import { ProductManagementComponent } from '../inventory-management/product-mana
 import { GoodReceivedNoteComponent } from '../inventory-management/good-received-note/good-received-note.component';
 import { VehicleManagementComponent } from './vehicle-management/vehicle-management.component';
 import { GarageManagementComponent } from './garage-management/garage-management.component';
+import { UserManagementComponent } from './user-management/user-management.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,12 @@ const routes: Routes = [
       {
         path: "garage-management",
         component: GarageManagementComponent,
+      },
+      {
+        path: "user-management",
+        component: UserManagementComponent,
       }
+
     ],
   },
 ];

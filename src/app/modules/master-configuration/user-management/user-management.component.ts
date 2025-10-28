@@ -1,24 +1,24 @@
-import { Component, TemplateRef, ViewChild } from "@angular/core";
-import { AddNewUserFormComponent } from "./add-new-user-form/add-new-user-form.component";
-import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { AppComponent } from "src/app/app.component";
-import { PopupService } from "src/app/shared/services/popup.service";
-import { Router } from "@angular/router";
-import { AddUserControlFlowService } from "./add-new-user-form/add-user-control-flow.service";
-import { UserService } from "src/app/shared/services/api-services/user.service";
-import { firstValueFrom } from "rxjs";
-import { AppMessageService } from "src/app/shared/services/app-message.service";
-import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";
-import { languages } from "../../../shared/data/languages";
-import { ExcelService } from "../../../shared/services/excel.service";
-import { DatePipe } from "@angular/common";
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
+import { UserService } from 'src/app/shared/services/api-services/user.service';
+import { AppMessageService } from 'src/app/shared/services/app-message.service';
+import { ExcelService } from 'src/app/shared/services/excel.service';
+import { PopupService } from 'src/app/shared/services/popup.service';
+import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { TransactionHandlerService } from 'src/app/shared/services/transaction-handler.service';
+import { AddUserControlFlowService } from './add-new-user-form/add-user-control-flow.service';
+import { AddNewUserFormComponent } from './add-new-user-form/add-new-user-form.component';
+import { firstValueFrom } from 'rxjs';
+import { languages } from 'src/app/shared/data/languages';
 
 @Component({
-  selector: "app-add-new-user",
-  templateUrl: "./add-new-user.component.html",
-  styleUrls: ["./add-new-user.component.scss"],
+  selector: 'app-user-management',
+  templateUrl: './user-management.component.html',
+  styleUrls: ['./user-management.component.css']
 })
-export class AddNewUserComponent {
+export class UserManagementComponent implements OnInit {
   cols: any;
   recodes: any;
   loading: any;

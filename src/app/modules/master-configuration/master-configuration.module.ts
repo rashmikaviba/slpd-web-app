@@ -43,6 +43,11 @@ import { AddOtherTripComponent } from './vehicle-management/other-trips/add-othe
 import { SharedModule } from 'src/app/shared.module';
 import { GarageManagementComponent } from './garage-management/garage-management.component';
 import { AddGarageComponent } from './garage-management/add-garage/add-garage.component';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { AddNewUserFormComponent } from './user-management/add-new-user-form/add-new-user-form.component';
+import { PersonalDetailsComponent } from './user-management/add-new-user-form/personal-details/personal-details.component';
+import { BankDetailsComponent } from './user-management/add-new-user-form/bank-details/bank-details.component';
+import { UploadVerificationsComponent } from './user-management/add-new-user-form/upload-verifications/upload-verifications.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,13 @@ import { AddGarageComponent } from './garage-management/add-garage/add-garage.co
     OtherTripsComponent,
     AddOtherTripComponent,
     GarageManagementComponent,
-    AddGarageComponent
+    AddGarageComponent,
+    UserManagementComponent,
+    AddNewUserFormComponent,
+    AddNewUserFormComponent,
+    PersonalDetailsComponent,
+    BankDetailsComponent,
+    UploadVerificationsComponent,
   ],
   imports: [
     CommonModule,
