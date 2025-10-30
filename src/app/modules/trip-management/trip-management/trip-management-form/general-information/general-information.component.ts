@@ -1,3 +1,4 @@
+import { WellKnownUserRole } from './../../../../../shared/enums/well-known-user-role.enum';
 import { DatePipe } from "@angular/common";
 import { Component, TemplateRef, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -6,6 +7,7 @@ import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { TripManagementFlowService } from "../trip-management-flow.service";
 import { paymentMethod } from "src/app/shared/data/commonData";
+import { MasterDataService } from 'src/app/shared/services/master-data.service';
 
 @Component({
   selector: "app-general-information",
@@ -18,11 +20,14 @@ export class GeneralInformationComponent {
   minEndDate: string = "";
   paymentMethodArr: any = paymentMethod;
   isView: boolean = false;
+  WellKnownUserRole = WellKnownUserRole;
+  currentUserRole = this.WellKnownUserRole.ADMIN;
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private messageService: AppMessageService,
-    private tripMgtFlowService: TripManagementFlowService
+    private tripMgtFlowService: TripManagementFlowService,
+    private masterDataService: MasterDataService
   ) {
     this.createForm();
   }
@@ -83,6 +88,7 @@ export class GeneralInformationComponent {
 
   ngOnInit(): void {
     this.FV.disableField("dateCount");
+    this.currentUserRole = this.masterDataService.Role;
 
     let today = new Date();
     this.minStartDate = this.datePipe.transform(
@@ -313,7 +319,11 @@ export class GeneralInformationComponent {
 
     // genaral information validation
     let validateParams =
-      "tripConfirmedNumber,startDate,endDate,dateCount,estimatedCost,requestedVehicle,totalIncome,totalIncomeLocalCurrency,email,mobile,contactPerson,specialRequirement,paymentMode,isPaymentCollected";
+      "tripConfirmedNumber,startDate,endDate,dateCount,requestedVehicle,email,mobile,contactPerson,specialRequirement,paymentMode,isPaymentCollected";
+
+    if (this.currentUserRole != this.WellKnownUserRole.TRIPASSISTANT) {
+      validateParams += ",totalIncome,totalIncomeLocalCurrency,estimatedCost";
+    }
 
     // // add arrival departure pickup drop off validations
     if (isArrivalAdded) {

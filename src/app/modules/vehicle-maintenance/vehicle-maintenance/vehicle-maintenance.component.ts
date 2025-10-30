@@ -165,13 +165,12 @@ export class VehicleMaintenanceComponent {
 
   exportToExcel() {
     let reportCols = [
-      { field: "name", header: "Name" },
-      { field: "address", header: "Address" },
-      { field: "city", header: "City" },
-      { field: "contactNumber1", header: "Contact Number 1" },
-      { field: "contactNumber2", header: "Contact Number 2" },
-      { field: "specializations", header: "Specializations" },
-      { field: "status", header: "Status" },
+      { field: "maintenanceDate", header: "Maintenance Date" },
+      { field: "vehicleNumber", header: "Vehicle Number" },
+      { field: "maintenancePart", header: "Maintenance Part" },
+      { field: "garageName", header: "Garage Name" },
+      { field: "cost", header: "Cost (LKR)" },
+      { field: "note", header: "Note" },
       { field: "createdUser", header: "Created User" },
       { field: "updatedUser", header: "Updated User" },
       { field: "createdAt", header: "Created Date" },
@@ -181,13 +180,16 @@ export class VehicleMaintenanceComponent {
     let excelData: any[] = [];
     this.recodes.forEach((item: any) => {
       let obj = {
-        name: item.name,
-        address: item.address,
-        city: item.city,
-        contactNumber1: item.contactNumber1,
-        contactNumber2: item.contactNumber2,
-        specializations: item.specializations,
-        status: item.statusName,
+        maintenanceDate: this.datePipe.transform(
+          item.maintenanceDate,
+          "dd/MM/yyyy",
+          "Asia/Colombo"
+        ),
+        vehicleNumber: item.vehicleNumber,
+        maintenancePart: item.maintenancePart,
+        garageName: item.garageName,
+        cost: item.cost,
+        note: item.note,
         createdAt: this.datePipe.transform(
           item.createdAt,
           "dd/MM/yyyy",
@@ -209,7 +211,7 @@ export class VehicleMaintenanceComponent {
     this.excelService.GenerateExcelFileWithCustomHeader(
       reportCols,
       excelData,
-      "Garages "
+      "Vehicle Maintenance "
     );
   }
 
