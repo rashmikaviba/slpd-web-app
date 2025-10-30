@@ -1,0 +1,128 @@
+<div id="demo">
+  <div class="flex justify-content-between align-content-center">
+    <div class="flex flex-column gap-1">
+      <div class="text-xl font-bold">{{ companyInformation?.companyName }}</div>
+
+      <div class="flex align-items-start gap-2">
+        <div class="flex flex-column">
+          <span>{{ companyInformation?.addressline1 }}</span>
+          <span>{{ companyInformation?.addressline2 }}</span>
+        </div>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-envelope"></i>
+        <span>{{ companyInformation?.email }}</span>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-phone"></i>
+        <span>{{ companyInformation?.phone }}</span>
+      </div>
+    </div>
+    <div class="flex flex-column justify-content-end align-content-end gap-2">
+      <div class="text-right"> <img src="assets/signin-4.png" alt="Image" height="40" /></div>
+      <label class="text-2xl font-semibold mb-2 uppercase">Maintenance Invoice</label>
+
+    </div>
+  </div>
+  <hr />
+  <div class="p-fluid grid formgrid">
+    <!-- <div class="field col-12 md:col-12 text-center">
+      <label class="text-2xl font-semibold mb-2 uppercase">Maintenance Invoice</label>
+    </div> -->
+
+    <div class="col-12">
+      <div class="label">Bill To</div>
+      <div class="value">{{ vehicleMaintenance?.vehicleOwnerName || "-" }}</div>
+    </div>
+    <div class="col-12">
+      <div class="label">Invoice Date</div>
+      <div class="value">{{ genaratedDate | date : "dd-MM-yyyy HH:mm" }}</div>
+    </div>
+    <div class="col-12">
+      <div class="label">Vehicle Number</div>
+      <div class="value">{{vehicleMaintenance?.vehicleNumber || "-"}}</div>
+    </div>
+    <div class="col-12">
+      <div class="label">Service Date</div>
+      <div class="value">{{vehicleMaintenance?.maintenanceDate | date : "dd-MM-yyyy"}}5</div>
+    </div>
+
+
+    <div class="col-12 mt-3">
+      <table>
+        <thead>
+          <tr>
+            <th>Maintained Part</th>
+            <th>Description</th>
+            <th class="text-right">Amount (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{vehicleMaintenance?.maintenancePart || "-"}}</td>
+            <td>{{vehicleMaintenance?.note || "-"}}</td>
+            <td class="numeric">{{vehicleMaintenance?.cost | currency : "" : ""}}</td>
+          </tr>
+
+          <tr class="font-bold">
+            <td colspan="2">Total</td>
+            <td class="numeric">{{vehicleMaintenance?.cost | currency : "" : ""}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="col-6 mt-8">
+      <div class="flex flex-column justify-content-center align-items-center">
+        <span>{{genaratedUser}}</span>
+        <span>------------------------------</span>
+        <span>Genarated By</span>
+      </div>
+    </div>
+
+
+    <div class="col-6 mt-8">
+      <div class="flex flex-column justify-content-center align-items-center">
+        <span style="visibility: hidden;">nimna</span>
+        <span>------------------------------</span>
+        <span>Authorized By</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-8 border-top-1 pt-3">
+    <label class="text-sm font-bold">Terms and Conditions:</label>
+    <ol class="ml-2">
+      <li class="text-sm">
+        This invoice is issued by the travel agency for maintenance or repair work carried out on a rental or
+        freelance vehicle.
+      </li>
+      <li class="text-sm">
+        All repairs and replacements mentioned have been completed as per the agency's service policy.
+      </li>
+      <li class="text-sm">
+        The vehicle owner is responsible for verifying the maintenance work before accepting the vehicle.
+      </li>
+      <li class="text-sm">
+        The agency is not liable for any additional mechanical issues that occur after the service date unless
+        directly related to the listed repairs.
+      </li>
+      <li class="text-sm">
+        This invoice serves as proof of the maintenance work completed and accepted by the vehicle owner.
+      </li>
+    </ol>
+  </div>
+
+
+  <ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-3">
+      <button id="print" class="p-button-sm p-button p-component p-ripple" printSectionId="demo" [useExistingCss]="true"
+        ngxPrint>
+        <i class="pi pi-print mr-2" style="font-size: 1rem"></i> Print
+      </button>
+    </div>
+  </ng-template>
+</div>

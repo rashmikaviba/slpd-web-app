@@ -113,8 +113,15 @@ const routes: Routes = [
         (m) => m.MonthlyExpensesModule
       ),
     canActivate: [RouteGuardService],
-  }
-
+  },
+  {
+    path: "vehicle-maintenance",
+    loadChildren: () =>
+      import("./modules/vehicle-maintenance/vehicle-maintenance.module").then(
+        (m) => m.VehicleMaintenanceModule
+      ),
+    canActivate: [RouteGuardService],
+  },
 ];
 
 @NgModule({

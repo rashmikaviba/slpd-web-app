@@ -1,0 +1,211 @@
+<div id="demo">
+  <div class="flex justify-content-between align-content-center">
+    <div class="flex flex-column gap-1">
+      <div class="text-xl font-bold">{{ companyInformation?.companyName }}</div>
+
+      <div class="flex align-items-start gap-2">
+        <div class="flex flex-column">
+          <span>{{ companyInformation?.addressline1 }}</span>
+          <span>{{ companyInformation?.addressline2 }}</span>
+        </div>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-envelope"></i>
+        <span>{{ companyInformation?.email }}</span>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-phone"></i>
+        <span>{{ companyInformation?.phone }}</span>
+      </div>
+    </div>
+    <div class="flex flex-column justify-content-end align-content-end gap-2">
+      <div class="text-right"> <img src="assets/signin-4.png" alt="Image" height="40" /></div>
+      <label class="text-2xl font-semibold mb-2 uppercase">Monthly Vehicle Payment Maintenance</label>
+
+    </div>
+  </div>
+  <hr />
+  <div class="p-fluid grid formgrid">
+
+    <div class="col-4">
+      <div class="label">Bill To</div>
+      <div class="value">{{ vehicle?.vehicleOwner || "-" }}</div>
+    </div>
+
+    <div class="col-4">
+      <div class="label">Vehicle Number</div>
+      <div class="value">{{vehicle?.registrationNumber || "-"}}</div>
+    </div>
+
+    <div class="col-4">
+      <div class="label">Genarated Date</div>
+      <div class="value">{{ genaratedDate | date : "dd-MM-yyyy HH:mm" }}</div>
+    </div>
+
+    <div class="col-4">
+      <div class="label">Genarated Month</div>
+      <div class="value">{{reportDetail?.selectedDate | date : "y MMMM"}}</div>
+    </div>
+
+    <div class="col-4">
+      <div class="label">Rental For 30 Days</div>
+      <div class="value">{{ "LKR "+ ((reportDetail?.rentalFor30Days || 0) | currency : "" : "")}}</div>
+    </div>
+
+    <div class="col-4">
+      <div class="label">Worked Days</div>
+      <div class="value">{{(reportDetail?.workedDaysCount || 0) + " Days"}}</div>
+    </div>
+
+
+
+    <div class="col-12 mt-3">
+      <div class="text-center mt-2 mb-2">
+        <label class="text-xl font-semibold mb-2 uppercase">Maintenance Summary</label>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Maintained Part</th>
+            <th>Description</th>
+            <th class="text-right ammount-l">Amount (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="vehicleMaintenances.length > 0">
+            <ng-container *ngFor="let vehicleMaintenance of vehicleMaintenances">
+              <tr>
+                <td>{{vehicleMaintenance?.maintenancePart || "-"}}</td>
+                <td>{{vehicleMaintenance?.note || "-"}}</td>
+                <td class="numeric text-right ammount-l">{{vehicleMaintenance?.cost | currency : "" : ""}}</td>
+              </tr>
+            </ng-container>
+
+            <tr class="font-bold">
+              <td colspan="2">Total</td>
+              <td class="numeric text-right ammount-l">{{reportDetail?.totalVehicleMaintenance | currency : "" : ""}}
+              </td>
+            </tr>
+          </ng-container>
+
+          <ng-container *ngIf="vehicleMaintenances.length <= 0">
+            <tr>
+              <td colspan="3" style="text-align: center; color: black; height: 50px;">
+                No Maintenance Details Available for this Month
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+
+      </table>
+    </div>
+
+    <div class="col-12 mt-3">
+      <div class="text-center mt-2 mb-2">
+        <label class="text-xl font-semibold mb-2 uppercase">Payment Summary</label>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th class="text-right ammount-l">Amount (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Payment for worked {{(reportDetail?.workedDaysCount || 0) + " Days"}} (Value per Day
+              {{(reportDetail?.valuePerDay || 0) | currency : "" : ""}})</td>
+            <td class="numeric text-right ammount-l">
+              {{(reportDetail?.netTotal || 0) | currency : "" : ""}}
+            </td>
+          </tr>
+
+          <tr>
+            <td>Total Effective Maintenance Cost for vehicle</td>
+            <td class="numeric text-right ammount-l">
+              {{(reportDetail?.effectiveMaintenanceCost || 0) | currency : "" : ""}}
+            </td>
+          </tr>
+
+          <tr>
+            <th>Gross Payment for {{reportDetail?.selectedDate | date : "y MMMM"}} </th>
+            <th class="numeric text-right ammount-l">
+              {{(reportDetail?.grossTotal || 0) | currency : "" : ""}}
+            </th>
+          </tr>
+
+        </tbody>
+
+      </table>
+    </div>
+
+
+    <div class="col-6 mt-8">
+      <div class="flex flex-column justify-content-center align-items-center">
+        <span>{{genaratedUser}}</span>
+        <span>------------------------------</span>
+        <span>Genarated By</span>
+      </div>
+    </div>
+
+
+    <div class="col-6 mt-8">
+      <div class="flex flex-column justify-content-center align-items-center">
+        <span style="visibility: hidden;">nimna</span>
+        <span>------------------------------</span>
+        <span>Authorized By</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-8 border-top-1 pt-3">
+    <label class="text-sm font-bold">Terms and Conditions:</label>
+    <ol class="ml-2">
+      <li class="text-sm">
+        This report summarizes the monthly vehicle rental and maintenance payments based on the vehicle category and
+        usage period.
+      </li>
+      <li class="text-sm">
+        For <strong>freelance vehicles</strong>, all maintenance costs during the month must be paid by the vehicle
+        owner.
+      </li>
+      <li class="text-sm">
+        For <strong>rental vehicles</strong>, maintenance costs exceeding <strong>LKR 5,000</strong> will be charged to
+        the vehicle owner.
+        Any maintenance cost below or equal to LKR 5,000 will be covered by the agency.
+      </li>
+      <li class="text-sm">
+        Monthly rental payments are calculated only for the number of <strong>worked days</strong> within the 30-day
+        rental period.
+      </li>
+      <li class="text-sm">
+        All maintenance and rental calculations are verified based on the agency’s operational and accounting records
+        for the relevant month.
+      </li>
+      <li class="text-sm">
+        The vehicle owner is required to review and confirm all listed charges before final payment is processed.
+      </li>
+      <li class="text-sm">
+        Any disputes regarding maintenance charges or payment calculations must be reported within <strong>7
+          days</strong> of report issuance.
+      </li>
+      <li class="text-sm">
+        This report serves as an official record of the monthly vehicle expenses and payments as agreed between the
+        vehicle owner and the agency.
+      </li>
+    </ol>
+  </div>
+
+
+
+  <ng-template #templateRef>
+    <div class="flex justify-content-end align-items-center gap-3">
+      <button id="print" class="p-button-sm p-button p-component p-ripple" printSectionId="demo" [useExistingCss]="true"
+        ngxPrint>
+        <i class="pi pi-print mr-2" style="font-size: 1rem"></i> Print
+      </button>
+    </div>
+  </ng-template>
+</div>

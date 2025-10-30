@@ -81,6 +81,16 @@
         </div>
       </ng-container>
 
+      <div class="field col-12 md:col-4" *ngIf="FV.getValue('isFreelanceVehicle') || FV.getValue('isRentalVehicle')">
+        <label for="rentalFor30Days" class="required">Rental For 30 Days</label>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">LKR</span>
+          <p-inputNumber formControlName="rentalFor30Days" mode="decimal" [minFractionDigits]="2"
+            [maxFractionDigits]="2" [min]="0"></p-inputNumber>
+        </div>
+      </div>
+
+
       <div class="field col-12 md:col-4">
         <div class="flex align-items-center gap-3">
           <p-checkbox label="Freelance Vehicle" [binary]="true" formControlName="isFreelanceVehicle"

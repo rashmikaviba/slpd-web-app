@@ -114,7 +114,7 @@ export class VehicleManagementComponent {
     };
 
     let properties = {
-      width: "50vw",
+      width: "60vw",
       position: "right",
     };
 
@@ -141,7 +141,7 @@ export class VehicleManagementComponent {
     }
 
     let properties = {
-      width: "50vw",
+      width: "60vw",
       position: "right",
     };
 

@@ -136,6 +136,20 @@ export class DefaultLayoutNewComponent {
         ]),
       },
       {
+        menuId: 16,
+        label: "Vehicle Maintenance",
+        icon: "pi pi-sync",
+        routerLink: "/vehicle-maintenance",
+        labelForRoute: "Vehicle Maintenance",
+        isExpanded: false,
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.AdminVehicleMaintenance,
+          AppModule.SuperAdminVehicleMaintenance,
+          AppModule.DriverAssistantVehicleMaintenance,
+          AppModule.TripAssistantVehicleMaintenance
+        ]),
+      },
+      {
         menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",

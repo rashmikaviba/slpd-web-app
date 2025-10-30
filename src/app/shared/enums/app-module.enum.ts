@@ -13,6 +13,7 @@ export enum AppModule {
   SUperAdminMonthlyExpensesManagement = 12,
   SuperAdminMasterConfiguration = 13,
   SuperAdminGarageManagement = 14,
+  SuperAdminVehicleMaintenance = 15,
 
   AdminLeaveManagement = 30,
   AdminVehicleManagement = 31,
@@ -25,6 +26,7 @@ export enum AppModule {
   AdminDashboard = 38,
   AdminMasterConfiguration = 39,
   AdminGarageManagement = 40,
+  AdminVehicleMaintenance = 41,
 
   DriverLeaveManagement = 60,
   DriverTripManagement = 61,
@@ -35,9 +37,11 @@ export enum AppModule {
   TripAssistantMasterConfiguration = 101,
   TripAssistantGarageManagement = 102,
   TripAssistantTripManagement = 103,
+  TripAssistantVehicleMaintenance = 104,
 
   DriverAssistantLeaveManagement = 150,
   DriverAssistantMasterConfiguration = 151,
   DriverAssistantGarageManagement = 152,
   DriverAssistantTripManagement = 153,
+  DriverAssistantVehicleMaintenance = 154,
 }

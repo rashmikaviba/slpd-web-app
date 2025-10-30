@@ -31,6 +31,7 @@ export class ResourceService {
   private Pos = this.host + "/pos";
   private Dashboard = this.host + "/dashboard";
   private Garage = this.host + "/garage";
+  private VehicleMaintenance = this.host + "/vehicleMaintenance";
 
   auth = {
     login: this.Auth + "/login",
@@ -137,6 +138,7 @@ export class ResourceService {
     monthlyExpensesReport: this.Report + "/monthlyExpensesReport",
     monthlyDriverSalary: this.Report + "/monthlyDriverSalary",
     monthlyIncomeReport: this.Report + "/monthlyIncomeReport",
+    vehicleMonthlyPaymentMaintance: this.Report + '/vehicleMonthlyPaymentMaintance',
   };
 
   expenseRequest = {
@@ -217,5 +219,14 @@ export class ResourceService {
     update: this.Garage,
     deleteById: this.Garage,
     activeInactiveGarages: this.Garage + "/activeInactiveGarage",
+  }
+
+  vehicleMaintenance = {
+    save: this.VehicleMaintenance,
+    getAll: this.VehicleMaintenance,
+    getById: this.VehicleMaintenance,
+    update: this.VehicleMaintenance,
+    deleteById: this.VehicleMaintenance,
+    maintenanceInvoice: this.VehicleMaintenance + "/maintainInvoice",
   }
 }

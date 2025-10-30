@@ -36,33 +36,32 @@ import { FieldsetModule } from "primeng/fieldset";
 import { ChipModule } from "primeng/chip";
 import { DataViewModule } from "primeng/dataview";
 import { ImageModule } from "primeng/image";
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { NgxScannerQrcodeModule, LOAD_WASM } from 'ngx-scanner-qrcode';
+import { QRCodeModule } from 'angularx-qrcode';
 
-import { ReportManagementRoutingModule } from './report-management-routing.module';
-import { ReportNavigationDashboardComponent } from './report-navigation-dashboard/report-navigation-dashboard.component';
-import { SharedModule } from 'primeng/api';
-import { MonthlyTripReportComponent } from './monthly-trip-report/monthly-trip-report.component';
-import { MonthlyExpensesReportComponent } from './monthly-expenses-report/monthly-expenses-report.component';
-import { MonthlyDriverSalaryComponent } from './monthly-driver-salary/monthly-driver-salary.component';
+import { VehicleMaintenanceRoutingModule } from './vehicle-maintenance-routing.module';
+import { VehicleMaintenanceComponent } from './vehicle-maintenance/vehicle-maintenance.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { BadgeModule } from 'primeng/badge';
 import { NgxPrintModule } from 'ngx-print';
-import { MonthlyIncomeReportComponent } from './monthly-income-report/monthly-income-report.component';
-import { MonthlyVehiclePaymentMaintenanceReportComponent } from './monthly-vehicle-payment-maintenance-report/monthly-vehicle-payment-maintenance-report.component';
-
+import { TagModule } from 'primeng/tag';
+import { SharedModule } from 'src/app/shared.module';
+import { AddVehicleMaintenanceComponent } from './vehicle-maintenance/add-vehicle-maintenance/add-vehicle-maintenance.component';
+import { VehicleMaintenanceInvoiceComponent } from './vehicle-maintenance/vehicle-maintenance-invoice/vehicle-maintenance-invoice.component';
 
 
 @NgModule({
   declarations: [
-    ReportNavigationDashboardComponent,
-    MonthlyTripReportComponent,
-    MonthlyExpensesReportComponent,
-    MonthlyDriverSalaryComponent,
-    MonthlyIncomeReportComponent,
-    MonthlyVehiclePaymentMaintenanceReportComponent
+    VehicleMaintenanceComponent,
+    AddVehicleMaintenanceComponent,
+    VehicleMaintenanceInvoiceComponent
   ],
   imports: [
     CommonModule,
-    ReportManagementRoutingModule,
-    ReactiveFormsModule,
+    VehicleMaintenanceRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
     CheckboxModule,
@@ -97,9 +96,15 @@ import { MonthlyVehiclePaymentMaintenanceReportComponent } from './monthly-vehic
     FieldsetModule,
     ChipModule,
     DataViewModule,
+    TagModule,
     SharedModule,
+    NgxPrintModule,
+    FloatLabelModule,
     ImageModule,
-    NgxPrintModule
+    BadgeModule,
+    QRCodeModule,
+    NgxScannerQrcodeModule,
+    FileUploadModule,
   ]
 })
-export class ReportManagementModule { }
+export class VehicleMaintenanceModule { }
