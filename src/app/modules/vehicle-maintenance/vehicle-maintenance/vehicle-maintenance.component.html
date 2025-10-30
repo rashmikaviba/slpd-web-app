@@ -1,0 +1,100 @@
+<form [formGroup]="FV.formGroup"><!-- <div class="card"> -->
+    <div class="flex justify-content-between align-items-center mb-4">
+        <div class="text-2xl font-semibold">Vehicle Maintenance</div>
+        <p-button styleClass="p-button-sm mb:p-button" icon="pi pi-plus" label="Add New Maintenance"
+            (onClick)="onClickAddNew()"></p-button>
+    </div>
+    <p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
+        dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines"
+        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true" [rowHover]="true"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="[
+    'vehicleNumber',
+    'garageName'
+  ]">
+        <ng-template pTemplate="caption">
+            <div class="grid formgrid p-fluid">
+                <div class="field col-12 md:col-3">
+                    <div class="flex justify-content-end md:justify-content-start">
+                        <button type="button" pButton pRipple icon="pi pi-file-excel" class="p-button-success"
+                            pTooltip="Export to XLS" tooltipPosition="right" (click)="exportToExcel()"></button>
+                    </div>
+                </div>
+                <div class="field hidden md:col-3 md:flex"></div>
+                <div class="field col-12 md:col-3">
+                    <p-calendar selectionMode="range" [readonlyInput]="true" formControlName="dateRange"
+                        (onSelect)="loadAllVehicleMaintenance()" />
+                </div>
+                <div class="field col-7 md:col-3">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Search Maintenance" styleClass="w-full md:w-12rem" />
+                    </p-iconField>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [ngClass]="{'text-right': col.field == 'cost'}">
+                    {{ col.header }}
+                </th>
+                <th class="text-center">Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr>
+                <td *ngFor="let col of columns" [ngClass]="{'bg-blue': rowIndex % 2 !== 0, 'text-right': col.field == 'cost'
+        }">
+                    <ng-container *ngIf="col.field == 'maintenanceDate'">
+                        <span class="p-column-title font-bold">{{ col.header }}</span>
+                        {{ (rowData[col.field] | date : "dd-MM-yyyy") || "-" }}
+                    </ng-container>
+
+                    <ng-container *ngIf="col.field == 'cost'">
+                        <span class="p-column-title font-bold">{{ col.header }}</span>
+                        {{ (rowData[col.field] | currency : "":"") || "-" }}
+                    </ng-container>
+
+                    <ng-container *ngIf="col.field == 'note'">
+                        <span class="p-column-title font-bold">{{ col.header }}</span>
+                        <span pTooltip="{{ rowData[col.field] }}">
+                            {{ (rowData[col.field] | truncate : 40) || "-" }}
+                        </span>
+                    </ng-container>
+
+                    <ng-container *ngIf="col.field == 'createdAt'">
+                        <span class="p-column-title font-bold"> {{ col.header }}</span>
+                        {{ (rowData?.createdAt | date : 'dd-MM-yyyy hh:mm a') + ' by ' + rowData.createdUser }}
+                    </ng-container>
+
+
+                    <ng-container
+                        *ngIf="col.field != 'maintenanceDate' && col.field != 'cost' && col.field != 'createdAt' && col.field != 'note'">
+                        <span class="p-column-title font-bold">{{ col.header }}</span>
+                        {{ rowData[col.field] || "-" }}
+                    </ng-container>
+                </td>
+                <td class="text-center">
+                    <button #btn type="button" pButton icon="pi pi-ellipsis-v"
+                        (click)="toggleMenu(menu, $event, rowData)"></button>
+                    <p-tieredMenu #menu [model]="filteredItems" [popup]="true" appendTo="body"
+                        styleClass="w-fit"></p-tieredMenu>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns.length + 2">
+                    <div class="flex flex-column justify-content-center align-items-center gap-2"
+                        style="height: 300px; width: 100%">
+                        <i class="pi pi-inbox text-5xl text-gray-400"></i>
+                        <small class="">No Maintenance Found</small>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</form>

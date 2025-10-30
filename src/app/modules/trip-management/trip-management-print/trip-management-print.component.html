@@ -260,7 +260,8 @@
     </ng-container>
 
 
-    <ng-container *ngIf="role != wellKnownUserRole.DRIVER">
+    <ng-container
+      *ngIf="role != wellKnownUserRole.DRIVER && role != wellKnownUserRole.TRIPASSISTANT && role != wellKnownUserRole.DRIVERASSISTANT">
       <div class="field col-12 md:col-12">
         <label class="text-xl font-semibold">About the Total Cost</label>
       </div>

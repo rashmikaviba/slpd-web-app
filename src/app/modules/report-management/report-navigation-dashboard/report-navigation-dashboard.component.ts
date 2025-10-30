@@ -1,6 +1,7 @@
+import { VehicleService } from './../../../shared/services/api-services/vehicle.service';
 import { CommonForm } from "../../../shared/services/app-common-form";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { reportData } from "src/app/shared/data/reportData";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
@@ -11,6 +12,7 @@ import { DatePipe } from "@angular/common";
 import { MonthlyExpensesReportComponent } from "../monthly-expenses-report/monthly-expenses-report.component";
 import { MonthlyDriverSalaryComponent } from "../monthly-driver-salary/monthly-driver-salary.component";
 import { MonthlyIncomeReportComponent } from "../monthly-income-report/monthly-income-report.component";
+import { MonthlyVehiclePaymentMaintenanceReportComponent } from '../monthly-vehicle-payment-maintenance-report/monthly-vehicle-payment-maintenance-report.component';
 
 @Component({
   selector: "app-report-navigation-dashboard",
@@ -19,6 +21,7 @@ import { MonthlyIncomeReportComponent } from "../monthly-income-report/monthly-i
 })
 export class ReportNavigationDashboardComponent implements OnInit {
   reports: any[] = reportData;
+  vehicles: any[] = [];
   activeIndex: number = 0;
   FV = new CommonForm();
   constructor(
@@ -26,7 +29,9 @@ export class ReportNavigationDashboardComponent implements OnInit {
     private messageService: AppMessageService,
     private sidebarService: SidebarService,
     private reportService: ReportService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private vehicleService: VehicleService
+
   ) {
     this.createForm();
   }
@@ -39,15 +44,38 @@ export class ReportNavigationDashboardComponent implements OnInit {
 
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
-      month: [""],
+      month: ["", [Validators.required]],
+      vehicle: ["", [Validators.required]],
+      rentalFor30Days: [0, [Validators.min(0.01), Validators.required]],
+      workedDayCount: ["", [Validators.required]]
     });
   }
 
   activeIndexChange(event: any) {
-    this.FV.clearValues("month");
+    this.FV.clearValues("month,vehicle,rentalFor30Days,workedDayCount");
     let today = new Date();
     this.FV.setValue("month", today);
     this.activeIndex = event;
+
+    if (this.activeIndex == 4) {
+      this.loadInitialData();
+    }
+  }
+
+  async loadInitialData() {
+    try {
+      const vehicleResult = await firstValueFrom(
+        this.vehicleService.GetAllVehicles()
+      );
+
+      if (vehicleResult.IsSuccessful) {
+        if (vehicleResult.Result.length > 0) {
+          this.vehicles = vehicleResult.Result.filter((x) => x.isFreelanceVehicle == true || x.isRentalVehicle == true);
+        }
+      }
+    } catch (error) {
+      this.messageService.showErrorAlert(error);
+    }
   }
 
   onClickGenerateReport(report) {
@@ -66,6 +94,11 @@ export class ReportNavigationDashboardComponent implements OnInit {
         break;
       case 3:
         this.openMonthlyIncomeReport(date);
+        break;
+      case 4:
+        this.openMonthlyVehiclePaymentReport(date);
+        break;
+      default:
         break;
     }
   }
@@ -215,6 +248,68 @@ export class ReportNavigationDashboardComponent implements OnInit {
       );
     } catch (error) {
       this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  async openMonthlyVehiclePaymentReport(date: string) {
+    try {
+      let validateParams = "vehicle,month,rentalFor30Days,workedDayCount";
+      if (this.FV.validateControllers(validateParams)) {
+        return;
+      }
+      let data = {
+        reportDetail: null,
+        month: date,
+      };
+
+      let reqest = {
+        vehicle: this.FV.getValue("vehicle")._id,
+        month: date,
+        rentalFor30Days: this.FV.getValue("rentalFor30Days") || 0,
+        workedDaysCount: this.FV.getValue("workedDayCount") || 0,
+      };
+
+      const reportResult = await firstValueFrom(
+        this.reportService.GetMonthlyVehicleMaintenanceReportData(reqest)
+      );
+
+      if (reportResult.IsSuccessful) {
+        data.reportDetail = reportResult.Result;
+      }
+
+      if (!data.reportDetail) {
+        this.messageService.showInfoAlert(
+          `No vehicle payment data found for selected month (${date})!`
+        );
+        return;
+      }
+
+      let properties = {
+        width: "60vw",
+        position: "right",
+      };
+
+      this.sidebarService.addComponent(
+        "",
+        MonthlyVehiclePaymentMaintenanceReportComponent,
+        properties,
+        data
+      );
+
+
+
+    } catch (error) {
+      this.messageService.showErrorAlert(error.message || error);
+    }
+  }
+
+  onChangeVehicle() {
+    this.FV.clearValues("rentalFor30Days,workedDayCount");
+    let vehicle = this.FV.getValue("vehicle");
+    if (vehicle) {
+      debugger
+      this.FV.setValue("rentalFor30Days", vehicle.rentalFor30Days || 0);
+      this.FV.setValue("workedDayCount", vehicle.workedDayCount);
     }
   }
 }

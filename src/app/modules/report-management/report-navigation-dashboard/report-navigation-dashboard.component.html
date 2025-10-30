@@ -1,60 +1,78 @@
 <form [formGroup]="FV.formGroup" autocomplete="off">
-  <div
-    class="flex justify-content-between align-items-center align-content-center w-full mb-4"
-  >
+  <div class="flex justify-content-between align-items-center align-content-center w-full mb-4">
     <div class="text-2xl font-semibold">Reports</div>
 
     <div class="flex justify-content-center align-content-center gap-2">
       <ng-container *ngFor="let report of reports; let i = index">
-        <p-button
-          (click)="activeIndex = report.index"
-          label="{{ i + 1 }}"
-          styleClass="w-2rem h-2rem p-0"
-          [outlined]="activeIndex !== report.index"
-          pTooltip="{{ report.header }}"
-          tooltipPosition="bottom"
-        />
+        <p-button (click)="activeIndex = report.index" label="{{ i + 1 }}" styleClass="w-2rem h-2rem p-0"
+          [outlined]="activeIndex !== report.index" pTooltip="{{ report.header }}" tooltipPosition="bottom" />
       </ng-container>
     </div>
   </div>
 
-  <p-accordion
-    (activeIndexChange)="activeIndexChange($event)"
-    [activeIndex]="activeIndex"
-  >
+  <p-accordion (activeIndexChange)="activeIndexChange($event)" [activeIndex]="activeIndex">
     <ng-container *ngFor="let report of reports">
       <p-accordionTab header="{{ report.header }}">
-        <!-- Common Section -->
-        <div class="flex flex-column gap-2">
+        <div class="p-fluid grid formgrid">
+          <div class="field col-12 md:col-3">
+            <label for="startDate" class="required"> Month</label>
+            <p-calendar id="startDate" formControlName="month" view="month" dateFormat="yy-MM" [readonlyInput]="true" />
+          </div>
+
+          <div class="field col-12 md:col-3" *ngIf="report.index === 4">
+            <label for="endDate" class="required"> Vehicle</label>
+            <p-dropdown id="vehicle" styleClass="w-full " [options]="vehicles" optionLabel="registrationNumber"
+              formControlName="vehicle" appendTo="body" [autoOptionFocus]="false" [filter]="true"
+              (onChange)="onChangeVehicle()"></p-dropdown>
+          </div>
+
+          <div class="field col-12 md:col-3" *ngIf="report.index === 4">
+            <label for="rentalFor30Days" class="required">Rental For 30 Days</label>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">LKR</span>
+              <p-inputNumber formControlName="rentalFor30Days" mode="decimal" [minFractionDigits]="2"
+                [maxFractionDigits]="2" [min]="0"></p-inputNumber>
+            </div>
+          </div>
+
+          <div class="field col-12 md:col-3" *ngIf="report.index === 4">
+            <label for="workedDayCount" class="required">Worked Days Count</label>
+            <p-inputNumber formControlName="workedDayCount" [min]="0" [max]="30" suffix=" days"
+              [showButtons]="true"></p-inputNumber>
+
+          </div>
+
+          <div class="field col-12">
+            <div class="flex flex-column gap-2 mt-2">
+              <span class="p-column-title font-bold">Report Description</span>
+              <span class="text-base"> {{ report.description }} </span>
+            </div>
+          </div>
+
+          <div class="field col-12 flex justify-content-end">
+            <p-button label="Generate" icon="pi pi-sparkles" [outlined]="true"
+              (onClick)="onClickGenerateReport(report)"></p-button>
+          </div>
+        </div>
+
+
+        <!-- <div class="flex flex-column gap-2">
           <div class="flex justify-content-between align-items-end">
             <div class="flex flex-column gap-2">
               <label for="startDate" class="required"> Month</label>
-              <p-calendar
-                id="startDate"
-                formControlName="month"
-                view="month"
-                dateFormat="yy-MM"
-                [readonlyInput]="true"
-              />
+              <p-calendar id="startDate" formControlName="month" view="month" dateFormat="yy-MM"
+                [readonlyInput]="true" />
             </div>
 
-            <p-button
-              label="Generate"
-              icon="pi pi-sparkles"
-              [outlined]="true"
-              (onClick)="onClickGenerateReport(report)"
-            ></p-button>
+            <p-button label="Generate" icon="pi pi-sparkles" [outlined]="true"
+              (onClick)="onClickGenerateReport(report)"></p-button>
           </div>
 
           <div class="flex flex-column gap-2 mt-2">
             <span class="p-column-title font-bold">Report Description</span>
             <span class="text-base"> {{ report.description }} </span>
           </div>
-
-          <!-- <div class="flex justify-content-end">
-            <p-button label="Generate Report" styleClass="w-10rem"></p-button>
-          </div> -->
-        </div>
+        </div> -->
       </p-accordionTab>
     </ng-container>
   </p-accordion>

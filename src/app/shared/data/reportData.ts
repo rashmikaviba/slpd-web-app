@@ -20,4 +20,9 @@ export const reportData = [
         header: "04. Monthly Income Report",
         description: "This report presents a detailed summary of all revenue generated during the month, categorized by trip fares, additional services, and other income streams. It provides an analysis of revenue trends, highlights high-performing routes or services, and compares income against operational expenses to calculate net profitability. The report is essential for evaluating the financial health of the organization."
     },
+    {
+        index: 4,
+        header: "05. Vehicle Monthly Payment - Maintenance",
+        description: "This report provides a detailed summary of the monthly maintenance expenses and rental payments for the selected vehicle. It includes all maintenance-related costs incurred during the month—such as repairs, servicing, and parts replacement—along with the calculated monthly rental charges (if applicable). The report helps in tracking total monthly vehicle expenditure and supports financial planning and cost management for the fleet."
+    }
 ];

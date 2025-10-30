@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { AppComponent } from "src/app/app.component";
 import { PopupService } from "src/app/shared/services/popup.service";
 import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { AddUserControlFlowService } from "../../user/add-new-user/add-new-user-form/add-user-control-flow.service";
+import { AddUserControlFlowService } from "../../master-configuration/user-management/add-new-user-form/add-user-control-flow.service";
 import { UserService } from "src/app/shared/services/api-services/user.service";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { TransactionHandlerService } from "src/app/shared/services/transaction-handler.service";

@@ -9,7 +9,7 @@ import { AppModule } from "src/app/shared/enums/app-module.enum";
 import { AppMessageService } from "src/app/shared/services/app-message.service";
 import { DatePipe } from "@angular/common";
 import { PopupService } from "src/app/shared/services/popup.service";
-import { ChangePasswordComponent } from "src/app/modules/user/change-password/change-password.component";
+import { ChangePasswordComponent } from "src/app/shared/components/change-password/change-password.component";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.state";
 import {
@@ -84,17 +84,6 @@ export class DefaultLayoutNewComponent {
         ]),
       },
       {
-        menuId: 2,
-        label: "User",
-        icon: "pi pi-user",
-        routerLink: "/user",
-        labelForRoute: "User",
-        isExpanded: false,
-        isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminUserManagement,
-        ]),
-      },
-      {
         menuId: 3,
         label: "Leave Management",
         icon: "pi pi-user",
@@ -105,6 +94,8 @@ export class DefaultLayoutNewComponent {
           AppModule.SuperAdminLeaveManagement,
           AppModule.AdminLeaveManagement,
           AppModule.DriverLeaveManagement,
+          AppModule.DriverAssistantLeaveManagement,
+          AppModule.TripAssistantLeaveManagement
         ]),
       },
       {
@@ -117,18 +108,8 @@ export class DefaultLayoutNewComponent {
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminTripManagement,
           AppModule.SuperAdminTripManagement,
-        ]),
-      },
-      {
-        menuId: 5,
-        label: "Vehicle Management",
-        icon: "pi pi-car",
-        routerLink: "/vehicle-management",
-        labelForRoute: "Vehicle Management",
-        isExpanded: false,
-        isVisible: this.checkUserAuthorizedToAccess([
-          AppModule.SuperAdminVehicleManagement,
-          AppModule.AdminVehicleManagement,
+          AppModule.DriverAssistantTripManagement,
+          AppModule.TripAssistantTripManagement
         ]),
       },
       {
@@ -155,6 +136,20 @@ export class DefaultLayoutNewComponent {
         ]),
       },
       {
+        menuId: 16,
+        label: "Vehicle Maintenance",
+        icon: "pi pi-sync",
+        routerLink: "/vehicle-maintenance",
+        labelForRoute: "Vehicle Maintenance",
+        isExpanded: false,
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.AdminVehicleMaintenance,
+          AppModule.SuperAdminVehicleMaintenance,
+          AppModule.DriverAssistantVehicleMaintenance,
+          AppModule.TripAssistantVehicleMaintenance
+        ]),
+      },
+      {
         menuId: 7,
         label: "Month Audit",
         icon: "pi pi-briefcase",
@@ -168,17 +163,6 @@ export class DefaultLayoutNewComponent {
           this.openMonthAudit();
         },
       },
-      // {
-      //   menuId: 8,
-      //   label: "Vehicle Tracking",
-      //   icon: "pi pi-map-marker",
-      //   routerLink: "/vehicle-tracking",
-      //   labelForRoute: "Vehicle Tracking",
-      //   isExpanded: false,
-      //   isVisible: this.checkUserAuthorizedToAccess([
-      //     AppModule.SuperAdminVehicleTracking,
-      //   ]),
-      // },
       {
         menuId: 10,
         label: "Inventory Management",
@@ -213,6 +197,52 @@ export class DefaultLayoutNewComponent {
         ],
       },
       {
+        menuId: 13,
+        label: "Master Configuration",
+        icon: "pi pi-cog",
+        labelForRoute: "Master Configuration",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.SuperAdminMasterConfiguration, AppModule.AdminMasterConfiguration, AppModule.DriverAssistantMasterConfiguration, AppModule.TripAssistantMasterConfiguration
+        ]),
+        isExpanded: true,
+        items: [
+          {
+            menuId: 2,
+            label: "User Management",
+            icon: "pi pi-user",
+            routerLink: "/master-configuration/user-management",
+            labelForRoute: "User Management",
+            isExpanded: false,
+            isVisible: this.checkUserAuthorizedToAccess([
+              AppModule.SuperAdminUserManagement,
+            ]),
+          },
+          {
+            menuId: 5,
+            label: "Vehicle Management",
+            icon: "pi pi-car",
+            routerLink: "/master-configuration/vehicle-management",
+            labelForRoute: "Vehicle Management",
+            isExpanded: false,
+            isVisible: this.checkUserAuthorizedToAccess([
+              AppModule.SuperAdminVehicleManagement,
+              AppModule.AdminVehicleManagement,
+            ]),
+          },
+          {
+            menuId: 14,
+            label: "Garage Management",
+            icon: "pi pi-wrench",
+            routerLink: "/master-configuration/garage-management",
+            labelForRoute: "Garage Management",
+            isVisible: this.checkUserAuthorizedToAccess([
+              AppModule.SuperAdminGarageManagement, AppModule.AdminGarageManagement,
+              AppModule.DriverAssistantGarageManagement, AppModule.TripAssistantGarageManagement
+            ]),
+          },
+        ],
+      },
+      {
         menuId: 9,
         label: "Reports",
         icon: "pi pi-file",
@@ -222,6 +252,16 @@ export class DefaultLayoutNewComponent {
         isVisible: this.checkUserAuthorizedToAccess([
           AppModule.AdminReportManagement,
           AppModule.SuperAdminReportManagement,
+        ]),
+      },
+      {
+        menuId: 15,
+        label: "Recommended Garage",
+        icon: "pi pi-wrench",
+        routerLink: "/recommended-garage",
+        labelForRoute: "Recommended Garage",
+        isVisible: this.checkUserAuthorizedToAccess([
+          AppModule.DriverRecomendedGarage
         ]),
       },
     ];

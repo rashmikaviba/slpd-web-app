@@ -41,4 +41,12 @@ export class ReportService {
         return response;
       });
   }
+
+  GetMonthlyVehicleMaintenanceReportData(body: any) {
+    return this.dataAccess
+      .POST(this.resource.report.vehicleMonthlyPaymentMaintance, body)
+      .pipe((response) => {
+        return response;
+      });
+  }
 }

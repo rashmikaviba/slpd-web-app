@@ -1,10 +1,11 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
-import { SignInComponent } from "./modules/user/sign-in/sign-in.component";
 import { DefaultLayoutNewComponent } from "./layout/default-layout-new/default-layout-new.component";
 import { DefaultDashboardComponent } from "./layout/default-dashboard/default-dashboard.component";
 import { RouteGuardService } from "./shared/services/route-guard.service";
 import { QrInfoComponent } from "./shared/components/qr-info/qr-info.component";
+import { RecommendedGarageComponent } from "./modules/recommended-garage/recommended-garage.component";
+import { SignInComponent } from "./shared/components/sign-in/sign-in.component";
 // import { TripManagementComponent } from "./modules/trip-management/trip-management.component";
 // import { DriverManagementComponent } from "./modules/driver-management/driver-management.component";
 // import { TripManagementByDriverComponent } from "./modules/trip-management/trip-management-by-driver/trip-management-by-driver.component";
@@ -25,11 +26,22 @@ const routes: Routes = [
     ],
   },
   {
-    path: "user",
-    loadChildren: () =>
-      import("./modules/user/user.module").then((m) => m.UserModule),
+    path: "recommended-garage",
+    component: DefaultLayoutNewComponent,
+    children: [
+      {
+        path: "",
+        component: RecommendedGarageComponent,
+      },
+    ],
     canActivate: [RouteGuardService],
   },
+  // {
+  //   path: "user",
+  //   loadChildren: () =>
+  //     import("./modules/user/user.module").then((m) => m.UserModule),
+  //   canActivate: [RouteGuardService],
+  // },
   {
     path: "leave-management",
     loadChildren: () =>
@@ -38,14 +50,14 @@ const routes: Routes = [
       ),
     canActivate: [RouteGuardService],
   },
-  {
-    path: "vehicle-management",
-    loadChildren: () =>
-      import("./modules/vehicle-management/vehicle-management.module").then(
-        (m) => m.VehicleManagementModule
-      ),
-    canActivate: [RouteGuardService],
-  },
+  // {
+  //   path: "vehicle-management",
+  //   loadChildren: () =>
+  //     import("./modules/vehicle-management/vehicle-management.module").then(
+  //       (m) => m.VehicleManagementModule
+  //     ),
+  //   canActivate: [RouteGuardService],
+  // },
   {
     path: "trip-management",
     loadChildren: () =>
@@ -87,14 +99,29 @@ const routes: Routes = [
     canActivate: [RouteGuardService],
   },
   {
+    path: 'master-configuration',
+    loadChildren: () =>
+      import("./modules/master-configuration/master-configuration.module").then(
+        (m) => m.MasterConfigurationModule
+      ),
+    canActivate: [RouteGuardService],
+  },
+  {
     path: "monthly-expenses",
     loadChildren: () =>
       import("./modules/monthly-expenses/monthly-expenses.module").then(
         (m) => m.MonthlyExpensesModule
       ),
     canActivate: [RouteGuardService],
-  }
-
+  },
+  {
+    path: "vehicle-maintenance",
+    loadChildren: () =>
+      import("./modules/vehicle-maintenance/vehicle-maintenance.module").then(
+        (m) => m.VehicleMaintenanceModule
+      ),
+    canActivate: [RouteGuardService],
+  },
 ];
 
 @NgModule({
