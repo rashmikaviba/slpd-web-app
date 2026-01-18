@@ -9,7 +9,7 @@ export class LeaveService {
   constructor(
     private dataAccess: DataAccessService,
     private resource: ResourceService
-  ) {}
+  ) { }
 
   ApplyLeave(body: any) {
     return this.dataAccess
@@ -19,9 +19,9 @@ export class LeaveService {
       });
   }
 
-  GetAllLeaves() {
+  GetAllLeaves(year: any = new Date().getFullYear()) {
     return this.dataAccess
-      .GET(this.resource.leave.getAllLeaves)
+      .GET(this.resource.leave.getAllLeaves + `?year=${year}`)
       .pipe((response) => {
         return response;
       });
@@ -59,9 +59,9 @@ export class LeaveService {
       });
   }
 
-  GetLeaveCount() {
+  GetLeaveCount(year: any = new Date().getFullYear()) {
     return this.dataAccess
-      .POST(this.resource.leave.getLeaveCount, null)
+      .GET(this.resource.leave.getLeaveCount + `?year=${year}`)
       .pipe((response) => {
         return response;
       });

@@ -8,6 +8,7 @@ import { RequestLeaveByAdminComponent } from "./request-leave-by-admin/request-l
 import { AppComponent } from "src/app/app.component";
 import { LeaveService } from "src/app/shared/services/api-services/leave.service";
 import { MasterDataService } from "src/app/shared/services/master-data.service";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-admin-leave-form",
@@ -36,7 +37,8 @@ export class AdminLeaveFormComponent {
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
     private leaveService: LeaveService,
-    private masterDataService: MasterDataService
+    private masterDataService: MasterDataService,
+    private datePipe: DatePipe
   ) {
     this.createForm();
   }
@@ -44,6 +46,7 @@ export class AdminLeaveFormComponent {
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
       leaveType: [null],
+      year: [new Date()],
     });
   }
 
@@ -113,7 +116,11 @@ export class AdminLeaveFormComponent {
   }
 
   loadLeaveCountData() {
-    this.leaveService.GetLeaveCount().subscribe((response) => {
+    const year = this.FV.getValue("year")
+      ? this.datePipe.transform(this.FV.getValue("year"), "yyyy")
+      : new Date().getFullYear();
+
+    this.leaveService.GetLeaveCount(year).subscribe((response) => {
       if (response.IsSuccessful) {
         this.leaveData = response.Result;
       }
@@ -121,7 +128,11 @@ export class AdminLeaveFormComponent {
   }
 
   loadAllLeaves() {
-    this.leaveService.GetAllLeaves().subscribe((response) => {
+    const year = this.FV.getValue("year")
+      ? this.datePipe.transform(this.FV.getValue("year"), "yyyy")
+      : new Date().getFullYear();
+
+    this.leaveService.GetAllLeaves(year).subscribe((response) => {
       if (response.IsSuccessful) {
         this.recodes = response.Result;
         this._recodes = response.Result;
@@ -202,5 +213,10 @@ export class AdminLeaveFormComponent {
     } else {
       this.recodes = this._recodes;
     }
+  }
+
+  onSelectYear() {
+    this.loadLeaveCountData();
+    this.loadAllLeaves();
   }
 }

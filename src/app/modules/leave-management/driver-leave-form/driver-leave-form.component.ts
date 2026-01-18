@@ -7,6 +7,7 @@ import { SidebarService } from "src/app/shared/services/sidebar.service";
 import { RequestLeaveByDriverComponent } from "./request-leave-by-driver/request-leave-by-driver.component";
 import { AppComponent } from "src/app/app.component";
 import { LeaveService } from "src/app/shared/services/api-services/leave.service";
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: "app-driver-leave-form",
@@ -33,7 +34,8 @@ export class DriverLeaveFormComponent {
     private popupService: PopupService,
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
-    private leaveService: LeaveService
+    private leaveService: LeaveService,
+    private datePipe: DatePipe
   ) {
     this.createForm();
   }
@@ -41,6 +43,7 @@ export class DriverLeaveFormComponent {
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
       leaveType: [null],
+      year: [new Date()],
     });
   }
 
@@ -109,7 +112,10 @@ export class DriverLeaveFormComponent {
   }
 
   loadLeaveCountData() {
-    this.leaveService.GetLeaveCount().subscribe((response) => {
+    const year = this.FV.getValue("year")
+      ? this.datePipe.transform(this.FV.getValue("year"), "yyyy")
+      : new Date().getFullYear();
+    this.leaveService.GetLeaveCount(year).subscribe((response) => {
       if (response.IsSuccessful) {
         this.leaveData = response.Result;
       }
@@ -117,7 +123,10 @@ export class DriverLeaveFormComponent {
   }
 
   loadAllLeaves() {
-    this.leaveService.GetAllLeaves().subscribe((response) => {
+    const year = this.FV.getValue("year")
+      ? this.datePipe.transform(this.FV.getValue("year"), "yyyy")
+      : new Date().getFullYear();
+    this.leaveService.GetAllLeaves(year).subscribe((response) => {
       if (response.IsSuccessful) {
         this.recodes = response.Result;
         this._recodes = response.Result;
@@ -198,5 +207,10 @@ export class DriverLeaveFormComponent {
     } else {
       this.recodes = this._recodes;
     }
+  }
+
+  onSelectYear() {
+    this.loadLeaveCountData();
+    this.loadAllLeaves();
   }
 }

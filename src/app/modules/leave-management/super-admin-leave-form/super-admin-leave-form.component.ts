@@ -42,6 +42,7 @@ export class SuperAdminLeaveFormComponent {
   createForm() {
     this.FV.formGroup = this.formBuilder.group({
       leaveType: [null],
+      year: [new Date()],
     });
   }
 
@@ -96,8 +97,13 @@ export class SuperAdminLeaveFormComponent {
     menu.toggle(event);
   }
 
+
   loadAllLeaves() {
-    this.leaveService.GetAllLeaves().subscribe((response) => {
+    const year = this.FV.getValue("year")
+      ? this.datePipe.transform(this.FV.getValue("year"), "yyyy")
+      : new Date().getFullYear();
+
+    this.leaveService.GetAllLeaves(year).subscribe((response) => {
       if (response.IsSuccessful) {
         this.recodes = response.Result;
         this._recodes = response.Result;
