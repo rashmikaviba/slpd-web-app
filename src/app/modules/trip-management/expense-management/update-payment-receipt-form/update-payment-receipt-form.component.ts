@@ -88,6 +88,8 @@ export class UpdatePaymentReceiptFormComponent implements OnInit {
       this.isView = true;
       this.setValues();
       this.FV.formGroup.disable();
+    } else if (this.type == "update") {
+      this.setValues();
     }
   }
 
@@ -147,8 +149,8 @@ export class UpdatePaymentReceiptFormComponent implements OnInit {
       let formData = this.FV.formGroup.value;
       let date = this.FV.getValue("date");
 
-      let receiptImageUrl =
-        this.type == "add" ? "" : this.receiptInfo.receiptImageUrl;
+      debugger;
+      let receiptImageUrl = this.type == "add" ? "" : this.receiptInfo.receiptImageUrl;
       if (this.selectedReceiptImage != null) {
         const receptResult = await firstValueFrom(
           this.storeService.UploadImage(
