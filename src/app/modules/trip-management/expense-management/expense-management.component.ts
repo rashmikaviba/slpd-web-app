@@ -41,6 +41,9 @@ export class ExpenseManagementComponent {
 
   activityCols: any[] = [];
   activityRecords: any[] = [];
+
+  hotelMenuItems: any[] = [];
+  activityMenuItems: any[] = [];
   constructor(
     private sidebarService: SidebarService,
     private appComponent: AppComponent,
@@ -285,6 +288,81 @@ export class ExpenseManagementComponent {
     menu.toggle(event);
   }
 
+  toggleHotelActivityMenu(type: string, menu: any, event: any, rowData: any) {
+    this.hotelMenuItems = [];
+    this.activityMenuItems = [];
+
+    if (type == "hotel") {
+      if (rowData.isPaymentDone) {
+        this.hotelMenuItems = [
+          {
+            id: 1,
+            label: "View Receipt",
+            icon: "pi pi-eye",
+            command: (event: any) => {
+              this.onClickUploadReceipt(type, rowData, "view");
+            },
+            data: rowData,
+          },
+          {
+            id: 2,
+            label: "Update Receipt",
+            icon: "pi pi-pencil",
+            command: (event: any) => {
+              this.onClickUploadReceipt(type, rowData, "update");
+            },
+          },
+        ];
+      } else {
+        this.hotelMenuItems = [
+          {
+            id: 1,
+            label: "Add Receipt",
+            icon: "pi pi-receipt",
+            command: () => {
+              this.onClickUploadReceipt(type, rowData, "add");
+            },
+          },
+        ];
+      }
+    } else if (type == "activity") {
+      if (rowData.isPaymentDone) {
+        this.activityMenuItems = [
+          {
+            id: 1,
+            label: "View Receipt",
+            icon: "pi pi-eye",
+            command: (event: any) => {
+              this.onClickUploadReceipt(type, rowData, "view");
+            },
+            data: rowData,
+          },
+          {
+            id: 2,
+            label: "Update Receipt",
+            icon: "pi pi-pencil",
+            command: (event: any) => {
+              this.onClickUploadReceipt(type, rowData, "update");
+            },
+          },
+        ];
+      } else {
+        this.activityMenuItems = [
+          {
+            id: 1,
+            label: "Add Receipt",
+            icon: "pi pi-receipt",
+            command: () => {
+              this.onClickUploadReceipt(type, rowData, "add");
+            },
+          },
+        ];
+      }
+    }
+
+    menu.toggle(event);
+  }
+
   onClickExpenseExtension() {
     let header = "Expense Request";
     let width = "40vw";
@@ -310,9 +388,10 @@ export class ExpenseManagementComponent {
       });
   }
 
-  onClickUploadReceipt(type: string, rowData: any) {
+  onClickUploadReceipt(type: string, rowData: any, actionType: string) {
+    debugger;
     let data = {
-      type: rowData.isPaymentDone ? "view" : "add",
+      type: actionType,
       tripInfo: this.tripInfo,
       receiptInfo: rowData,
       actionType: type == "hotel" ? 1 : 2,

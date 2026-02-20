@@ -30,7 +30,7 @@
           <div class="text-center">
             <div for="amount" class="text-base md:text-2xl font-semibold">
               {{
-                expensesInfo?.remainingTripExpensesAmount | currency : "" : ""
+              expensesInfo?.remainingTripExpensesAmount | currency : "" : ""
               }}
             </div>
             <div for="amount" class="text-sm md:text-base">
@@ -41,40 +41,18 @@
       </div>
     </div>
   </div>
-  <p-table
-    #dt
-    styleClass=""
-    [columns]="cols"
-    [value]="recodes"
-    responsiveLayout="stack"
-    [breakpoint]="'960px'"
-    dataKey="_id"
-    [rows]="10"
-    [responsive]="true"
-    styleClass="p-datatable-gridlines"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [paginator]="true"
-    [rowHover]="true"
-    [showCurrentPageReport]="true"
+  <p-table #dt styleClass="" [columns]="cols" [value]="recodes" responsiveLayout="stack" [breakpoint]="'960px'"
+    dataKey="_id" [rows]="10" [responsive]="true" styleClass="p-datatable-gridlines" [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true" [rowHover]="true" [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['tripConfirmedNumber', 'email', 'phoneNumber']"
-  >
+    [globalFilterFields]="['tripConfirmedNumber', 'email', 'phoneNumber']">
     <ng-template pTemplate="caption" *ngIf="isAllowToAddExpense">
       <div class="flex flex-wrap justify-content-between">
-        <p-button
-          styleClass="p-button-success p-button-sm mb:p-button"
-          icon="pi pi-plus"
-          label="Add New Expense"
-          (onClick)="onClickAddNew()"
-        ></p-button>
+        <p-button styleClass="p-button-success p-button-sm mb:p-button" icon="pi pi-plus" label="Add New Expense"
+          (onClick)="onClickAddNew()"></p-button>
 
-        <p-button
-          styleClass="p-button-primary p-button-outlined p-button-sm mb:p-button"
-          icon="pi pi-money-bill"
-          label="Expense Extension"
-          *ngIf="userRole == 3"
-          (onClick)="onClickExpenseExtension()"
-        ></p-button>
+        <p-button styleClass="p-button-primary p-button-outlined p-button-sm mb:p-button" icon="pi pi-money-bill"
+          label="Expense Extension" *ngIf="userRole == 3" (onClick)="onClickExpenseExtension()"></p-button>
         <!-- <p-iconField iconPosition="left" class="ml-auto">
           <p-inputIcon>
             <i class="pi pi-search"></i>
@@ -92,31 +70,20 @@
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th
-          *ngFor="let col of columns"
-          [ngClass]="{
+        <th *ngFor="let col of columns" [ngClass]="{
             'text-center': col.field == 'status',
             'text-right': col.field == 'totalCost'
-          }"
-        >
+          }">
           {{ col.header }}
         </th>
         <th class="text-center">Action</th>
       </tr>
     </ng-template>
-    <ng-template
-      pTemplate="body"
-      let-rowData
-      let-columns="columns"
-      let-rowIndex="rowIndex"
-    >
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
       <tr>
-        <td
-          *ngFor="let col of columns"
-          [ngClass]="{
+        <td *ngFor="let col of columns" [ngClass]="{
                   'bg-blue': rowIndex % 2 !== 0,
-                }"
-        >
+                }">
           <ng-container *ngIf="col.field == 'typeId'">
             <span class="p-column-title font-bold">Type ID</span>
             {{ rowData[col.field] }}
@@ -131,26 +98,18 @@
           </ng-container>
           <ng-container *ngIf="col.field == 'description'">
             <span class="p-column-title font-bold">Description</span>
-            <span
-              pTooltip="{{ rowData[col.field] }}"
-              tooltipPosition="bottom"
-              >{{ rowData[col.field] | truncate : 30 }}</span
-            >
+            <span pTooltip="{{ rowData[col.field] }}" tooltipPosition="bottom">{{ rowData[col.field] | truncate : 30
+              }}</span>
           </ng-container>
           <ng-container *ngIf="col.field == 'date'">
             <span class="p-column-title font-bold">Date</span>
             {{ rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo" }}
           </ng-container>
         </td>
-        <td
-          class="text-center w-2"
-          [ngClass]="{
+        <td class="text-center w-2" [ngClass]="{
                         'bg-blue': rowIndex % 2 !== 0,
-                      }"
-        >
-          <div
-            class="flex flex-wrap justify-content-center align-content-center gap-1"
-          >
+                      }">
+          <div class="flex flex-wrap justify-content-center align-content-center gap-1">
             <!-- <span class="p-column-title font-bold">Action</span> -->
             <!-- <button
               type="button"
@@ -160,20 +119,9 @@
               class="p-button-help"
               icon="pi pi-print"
             ></button> -->
-            <button
-              #btn
-              type="button"
-              pButton
-              class=""
-              icon="pi pi-ellipsis-v"
-              (click)="toggleMenu(menu, $event, rowData)"
-            ></button>
-            <p-tieredMenu
-              #menu
-              [model]="filteredItems"
-              [popup]="true"
-              appendTo="body"
-            ></p-tieredMenu>
+            <button #btn type="button" pButton class="" icon="pi pi-ellipsis-v"
+              (click)="toggleMenu(menu, $event, rowData)"></button>
+            <p-tieredMenu #menu [model]="filteredItems" [popup]="true" appendTo="body"></p-tieredMenu>
           </div>
         </td>
       </tr>
@@ -181,10 +129,8 @@
     <ng-template pTemplate="emptymessage" let-columns>
       <tr>
         <td [attr.colspan]="columns.length + 2">
-          <div
-            class="flex flex-column justify-content-center align-items-center gap-2"
-            style="height: 300px; width: 100%"
-          >
+          <div class="flex flex-column justify-content-center align-items-center gap-2"
+            style="height: 300px; width: 100%">
             <i class="pi pi-inbox text-5xl text-gray-400"></i>
             <small class="">No Expense Found</small>
           </div>
@@ -194,64 +140,36 @@
   </p-table>
 </div>
 
-<div
-  class="grid formgrid p-fluid mt-3"
-  *ngIf="
+<div class="grid formgrid p-fluid mt-3" *ngIf="
     userType == 'admin' ||
     (hotelRecords.length > 0 && activityRecords.length > 0)
-  "
->
+  ">
   <ng-container *ngIf="hotelRecords.length > 0">
     <div class="field col-12">
       <div class="text-xl font-semibold">HOTEL PAYMENTS</div>
     </div>
 
     <div class="field col-12">
-      <p-table
-        #dt
-        styleClass=""
-        [columns]="hotelCols"
-        [value]="hotelRecords"
-        responsiveLayout="stack"
-        [breakpoint]="'960px'"
-        dataKey="_id"
-        [responsive]="true"
-        [rows]="10"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        styleClass="p-datatable-gridlines"
-        [rowHover]="true"
-        [paginator]="true"
-        [rowHover]="true"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      >
+      <p-table #dt styleClass="" [columns]="hotelCols" [value]="hotelRecords" responsiveLayout="stack"
+        [breakpoint]="'960px'" dataKey="_id" [responsive]="true" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-gridlines" [rowHover]="true" [paginator]="true" [rowHover]="true"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th
-              *ngFor="let col of columns"
-              [ngClass]="{
+            <th *ngFor="let col of columns" [ngClass]="{
                 'text-right': col.field == 'paymentAmount',
-              }"
-            >
+              }">
               {{ col.header }}
             </th>
             <th class="text-center">Action</th>
           </tr>
         </ng-template>
-        <ng-template
-          pTemplate="body"
-          let-rowData
-          let-columns="columns"
-          let-rowIndex="rowIndex"
-        >
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
           <tr>
-            <td
-              *ngFor="let col of columns"
-              [ngClass]="{
+            <td *ngFor="let col of columns" [ngClass]="{
         'bg-blue': rowIndex % 2 !== 0,
         'text-right': col.field == 'paymentAmount',
-      }"
-            >
+      }">
               <ng-container *ngIf="col.field == 'dates'">
                 <span class="p-column-title font-bold">Dates</span>
                 {{ formatDates(rowData[col.field]) }}
@@ -260,28 +178,26 @@
               <ng-container *ngIf="col.field == 'paymentDate'">
                 <span class="p-column-title font-bold">{{ col.header }}</span>
                 {{
-                  (rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo") ||
-                    "-"
+                (rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo") ||
+                "-"
                 }}
               </ng-container>
 
               <ng-container *ngIf="col.field == 'paymentAmount'">
                 <span class="p-column-title font-bold">Payment Amount</span>
                 {{
-                  rowData[col.field] > 0
-                    ? (rowData[col.field] | currency : "" : "" : "1.2-2")
-                    : "-"
+                rowData[col.field] > 0
+                ? (rowData[col.field] | currency : "" : "" : "1.2-2")
+                : "-"
                 }}
               </ng-container>
 
-              <ng-container
-                *ngIf="
+              <ng-container *ngIf="
                   col.field != 'dates' &&
                   col.field != 'isPaymentByCompany' &&
                   col.field != 'paymentDate' &&
                   col.field != 'paymentAmount'
-                "
-              >
+                ">
                 <span class="p-column-title font-bold">{{ col.header }}</span>
 
                 {{ rowData[col.field] || "-" }}
@@ -289,24 +205,20 @@
             </td>
 
             <td class="text-center">
-              <button
-                #btn
-                type="button"
-                pButton
-                class=""
-                icon="pi pi-receipt"
-                (click)="onClickUploadReceipt('hotel', rowData)"
-              ></button>
+              <!-- <button #btn type="button" pButton class="" icon="pi pi-receipt"
+                (click)="onClickUploadReceipt('hotel', rowData)"></button> -->
+              <button #btn type="button" pButton class="" icon="pi pi-ellipsis-v"
+                (click)="toggleHotelActivityMenu('hotel', menuhotel, $event, rowData)"></button>
+
+              <p-tieredMenu #menuhotel [model]="hotelMenuItems" [popup]="true" appendTo="body"></p-tieredMenu>
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
           <tr>
             <td [attr.colspan]="columns.length + 2">
-              <div
-                class="flex flex-column justify-content-center align-items-center gap-2"
-                style="height: 150px; width: 100%"
-              >
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 150px; width: 100%">
                 <i class="pi pi-inbox text-5xl text-gray-400"></i>
                 <small class="">No Hotel Found</small>
               </div>
@@ -317,70 +229,43 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="activityRecords.length > 0"
-    ><div class="field col-12">
+  <ng-container *ngIf="activityRecords.length > 0">
+    <div class="field col-12">
       <div class="text-xl font-semibold">ACTIVITY PAYMENTS</div>
     </div>
 
     <div class="field col-12">
-      <p-table
-        #dt
-        styleClass=""
-        [columns]="activityCols"
-        [value]="activityRecords"
-        responsiveLayout="stack"
-        [breakpoint]="'960px'"
-        dataKey="_id"
-        [responsive]="true"
-        [rows]="10"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        styleClass="p-datatable-gridlines"
-        [rowHover]="true"
-        [paginator]="true"
-        [rowHover]="true"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      >
+      <p-table #dt styleClass="" [columns]="activityCols" [value]="activityRecords" responsiveLayout="stack"
+        [breakpoint]="'960px'" dataKey="_id" [responsive]="true" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+        styleClass="p-datatable-gridlines" [rowHover]="true" [paginator]="true" [rowHover]="true"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th
-              *ngFor="let col of columns"
-              [ngClass]="{
+            <th *ngFor="let col of columns" [ngClass]="{
                 'text-right':
                   col.field == 'totalCost' || col.field == 'paymentAmount',
                 'text-center':
                   col.field == 'adultCount' || col.field == 'childCount'
-              }"
-            >
+              }">
               {{ col.header }}
             </th>
             <th class="text-center">Action</th>
           </tr>
         </ng-template>
-        <ng-template
-          pTemplate="body"
-          let-rowData
-          let-columns="columns"
-          let-rowIndex="rowIndex"
-        >
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
           <tr>
-            <td
-              *ngFor="let col of columns"
-              [ngClass]="{
+            <td *ngFor="let col of columns" [ngClass]="{
                 'bg-blue': rowIndex % 2 !== 0,
                 'text-right':
                   col.field == 'totalCost' || col.field == 'paymentAmount',
                 'text-center':
                   col.field == 'adultCount' || col.field == 'childCount'
-              }"
-            >
-              <ng-container
-                *ngIf="col.field == 'date' || col.field == 'paymentDate'"
-              >
+              }">
+              <ng-container *ngIf="col.field == 'date' || col.field == 'paymentDate'">
                 <span class="p-column-title font-bold">Date</span>
                 {{
-                  (rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo") ||
-                    "-"
+                (rowData[col.field] | date : "dd-MM-yyyy" : "Asia/Colombo") ||
+                "-"
                 }}
               </ng-container>
 
@@ -392,43 +277,34 @@
               <ng-container *ngIf="col.field == 'paymentAmount'">
                 <span class="p-column-title font-bold">Payment Amount</span>
                 {{
-                  rowData[col.field] > 0
-                    ? (rowData[col.field] | currency : "" : "" : "1.2-2")
-                    : "-"
+                rowData[col.field] > 0
+                ? (rowData[col.field] | currency : "" : "" : "1.2-2")
+                : "-"
                 }}
               </ng-container>
 
-              <ng-container
-                *ngIf="
+              <ng-container *ngIf="
                   col.field != 'date' &&
                   col.field != 'totalCost' &&
                   col.field != 'paymentAmount' &&
                   col.field != 'paymentDate'
-                "
-              >
+                ">
                 <span class="p-column-title font-bold">{{ col.header }}</span>
                 {{ rowData[col.field] || "-" }}
               </ng-container>
             </td>
             <td class="text-center">
-              <button
-                #btn
-                type="button"
-                pButton
-                class=""
-                icon="pi pi-receipt"
-                (click)="onClickUploadReceipt('activity', rowData)"
-              ></button>
+              <button #btn type="button" pButton class="" icon="pi pi-ellipsis-v"
+                (click)="toggleHotelActivityMenu('activity', menuactivity, $event, rowData)"></button>
+              <p-tieredMenu #menuactivity [model]="activityMenuItems" [popup]="true" appendTo="body"></p-tieredMenu>
             </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
           <tr>
             <td [attr.colspan]="columns.length + 2">
-              <div
-                class="flex flex-column justify-content-center align-items-center gap-2"
-                style="height: 150px; width: 100%"
-              >
+              <div class="flex flex-column justify-content-center align-items-center gap-2"
+                style="height: 150px; width: 100%">
                 <i class="pi pi-inbox text-5xl text-gray-400"></i>
                 <small class="">No Activity Found</small>
               </div>
@@ -436,7 +312,7 @@
           </tr>
         </ng-template>
       </p-table>
-    </div></ng-container
-  >
+    </div>
+  </ng-container>
 </div>
 <!-- </div> -->
