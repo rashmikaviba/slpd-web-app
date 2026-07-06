@@ -81,7 +81,7 @@
           <ng-container *ngIf="col.field == 'status'">
             <span class="p-column-title font-bold">Status</span>
             <div class="text-center">
-              <p-button [severity]="
+              <!-- <p-button [severity]="
                   rowData.status == 1
                     ? 'secondary'
                     : rowData.status == 3
@@ -89,7 +89,23 @@
                     : rowData.status == 4
                     ? 'success'
                     : 'danger'
-                " outlined="true" label="{{ rowData.statusName }}"></p-button>
+                " outlined="true" label="{{ rowData.statusName }}"></p-button> -->
+              <p-button [severity]="
+                rowData.status == 1
+                  ? 'secondary'
+                  : rowData.status == 3
+                  ? 'info'
+                  : rowData.status == 4 && rowData.isDriverSalaryDone
+                  ? 'warning'
+                  : rowData.status == 4
+                  ? 'success'
+                  : 'danger'
+              " outlined="true" [label]="
+                rowData.status == 4 && rowData.isDriverSalaryDone
+                  ? 'Finalized'
+                  : rowData.statusName
+              ">
+              </p-button>
             </div>
           </ng-container>
 
