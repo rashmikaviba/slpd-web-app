@@ -155,6 +155,9 @@ export class DriverTaskFormComponent {
 
         if (uploadedResult.IsSuccessful) {
           uploadedImages = uploadedResult.Result || [];
+        } else {
+          this.messageService.showErrorAlert(uploadedResult.Message);
+          return;
         }
       }
 

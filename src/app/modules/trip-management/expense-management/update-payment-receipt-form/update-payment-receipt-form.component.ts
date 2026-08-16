@@ -161,6 +161,9 @@ export class UpdatePaymentReceiptFormComponent implements OnInit {
 
         if (receptResult.IsSuccessful) {
           receiptImageUrl = receptResult.Result;
+        } else {
+          this.messageService.showErrorAlert(receptResult.Message);
+          return;
         }
       }
 

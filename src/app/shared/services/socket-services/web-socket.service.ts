@@ -12,6 +12,9 @@ export class WebSocketService {
   constructor(private masterData: MasterDataService) {
     const SERVER_URL = environment.apiURL;
     this.socket = io(SERVER_URL, {
+      auth: {
+        token: this.masterData.SessionKey,
+      },
       query: {
         userWithRoleId: `${this.masterData.Role}-${this.masterData.ClientId}`,
       },

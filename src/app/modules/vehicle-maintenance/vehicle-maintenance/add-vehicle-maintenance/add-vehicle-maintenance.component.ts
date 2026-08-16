@@ -160,7 +160,6 @@ export class AddVehicleMaintenanceComponent implements OnInit {
       return;
     }
 
-    debugger
     try {
       let toBeUpload: File[] = [];
       let billImageUrls: any[] = [];
@@ -177,7 +176,7 @@ export class AddVehicleMaintenanceComponent implements OnInit {
         toBeUpload = [];
         billImageUrls = [];
       }
-      debugger
+
       if (toBeUpload.length > 0) {
         const uploadedResult: any = await firstValueFrom(this.storeService.UploadMultipleImages(
           toBeUpload,
@@ -186,9 +185,12 @@ export class AddVehicleMaintenanceComponent implements OnInit {
 
         if (uploadedResult.IsSuccessful) {
           billImageUrls = [...billImageUrls, ...uploadedResult.Result];
+        } else {
+          this.messageService.showErrorAlert(uploadedResult.Message);
+          return;
         }
       }
-      debugger
+
       let vehicle = this.FV.getValue("vehicle");
       let maintenancePart = this.FV.getTrimValue("maintenancePart");
       let garage = this.FV.getValue("garage");

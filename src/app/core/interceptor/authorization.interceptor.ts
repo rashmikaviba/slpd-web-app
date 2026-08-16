@@ -30,6 +30,8 @@ export class AuthorizationInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
             return this.handleUnAuthorizedError(request, next);
+          } else if (err.status == 429) {
+            this.messageService.showErrorAlert(err.error.message);
           }
         }
         return throwError(() => err);

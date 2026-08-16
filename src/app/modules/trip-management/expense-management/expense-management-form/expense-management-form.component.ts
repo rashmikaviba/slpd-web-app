@@ -178,6 +178,9 @@ export class ExpenseManagementFormComponent {
 
         if (receptResult.IsSuccessful) {
           receiptUrl = receptResult.Result;
+        } else {
+          this.messageService.showErrorAlert(receptResult.Message);
+          return;
         }
       }
 

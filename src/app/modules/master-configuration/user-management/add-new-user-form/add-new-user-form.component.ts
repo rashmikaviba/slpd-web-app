@@ -215,6 +215,11 @@ export class AddNewUserFormComponent {
             WellKnownUploadType.ProfileImage
           )
         );
+
+        if (!profileImageResult.IsSuccessful) {
+          this.messageService.showErrorAlert(profileImageResult.Message);
+          return;
+        }
       }
 
       if (this.uploadedImages.selectedNicImage) {
@@ -224,6 +229,11 @@ export class AddNewUserFormComponent {
             WellKnownUploadType.NICImage
           )
         );
+
+        if (!nicImageResult.IsSuccessful) {
+          this.messageService.showErrorAlert(nicImageResult.Message);
+          return;
+        }
       }
 
       if (this.uploadedImages.selectedGsCertificate) {
@@ -233,6 +243,11 @@ export class AddNewUserFormComponent {
             WellKnownUploadType.GSCertificate
           )
         );
+
+        if (!gsCertificateResult.IsSuccessful) {
+          this.messageService.showErrorAlert(gsCertificateResult.Message);
+          return;
+        }
       }
 
       if (this.uploadedImages.selectedDrivingLicense) {
@@ -242,6 +257,11 @@ export class AddNewUserFormComponent {
             WellKnownUploadType.DrivingLicense
           )
         );
+
+        if (!drivingLicenseResult.IsSuccessful) {
+          this.messageService.showErrorAlert(drivingLicenseResult.Message);
+          return;
+        }
       }
 
       if (this.uploadedImages.selectedSltdaCertificate) {
@@ -251,6 +271,11 @@ export class AddNewUserFormComponent {
             WellKnownUploadType.SLTDACertificate
           )
         );
+
+        if (!sltdaCertificateResult.IsSuccessful) {
+          this.messageService.showErrorAlert(sltdaCertificateResult.Message);
+          return;
+        }
       }
 
       if (this.uploadedImages.selectedPoliceReport) {
@@ -260,6 +285,11 @@ export class AddNewUserFormComponent {
             WellKnownUploadType.PoliceReport
           )
         );
+
+        if (!policeReportResult.IsSuccessful) {
+          this.messageService.showErrorAlert(policeReportResult.Message);
+          return;
+        }
       }
 
       this.userDetail = {
